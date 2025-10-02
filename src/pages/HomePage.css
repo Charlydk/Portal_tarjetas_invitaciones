@@ -1,13 +1,193 @@
-.homepage-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+/* Estilos generales de la página */
+.homepage {
     text-align: center;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+  
+  /* ===== Estilos de la Sección HERO ===== */
+  .hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/hero-background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 6rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hero-content {
+    max-width: 800px;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+    margin: 0;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  
+  /* Botón de Llamado a la Acción (CTA) */
+  .cta-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  .cta-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  .cta-button-secondary {
+    background-color: #28a745;
+  }
+  .cta-button-secondary:hover {
+    background-color: #218838;
+  }
+  
+  /* ===== Estilos de la NUEVA SECCIÓN DEMO con IFRAME ===== */
+.featured-demo-section {
+    padding: 4rem 2rem;
+    background-color: #f8f9fa;
+  }
+  
+  .section-subtitle {
+    max-width: 600px;
+    margin: 0 auto 2.5rem auto;
+    font-size: 1.1rem;
+    color: #6c757d;
+  }
+  
+
+  /* ===== Estilos de la SECCIÓN DEMO con MOCKUP DE CELULAR ===== */
+.featured-demo-section {
+    padding: 4rem 2rem;
+    background-color: #f8f9fa;
+  }
+  
+  .section-subtitle {
+    max-width: 600px;
+    margin: 0 auto 2.5rem auto;
+    font-size: 1.1rem;
+    color: #6c757d;
+  }
+  
+  /* El marco que simula ser un celular */
+  .phone-mockup {
+    position: relative;
+    width: 400px;   /* Ancho típico de un celular en mockups */
+    height: 800px;  /* Alto */
+    margin: 2rem auto;
+    border: 12px solid #111;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background-color: #111;
+    overflow: hidden;
+  }
+  
+  /* La muesca (notch) en la parte superior del celular */
+  .phone-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 25px;
+    background-color: #111;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    z-index: 2; /* Para que esté por encima del iframe */
+  }
+  
+  /* La pantalla (nuestro iframe) */
+  .phone-screen {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 28px; /* Redondeo de la pantalla interna */
+    border: none;
+    background-color: #fff; /* Fondo blanco mientras carga el iframe */
+  }
+
+
+  /* ===== Estilos de la Sección CÓMO FUNCIONA ===== */
+  .how-it-works-section {
+    padding: 4rem 2rem;
+    background-color: #fff;
+  }
+  
+  .steps-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap; /* Para que se adapte en móviles */
+  }
+  
+  .step {
+    flex: 1;
+    min-width: 250px;
+    max-width: 350px;
+  }
+  
+  .step h3 {
+    font-size: 1.5rem;
+    color: #007bff;
+  }
+  
+  /* ===== Estilos de la GALERÍA ===== */
+  .templates-section {
+    padding: 4rem 2rem;
   }
   
   .templates-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
-    margin-top: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* ===== Estilos del CTA FINAL ===== */
+  .final-cta-section {
+    background-color: #343a40;
+    color: white;
+    padding: 4rem 2rem;
+  }
+  
+  .final-cta-section .section-title {
+    color: white;
+  }
+
+
+  /* ===== AJUSTE PARA EL MOCKUP EN MÓVILES ===== */
+
+@media (max-width: 600px) {
+  
+    /* En pantallas de 600px o menos... */
+    .phone-mockup {
+      /* Reducimos el tamaño total del mockup al 80% */
+      transform: scale(0.8);
+  
+      /* Opcional: ajustamos el margen para que no quede tanto espacio arriba y abajo */
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
   }
