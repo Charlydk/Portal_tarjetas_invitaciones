@@ -66,6 +66,35 @@ const faqData = [
   }
 ];
 
+const pricingData = [
+  {
+    plan: 'Invitación Digital',
+    price: '$7.000',
+    description: 'Perfecto para empezar. Todas las funcionalidades esenciales para un evento increíble.',
+    features: [
+      'Cuenta Regresiva',
+      'Galería de hasta 10 fotos',
+      'Mapa de Ubicación (Google Maps)',
+      'Confirmación de Asistencia (RSVP)',
+      'Sugerencia de Canciones',
+    ],
+    popular: false,
+  },
+  {
+    plan: 'Paquete Premium',
+    price: '$9.500',
+    description: 'La experiencia completa. Ideal para bodas y grandes eventos.',
+    features: [
+      'Todas las funcionalidades del plan Digital',
+      'Galería de fotos y videos ilimitada',
+      'Sección "Lista de Regalos"',
+      'Dress Code (Código de Vestimenta)',
+      'Frase del día y agradecimientos',
+    ],
+    popular: true,
+  },
+];
+
 function HomePage() {
 
   return (
@@ -142,6 +171,27 @@ function HomePage() {
               question={item.q} 
               answer={item.a} 
             />
+          ))}
+        </div>
+      </section>
+
+      {/* ===== NUEVA SECCIÓN: PRECIOS ===== */}
+      <section id="pricing" className="pricing-section">
+        <h2 className="section-title">Planes para cada tipo de evento</h2>
+        <div className="pricing-container">
+          {pricingData.map((plan, index) => (
+            <div className={`pricing-card ${plan.popular ? 'popular' : ''}`} key={index}>
+              {plan.popular && <div className="popular-badge">Más Popular</div>}
+              <h3 className="plan-name">{plan.plan}</h3>
+              <p className="plan-description">{plan.description}</p>
+              <div className="plan-price">{plan.price} <span className="price-unit">ARS</span></div>
+              <ul className="plan-features">
+                {plan.features.map((feature, fIndex) => (
+                  <li key={fIndex}>✓ {feature}</li>
+                ))}
+              </ul>
+              <a href="#contact" className="cta-button plan-cta">Elegir Plan</a>
+            </div>
           ))}
         </div>
       </section>

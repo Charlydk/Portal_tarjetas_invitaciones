@@ -207,6 +207,101 @@
     margin: 0 auto;
   }
 
+/* ===== Estilos de la Sección de PRECIOS ===== */
+.pricing-section {
+    padding: 4rem 2rem;
+    background-color: #f8f9fa;
+  }
+  
+  .pricing-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Alinea las tarjetas si tienen alturas diferentes */
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .pricing-card {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para la tarjeta POPULAR */
+  .pricing-card.popular {
+    border-color: #007bff;
+    transform: scale(1.05); /* La hacemos un poco más grande */
+    box-shadow: 0 8px 24px rgba(0, 123, 255, 0.2);
+  }
+  
+  .popular-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.3rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+  
+  .plan-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .plan-description {
+    font-size: 0.9rem;
+    color: #6c757d;
+    height: 60px; /* Altura fija para alinear tarjetas */
+  }
+  
+  .plan-price {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #007bff;
+    margin: 1.5rem 0;
+  }
+  
+  .price-unit {
+    font-size: 1rem;
+    color: #6c757d;
+    font-weight: normal;
+  }
+  
+  .plan-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+  
+  .plan-features li {
+    margin-bottom: 0.75rem;
+    color: #333;
+  }
+  
+  .plan-cta {
+    width: 100%;
+  }
+
   /* ===== Estilos de la GALERÍA ===== */
   .templates-section {
     padding: 4rem 2rem;
