@@ -90,16 +90,16 @@
   }
   
   /* El marco que simula ser un celular */
-  .phone-mockup {
+.phone-mockup {
     position: relative;
-    width: 400px;   /* Ancho típico de un celular en mockups */
-    height: 800px;  /* Alto */
+    width: 375px;
+    height: 760px;
     margin: 2rem auto;
     border: 12px solid #111;
     border-radius: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     background-color: #111;
-    overflow: hidden;
+    /* El overflow: hidden se mueve al nuevo contenedor */
   }
   
   /* La muesca (notch) en la parte superior del celular */
@@ -113,17 +113,25 @@
     background-color: #111;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    z-index: 2; /* Para que esté por encima del iframe */
+    z-index: 2;
+  }
+  
+  /* NUEVO: El contenedor que OCULTARÁ la barra de scroll */
+  .phone-screen-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    overflow: hidden; /* ¡Esta es la clave! Oculta todo lo que se salga. */
+    position: relative;
   }
   
   /* La pantalla (nuestro iframe) */
   .phone-screen {
     display: block;
-    width: 100%;
+    width: calc(100% + 15px); /* 👈 Hacemos el iframe 15px más ancho */
     height: 100%;
-    border-radius: 28px; /* Redondeo de la pantalla interna */
     border: none;
-    background-color: #fff; /* Fondo blanco mientras carga el iframe */
+    background-color: #fff;
   }
 
 

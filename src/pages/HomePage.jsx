@@ -34,12 +34,14 @@ function HomePage() {
         
         <div className="phone-mockup">
           <div className="phone-notch"></div>
-          <iframe 
-            src="https://belenagustin.netlify.app/" 
-            className="phone-screen"
-            title="Ejemplo de Invitación Web Interactiva"
-            loading="lazy"
-          ></iframe>
+          <div className="phone-screen-container">
+            <iframe 
+              src="https://belenagustin.netlify.app/" 
+              className="phone-screen"
+              title="Ejemplo de Invitación Web Interactiva"
+              loading="lazy"
+            ></iframe>
+          </div>
         </div>
       </section>
 
