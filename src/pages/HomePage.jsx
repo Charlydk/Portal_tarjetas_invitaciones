@@ -1,5 +1,6 @@
 import React from 'react';
 import TemplateCard from '../components/TemplateCard';
+import AccordionItem from '../components/AccordionItem';
 import { FaClock, FaMapMarkedAlt, FaImages, FaGift, FaMusic, FaCheckCircle } from 'react-icons/fa';
 import './HomePage.css';
 
@@ -46,6 +47,24 @@ const features = [
   }
 ];
 
+const faqData = [
+  {
+    q: '¿Qué recibo exactamente cuando compro una invitación?',
+    a: 'Recibirás un enlace web único (ej: tunomb.re/boda-ana-y-juan) que podrás compartir fácilmente con todos tus invitados. La página será visible en cualquier dispositivo con acceso a internet.'
+  },
+  {
+    q: '¿Puedo modificar la invitación después de haberla comprado?',
+    a: 'Sí, permitimos cambios menores en textos y fechas sin costo adicional hasta 48 horas antes del evento. Cambios de diseño mayores pueden tener un costo extra.'
+  },
+  {
+    q: '¿Cómo confirman la asistencia mis invitados?',
+    a: 'Tu invitación incluirá un formulario de confirmación de asistencia (RSVP). Cada vez que un invitado confirme, recibirás una notificación y los datos se añadirán a una lista de invitados que te compartiremos.'
+  },
+  {
+    q: '¿Las invitaciones funcionan en cualquier celular?',
+    a: '¡Absolutamente! Nuestras invitaciones están diseñadas para ser 100% compatibles con todos los smartphones, tablets y computadoras modernas, sin necesidad de instalar ninguna aplicación.'
+  }
+];
 
 function HomePage() {
 
@@ -111,6 +130,20 @@ function HomePage() {
               </div>
             ))}
           </div>
+      </section>
+
+      {/* ===== SECCIÓN: PREGUNTAS FRECUENTES (FAQ) ===== */}
+      <section id="faq" className="faq-section">
+        <h2 className="section-title">¿Tienes Dudas? Las Resolvemos</h2>
+        <div className="accordion-container">
+          {faqData.map((item, index) => (
+            <AccordionItem 
+              key={index} 
+              question={item.q} 
+              answer={item.a} 
+            />
+          ))}
+        </div>
       </section>
 
       {/* ... SECCION PLANTILLAS */}

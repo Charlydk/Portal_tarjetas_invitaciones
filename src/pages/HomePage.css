@@ -197,7 +197,15 @@
     color: #6c757d;
   }
 
-
+/* ===== Estilos de la Sección FAQ ===== */
+.faq-section {
+    padding: 4rem 2rem;
+  }
+  
+  .accordion-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
   /* ===== Estilos de la GALERÍA ===== */
   .templates-section {
