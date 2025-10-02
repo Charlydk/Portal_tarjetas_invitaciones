@@ -1,4 +1,6 @@
+
 # Logs
+# ----------------------------------------------------------------
 logs
 *.log
 npm-debug.log*
@@ -7,18 +9,37 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Directorio de dependencias. ¡El más importante!
+# ----------------------------------------------------------------
 node_modules
+
+# Directorio de build (archivos generados para producción)
+# ----------------------------------------------------------------
 dist
 dist-ssr
-*.local
 
-# Editor directories and files
+# Archivos de caché y temporales de Vite
+# ----------------------------------------------------------------
+.vite
+.next
+.nuxt
+*.tsbuildinfo
+
+# Archivos de variables de entorno. ¡Nunca subas tus secretos!
+# ----------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+
+# Archivos de configuración de editores de código
+# ----------------------------------------------------------------
 .vscode/*
 !.vscode/extensions.json
 .idea
+.sublime-project
+.sublime-workspace
+
+# Archivos generados por el sistema operativo
+# ----------------------------------------------------------------
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db

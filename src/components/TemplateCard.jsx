@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Importamos el componente Link para la navegación
+import './TemplateCard.css'; // Importamos los estilos específicos de este componente
 
 function TemplateCard({ title, thumbnailUrl, path }) {
   // 👆 Estas son las "props": datos que el componente recibe desde su padre.

@@ -1,5 +1,6 @@
 import React from 'react';
 import TemplateCard from '../components/TemplateCard'; // 👈 Importamos nuestro nuevo componente
+import './HomePage.css'; // Importamos los estilos específicos de esta página
 
 // Datos Falsos (Mock Data)
 // En una app real, esto vendría de una base de datos. Por ahora, es un simple array.
