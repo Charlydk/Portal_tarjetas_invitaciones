@@ -1,14 +1,20 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage'; // Crearemos este archivo ahora
-import DemoPage from './pages/DemoPage'; // Crearemos este archivo ahora
+import HomePage from './pages/HomePage';
+import DemoPage from './pages/DemoPage';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/demo/:templateId" element={<DemoPage />} />
-    </Routes>
+    <> 
+      <Navbar /> 
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/demo/:templateId" element={<DemoPage />} />
+      </Routes>
+      <Footer /> 
+    </>
   );
 }
 
