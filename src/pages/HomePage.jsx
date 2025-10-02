@@ -1,6 +1,6 @@
-import React from 'react'; // 👈 Ya no necesitamos useState aquí
+import React from 'react';
 import TemplateCard from '../components/TemplateCard';
-// Ya no necesitamos ControlPanel ni InvitationPreview en esta página
+import { FaClock, FaMapMarkedAlt, FaImages, FaGift, FaMusic, FaCheckCircle } from 'react-icons/fa';
 import './HomePage.css';
 
 const templates = [
@@ -12,6 +12,40 @@ const templates = [
   { id: 5, title: 'Cumpleaños Infantil', thumbnailUrl: '/assets/cumple-infantil.jpg', path: '/demo/cumple-infantil' },
   { id: 6, title: 'Quinceañera Mágica', thumbnailUrl: '/assets/quinceanera.jpg', path: '/demo/quinceanera' }
 ];
+
+const features = [
+  {
+    icon: <FaCheckCircle />,
+    title: 'Confirmación de Asistencia',
+    description: 'Tus invitados confirman su presencia con un solo clic, facilitándote la organización.'
+  },
+  {
+    icon: <FaClock />,
+    title: 'Cuenta Regresiva',
+    description: 'Un contador dinámico muestra cuánto falta para el gran día, generando expectativa.'
+  },
+  {
+    icon: <FaImages />,
+    title: 'Galería de Fotos y Videos',
+    description: 'Comparte tus mejores momentos antes del evento y crea un álbum colaborativo después.'
+  },
+  {
+    icon: <FaMapMarkedAlt />,
+    title: 'Mapa Interactivo',
+    description: 'Integración con Google Maps para que nadie se pierda cómo llegar a la ceremonia y a la fiesta.'
+  },
+  {
+    icon: <FaGift />,
+    title: 'Lista de Regalos',
+    description: 'Informa a tus invitados sobre tu lista de regalos o datos bancarios de forma elegante.'
+  },
+  {
+    icon: <FaMusic />,
+    title: 'Sugerencia de Canciones',
+    description: 'Deja que tus invitados te sugieran canciones para que la pista de baile no pare nunca.'
+  }
+];
+
 
 function HomePage() {
 
@@ -65,7 +99,21 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ... (El resto de las secciones se mantienen igual) ... */}
+      {/* ===== SECCIÓN: CARACTERÍSTICAS ===== */}
+      <section id="features" className="features-section">
+          <h2 className="section-title">Todo lo que necesitas para un evento inolvidable</h2>
+          <div className="features-grid">
+            {features.map((feature, index) => (
+              <div className="feature-card" key={index}>
+                <div className="feature-icon">{feature.icon}</div>
+                <h3 className="feature-title">{feature.title}</h3>
+                <p className="feature-description">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+      </section>
+
+      {/* ... SECCION PLANTILLAS */}
       <section id="templates" className="templates-section">
         <h2 className="section-title">Explora Nuestras Plantillas</h2>
         <div className="templates-grid">
