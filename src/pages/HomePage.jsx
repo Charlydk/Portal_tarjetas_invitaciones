@@ -3,6 +3,7 @@ import TemplateCard from '../components/TemplateCard';
 import AccordionItem from '../components/AccordionItem';
 import { FaClock, FaMapMarkedAlt, FaImages, FaGift, FaMusic, FaCheckCircle } from 'react-icons/fa';
 import './HomePage.css';
+import HeroCarousel from '../components/HeroCarousel';
 
 const templates = [
   // ... (el array de plantillas se mantiene igual)
@@ -101,7 +102,12 @@ function HomePage() {
     <div className="homepage">
       {/* ===== SECCIÓN HERO (Sin cambios) ===== */}
       <header className="hero-section">
-        {/* ... (contenido del hero sin cambios) ... */}
+        {/* El carrusel ahora actúa como fondo */}
+        <div className="hero-carousel-container">
+          <HeroCarousel />
+        </div>
+        
+        {/* El contenido se superpone */}
         <div className="hero-content">
           <h1 className="hero-title">Invitaciones Web que Cautivan</h1>
           <p className="hero-subtitle">Crea y comparte invitaciones interactivas e inolvidables en minutos. Perfectas para cualquier ocasión y amigables con el planeta.</p>
