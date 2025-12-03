@@ -26,11 +26,12 @@ function Rapunzel({ data }) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play().catch(e => console.log("Auto-play bloqueado por el navegador, se requiere interacción"));
+        // 👇 AQUÍ ESTÁ EL CAMBIO: Cambiamos 'e' por '()'
+        audioRef.current.play().catch(() => console.log("Auto-play bloqueado por el navegador, se requiere interacción"));
       }
       setIsPlaying(!isPlaying);
     }
-  };
+  }
 
   // --- 4. LÓGICA DE LA CUENTA REGRESIVA ---
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
