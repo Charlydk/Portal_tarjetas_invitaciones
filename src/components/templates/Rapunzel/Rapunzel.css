@@ -1,0 +1,238 @@
+
+/* Estilos del Modal */
+#rapunzel-template .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#rapunzel-template .modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#rapunzel-template .modal-content {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    max-width: 90%;
+    width: 450px;
+    transform: translateY(0);
+    transition: transform 0.4s ease-out;
+}
+
+#rapunzel-template .modal-overlay.hidden .modal-content {
+    transform: translateY(-50px);
+}
+
+/* Estilos para el botón de música FLOTANTE */
+#rapunzel-template #musicToggleButton {
+    position: fixed; /* Ojo: al estar dentro de un transform a veces el fixed cambia, probemos así */
+    bottom: 20px;
+    right: 20px;
+    background-color: #FF69B4;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8);
+}
+
+#rapunzel-template #musicToggleButton:hover {
+    background-color: #E05BA0;
+    transform: scale(1.05);
+}
+
+#rapunzel-template #musicToggleButton.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+#rapunzel-template #musicToggleButton.playing {
+    background-color: #4CAF50;
+}
+
+/* El contenedor principal del encabezado/hero */
+#rapunzel-template .header {
+    width: 100%;
+    height: 100vh; 
+    min-height: 600px;
+    
+
+    background-image: url('/assets/Rapunzel/img/main_section_background.png'); 
+    
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff; /* O el color que uses para el texto */
+}
+
+/* La capa oscura para que se lea el texto (opcional, pero recomendada) */
+#rapunzel-template .overlay {
+    background-color: rgba(0, 0, 0, 0.3); /* Fondo negro semitransparente */
+    padding: 20px;
+    border-radius: 15px;
+}
+
+#rapunzel-template h1.title {
+    font-family: 'Great Vibes', cursive; /* Asegúrate de que esta fuente coincida */
+    font-size: 3.5rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    color: #FF69B4; /* Rosa, o el color que prefieras */
+}
+
+#rapunzel-template h2.subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    background: none; /* Quitamos el fondo gris genérico si molestaba */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+/* Estilos Genéricos (MUY IMPORTANTE encapsular estos) */
+#rapunzel-template span {
+    font-weight: bold;
+}
+
+#rapunzel-template h2 {
+    font-weight: bold;
+    text-shadow: 3px 2px 4px rgb(255, 0, 0);
+    background-color: rgba(0, 0, 0, 0.356);
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+/* Animaciones (Las keyframes se quedan globales, no hace falta el ID) */
+@keyframes bounce-scroll {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+#rapunzel-template .animate-bounce-scroll {
+    animation: bounce-scroll 2s infinite;
+}
+
+/* Estilos del Slider (Carrusel de fotos) */
+/* Nota: Tenías dos definiciones de .slider, dejé la segunda que parece ser la definitiva */
+#rapunzel-template .slider {
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 24px;
+    background-color: #5D3A6B;
+    aspect-ratio: 3 / 4;
+}
+
+#rapunzel-template .slider ul {
+    display: flex;
+    padding: 0;
+    width: 2200%; /* 100% x 22 fotos */
+    height: 100%;
+    animation: cambio 60s infinite alternate linear;
+}
+
+#rapunzel-template .slider li {
+    width: 4.545%; /* 100% / 22 fotos */
+    height: 100%;
+    list-style: none;
+}
+
+#rapunzel-template .slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+/* Animación del Slider */
+@keyframes cambio {
+    0%, 3.5% { margin-left: 0; }
+    4%, 7.5% { margin-left: -100%; }
+    8%, 11.5% { margin-left: -200%; }
+    12%, 15.5% { margin-left: -300%; }
+    16%, 19.5% { margin-left: -400%; }
+    20%, 23.5% { margin-left: -500%; }
+    24%, 27.5% { margin-left: -600%; }
+    28%, 31.5% { margin-left: -700%; }
+    32%, 35.5% { margin-left: -800%; }
+    36%, 39.5% { margin-left: -900%; }
+    40%, 43.5% { margin-left: -1000%; }
+    44%, 47.5% { margin-left: -1100%; }
+    48%, 51.5% { margin-left: -1200%; }
+    52%, 55.5% { margin-left: -1300%; }
+    56%, 59.5% { margin-left: -1400%; }
+    60%, 63.5% { margin-left: -1500%; }
+    64%, 67.5% { margin-left: -1600%; }
+    68%, 71.5% { margin-left: -1700%; }
+    72%, 75.5% { margin-left: -1800%; }
+    76%, 79.5% { margin-left: -1900%; }
+    80%, 83.5% { margin-left: -2000%; }
+    84%, 100% { margin-left: -2100%; }
+}
+
+/* Animación Pulse */
+@keyframes pulse-effect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+#rapunzel-template [data-aos].animate-pulse {
+    animation: pulse-effect 3s ease-in-out infinite;
+}
+
+/* Loader */
+#rapunzel-template .loader {
+    border: 8px solid #f3f3f320;
+    border-top: 8px solid #FF69B4;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Sombras de texto */
+#rapunzel-template .text-with-shadow span, 
+#rapunzel-template .text-with-shadow {
+    text-shadow: 5px 5px 10px rgb(0, 0, 0);
+}

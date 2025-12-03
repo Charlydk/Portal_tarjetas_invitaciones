@@ -1,38 +1,46 @@
-import React, { useState } from 'react'; // 👈 Importamos el "Hook" useState
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ControlPanel from '../components/ControlPanel'; // 👈 Importamos el hijo
-import InvitationPreview from '../components/InvitationPreview'; // 👈 Importamos el otro hijo
-import './DemoPage.css'; // Importamos los estilos específicos de esta página
+import ControlPanel from '../components/ControlPanel';
+import InvitationPreview from '../components/InvitationPreview';
+import { templates } from '../data/templates';
+import './DemoPage.css';
+
 
 function DemoPage() {
-  // useParams nos da los parámetros de la URL, como el ID de la plantilla
   const { templateId } = useParams();
+  
+  // 1. Buscamos la plantilla actual basada en la URL (templateId)
+  // El .find busca en el array el elemento cuyo 'slug' coincida con el de la URL
+  const currentTemplate = templates.find(t => t.slug === templateId);
 
-  // 👇 Aquí creamos nuestro "estado" con useState.
-  // formData es la variable que contiene los datos.
-  // setFormData es la ÚNICA función que debemos usar para actualizar los datos.
+  // Estado del formulario
   const [formData, setFormData] = useState({
-    name1: 'Juan',
-    name2: 'Ana',
-    eventDate: '25 de Diciembre, 2025',
-    eventVenue: 'Salón de Fiestas "El Gran Encuentro"',
+    name1: 'Nombre 1',
+    name2: 'Nombre 2',
+    eventDate: 'DD/MM/AAAA',
+    eventVenue: 'Dirección del evento',
   });
+
+  // Si no encuentra la plantilla (ej. el usuario escribió mal la URL), mostramos error
+  if (!currentTemplate) {
+    return <div className="error-message">Plantilla no encontrada</div>;
+  }
 
   return (
     <div className="demo-page-container">
-      {/* Columna Izquierda */}
+      {/* Columna Izquierda: Panel de Control */}
       <div className="control-panel-column">
-        <h2>Personaliza la Invitación</h2>
-        <p>Estás editando la plantilla: <strong>{templateId}</strong></p>
-        
-        {/* Le pasamos al panel de control los datos y la función para actualizarlos */}
+        <div className="panel-header">
+           <h2>Personaliza tu {currentTemplate.title}</h2>
+           <p>Completa los datos para ver la magia.</p>
+        </div>
         <ControlPanel formData={formData} setFormData={setFormData} />
       </div>
 
-      {/* Columna Derecha */}
+      {/* Columna Derecha: Vista Previa */}
       <div className="preview-column">
-        {/* A la vista previa solo le pasamos los datos para que los muestre */}
-        <InvitationPreview formData={formData} />
+        {/* 👇 Le pasamos el 'theme' (tema) a la vista previa */}
+        <InvitationPreview formData={formData} theme={currentTemplate.theme} />
       </div>
     </div>
   );

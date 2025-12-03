@@ -4,16 +4,8 @@ import AccordionItem from '../components/AccordionItem';
 import { FaClock, FaMapMarkedAlt, FaImages, FaGift, FaMusic, FaCheckCircle } from 'react-icons/fa';
 import './HomePage.css';
 import HeroCarousel from '../components/HeroCarousel';
+import { templates } from '../data/templates';
 
-const templates = [
-  // ... (el array de plantillas se mantiene igual)
-  { id: 1, title: 'Boda Clásica', thumbnailUrl: '/assets/boda-clasica.jpg', path: '/demo/boda-clasica' },
-  { id: 2, title: 'Fiesta Neón', thumbnailUrl: '/assets/fiesta-neon.jpg', path: '/demo/fiesta-neon' },
-  { id: 3, title: 'Evento Corporativo', thumbnailUrl: '/assets/evento-corp.jpg', path: '/demo/evento-corporativo' },
-  { id: 4, title: 'Bautizo Soñador', thumbnailUrl: '/assets/bautizo.jpg', path: '/demo/bautizo' },
-  { id: 5, title: 'Cumpleaños Infantil', thumbnailUrl: '/assets/cumple-infantil.jpg', path: '/demo/cumple-infantil' },
-  { id: 6, title: 'Quinceañera Mágica', thumbnailUrl: '/assets/quinceanera.jpg', path: '/demo/quinceanera' }
-];
 
 const features = [
   {
