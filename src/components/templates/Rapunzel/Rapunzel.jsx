@@ -2,158 +2,178 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Rapunzel.css';
 
 function Rapunzel({ data }) {
-  // --- 1. DATOS POR DEFECTO ---
+  // ... (MANTÉN TODA LA LÓGICA DE CONSTANTES, USESTATE Y USEEFFECT IGUAL QUE ANTES) ...
+  // Para ahorrar espacio aquí, asumo que las líneas 4 a 60 (la lógica) siguen igual.
+  // Solo copio el return modificado:
+
   const {
-    name1 = 'Nombre Quinceañera',
-    eventDate = '2025-12-15T21:00:00', // Formato ISO para que el contador funcione
-    eventVenue = 'Salón Los Olivos',
+    name1 = 'Zoe',
+    eventDate = '2025-11-15T22:00:00',
+    ceremonyDate = '11/11/2025',
+    ceremonyTime = '19:30 HS',
+    ceremonyPlace = 'Parroquia Marcos Paz',
+    ceremonyAddress = 'Florida Sur 251 - Yerba Buena',
+    ceremonyMapUrl = 'https://goo.gl/maps/tu-link-aqui',
+    partyDateString = '15/11/2025',
+    partyTime = '22:00 HS',
+    partyPlace = 'Salón La Soñada',
+    partyAddress = 'Frias Silva 70, Yerba Buena',
+    partyMapUrl = 'https://goo.gl/maps/tu-link-aqui-2',
+    alias = 'Parra.Zoe.Mis.XV',
   } = data || {};
 
-  // --- 2. LÓGICA DEL MODAL DE BIENVENIDA ---
-  const [showModal, setShowModal] = useState(true); // Empieza visible
-
-  const handleEnter = () => {
-    setShowModal(false); // Oculta el modal
-    toggleAudio(); // Intenta reproducir música al entrar (algunos navegadores lo bloquean si no es click directo)
-  };
-
-  // --- 3. LÓGICA DEL AUDIO ---
+  // Lógica Modal/Audio (se mantiene igual)
+  const [showModal, setShowModal] = useState(true);
+  const handleEnter = () => { setShowModal(false); toggleAudio(); };
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null); // Referencia al elemento <audio> invisible
-
+  const audioRef = useRef(null);
   const toggleAudio = () => {
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        // 👇 AQUÍ ESTÁ EL CAMBIO: Cambiamos 'e' por '()'
-        audioRef.current.play().catch(() => console.log("Auto-play bloqueado por el navegador, se requiere interacción"));
-      }
+      if (isPlaying) audioRef.current.pause();
+      else audioRef.current.play().catch(() => console.log("Play bloqueado"));
       setIsPlaying(!isPlaying);
     }
-  }
-
-  // --- 4. LÓGICA DE LA CUENTA REGRESIVA ---
+  };
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
   useEffect(() => {
     const targetDate = new Date(eventDate).getTime();
-
     const interval = setInterval(() => {
       const now = new Date().getTime();
       const difference = targetDate - now;
-
       if (difference > 0) {
         setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((difference % (1000 * 60)) / 1000),
+            days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+            hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+            seconds: Math.floor((difference % (1000 * 60)) / 1000),
         });
-      } else {
-        clearInterval(interval); // Detener si ya pasó la fecha
-      }
+      } else clearInterval(interval);
     }, 1000);
-
-    return () => clearInterval(interval); // Limpieza al salir
+    return () => clearInterval(interval);
   }, [eventDate]);
 
-
-  // --- RENDERIZADO (JSX) ---
   return (
     <div id="rapunzel-template">
       
-      {/* === MODAL DE BIENVENIDA === */}
+      {/* CAPA 1: EL FONDO FIJO (La imagen floral violeta va aquí) */}
+      <div className="rapunzel-fixed-bg"></div>
+
+      {/* ELEMENTOS FLOTANTES (Modal, Audio, Botón) - Se quedan fuera del scroll */}
       <div className={`modal-overlay ${!showModal ? 'hidden' : ''}`}>
         <div className="modal-content">
-          <h2 style={{background: 'none', textShadow: 'none', color: '#333'}}>¡Bienvenido!</h2>
-          <p style={{color: '#666', margin: '20px 0'}}>
-             Hay un sonido que forma parte de esta experiencia... <br/>
-             ¿Te gustaría escucharlo?
-          </p>
-          <button 
-            onClick={handleEnter}
-            style={{
-              backgroundColor: '#FF69B4', color: 'white', border: 'none', 
-              padding: '10px 20px', borderRadius: '20px', fontSize: '1rem', cursor: 'pointer'
-            }}
-          >
-            Ingresar
-          </button>
+          <h2 className="modal-title">¡Bienvenidos!</h2>
+          <p>🌺 Hay un sonido que forma parte de esta experiencia... <br/> ¿Te gustaría escucharlo?</p>
+          <div className="modal-buttons">
+            <button onClick={handleEnter} className="btn-modal primary">Sí, ¡claro!</button>
+            <button onClick={() => setShowModal(false)} className="btn-modal secondary">No, gracias</button>
+          </div>
         </div>
       </div>
 
-      {/* === AUDIO INVISIBLE === */}
       <audio ref={audioRef} loop>
-        <source src="/assets/Rapunzel/audio/Veo_en_ti_la_luz-Chayanne.mp3" type="audio/mpeg" />
+        <source src="/assets/Rapunzel/audio/cancion.mp3" type="audio/mpeg" />
       </audio>
 
-      {/* === BOTÓN FLOTANTE DE MÚSICA === */}
-      <button 
-        id="musicToggleButton" 
-        className={`${!showModal ? 'active' : ''} ${isPlaying ? 'playing' : ''}`}
-        onClick={toggleAudio}
-      >
+      <button id="musicToggleButton" className={`${!showModal ? 'active' : ''} ${isPlaying ? 'playing' : ''}`} onClick={toggleAudio}>
         {isPlaying ? '⏸' : '▶'}
       </button>
 
+      {/* CAPA 2: CONTENEDOR CON SCROLL (Todo el contenido va aquí) */}
+      <div className="rapunzel-scroll-container">
+        
+          {/* HEADER / HERO */}
+          <header className="header">
+             <video className="video-background" autoPlay loop muted playsInline>
+                <source src="/assets/Rapunzel/video/Tangled_live_wallpaper.mp4" type="video/mp4" />
+             </video>
+             <div className="overlay">
+                <h1 className="title">{name1}</h1>
+                <h2 className="subtitle">¡Mis 15 Años!</h2> 
+                <p className="hero-text">Con cariño te invito a compartir este día tan especial.</p>
+                <div className="scroll-indicator">﹀ Desplazar hacia abajo</div>
+             </div>
+          </header>
 
-      {/* === HEADER / PORTADA === */}
-      <header className="header">
-         <video className="video-background" autoPlay loop muted playsInline>
-            <source src="/assets/Rapunzel/video/Tangled_live_wallpaper.mp4" type="video/mp4" />
-         </video>
-
-         <div className="overlay">
-            <h1 className="title">Mis 15 Años</h1>
-            <h2 className="subtitle">{name1}</h2> 
-         </div>
-      </header>
-
-      {/* === SECCIÓN CUENTA REGRESIVA === */}
-      <section className="countdown-section" style={{textAlign: 'center', padding: '40px 20px', backgroundColor: '#fff'}}>
-         <h3 className="text-with-shadow" style={{fontSize: '2rem', color: '#FF69B4', fontFamily: 'Great Vibes'}}>Falta muy poco...</h3>
-         
-         {/* Renderizamos los números reales */}
-         <div className="timer-container" style={{display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px'}}>
-            <div className="timer-box">
-               <span style={{fontSize: '2rem', fontWeight: 'bold', color: '#333'}}>{timeLeft.days}</span>
-               <p style={{margin: 0, fontSize: '0.8rem'}}>Días</p>
+          {/* RESTO DE SECCIONES (Fondo transparente para ver la imagen de atrás) */}
+          
+          <section className="card-section">
+            <img src="/assets/Rapunzel/img/ceremonia.png" alt="Iglesia" className="section-icon" />
+            <h2>Ceremonia Religiosa</h2>
+            <div className="card-content">
+                <p><strong>LUGAR:</strong> {ceremonyPlace}</p>
+                <p><strong>UBICACIÓN:</strong> {ceremonyAddress}</p>
+                <p><strong>DÍA:</strong> {ceremonyDate}</p>
+                <p><strong>HORARIO:</strong> {ceremonyTime}</p>
+                <a href={ceremonyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">CÓMO LLEGAR</a>
             </div>
-            <div className="timer-box">
-               <span style={{fontSize: '2rem', fontWeight: 'bold', color: '#333'}}>{timeLeft.hours}</span>
-               <p style={{margin: 0, fontSize: '0.8rem'}}>Hs</p>
-            </div>
-            <div className="timer-box">
-               <span style={{fontSize: '2rem', fontWeight: 'bold', color: '#333'}}>{timeLeft.minutes}</span>
-               <p style={{margin: 0, fontSize: '0.8rem'}}>Min</p>
-            </div>
-            <div className="timer-box">
-               <span style={{fontSize: '2rem', fontWeight: 'bold', color: '#333'}}>{timeLeft.seconds}</span>
-               <p style={{margin: 0, fontSize: '0.8rem'}}>Seg</p>
-            </div>
-         </div>
-      </section>
+          </section>
 
-      {/* === SECCIÓN DETALLES === */}
-      <section className="details-section" style={{textAlign: 'center', padding: '20px'}}>
-         <p>Te espero para celebrar este gran día</p>
-         <h2 className="animate-pulse">{eventVenue}</h2>
-         <p>Fecha: {new Date(eventDate).toLocaleDateString()}</p>
-      </section>
+          <section className="card-section">
+            <img src="/assets/Rapunzel/img/fiesta.png" alt="Fiesta" className="section-icon" />
+            <h2>Fiesta</h2>
+            <div className="card-content">
+                <p><strong>SALÓN:</strong> {partyPlace}</p>
+                <p><strong>UBICACIÓN:</strong> {partyAddress}</p>
+                <p><strong>DÍA:</strong> {partyDateString}</p>
+                <p><strong>HORARIO:</strong> {partyTime} ¡Puntual!</p>
+                <a href={partyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">VER UBICACIÓN</a>
+            </div>
+          </section>
 
-      {/* === SLIDER DE FOTOS (Simplificado para el ejemplo) === */}
-      {/* ⚠️ Nota: El CSS original espera 22 fotos para la animación perfecta. 
-          Aquí pongo algunas repetidas para que veas el efecto. */}
-      <div className="slider">
-         <ul>
-            {[1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2].map((num, i) => (
-               <li key={i}>
-                  <img src={`/assets/Rapunzel/img/foto_${num}.jpg`} alt="Foto" />
-               </li>
-            ))}
-         </ul>
-      </div>
+          <section className="countdown-section">
+             <h3 className="countdown-title">¡Pronto el gran día!</h3>
+             <div className="timer-container">
+                <div className="timer-box"><span>{timeLeft.days}</span><p>Días</p></div>
+                <div className="timer-box"><span>{timeLeft.hours}</span><p>Horas</p></div>
+                <div className="timer-box"><span>{timeLeft.minutes}</span><p>Min</p></div>
+                <div className="timer-box"><span>{timeLeft.seconds}</span><p>Seg</p></div>
+             </div>
+             <p className="countdown-footer">Con vos compartiendo este momento, será aún más significativo. ¡Te espero!</p>
+          </section>
+
+          <section className="card-section">
+            <img src="/assets/Rapunzel/img/dresscode.jpg" alt="Dress Code" className="section-icon" />
+            <h2>Dress Code</h2>
+            <div className="card-content">
+                <p>Pedimos asistir con vestimenta <br/><strong>** Elegante **</strong></p>
+            </div>
+          </section>
+
+          <section className="card-section">
+            <img src="/assets/Rapunzel/img/regalo.gif" alt="Regalo" className="section-icon" />
+            <h2>Regalos</h2>
+            <div className="card-content">
+                <p>Tu presencia es el mejor regalo en este día tan especial.</p>
+                <p>Si querés acompañarme con un detalle para esta nueva etapa, lo voy a recibir con mucho cariño.</p>
+                <div className="gift-box">
+                    <p>💌 Cofre a disposición en el salón</p>
+                    <p className="alias-text">Alias: <strong>{alias}</strong></p>
+                </div>
+            </div>
+          </section>
+
+          <section className="slider-section">
+             <h2>Un momento único ♥</h2>
+             <p>Entre luces, risas y sueños, este día se convierte en recuerdo.</p>
+             <div className="slider">
+                <ul>
+                   {[...Array(10)].map((_, i) => (
+                      <li key={i}>
+                         <img src={`/assets/Rapunzel/img/foto_${(i % 5) + 1}.jpg`} alt={`Foto ${i}`} />
+                      </li>
+                   ))}
+                </ul>
+             </div>
+             <a href="#" className="btn-action photo-btn">Compartí tus fotos</a>
+          </section>
+
+          <footer className="footer-rapunzel">
+             <h2>¡Gracias!</h2>
+             <h3>{name1}</h3>
+             <p>© 2025 - Todos los derechos reservados.</p>
+             <p className="dev-credit">Desarrollo web por InvitaWeb</p>
+          </footer>
+      </div> {/* Fin del scroll-container */}
 
     </div>
   );
