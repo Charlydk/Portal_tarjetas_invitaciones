@@ -15,10 +15,26 @@ function DemoPage() {
 
   // Estado del formulario
   const [formData, setFormData] = useState({
-    name1: 'Nombre 1',
-    name2: 'Nombre 2',
-    eventDate: 'DD/MM/AAAA',
-    eventVenue: 'Dirección del evento',
+    // General
+    name1: 'Zoe',
+    eventDate: '2025-11-15T22:00:00', // Para la cuenta regresiva
+    
+    // Ceremonia
+    ceremonyDate: '11/11/2025',
+    ceremonyTime: '19:30 HS',
+    ceremonyPlace: 'Parroquia Marcos Paz',
+    ceremonyAddress: 'Florida Sur 251 - Yerba Buena',
+    ceremonyMapUrl: 'https://goo.gl/maps/ejemplo',
+
+    // Fiesta
+    partyDateString: '15/11/2025',
+    partyTime: '22:00 HS',
+    partyPlace: 'Salón La Soñada',
+    partyAddress: 'Frias Silva 70, Yerba Buena',
+    partyMapUrl: 'https://goo.gl/maps/ejemplo2',
+
+    // Regalos
+    alias: 'Parra.Zoe.Mis.XV',
   });
 
   // Si no encuentra la plantilla (ej. el usuario escribió mal la URL), mostramos error

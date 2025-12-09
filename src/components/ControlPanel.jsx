@@ -1,36 +1,96 @@
 import React from 'react';
-import './ControlPanel.css'; // Importamos los estilos específicos de este componente
+import './ControlPanel.css';
 
 function ControlPanel({ formData, setFormData }) {
-  // Esta función se ejecuta CADA VEZ que el usuario escribe en un campo.
+  
+  // Función genérica para manejar cambios en cualquier input
   const handleChange = (e) => {
-    const { name, value } = e.target; // Obtenemos el nombre y el valor del campo que cambió.
-
-    // Usamos la función del padre (setFormData) para actualizar el estado.
-    setFormData(prevData => ({
-      ...prevData,  // 👈 Copiamos todos los datos anteriores...
-      [name]: value, // 👈 ...y sobrescribimos solo el campo que cambió.
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
     }));
   };
 
   return (
     <div className="control-panel">
-      <div className="form-group">
-        <label htmlFor="name1">Nombre 1</label>
-        <input type="text" id="name1" name="name1" value={formData.name1} onChange={handleChange} />
+      
+      {/* SECCIÓN: DATOS GENERALES */}
+      <div className="panel-section">
+        <h3>🎉 Datos Generales</h3>
+        <div className="form-group">
+          <label>Nombre Homenajeada/o</label>
+          <input type="text" name="name1" value={formData.name1} onChange={handleChange} />
+        </div>
+        <div className="form-group">
+          <label>Fecha y Hora del Evento (Para Cuenta Regresiva)</label>
+          <input type="datetime-local" name="eventDate" value={formData.eventDate} onChange={handleChange} />
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="name2">Nombre 2</label>
-        <input type="text" id="name2" name="name2" value={formData.name2} onChange={handleChange} />
+
+      {/* SECCIÓN: CEREMONIA */}
+      <div className="panel-section">
+        <h3>⛪ Ceremonia Religiosa</h3>
+        <div className="form-group">
+          <label>Lugar (Iglesia/Templo)</label>
+          <input type="text" name="ceremonyPlace" value={formData.ceremonyPlace} onChange={handleChange} />
+        </div>
+        <div className="form-group">
+          <label>Dirección</label>
+          <input type="text" name="ceremonyAddress" value={formData.ceremonyAddress} onChange={handleChange} />
+        </div>
+        <div className="form-group-row">
+          <div className="form-group">
+            <label>Fecha (Texto)</label>
+            <input type="text" name="ceremonyDate" value={formData.ceremonyDate} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label>Hora</label>
+            <input type="text" name="ceremonyTime" value={formData.ceremonyTime} onChange={handleChange} />
+          </div>
+        </div>
+        <div className="form-group">
+            <label>Link Google Maps</label>
+            <input type="text" name="ceremonyMapUrl" value={formData.ceremonyMapUrl} onChange={handleChange} />
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="eventDate">Fecha del Evento</label>
-        <input type="text" id="eventDate" name="eventDate" value={formData.eventDate} onChange={handleChange} />
+
+      {/* SECCIÓN: FIESTA */}
+      <div className="panel-section">
+        <h3>🥂 Fiesta</h3>
+        <div className="form-group">
+          <label>Lugar (Salón)</label>
+          <input type="text" name="partyPlace" value={formData.partyPlace} onChange={handleChange} />
+        </div>
+        <div className="form-group">
+          <label>Dirección</label>
+          <input type="text" name="partyAddress" value={formData.partyAddress} onChange={handleChange} />
+        </div>
+        <div className="form-group-row">
+          <div className="form-group">
+            <label>Fecha (Texto)</label>
+            <input type="text" name="partyDateString" value={formData.partyDateString} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label>Hora</label>
+            <input type="text" name="partyTime" value={formData.partyTime} onChange={handleChange} />
+          </div>
+        </div>
+        <div className="form-group">
+            <label>Link Google Maps</label>
+            <input type="text" name="partyMapUrl" value={formData.partyMapUrl} onChange={handleChange} />
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="eventVenue">Lugar del Evento</label>
-        <input type="text" id="eventVenue" name="eventVenue" value={formData.eventVenue} onChange={handleChange} />
+
+      {/* SECCIÓN: REGALOS */}
+      <div className="panel-section">
+        <h3>🎁 Regalos</h3>
+        <div className="form-group">
+          <label>Alias Bancario / CBU</label>
+          <input type="text" name="alias" value={formData.alias} onChange={handleChange} />
+        </div>
       </div>
+
     </div>
   );
 }
