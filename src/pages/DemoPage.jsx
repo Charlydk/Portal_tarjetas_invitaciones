@@ -35,6 +35,15 @@ function DemoPage() {
 
     // Regalos
     alias: 'Parra.Zoe.Mis.XV',
+
+    // 👇 Interruptores para visivilidad
+    showCeremony: true,
+    showParty: true,
+    showCountdown: true,
+    showDressCode: true,
+    showGifts: true,
+    showGallery: true,
+
   });
 
   // Si no encuentra la plantilla (ej. el usuario escribió mal la URL), mostramos error

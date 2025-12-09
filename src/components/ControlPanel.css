@@ -57,3 +57,23 @@
 .form-group-row .form-group {
   flex: 1; /* Ambos ocupan el mismo ancho */
 }
+
+.section-header-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+.section-header-toggle h3 {
+  border-bottom: none; /* Quitamos el borde del h3 porque lo pusimos al padre */
+  margin: 0;
+}
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}

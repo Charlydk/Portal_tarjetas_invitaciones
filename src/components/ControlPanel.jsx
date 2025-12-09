@@ -3,19 +3,19 @@ import './ControlPanel.css';
 
 function ControlPanel({ formData, setFormData }) {
   
-  // Función genérica para manejar cambios en cualquier input
+  // Función que maneja tanto texto como casillas de verificación (checkboxes)
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
   return (
     <div className="control-panel">
       
-      {/* SECCIÓN: DATOS GENERALES */}
+      {/* --- SECCIÓN 1: DATOS GENERALES (Siempre visibles) --- */}
       <div className="panel-section">
         <h3>🎉 Datos Generales</h3>
         <div className="form-group">
@@ -23,71 +23,169 @@ function ControlPanel({ formData, setFormData }) {
           <input type="text" name="name1" value={formData.name1} onChange={handleChange} />
         </div>
         <div className="form-group">
-          <label>Fecha y Hora del Evento (Para Cuenta Regresiva)</label>
+          <label>Fecha Real del Evento (Para el contador)</label>
           <input type="datetime-local" name="eventDate" value={formData.eventDate} onChange={handleChange} />
         </div>
       </div>
 
-      {/* SECCIÓN: CEREMONIA */}
+      {/* --- SECCIÓN 2: CEREMONIA RELIGIOSA (Con Interruptor) --- */}
       <div className="panel-section">
-        <h3>⛪ Ceremonia Religiosa</h3>
-        <div className="form-group">
-          <label>Lugar (Iglesia/Templo)</label>
-          <input type="text" name="ceremonyPlace" value={formData.ceremonyPlace} onChange={handleChange} />
+        <div className="section-header-toggle">
+            <h3>⛪ Ceremonia Religiosa</h3>
+            {/* Interruptor */}
+            <label className="toggle-switch">
+                <input 
+                    type="checkbox" 
+                    name="showCeremony" 
+                    checked={formData.showCeremony} 
+                    onChange={handleChange} 
+                />
+                <span className="toggle-label">{formData.showCeremony ? 'Visible' : 'Oculto'}</span>
+            </label>
         </div>
-        <div className="form-group">
-          <label>Dirección</label>
-          <input type="text" name="ceremonyAddress" value={formData.ceremonyAddress} onChange={handleChange} />
-        </div>
-        <div className="form-group-row">
-          <div className="form-group">
-            <label>Fecha (Texto)</label>
-            <input type="text" name="ceremonyDate" value={formData.ceremonyDate} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Hora</label>
-            <input type="text" name="ceremonyTime" value={formData.ceremonyTime} onChange={handleChange} />
-          </div>
-        </div>
-        <div className="form-group">
-            <label>Link Google Maps</label>
-            <input type="text" name="ceremonyMapUrl" value={formData.ceremonyMapUrl} onChange={handleChange} />
-        </div>
+
+        {/* Solo mostramos los inputs si el interruptor está activado */}
+        {formData.showCeremony && (
+            <>
+                <div className="form-group">
+                  <label>Lugar (Iglesia/Templo)</label>
+                  <input type="text" name="ceremonyPlace" value={formData.ceremonyPlace} onChange={handleChange} />
+                </div>
+                <div className="form-group">
+                  <label>Dirección</label>
+                  <input type="text" name="ceremonyAddress" value={formData.ceremonyAddress} onChange={handleChange} />
+                </div>
+                <div className="form-group-row">
+                  <div className="form-group">
+                    <label>Fecha (Texto)</label>
+                    <input type="text" name="ceremonyDate" value={formData.ceremonyDate} onChange={handleChange} />
+                  </div>
+                  <div className="form-group">
+                    <label>Hora</label>
+                    <input type="text" name="ceremonyTime" value={formData.ceremonyTime} onChange={handleChange} />
+                  </div>
+                </div>
+                <div className="form-group">
+                    <label>Link Google Maps</label>
+                    <input type="text" name="ceremonyMapUrl" value={formData.ceremonyMapUrl} onChange={handleChange} />
+                </div>
+            </>
+        )}
       </div>
 
-      {/* SECCIÓN: FIESTA */}
+      {/* --- SECCIÓN 3: FIESTA (Con Interruptor) --- */}
       <div className="panel-section">
-        <h3>🥂 Fiesta</h3>
-        <div className="form-group">
-          <label>Lugar (Salón)</label>
-          <input type="text" name="partyPlace" value={formData.partyPlace} onChange={handleChange} />
+        <div className="section-header-toggle">
+            <h3>🥂 Fiesta</h3>
+            <label className="toggle-switch">
+                <input 
+                    type="checkbox" 
+                    name="showParty" 
+                    checked={formData.showParty} 
+                    onChange={handleChange} 
+                />
+                <span className="toggle-label">{formData.showParty ? 'Visible' : 'Oculto'}</span>
+            </label>
         </div>
-        <div className="form-group">
-          <label>Dirección</label>
-          <input type="text" name="partyAddress" value={formData.partyAddress} onChange={handleChange} />
-        </div>
-        <div className="form-group-row">
-          <div className="form-group">
-            <label>Fecha (Texto)</label>
-            <input type="text" name="partyDateString" value={formData.partyDateString} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Hora</label>
-            <input type="text" name="partyTime" value={formData.partyTime} onChange={handleChange} />
-          </div>
-        </div>
-        <div className="form-group">
-            <label>Link Google Maps</label>
-            <input type="text" name="partyMapUrl" value={formData.partyMapUrl} onChange={handleChange} />
-        </div>
+        
+        {formData.showParty && (
+            <>
+                 <div className="form-group">
+                    <label>Lugar (Salón)</label>
+                    <input type="text" name="partyPlace" value={formData.partyPlace} onChange={handleChange} />
+                 </div>
+                 <div className="form-group">
+                    <label>Dirección</label>
+                    <input type="text" name="partyAddress" value={formData.partyAddress} onChange={handleChange} />
+                 </div>
+                 <div className="form-group-row">
+                    <div className="form-group">
+                        <label>Fecha (Texto)</label>
+                        <input type="text" name="partyDateString" value={formData.partyDateString} onChange={handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label>Hora</label>
+                        <input type="text" name="partyTime" value={formData.partyTime} onChange={handleChange} />
+                    </div>
+                 </div>
+                 <div className="form-group">
+                    <label>Link Google Maps</label>
+                    <input type="text" name="partyMapUrl" value={formData.partyMapUrl} onChange={handleChange} />
+                </div>
+            </>
+        )}
       </div>
 
-      {/* SECCIÓN: REGALOS */}
+      {/* --- SECCIÓN 4: CUENTA REGRESIVA --- */}
       <div className="panel-section">
-        <h3>🎁 Regalos</h3>
-        <div className="form-group">
-          <label>Alias Bancario / CBU</label>
-          <input type="text" name="alias" value={formData.alias} onChange={handleChange} />
+        <div className="section-header-toggle">
+            <h3>⏳ Cuenta Regresiva</h3>
+            <label className="toggle-switch">
+                <input 
+                    type="checkbox" 
+                    name="showCountdown" 
+                    checked={formData.showCountdown} 
+                    onChange={handleChange} 
+                />
+                <span className="toggle-label">{formData.showCountdown ? 'Visible' : 'Oculto'}</span>
+            </label>
+        </div>
+        {/* Aquí no hay inputs extra porque usa la fecha general, pero el toggle controla si se ve o no */}
+      </div>
+
+      {/* --- SECCIÓN 5: DRESS CODE --- */}
+      <div className="panel-section">
+        <div className="section-header-toggle">
+            <h3>👗 Dress Code</h3>
+            <label className="toggle-switch">
+                <input 
+                    type="checkbox" 
+                    name="showDressCode" 
+                    checked={formData.showDressCode} 
+                    onChange={handleChange} 
+                />
+                <span className="toggle-label">{formData.showDressCode ? 'Visible' : 'Oculto'}</span>
+            </label>
+        </div>
+        {/* Podríamos agregar un input aquí si quisieras cambiar el texto "Elegante" por otro */}
+      </div>
+
+      {/* --- SECCIÓN 6: REGALOS --- */}
+      <div className="panel-section">
+        <div className="section-header-toggle">
+            <h3>🎁 Regalos</h3>
+            <label className="toggle-switch">
+                <input 
+                    type="checkbox" 
+                    name="showGifts" 
+                    checked={formData.showGifts} 
+                    onChange={handleChange} 
+                />
+                <span className="toggle-label">{formData.showGifts ? 'Visible' : 'Oculto'}</span>
+            </label>
+        </div>
+
+        {formData.showGifts && (
+            <div className="form-group">
+              <label>Alias Bancario / CBU</label>
+              <input type="text" name="alias" value={formData.alias} onChange={handleChange} />
+            </div>
+        )}
+      </div>
+
+      {/* --- SECCIÓN 7: GALERÍA DE FOTOS --- */}
+      <div className="panel-section">
+        <div className="section-header-toggle">
+            <h3>📸 Galería de Fotos</h3>
+            <label className="toggle-switch">
+                <input 
+                    type="checkbox" 
+                    name="showGallery" 
+                    checked={formData.showGallery} 
+                    onChange={handleChange} 
+                />
+                <span className="toggle-label">{formData.showGallery ? 'Visible' : 'Oculto'}</span>
+            </label>
         </div>
       </div>
 
