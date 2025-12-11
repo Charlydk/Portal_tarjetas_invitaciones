@@ -1,19 +1,110 @@
 .demo-page-container {
+  display: flex;
+  min-height: calc(100vh - 80px); /* Restamos la altura del Navbar */
+  background-color: #f4f6f8;
+}
+
+/* --- ESTILOS ESCRITORIO (Desktop) --- */
+.control-panel-column {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  height: calc(100vh - 80px);
+  border-right: 1px solid #e0e0e0;
+  background: #fff;
+}
+
+.preview-column {
+  flex: 1;
+  padding: 2rem;
+  background-color: #e9ecef;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centra el celular en la pantalla */
+  overflow-y: auto;
+  height: calc(100vh - 80px);
+}
+
+.panel-header {
+  margin-bottom: 2rem;
+}
+
+.panel-header h2 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.panel-header p {
+  color: #666;
+}
+
+/* Ocultamos las pestañas en escritorio por defecto */
+.mobile-tabs {
+  display: none;
+}
+
+/* --- ESTILOS MÓVILES (Responsive) --- */
+@media (max-width: 768px) {
+  .demo-page-container {
+    flex-direction: column;
+    height: auto;
+    width: 100%;          /* 👈 Asegura ancho total */
+    overflow-x: hidden;   /* 👈 CLAVE: Evita el scroll horizontal */
+  }
+
+  /* Mostramos las pestañas arriba */
+  .mobile-tabs {
     display: flex;
-    min-height: 100vh;
+    position: sticky;
+    top: 80px;
+    z-index: 100;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 100%;        /* 👈 Asegura ancho total */
   }
-  
-  .control-panel-column {
-    flex: 1; /* Ocupa 1/3 del espacio */
-    padding: 2rem;
-    background-color: #ffffff;
-    border-right: 1px solid #e0e0e0;
+
+  .tab-btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    background: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
   }
-  
+
+  .tab-btn.active {
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
+    background: #f8f9fa;
+  }
+
+  /* Clases para ocultar columnas según la pestaña activa */
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  /* 👇 REGLA COMÚN PARA AMBAS COLUMNAS EN MÓVIL */
+  .control-panel-column,
   .preview-column {
-    flex: 2; /* Ocupa 2/3 del espacio */
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+      width: 100% !important;      /* Fuerzo el ancho exacto */
+      box-sizing: border-box;      /* El padding no suma al ancho total */
   }
+
+  .control-panel-column {
+    height: auto;
+    border-right: none;
+    padding: 1rem;
+    background-color: #fff; /* Asegura fondo blanco */
+  }
+
+  .preview-column {
+    padding: 0;
+    height: auto;
+    min-height: calc(100vh - 140px);
+    background-color: #333;
+    align-items: flex-start;
+  }
+}

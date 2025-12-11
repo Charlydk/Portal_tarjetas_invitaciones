@@ -6,16 +6,7 @@ function InvitationPreview({ formData, theme }) {
 
   if (theme === 'theme-rapunzel') {
     return (
-      <div className="invitation-preview-container" style={{ 
-        width: '100%', 
-        maxWidth: '375px', // Ancho de celular
-        height: '750px',   // Alto de celular
-        border: '10px solid #333', // Marco negro
-        borderRadius: '30px',      // Bordes redondeados
-        overflow: 'auto',          // Scroll interno
-        position: 'relative',
-        margin: '0 auto'           // Centrado
-      }}>
+      <div className="preview-frame-container">
          <Rapunzel data={formData} />
       </div>
     );

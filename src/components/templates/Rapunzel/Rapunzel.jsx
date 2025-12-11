@@ -184,7 +184,7 @@ function Rapunzel({ data }) {
                     <ul>
                     {[...Array(10)].map((_, i) => (
                         <li key={i}>
-                            <img src={`/assets/Rapunzel/img/foto${(i % 5) + 1}.jpg`} alt={`Foto ${i}`} />
+                            <img src={`/assets/Rapunzel/img/foto_${(i % 5) + 1}.jpg`} alt={`Foto ${i}`} />
                         </li>
                     ))}
                     </ul>

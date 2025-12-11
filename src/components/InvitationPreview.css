@@ -105,3 +105,28 @@
   font-size: 0.8rem;
   letter-spacing: 1px;
 }
+
+/* Estilo base (Escritorio: Marco de celular) */
+.preview-frame-container {
+  width: 100%;
+  max-width: 375px;   /* Ancho de iPhone */
+  height: 730px;      /* Alto aproximado */
+  border: 12px solid #333; /* Marco negro */
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+
+/* Estilo Móvil (Sin marco, pantalla completa) */
+@media (max-width: 768px) {
+  .preview-frame-container {
+    max-width: 100%;
+    height: calc(100vh - 140px); /* Ajuste para restar navbar y tabs */
+    border: none;       /* ¡Adiós marco! */
+    border-radius: 0;   /* ¡Adiós bordes redondos! */
+    box-shadow: none;
+  }
+}

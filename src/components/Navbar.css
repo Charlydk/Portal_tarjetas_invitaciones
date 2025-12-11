@@ -70,3 +70,34 @@
     background-color: #0056b3;
     color: #fff;
   }
+
+  /* Estilos para Móviles */
+  @media (max-width: 768px) {
+    .navbar-container {
+      padding: 0 1rem;
+      justify-content: center; /* Centramos el logo */
+    }
+
+    .navbar-logo {
+      font-size: 1.5rem;
+    }
+
+  /* Ocultamos los enlaces de texto para que no rompan el ancho */
+  .nav-menu {
+    display: none !important;
+  }
+
+  /* Opción: Si quieres mantener SOLO el botón de "¡La quiero!" */
+  /* Puedes descomentar esto si quieres mostrar el botón flotante o simplificado */
+  
+  .nav-menu {
+     display: flex;
+  }
+  .nav-item {
+    display: none; 
+  }
+  .nav-item:last-child {
+    display: block; 
+  }
+  
+}

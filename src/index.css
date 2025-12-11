@@ -33,6 +33,18 @@ body {
   color: #333;
 }
 
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* ⛔ PROHIBIDO el scroll horizontal globalmente */
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 * {
   box-sizing: border-box;
 }
