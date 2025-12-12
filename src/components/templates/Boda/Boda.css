@@ -1,0 +1,86 @@
+/* =========================================
+   ESTILOS BODA ELEGANTE
+   ========================================= */
+
+   #boda-template {
+    font-family: 'Playfair Display', serif; /* Fuente elegante */
+    width: 100%; height: 100%; position: relative; overflow: hidden;
+    color: #444;
+}
+
+/* FONDO: Textura de papel o color crema */
+#boda-template .boda-fixed-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #fdfbf7; /* Crema suave */
+    /* background-image: url('/assets/boda/texture.png'); Si tienes textura */
+    z-index: 0;
+}
+
+#boda-template .boda-scroll-container {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    overflow-y: auto; overflow-x: hidden; z-index: 1;
+}
+
+/* --- HEADER --- */
+#boda-template .header {
+    height: 90vh;
+    display: flex; align-items: center; justify-content: center;
+    background-image: url('/assets/boda/portada-novios.jpg'); /* Foto de pareja */
+    background-size: cover; background-position: center;
+    position: relative;
+}
+
+#boda-template .header .overlay {
+    background: rgba(255,255,255,0.85); /* Recuadro blanco semitransparente */
+    padding: 3rem 2rem;
+    text-align: center;
+    border: 1px solid #d4af37; /* Borde dorado */
+    margin: 20px;
+}
+
+#boda-template .title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.5rem; color: #d4af37; /* Dorado */
+    margin: 10px 0;
+}
+
+#boda-template .pre-title {
+    text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem;
+}
+
+/* --- SECCIONES (InfoCard) --- */
+#boda-template .card-section {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#boda-template h2 {
+    font-size: 2rem; color: #d4af37; margin-bottom: 1.5rem;
+    font-family: 'Great Vibes', cursive;
+}
+
+#boda-template .section-icon {
+    width: 60px; margin-bottom: 1rem;
+    filter: sepia(100%) hue-rotate(5deg) saturate(200%); /* Truco para dorar iconos */
+}
+
+/* --- BOTONES --- */
+#boda-template .btn-action {
+    display: inline-block; margin-top: 1rem; padding: 10px 30px;
+    border: 1px solid #d4af37; color: #d4af37; text-decoration: none;
+    text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;
+    transition: all 0.3s;
+}
+#boda-template .btn-action:hover {
+    background: #d4af37; color: white;
+}
+
+/* --- COUNTDOWN --- */
+#boda-template .timer-container {
+    display: flex; justify-content: center; gap: 20px; padding: 2rem 0;
+    background-color: #fff;
+}
+#boda-template .timer-box { text-align: center; }
+#boda-template .timer-box span { font-size: 2rem; display: block; color: #444; }
+#boda-template .timer-box p { font-size: 0.7rem; letter-spacing: 2px; color: #999; }

@@ -57,5 +57,28 @@ export const templates = [
         showGifts: true,
         showGallery: true,
       }
+    },
+
+    { 
+      id: 5, // ID nuevo
+      title: 'Boda - Belén & Agustín', 
+      thumbnailUrl: '/assets/boda/thumb.jpg', // Una captura de la tarjeta
+      path: '/demo/boda',
+      theme: 'theme-boda', 
+      slug: 'boda',
+      
+      // 👇 DATOS INICIALES PARA BODA
+      initialData: {
+        name1: 'Belén & Agustín',
+        eventDate: '2025-12-20T18:00:00',
+        ceremonyPlace: 'Parroquia Inmaculada',
+        ceremonyAddress: 'Av. Principal 123',
+        partyPlace: 'Salón Los Jardines',
+        alias: 'Belen.Agustin.Boda',
+        // ... resto de datos
+        showCeremony: true,
+        showParty: true,
+      }
     }
+
   ];

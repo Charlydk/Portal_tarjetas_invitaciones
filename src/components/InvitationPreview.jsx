@@ -1,6 +1,7 @@
 import React from 'react';
 import './InvitationPreview.css';
 import Rapunzel from './templates/Rapunzel/Rapunzel';
+import Boda from './templates/Boda/Boda';
 
 function InvitationPreview({ formData, theme }) {
 
@@ -8,6 +9,14 @@ function InvitationPreview({ formData, theme }) {
     return (
       <div className="preview-frame-container">
          <Rapunzel data={formData} />
+      </div>
+    );
+  }
+
+  if (theme === 'theme-boda') {
+    return (
+      <div className="preview-frame-container">
+         <Boda data={formData} />
       </div>
     );
   }
