@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Rapunzel.css';
+import InfoCard from '../../shared/InfoCard';
 
 function Rapunzel({ data }) {
   // --- 1. DATOS Y CONFIGURACIÓN (Destructuring) ---
@@ -67,7 +68,7 @@ function Rapunzel({ data }) {
       {/* CAPA 1: FONDO FIJO */}
       <div className="rapunzel-fixed-bg"></div>
 
-      {/* ELEMENTOS FLOTANTES (Fuera del scroll) */}
+      {/* ELEMENTOS FLOTANTES (Modal, Audio) ... (Igual que antes) ... */}
       <div className={`modal-overlay ${!showModal ? 'hidden' : ''}`}>
         <div className="modal-content">
           <h2 className="modal-title">¡Bienvenidos!</h2>
@@ -87,11 +88,10 @@ function Rapunzel({ data }) {
         {isPlaying ? '⏸' : '▶'}
       </button>
 
-
       {/* CAPA 2: CONTENEDOR CON SCROLL */}
       <div className="rapunzel-scroll-container">
         
-          {/* HEADER / HERO (Siempre visible) */}
+          {/* HEADER / HERO (Igual que antes) */}
           <header className="header">
              <video className="video-background" autoPlay loop muted playsInline>
                 <source src="/assets/Rapunzel/video/Tangled_live_wallpaper.mp4" type="video/mp4" />
@@ -104,37 +104,31 @@ function Rapunzel({ data }) {
              </div>
           </header>
 
-          {/* SECCIÓN CEREMONIA (Condicional) */}
+          {/* === AQUI EMPIEZA LA MAGIA DE LA MODULARIZACIÓN === */}
+
+          {/* SECCIÓN CEREMONIA */}
           {showCeremony && (
-            <section className="card-section">
-                <img src="/assets/Rapunzel/img/ceremonia.png" alt="Iglesia" className="section-icon" />
-                <h2>Ceremonia Religiosa</h2>
-                <div className="card-content">
-                    <p><strong>LUGAR:</strong> {ceremonyPlace}</p>
-                    <p><strong>UBICACIÓN:</strong> {ceremonyAddress}</p>
-                    <p><strong>DÍA:</strong> {ceremonyDate}</p>
-                    <p><strong>HORARIO:</strong> {ceremonyTime}</p>
-                    <a href={ceremonyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">CÓMO LLEGAR</a>
-                </div>
-            </section>
+            <InfoCard icon="/assets/Rapunzel/img/ceremonia.png" title="Ceremonia Religiosa">
+                <p><strong>LUGAR:</strong> {ceremonyPlace}</p>
+                <p><strong>UBICACIÓN:</strong> {ceremonyAddress}</p>
+                <p><strong>DÍA:</strong> {ceremonyDate}</p>
+                <p><strong>HORARIO:</strong> {ceremonyTime}</p>
+                <a href={ceremonyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">CÓMO LLEGAR</a>
+            </InfoCard>
           )}
 
-          {/* SECCIÓN FIESTA (Condicional) */}
+          {/* SECCIÓN FIESTA */}
           {showParty && (
-            <section className="card-section">
-                <img src="/assets/Rapunzel/img/fiesta.png" alt="Fiesta" className="section-icon" />
-                <h2>Fiesta</h2>
-                <div className="card-content">
-                    <p><strong>SALÓN:</strong> {partyPlace}</p>
-                    <p><strong>UBICACIÓN:</strong> {partyAddress}</p>
-                    <p><strong>DÍA:</strong> {partyDateString}</p>
-                    <p><strong>HORARIO:</strong> {partyTime} ¡Puntual!</p>
-                    <a href={partyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">VER UBICACIÓN</a>
-                </div>
-            </section>
+            <InfoCard icon="/assets/Rapunzel/img/fiesta.png" title="Fiesta">
+                <p><strong>SALÓN:</strong> {partyPlace}</p>
+                <p><strong>UBICACIÓN:</strong> {partyAddress}</p>
+                <p><strong>DÍA:</strong> {partyDateString}</p>
+                <p><strong>HORARIO:</strong> {partyTime} ¡Puntual!</p>
+                <a href={partyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">VER UBICACIÓN</a>
+            </InfoCard>
           )}
 
-          {/* SECCIÓN CUENTA REGRESIVA (Condicional) */}
+          {/* SECCIÓN CUENTA REGRESIVA (Aún manual porque tiene lógica especial, siguiente paso: modularizarla) */}
           {showCountdown && (
             <section className="countdown-section">
                 <h3 className="countdown-title">¡Pronto el gran día!</h3>
@@ -148,34 +142,26 @@ function Rapunzel({ data }) {
             </section>
           )}
 
-          {/* SECCIÓN DRESS CODE (Condicional) */}
+          {/* SECCIÓN DRESS CODE */}
           {showDressCode && (
-            <section className="card-section">
-                <img src="/assets/Rapunzel/img/dresscode.jpg" alt="Dress Code" className="section-icon" />
-                <h2>Dress Code</h2>
-                <div className="card-content">
-                    <p>Pedimos asistir con vestimenta <br/><strong>** Elegante **</strong></p>
-                </div>
-            </section>
+            <InfoCard icon="/assets/Rapunzel/img/dresscode.jpg" title="Dress Code">
+                <p>Pedimos asistir con vestimenta <br/><strong>** Elegante **</strong></p>
+            </InfoCard>
           )}
 
-          {/* SECCIÓN REGALOS (Condicional) */}
+          {/* SECCIÓN REGALOS */}
           {showGifts && (
-            <section className="card-section">
-                <img src="/assets/Rapunzel/img/regalo.gif" alt="Regalo" className="section-icon" />
-                <h2>Regalos</h2>
-                <div className="card-content">
-                    <p>Tu presencia es el mejor regalo en este día tan especial.</p>
-                    <p>Si querés acompañarme con un detalle para esta nueva etapa, lo voy a recibir con mucho cariño.</p>
-                    <div className="gift-box">
-                        <p>💌 Cofre a disposición en el salón</p>
-                        <p className="alias-text">Alias: <strong>{alias}</strong></p>
-                    </div>
+            <InfoCard icon="/assets/Rapunzel/img/regalo.gif" title="Regalos">
+                <p>Tu presencia es el mejor regalo en este día tan especial.</p>
+                <p>Si querés acompañarme con un detalle para esta nueva etapa, lo voy a recibir con mucho cariño.</p>
+                <div className="gift-box">
+                    <p>💌 Cofre a disposición en el salón</p>
+                    <p className="alias-text">Alias: <strong>{alias}</strong></p>
                 </div>
-            </section>
+            </InfoCard>
           )}
 
-          {/* SECCIÓN GALERÍA (Condicional) */}
+          {/* GALERÍA Y FOOTER (Igual que antes) */}
           {showGallery && (
             <section className="slider-section">
                 <h2>Un momento único ♥</h2>
@@ -200,7 +186,6 @@ function Rapunzel({ data }) {
              <p className="dev-credit">Desarrollo web por InvitaWeb</p>
           </footer>
       </div>
-
     </div>
   );
 }

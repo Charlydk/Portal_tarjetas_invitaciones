@@ -12,6 +12,43 @@ function ControlPanel({ formData, setFormData }) {
     }));
   };
 
+// Función para generar el mensaje de WhatsApp
+const handleOrder = () => {
+  const phoneNumber = "5493813852485"; // TU NÚMERO AQUÍ (Formato internacional sin +)
+  
+  // Armamos el texto línea por línea
+  let message = `¡Hola! 👋 Quiero encargar la invitación *Modelo Rapunzel*.\n\n`;
+  message += `📋 *MIS DATOS:*\n`;
+  message += `👤 Nombre: ${formData.name1}\n`;
+  message += `📅 Fecha Evento: ${new Date(formData.eventDate).toLocaleDateString()}\n`;
+  
+  if (formData.showCeremony) {
+      message += `\n⛪ *CEREMONIA:*\n`;
+      message += `- Lugar: ${formData.ceremonyPlace}\n`;
+      message += `- Hora: ${formData.ceremonyTime}\n`;
+  }
+
+  if (formData.showParty) {
+      message += `\n🥂 *FIESTA:*\n`;
+      message += `- Salón: ${formData.partyPlace}\n`;
+      message += `- Fecha: ${formData.partyDateString}\n`;
+  }
+
+  if (formData.showGifts) {
+      message += `\n🎁 *REGALOS:*\n`;
+      message += `- Alias: ${formData.alias}\n`;
+  }
+
+  message += `\n🚀 *Quedo a la espera del link de pago.*`;
+
+  // Codificamos el texto para URL
+  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  
+  // Abrimos WhatsApp en una nueva pestaña
+  window.open(url, '_blank');
+};
+
+  
   return (
     <div className="control-panel">
       
@@ -187,6 +224,14 @@ function ControlPanel({ formData, setFormData }) {
                 <span className="toggle-label">{formData.showGallery ? 'Visible' : 'Oculto'}</span>
             </label>
         </div>
+      </div>
+
+      {/* BOTÓN FINAL DE COMPRA */}
+      <div className="panel-footer">
+        <button className="btn-buy" onClick={handleOrder}>
+          ✨ ¡Pedir mi Tarjeta! ✨
+        </button>
+        <p className="buy-note">Al hacer clic, se abrirá WhatsApp con tus datos listos.</p>
       </div>
 
     </div>
