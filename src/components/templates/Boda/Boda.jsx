@@ -58,8 +58,15 @@ function Boda({ data }) {
 
       <div className="boda-scroll-container">
           
-          {/* HEADER / PORTADA */}
+          {/* HEADER / PORTADA CON VIDEO */}
           <header className="header">
+             
+             {/* 👇 NUEVO: Video de Fondo */}
+             <video className="video-background" autoPlay loop muted playsInline>
+                <source src="/assets/Boda/video/hero-boda.mp4" type="video/mp4" />
+             </video>
+
+             {/* El Overlay (Texto) va encima */}
              <div className="overlay">
                 <p className="pre-title">Nos casamos</p>
                 <h1 className="title">{name1}</h1>

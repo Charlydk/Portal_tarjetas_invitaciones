@@ -23,11 +23,38 @@
 
 /* --- HEADER --- */
 #boda-template .header {
-    height: 90vh;
-    display: flex; align-items: center; justify-content: center;
-    background-image: url('/assets/boda/portada-novios.jpg'); /* Foto de pareja */
-    background-size: cover; background-position: center;
+    height: 100vh; /* Ocupa toda la pantalla */
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
     position: relative;
+    overflow: hidden;
+    background-color: #000; /* Fondo negro mientras carga el video */
+    /* ❌ Borramos background-image porque ahora usamos video */
+}
+
+/* Estilo para el video */
+#boda-template .video-background {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    object-fit: cover; /* Asegura que cubra todo sin deformarse */
+    z-index: 0;        /* Se va al fondo */
+    opacity: 0.8;      /* Opcional: Un poco transparente para que no compita con el texto */
+}
+
+#boda-template .header .overlay {
+    position: relative; /* Para que flote sobre el video */
+    z-index: 1;         /* Prioridad sobre el video */
+    
+    background: rgba(255, 255, 255, 0.7); /* Blanco semitransparente para leer bien */
+    padding: 3rem 2rem;
+    text-align: center;
+    border: 1px solid #d4af37;
+    margin: 20px;
+    backdrop-filter: blur(2px); /* Efecto vidrio esmerilado elegante */
 }
 
 #boda-template .header .overlay {
