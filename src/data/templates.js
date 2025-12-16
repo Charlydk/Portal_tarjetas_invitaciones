@@ -60,14 +60,14 @@ export const templates = [
     },
 
     { 
-      id: 5, // ID nuevo
+      id: 5,
       title: 'Boda - Belén & Agustín', 
       thumbnailUrl: '/assets/boda/thumb.jpg', // Una captura de la tarjeta
       path: '/demo/boda',
       theme: 'theme-boda', 
       slug: 'boda',
       
-      // 👇 DATOS INICIALES PARA BODA
+      // DATOS INICIALES PARA BODA
       initialData: {
         name1: 'Belén & Agustín',
         eventDate: '2025-12-20T18:00:00',
@@ -75,9 +75,12 @@ export const templates = [
         ceremonyAddress: 'Av. Principal 123',
         partyPlace: 'Salón Los Jardines',
         alias: 'Belen.Agustin.Boda',
-        // ... resto de datos
         showCeremony: true,
-        showParty: true,
+      showParty: true,
+      showCountdown: true,
+      showDressCode: true,
+      showGifts: true,
+      showGallery: true,
       }
     }
 

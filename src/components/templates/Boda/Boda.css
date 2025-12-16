@@ -111,3 +111,37 @@
 #boda-template .timer-box { text-align: center; }
 #boda-template .timer-box span { font-size: 2rem; display: block; color: #444; }
 #boda-template .timer-box p { font-size: 0.7rem; letter-spacing: 2px; color: #999; }
+
+
+.boda-content-wrapper {
+    background-image: url('/assets/Boda/Backgrounds/main_section_background.jpg');
+    background-repeat: no-repeat;
+    background-size: auto; 
+    background-attachment: fixed;
+    background-position: center center;
+    position: relative;
+    z-index: 2;
+    padding: 2rem 0;
+}
+
+.footer-boda {
+    background-color: #fff;
+    position: relative;
+    z-index: 3;
+    padding: 4rem 2rem; text-align: center;
+}
+
+#boda-template .card-section,
+#boda-template .countdown-section {
+    background-color: rgba(255, 255, 255, 0.9);
+    margin: 2rem 1rem;
+    padding: 3rem 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15);
+    border-bottom: none;
+}
+
+
+#boda-template .timer-container {
+    background: transparent;
+}

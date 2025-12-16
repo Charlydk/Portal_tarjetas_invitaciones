@@ -75,6 +75,7 @@ function Boda({ data }) {
              </div>
           </header>
 
+        <main className="boda-content-wrapper">
           {/* CUENTA REGRESIVA (Estilo minimalista) */}
           {showCountdown && (
             <section className="countdown-section">
@@ -88,7 +89,7 @@ function Boda({ data }) {
 
           {/* CEREMONIA (Usando InfoCard) */}
           {showCeremony && (
-            <InfoCard icon="/assets/boda/icons/rings.png" title="Ceremonia">
+            <InfoCard icon="/assets/Boda/icons/rings.gif" title="Ceremonia">
                 <p>{ceremonyPlace}</p>
                 <p>{ceremonyAddress}</p>
                 <p>{ceremonyTime}</p>
@@ -98,7 +99,7 @@ function Boda({ data }) {
 
           {/* FIESTA */}
           {showParty && (
-            <InfoCard icon="/assets/boda/icons/cheers.png" title="Fiesta">
+            <InfoCard icon="/assets/Boda/icons/fiesta.gif" title="Fiesta">
               <p>{partyPlace}</p>
               <p>{partyAddress}</p>
               <p>{partyDateString}</p> 
@@ -109,21 +110,21 @@ function Boda({ data }) {
 
           {/* DRESS CODE */}
           {showDressCode && (
-            <InfoCard title="Dress Code">
+            <InfoCard icon="/assets/Boda/icons/dresscode.jpg" title="Dress Code">
                 <p>Elegante Sport</p>
             </InfoCard>
           )}
 
           {/* REGALOS */}
           {showGifts && (
-            <InfoCard title="Regalos">
+            <InfoCard icon="/assets/Boda/icons/gifbox.gif" title="Regalos">
                 <p>Nuestro mejor regalo es tu presencia.</p>
                 <div className="gift-box">
                     <p>CBU / Alias: {alias}</p>
                 </div>
             </InfoCard>
           )}
-
+        </main> {/* Cierre del main wrap */}
           <footer className="footer-boda">
              <p>¡Te esperamos!</p>
              <h3>{name1}</h3>
