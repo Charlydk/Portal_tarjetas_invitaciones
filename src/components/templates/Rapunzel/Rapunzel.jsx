@@ -18,6 +18,8 @@ function Rapunzel({ data }) {
     partyAddress = 'Frias Silva 70, Yerba Buena',
     partyMapUrl = 'https://goo.gl/maps/tu-link-aqui-2',
     alias = 'Parra.Zoe.Mis.XV',
+    whatsappNumber = '',
+    musicUrl = '',
 
     // 👇 INTERRUPTORES DE VISIBILIDAD (Nuevos)
     showCeremony = true,
@@ -26,6 +28,8 @@ function Rapunzel({ data }) {
     showDressCode = true,
     showGifts = true,
     showGallery = true,
+    showRSVP = true,
+    showMusic = true,
   } = data || {};
 
   // --- 2. LÓGICA (Modal, Audio, Cuenta Regresiva) ---
@@ -190,6 +194,22 @@ function Rapunzel({ data }) {
                     </ul>
                 </div>
                 <a href="#" className="btn-action photo-btn">Compartí tus fotos</a>
+            </section>
+          )}
+
+          {showRSVP && (
+            <section className="card-section">
+                <h2>Confirmación</h2>
+                <p>¡Espero contar con tu presencia!</p>
+                <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('¡Hola! Confirmo mi asistencia.')}`} target="_blank" rel="noopener noreferrer" className="btn-action">CONFIRMAR ASISTENCIA</a>
+            </section>
+          )}
+
+          {showMusic && (
+            <section className="card-section">
+                <h2>Música</h2>
+                <p>¿Qué canciones querés escuchar?</p>
+                <a href={musicUrl} target="_blank" rel="noopener noreferrer" className="btn-action">SUGERIR CANCIÓN</a>
             </section>
           )}
 

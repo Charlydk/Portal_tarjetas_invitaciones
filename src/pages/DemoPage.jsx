@@ -15,7 +15,9 @@ function DemoPage() {
   // Estado del formulario (Incluye tus interruptores del Wizard)
   const [formData, setFormData] = useState({
     name1: 'Zoe',
+    name2: 'Lucas',
     eventDate: '2025-11-15T22:00:00',
+    eventVenue: 'Salón La Soñada',
     ceremonyDate: '11/11/2025',
     ceremonyTime: '19:30 HS',
     ceremonyPlace: 'Parroquia Marcos Paz',
@@ -27,6 +29,8 @@ function DemoPage() {
     partyAddress: 'Frias Silva 70, Yerba Buena',
     partyMapUrl: 'https://goo.gl/maps/tu-link-aqui-2',
     alias: 'Parra.Zoe.Mis.XV',
+    whatsappNumber: '5493810000000',
+    musicUrl: 'https://spotify.com/playlist/tu-playlist',
     
     // Interruptores
     showCeremony: true,
@@ -35,6 +39,8 @@ function DemoPage() {
     showDressCode: true,
     showGifts: true,
     showGallery: true,
+    showRSVP: true,
+    showMusic: true,
   });
 
   if (!currentTemplate) {

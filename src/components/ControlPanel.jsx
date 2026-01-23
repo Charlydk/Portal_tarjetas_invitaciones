@@ -19,12 +19,20 @@ function ControlPanel({ formData, setFormData }) {
       <div className="panel-section">
         <h3>🎉 Datos Generales</h3>
         <div className="form-group">
-          <label>Nombre Homenajeada/o</label>
+          <label>Nombre 1 (Homenajeada/o o Novia)</label>
           <input type="text" name="name1" value={formData.name1} onChange={handleChange} />
+        </div>
+        <div className="form-group">
+          <label>Nombre 2 (Novio o Segundo Homenajeado - Opcional)</label>
+          <input type="text" name="name2" value={formData.name2} onChange={handleChange} />
         </div>
         <div className="form-group">
           <label>Fecha Real del Evento (Para el contador)</label>
           <input type="datetime-local" name="eventDate" value={formData.eventDate} onChange={handleChange} />
+        </div>
+        <div className="form-group">
+          <label>Nombre del Lugar (General)</label>
+          <input type="text" name="eventVenue" value={formData.eventVenue} onChange={handleChange} />
         </div>
       </div>
 
@@ -187,6 +195,50 @@ function ControlPanel({ formData, setFormData }) {
                 <span className="toggle-label">{formData.showGallery ? 'Visible' : 'Oculto'}</span>
             </label>
         </div>
+      </div>
+
+      {/* --- SECCIÓN 8: RSVP / CONFIRMACIÓN --- */}
+      <div className="panel-section">
+        <div className="section-header-toggle">
+            <h3>📞 Confirmación RSVP</h3>
+            <label className="toggle-switch">
+                <input
+                    type="checkbox"
+                    name="showRSVP"
+                    checked={formData.showRSVP}
+                    onChange={handleChange}
+                />
+                <span className="toggle-label">{formData.showRSVP ? 'Visible' : 'Oculto'}</span>
+            </label>
+        </div>
+        {formData.showRSVP && (
+            <div className="form-group">
+              <label>WhatsApp (Ej: 5493810000000)</label>
+              <input type="text" name="whatsappNumber" value={formData.whatsappNumber} onChange={handleChange} />
+            </div>
+        )}
+      </div>
+
+      {/* --- SECCIÓN 9: MÚSICA --- */}
+      <div className="panel-section">
+        <div className="section-header-toggle">
+            <h3>🎵 Sugerencia de Música</h3>
+            <label className="toggle-switch">
+                <input
+                    type="checkbox"
+                    name="showMusic"
+                    checked={formData.showMusic}
+                    onChange={handleChange}
+                />
+                <span className="toggle-label">{formData.showMusic ? 'Visible' : 'Oculto'}</span>
+            </label>
+        </div>
+        {formData.showMusic && (
+            <div className="form-group">
+              <label>Link de Playlist o Formulario</label>
+              <input type="text" name="musicUrl" value={formData.musicUrl} onChange={handleChange} />
+            </div>
+        )}
       </div>
 
     </div>

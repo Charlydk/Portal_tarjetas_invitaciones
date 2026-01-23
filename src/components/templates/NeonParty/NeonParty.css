@@ -1,0 +1,187 @@
+#neon-party-template {
+    background-color: #050505;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100%;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 1rem;
+}
+
+.neon-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.neon-circle-1 {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+}
+
+.neon-circle-2 {
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 0, 255, 0.2) 0%, transparent 70%);
+}
+
+.neon-content {
+    position: relative;
+    z-index: 1;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    animation: neonFadeIn 1s ease-in;
+}
+
+@keyframes neonFadeIn {
+    from { opacity: 0; scale: 0.9; }
+    to { opacity: 1; scale: 1; }
+}
+
+.neon-header {
+    margin-bottom: 2rem;
+}
+
+.neon-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 20px #0ff;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+.neon-divider {
+    height: 4px;
+    width: 80px;
+    background: linear-gradient(to right, #0ff, #f0f);
+    margin: 1rem auto;
+}
+
+.neon-subtitle {
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    color: #f0f;
+    text-shadow: 0 0 5px #f0f;
+}
+
+.neon-section {
+    margin-bottom: 2rem;
+}
+
+.neon-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    padding: 1.5rem;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s;
+}
+
+.neon-card:hover {
+    transform: scale(1.02);
+    border-color: #0ff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.neon-card-title {
+    color: #0ff;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.neon-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.neon-text-small {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.neon-glow-text {
+    color: #f0f;
+    text-shadow: 0 0 5px #f0f, 0 0 10px #f0f;
+}
+
+.neon-alias {
+    font-size: 1.2rem;
+    color: #0ff;
+    margin-top: 0.5rem;
+    word-break: break-all;
+}
+
+.btn-neon {
+    display: inline-block;
+    padding: 12px 30px;
+    border: 2px solid #0ff;
+    color: #0ff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    margin-top: 0.5rem;
+}
+
+.btn-neon:hover {
+    background: #0ff;
+    color: #000;
+    box-shadow: 0 0 20px #0ff;
+}
+
+.btn-neon.primary {
+    border-color: #f0f;
+    color: #f0f;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+.btn-neon.primary:hover {
+    background: #f0f;
+    color: #fff;
+    box-shadow: 0 0 20px #f0f;
+}
+
+.timer-container-neon {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.timer-box-neon span {
+    display: block;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+}
+
+.timer-box-neon p {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #0ff;
+}
+
+.neon-footer {
+    margin-top: 3rem;
+    font-size: 1.5rem;
+    font-weight: 900;
+    font-style: italic;
+}
