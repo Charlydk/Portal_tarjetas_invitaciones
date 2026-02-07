@@ -79,7 +79,7 @@ function DemoPage() {
       {/* --- COLUMNA DERECHA: VISTA PREVIA --- */}
       {/* En móvil, solo se muestra si activeTab es 'preview' */}
       <div className={`preview-column ${activeTab === 'edit' ? 'hidden-mobile' : ''}`}>
-        <InvitationPreview formData={formData} theme={currentTemplate.theme} />
+        <InvitationPreview formData={formData} themeId={currentTemplate.themeId || currentTemplate.theme} />
       </div>
 
     </div>

@@ -1,89 +1,74 @@
 /* =========================================
-   ESTILOS COMPLETOS RAPUNZEL (FONDO FIJO)
+   ESTILOS GENÉRICOS SKELETON 1
    ========================================= */
 
-/* CONTENEDOR PRINCIPAL: Define el marco del celular */
-#rapunzel-template {
-    font-family: 'Montserrat', sans-serif;
+#skeleton1-template {
+    font-family: var(--font-body), sans-serif;
     width: 100%;
     height: 100%;
     position: relative;
-    overflow: hidden; /* IMPORTANTE: El contenedor padre NO hace scroll */
-    background-color: #000; /* Fondo negro por si algo falla */
+    overflow: hidden;
+    background-color: #000;
 }
 
-/* --- CAPA 1: FONDO FIJO --- */
-/* Esta capa se queda quieta detrás de todo */
-#rapunzel-template .rapunzel-fixed-bg {
+#skeleton1-template .skeleton1-fixed-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    
-    /* 👇 RUTA DE TU IMAGEN VIOLETA */
-    background-image: url('/assets/Rapunzel/img/main_section_background.png'); 
-    
-    background-size: cover;      /* Cubre todo el espacio */
-    background-position: center; /* Se centra */
-    background-repeat: no-repeat; /* ¡NO SE REPITE! */
-    z-index: 0; /* Al fondo */
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
 }
 
-/* --- CAPA 2: CONTENEDOR CON SCROLL --- */
-/* Esta capa contiene el texto y las secciones, y es la que se mueve */
-#rapunzel-template .rapunzel-scroll-container {
+#skeleton1-template .skeleton1-scroll-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    overflow-y: auto; /* Aquí activamos el scroll vertical */
+    overflow-y: auto;
     overflow-x: hidden;
-    z-index: 1; /* Por encima del fondo */
-    scroll-behavior: smooth; /* Desplazamiento suave */
+    z-index: 1;
+    scroll-behavior: smooth;
 }
 
-/* --- SECCIONES TRANSPARENTES --- */
-/* Hacemos que las tarjetas sean transparentes para ver el fondo fijo */
-#rapunzel-template .card-section,
-#rapunzel-template .countdown-section,
-#rapunzel-template .slider-section,
-#rapunzel-template .gift-section {
+#skeleton1-template .card-section,
+#skeleton1-template .countdown-section,
+#skeleton1-template .slider-section,
+#skeleton1-template .gift-section {
     padding: 3rem 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    
-    background: transparent; /* 👈 CLAVE: Transparente */
-    
-    color: #fff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Separador sutil */
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Ajustes de Títulos */
-#rapunzel-template h2 {
-    font-family: 'Great Vibes', cursive;
+#skeleton1-template h2 {
+    font-family: var(--font-title), cursive;
     font-size: 3rem;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Sombra fuerte para leerse bien */
+    color: var(--text-color);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
     margin: 1rem 0;
     font-weight: normal;
 }
 
-/* Ajustes de Texto */
-#rapunzel-template .card-content p {
+#skeleton1-template .card-content p {
     font-size: 1.1rem;
     line-height: 1.6;
     margin-bottom: 0.5rem;
-    color: #fff;
+    color: var(--text-color);
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
     font-weight: 500;
 }
 
-/* Íconos Redondos (Iglesia, Brindis, etc.) */
-#rapunzel-template .section-icon {
+#skeleton1-template .section-icon {
     width: 120px;
     height: 120px;
     object-fit: cover;
@@ -95,12 +80,11 @@
     background-color: #fff;
 }
 
-/* Botones de Acción (Ver Mapa, etc.) */
-#rapunzel-template .btn-action {
+#skeleton1-template .btn-action {
     display: inline-block;
     margin-top: 1.5rem;
     padding: 12px 30px;
-    background-color: #28a745; /* Verde */
+    background-color: var(--secondary-color);
     color: #fff;
     text-decoration: none;
     border-radius: 50px;
@@ -109,63 +93,62 @@
     font-size: 0.9rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     transition: transform 0.2s, background 0.2s;
-    border: 2px solid #218838;
+    border: 2px solid rgba(0,0,0,0.1);
 }
-#rapunzel-template .btn-action:hover {
+#skeleton1-template .btn-action:hover {
     transform: scale(1.05);
-    background-color: #218838;
+    filter: brightness(1.1);
 }
 
-/* --- HEADER / HERO (VIDEO) --- */
-#rapunzel-template .header {
+/* --- HEADER / HERO --- */
+#skeleton1-template .header {
     width: 100%;
     height: 100vh;
     min-height: 600px;
     position: relative;
-    /* Configuración Flex para centrar el bloque .overlay */
     display: flex;
-    flex-direction: column; /* Asegura orden vertical */
-    justify-content: center; /* Centra verticalmente */
-    align-items: center;     /* Centra horizontalmente el bloque */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;  
     color: #fff;
     overflow: hidden;
     background: #000;
 }
 
-#rapunzel-template .video-background {
+#skeleton1-template .video-background {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     object-fit: cover;
     z-index: 0;
 }
 
-#rapunzel-template .header .overlay {
+#skeleton1-template .header .overlay {
     position: relative;
     z-index: 1;
-    background: rgba(0,0,0,0.4); /* Capa oscura para leer el título */
+    background: var(--header-overlay);
     padding: 2rem;
     border-radius: 10px;
 }
 
-#rapunzel-template h1.title {
-    font-family: 'Great Vibes', cursive;
+#skeleton1-template h1.title {
+    font-family: var(--font-title), cursive;
     font-size: 4rem;
     margin: 0;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-#rapunzel-template .subtitle {
+#skeleton1-template .subtitle {
     font-size: 1.5rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-top: 0.5rem;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-body), sans-serif;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 
-#rapunzel-template .scroll-indicator {
+#skeleton1-template .scroll-indicator {
     margin-top: 2rem;
     font-size: 0.9rem;
     opacity: 0.8;
@@ -173,64 +156,61 @@
 }
 
 /* --- CUENTA REGRESIVA --- */
-#rapunzel-template .countdown-section {
-    /* No ponemos background aquí para que sea transparente */
-}
-#rapunzel-template .timer-container {
+#skeleton1-template .timer-container {
     display: flex; justify-content: center; gap: 15px; margin: 1.5rem 0;
 }
-#rapunzel-template .timer-box {
+#skeleton1-template .timer-box {
     background: #fff;
     padding: 10px;
     min-width: 60px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-#rapunzel-template .timer-box span {
-    display: block; font-size: 1.8rem; font-weight: bold; color: #FF69B4;
+#skeleton1-template .timer-box span {
+    display: block; font-size: 1.8rem; font-weight: bold; color: var(--primary-color);
 }
-#rapunzel-template .timer-box p {
+#skeleton1-template .timer-box p {
     margin: 0; font-size: 0.8rem; text-transform: uppercase; color: #333;
 }
 
 /* --- REGALOS --- */
-#rapunzel-template .gift-box {
+#skeleton1-template .gift-box {
     margin-top: 1rem;
     padding: 1rem;
-    border: 2px dashed #FF69B4;
+    border: 2px dashed var(--primary-color);
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+    background-color: rgba(255, 255, 255, 0.9);
     color: #333;
     width: 100%;
     max-width: 300px;
 }
-#rapunzel-template .alias-text {
+#skeleton1-template .alias-text {
     font-size: 1.1rem;
-    color: #333 !important; /* Forzamos color oscuro para leerse */
+    color: #333 !important;
     margin-top: 0.5rem;
 }
 
 /* --- SLIDER --- */
-#rapunzel-template .slider {
+#skeleton1-template .slider {
     width: 100%; max-width: 350px;
     margin: 1rem auto;
     border-radius: 15px; overflow: hidden;
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
-#rapunzel-template .slider ul {
+#skeleton1-template .slider ul {
     display: flex; padding: 0; margin: 0;
     width: 500%;
     animation: cambio 20s infinite alternate linear;
 }
-#rapunzel-template .slider li {
+#skeleton1-template .slider li {
     width: 100%; list-style: none;
 }
-#rapunzel-template .slider img {
+#skeleton1-template .slider img {
     width: 100%; display: block;
 }
 
 /* --- FOOTER --- */
-#rapunzel-template .footer-rapunzel {
+#skeleton1-template .footer-skeleton1 {
     background-color: #333;
     color: #fff;
     padding: 3rem 1rem;
@@ -241,41 +221,41 @@
     align-items: center;
     justify-content: center;
 }
-#rapunzel-template .footer-rapunzel h2 { margin: 0; font-size: 2rem; }
-#rapunzel-template .footer-rapunzel h3 {
-    font-family: 'Great Vibes', cursive;
-    font-size: 2.5rem; color: #FF69B4; margin: 0.5rem 0;
+#skeleton1-template .footer-skeleton1 h2 { margin: 0; font-size: 2rem; }
+#skeleton1-template .footer-skeleton1 h3 {
+    font-family: var(--font-title), cursive;
+    font-size: 2.5rem; color: var(--primary-color); margin: 0.5rem 0;
 }
-#rapunzel-template .dev-credit {
+#skeleton1-template .dev-credit {
     font-size: 0.8rem; color: #888; margin-top: 1rem;
 }
 
-/* --- MODAL Y BOTONES FLOTANTES (FUERA DEL SCROLL) --- */
-#rapunzel-template .modal-overlay {
+/* --- MODAL Y BOTONES FLOTANTES --- */
+#skeleton1-template .modal-overlay {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
     background: rgba(0,0,0,0.8);
-    z-index: 999; /* Máxima prioridad */
+    z-index: 999;
     display: flex; justify-content: center; align-items: center;
 }
-#rapunzel-template .modal-overlay.hidden { display: none; }
-#rapunzel-template .modal-content {
+#skeleton1-template .modal-overlay.hidden { display: none; }
+#skeleton1-template .modal-content {
     background: #fff; padding: 2rem; border-radius: 10px; width: 85%;
     color: #333;
 }
-#rapunzel-template .modal-buttons {
+#skeleton1-template .modal-buttons {
     display: flex; gap: 10px; justify-content: center; margin-top: 1rem;
 }
-#rapunzel-template .btn-modal {
+#skeleton1-template .btn-modal {
     padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;
 }
-#rapunzel-template .btn-modal.primary { background: #FF69B4; color: #fff; }
-#rapunzel-template .btn-modal.secondary { background: #eee; color: #333; }
+#skeleton1-template .btn-modal.primary { background: var(--primary-color); color: #fff; }
+#skeleton1-template .btn-modal.secondary { background: #eee; color: #333; }
 
-#rapunzel-template #musicToggleButton {
+#skeleton1-template #musicToggleButton {
     position: absolute; bottom: 20px; right: 20px;
     width: 50px; height: 50px; border-radius: 50%;
-    background: #FF69B4; color: #fff; border: none;
+    background: var(--primary-color); color: #fff; border: none;
     font-size: 1.5rem; cursor: pointer; z-index: 500;
     display: flex; justify-content: center; align-items: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);

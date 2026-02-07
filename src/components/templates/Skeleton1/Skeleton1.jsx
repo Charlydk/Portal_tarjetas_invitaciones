@@ -1,29 +1,26 @@
 import React, { useState, useRef } from 'react';
 import { useCountdown } from '../../../hooks/useCountdown';
-import './Rapunzel.css';
+import './Skeleton1.css';
 
-function Rapunzel({ data }) {
-  // --- 1. DATOS Y CONFIGURACIÓN (Destructuring) ---
+function Skeleton1({ data, theme }) {
   const {
-    // Datos de texto
-    name1 = 'Zoe',
+    name1 = 'Nombre',
     eventDate = '2025-11-15T22:00:00',
     ceremonyDate = '11/11/2025',
     ceremonyTime = '19:30 HS',
-    ceremonyPlace = 'Parroquia Marcos Paz',
-    ceremonyAddress = 'Florida Sur 251 - Yerba Buena',
-    ceremonyMapUrl = 'https://goo.gl/maps/tu-link-aqui',
+    ceremonyPlace = 'Parroquia',
+    ceremonyAddress = 'Calle Falsa 123',
+    ceremonyMapUrl = '#',
     partyDateString = '15/11/2025',
     partyTime = '22:00 HS',
-    partyPlace = 'Salón La Soñada',
+    partyPlace = 'Salón',
     eventVenue = '',
-    partyAddress = 'Frias Silva 70, Yerba Buena',
-    partyMapUrl = 'https://goo.gl/maps/tu-link-aqui-2',
-    alias = 'Parra.Zoe.Mis.XV',
+    partyAddress = 'Dirección',
+    partyMapUrl = '#',
+    alias = 'Alias.Bancario',
     whatsappNumber = '',
     musicUrl = '',
 
-    // 👇 INTERRUPTORES DE VISIBILIDAD (Nuevos)
     showCeremony = true,
     showParty = true,
     showCountdown = true,
@@ -34,14 +31,35 @@ function Rapunzel({ data }) {
     showMusic = true,
   } = data || {};
 
-  // --- 2. LÓGICA (Modal, Audio, Cuenta Regresiva) ---
+  // Si no hay theme, usamos uno por defecto (Rapunzel)
+  const themeConfig = theme || {
+    assets: {
+      headerVideo: '/assets/Rapunzel/video/Tangled_live_wallpaper.mp4',
+      backgroundImage: '/assets/Rapunzel/img/main_section_background.png',
+      ceremonyIcon: '/assets/Rapunzel/img/ceremonia.png',
+      partyIcon: '/assets/Rapunzel/img/fiesta.png',
+      dressCodeIcon: '/assets/Rapunzel/img/dresscode.jpg',
+      giftIcon: '/assets/Rapunzel/img/regalo.gif',
+      audio: '/assets/Rapunzel/audio/cancion.mp3'
+    },
+    styles: {
+      primaryColor: '#FF69B4',
+      secondaryColor: '#28a745',
+      fontFamilyTitle: "'Great Vibes', cursive",
+      fontFamilyBody: "'Montserrat', sans-serif",
+      headerOverlay: 'rgba(0,0,0,0.4)',
+      cardBackground: 'transparent',
+      textColor: '#ffffff'
+    }
+  };
+
   const [showModal, setShowModal] = useState(true);
   const handleEnter = () => { setShowModal(false); toggleAudio(); };
 
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
   const toggleAudio = () => {
-    if (audioRef.current) {
+    if (audioRef.current && themeConfig.assets.audio) {
       if (isPlaying) audioRef.current.pause();
       else audioRef.current.play().catch(() => console.log("Play bloqueado"));
       setIsPlaying(!isPlaying);
@@ -50,18 +68,27 @@ function Rapunzel({ data }) {
 
   const timeLeft = useCountdown(eventDate);
 
-  // --- 3. RENDERIZADO (JSX) ---
-  return (
-    <div id="rapunzel-template">
-      
-      {/* CAPA 1: FONDO FIJO */}
-      <div className="rapunzel-fixed-bg"></div>
+  // Estilos dinámicos basados en el theme
+  const dynamicStyles = {
+    '--primary-color': themeConfig.styles.primaryColor,
+    '--secondary-color': themeConfig.styles.secondaryColor,
+    '--font-title': themeConfig.styles.fontFamilyTitle,
+    '--font-body': themeConfig.styles.fontFamilyBody,
+    '--header-overlay': themeConfig.styles.headerOverlay,
+    '--card-bg': themeConfig.styles.cardBackground,
+    '--text-color': themeConfig.styles.textColor,
+    '--bg-image': `url(${themeConfig.assets.backgroundImage})`,
+  };
 
-      {/* ELEMENTOS FLOTANTES (Fuera del scroll) */}
+  return (
+    <div id="skeleton1-template" style={dynamicStyles}>
+      
+      <div className="skeleton1-fixed-bg"></div>
+
       <div className={`modal-overlay ${!showModal ? 'hidden' : ''}`}>
         <div className="modal-content">
           <h2 className="modal-title">¡Bienvenidos!</h2>
-          <p>🌺 Hay un sonido que forma parte de esta experiencia... <br/> ¿Te gustaría escucharlo?</p>
+          <p>🎵 Hay un sonido que forma parte de esta experiencia... <br/> ¿Te gustaría escucharlo?</p>
           <div className="modal-buttons">
             <button onClick={handleEnter} className="btn-modal primary">Sí, ¡claro!</button>
             <button onClick={() => setShowModal(false)} className="btn-modal secondary">No, gracias</button>
@@ -69,22 +96,23 @@ function Rapunzel({ data }) {
         </div>
       </div>
 
-      <audio ref={audioRef} loop>
-        <source src="/assets/Rapunzel/audio/cancion.mp3" type="audio/mpeg" />
-      </audio>
+      {themeConfig.assets.audio && (
+        <audio ref={audioRef} loop>
+          <source src={themeConfig.assets.audio} type="audio/mpeg" />
+        </audio>
+      )}
 
-      <button id="musicToggleButton" className={`${!showModal ? 'active' : ''} ${isPlaying ? 'playing' : ''}`} onClick={toggleAudio}>
-        {isPlaying ? '⏸' : '▶'}
-      </button>
+      {themeConfig.assets.audio && (
+        <button id="musicToggleButton" className={`${!showModal ? 'active' : ''} ${isPlaying ? 'playing' : ''}`} onClick={toggleAudio}>
+          {isPlaying ? '⏸' : '▶'}
+        </button>
+      )}
 
-
-      {/* CAPA 2: CONTENEDOR CON SCROLL */}
-      <div className="rapunzel-scroll-container">
+      <div className="skeleton1-scroll-container">
         
-          {/* HEADER / HERO (Siempre visible) */}
           <header className="header">
-             <video className="video-background" autoPlay loop muted playsInline>
-                <source src="/assets/Rapunzel/video/Tangled_live_wallpaper.mp4" type="video/mp4" />
+             <video className="video-background" autoPlay loop muted playsInline key={themeConfig.assets.headerVideo}>
+                <source src={themeConfig.assets.headerVideo} type="video/mp4" />
              </video>
              <div className="overlay">
                 <h1 className="title">{name1}</h1>
@@ -94,10 +122,9 @@ function Rapunzel({ data }) {
              </div>
           </header>
 
-          {/* SECCIÓN CEREMONIA (Condicional) */}
           {showCeremony && (
             <section className="card-section">
-                <img src="/assets/Rapunzel/img/ceremonia.png" alt="Iglesia" className="section-icon" />
+                <img src={themeConfig.assets.ceremonyIcon} alt="Ceremonia" className="section-icon" />
                 <h2>Ceremonia Religiosa</h2>
                 <div className="card-content">
                     <p><strong>LUGAR:</strong> {ceremonyPlace}</p>
@@ -109,10 +136,9 @@ function Rapunzel({ data }) {
             </section>
           )}
 
-          {/* SECCIÓN FIESTA (Condicional) */}
           {showParty && (
             <section className="card-section">
-                <img src="/assets/Rapunzel/img/fiesta.png" alt="Fiesta" className="section-icon" />
+                <img src={themeConfig.assets.partyIcon} alt="Fiesta" className="section-icon" />
                 <h2>Fiesta</h2>
                 <div className="card-content">
                     <p><strong>SALÓN:</strong> {eventVenue || partyPlace}</p>
@@ -124,7 +150,6 @@ function Rapunzel({ data }) {
             </section>
           )}
 
-          {/* SECCIÓN CUENTA REGRESIVA (Condicional) */}
           {showCountdown && (
             <section className="countdown-section">
                 <h3 className="countdown-title">¡Pronto el gran día!</h3>
@@ -138,10 +163,9 @@ function Rapunzel({ data }) {
             </section>
           )}
 
-          {/* SECCIÓN DRESS CODE (Condicional) */}
           {showDressCode && (
             <section className="card-section">
-                <img src="/assets/Rapunzel/img/dresscode.jpg" alt="Dress Code" className="section-icon" />
+                <img src={themeConfig.assets.dressCodeIcon} alt="Dress Code" className="section-icon" />
                 <h2>Dress Code</h2>
                 <div className="card-content">
                     <p>Pedimos asistir con vestimenta <br/><strong>** Elegante **</strong></p>
@@ -149,10 +173,9 @@ function Rapunzel({ data }) {
             </section>
           )}
 
-          {/* SECCIÓN REGALOS (Condicional) */}
           {showGifts && (
             <section className="card-section">
-                <img src="/assets/Rapunzel/img/regalo.gif" alt="Regalo" className="section-icon" />
+                <img src={themeConfig.assets.giftIcon} alt="Regalo" className="section-icon" />
                 <h2>Regalos</h2>
                 <div className="card-content">
                     <p>Tu presencia es el mejor regalo en este día tan especial.</p>
@@ -165,7 +188,6 @@ function Rapunzel({ data }) {
             </section>
           )}
 
-          {/* SECCIÓN GALERÍA (Condicional) */}
           {showGallery && (
             <section className="slider-section">
                 <h2>Un momento único ♥</h2>
@@ -199,7 +221,7 @@ function Rapunzel({ data }) {
             </section>
           )}
 
-          <footer className="footer-rapunzel">
+          <footer className="footer-skeleton1">
              <h2>¡Gracias!</h2>
              <h3>{name1}</h3>
              <p>© 2025 - Todos los derechos reservados.</p>
@@ -211,4 +233,4 @@ function Rapunzel({ data }) {
   );
 }
 
-export default Rapunzel;
+export default Skeleton1;
