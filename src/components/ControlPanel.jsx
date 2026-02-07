@@ -20,7 +20,7 @@ function ControlPanel({ formData, setFormData }) {
         <h3>🎉 Datos Generales</h3>
         <div className="form-group">
           <label>Nombre 1 (Homenajeada/o o Novia)</label>
-          <input type="text" name="name1" value={formData.name1} onChange={handleChange} />
+          <input type="text" name="name1" value={formData.name1} onChange={handleChange} placeholder="Ej: Zoe" />
         </div>
         <div className="form-group">
           <label>Nombre 2 (Novio o Segundo Homenajeado - Opcional)</label>
@@ -213,8 +213,8 @@ function ControlPanel({ formData, setFormData }) {
         </div>
         {formData.showRSVP && (
             <div className="form-group">
-              <label>WhatsApp (Ej: 5493810000000)</label>
-              <input type="text" name="whatsappNumber" value={formData.whatsappNumber} onChange={handleChange} />
+          <label>WhatsApp (Incluir código de país)</label>
+          <input type="text" name="whatsappNumber" value={formData.whatsappNumber} onChange={handleChange} placeholder="Ej: 5493810000000" />
             </div>
         )}
       </div>
@@ -236,7 +236,7 @@ function ControlPanel({ formData, setFormData }) {
         {formData.showMusic && (
             <div className="form-group">
               <label>Link de Playlist o Formulario</label>
-              <input type="text" name="musicUrl" value={formData.musicUrl} onChange={handleChange} />
+              <input type="text" name="musicUrl" value={formData.musicUrl} onChange={handleChange} placeholder="https://spotify.com/..." />
             </div>
         )}
       </div>

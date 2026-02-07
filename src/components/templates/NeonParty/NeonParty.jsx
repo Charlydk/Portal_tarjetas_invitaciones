@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useCountdown } from '../../../hooks/useCountdown';
 import './NeonParty.css';
 
 function NeonParty({ data }) {
@@ -9,6 +10,7 @@ function NeonParty({ data }) {
     partyDateString = '10/10/2025',
     partyTime = '23:00 HS',
     partyPlace = 'CLUB GLOW',
+    eventVenue = '',
     partyAddress = 'Calle Falsa 123',
     partyMapUrl = '#',
     alias = 'FIESTA.NEON',
@@ -24,24 +26,7 @@ function NeonParty({ data }) {
     showMusic = true,
   } = data || {};
 
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  useEffect(() => {
-    const targetDate = new Date(eventDate).getTime();
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((difference % (1000 * 60)) / 1000),
-        });
-      } else clearInterval(interval);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [eventDate]);
+  const timeLeft = useCountdown(eventDate);
 
   const rsvpMessage = encodeURIComponent(`¡Hola! Confirmo mi asistencia a la Fiesta Neón de ${name1}.`);
 
@@ -74,7 +59,7 @@ function NeonParty({ data }) {
           <section className="neon-section neon-card">
             <h3 className="neon-card-title">CUÁNDO Y DÓNDE</h3>
             <p className="neon-text">{partyDateString} - {partyTime}</p>
-            <p className="neon-text">{partyPlace}</p>
+            <p className="neon-text">{eventVenue || partyPlace}</p>
             <p className="neon-text-small">{partyAddress}</p>
             <a href={partyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-neon">UBICACIÓN</a>
           </section>

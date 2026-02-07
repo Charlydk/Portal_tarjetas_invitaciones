@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import { useCountdown } from '../../../hooks/useCountdown';
 import './Rapunzel.css';
 
 function Rapunzel({ data }) {
@@ -15,6 +16,7 @@ function Rapunzel({ data }) {
     partyDateString = '15/11/2025',
     partyTime = '22:00 HS',
     partyPlace = 'Salón La Soñada',
+    eventVenue = '',
     partyAddress = 'Frias Silva 70, Yerba Buena',
     partyMapUrl = 'https://goo.gl/maps/tu-link-aqui-2',
     alias = 'Parra.Zoe.Mis.XV',
@@ -46,23 +48,7 @@ function Rapunzel({ data }) {
     }
   };
 
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  useEffect(() => {
-    const targetDate = new Date(eventDate).getTime();
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-      if (difference > 0) {
-        setTimeLeft({
-            days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-            hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-            minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-            seconds: Math.floor((difference % (1000 * 60)) / 1000),
-        });
-      } else clearInterval(interval);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [eventDate]);
+  const timeLeft = useCountdown(eventDate);
 
   // --- 3. RENDERIZADO (JSX) ---
   return (
@@ -129,7 +115,7 @@ function Rapunzel({ data }) {
                 <img src="/assets/Rapunzel/img/fiesta.png" alt="Fiesta" className="section-icon" />
                 <h2>Fiesta</h2>
                 <div className="card-content">
-                    <p><strong>SALÓN:</strong> {partyPlace}</p>
+                    <p><strong>SALÓN:</strong> {eventVenue || partyPlace}</p>
                     <p><strong>UBICACIÓN:</strong> {partyAddress}</p>
                     <p><strong>DÍA:</strong> {partyDateString}</p>
                     <p><strong>HORARIO:</strong> {partyTime} ¡Puntual!</p>

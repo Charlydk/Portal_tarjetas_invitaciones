@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useCountdown } from '../../../hooks/useCountdown';
 import './WeddingClassic.css';
 
 function WeddingClassic({ data }) {
@@ -14,6 +15,7 @@ function WeddingClassic({ data }) {
     partyDateString = '20/12/2025',
     partyTime = '21:00 HS',
     partyPlace = 'Quinta Las Magnolias',
+    eventVenue = '',
     partyAddress = 'Ruta 9 Km 1200',
     partyMapUrl = '#',
     alias = 'BODA.ANA.JUAN',
@@ -30,24 +32,7 @@ function WeddingClassic({ data }) {
     showMusic = true,
   } = data || {};
 
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  useEffect(() => {
-    const targetDate = new Date(eventDate).getTime();
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((difference % (1000 * 60)) / 1000),
-        });
-      } else clearInterval(interval);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [eventDate]);
+  const timeLeft = useCountdown(eventDate);
 
   const rsvpMessage = encodeURIComponent(`¡Hola! Confirmo mi asistencia a la boda de ${name1} y ${name2}.`);
 
@@ -60,7 +45,11 @@ function WeddingClassic({ data }) {
           <p className="invite-text">Nos complace invitarte a celebrar nuestro amor</p>
           <div className="wedding-date-header">
              <span className="line"></span>
-             <span className="date-text">{new Date(eventDate).toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
+             <span className="date-text">
+               {isNaN(new Date(eventDate).getTime())
+                 ? partyDateString
+                 : new Date(eventDate).toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })}
+             </span>
              <span className="line"></span>
           </div>
           <div className="wedding-ornament bottom"></div>
@@ -91,7 +80,7 @@ function WeddingClassic({ data }) {
         {showParty && (
           <section className="wedding-section">
             <h2 className="section-title-classic">Fiesta</h2>
-            <p>{partyPlace}</p>
+            <p>{eventVenue || partyPlace}</p>
             <p>{partyAddress}</p>
             <p>{partyDateString} - {partyTime}</p>
             <a href={partyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-classic">VER UBICACIÓN</a>
