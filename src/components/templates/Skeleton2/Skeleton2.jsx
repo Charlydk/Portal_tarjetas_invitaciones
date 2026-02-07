@@ -89,8 +89,10 @@ function Skeleton2({ data, theme }) {
             <div className="s2-card">
               <div className="s2-card-icon">{typeof themeConfig.assets.ceremonyIcon === 'string' && themeConfig.assets.ceremonyIcon.length > 2 ? <img src={themeConfig.assets.ceremonyIcon} alt=""/> : themeConfig.assets.ceremonyIcon}</div>
               <h3>CEREMONIA</h3>
-              <p>{ceremonyPlace}</p>
-              <p>{ceremonyDate} - {ceremonyTime}</p>
+              <div className="s2-card-content">
+                <p className="s2-place">{ceremonyPlace}</p>
+                <p className="s2-detail">{ceremonyDate} - {ceremonyTime}</p>
+              </div>
               <a href={ceremonyMapUrl} target="_blank" rel="noopener noreferrer" className="s2-btn">CÓMO LLEGAR</a>
             </div>
           )}
@@ -99,15 +101,17 @@ function Skeleton2({ data, theme }) {
             <div className="s2-card">
                <div className="s2-card-icon">{typeof themeConfig.assets.partyIcon === 'string' && themeConfig.assets.partyIcon.length > 2 ? <img src={themeConfig.assets.partyIcon} alt=""/> : themeConfig.assets.partyIcon}</div>
               <h3>FIESTA</h3>
-              <p>{eventVenue || partyPlace}</p>
-              <p>{partyDateString} - {partyTime}</p>
+              <div className="s2-card-content">
+                <p className="s2-place">{eventVenue || partyPlace}</p>
+                <p className="s2-detail">{partyDateString} - {partyTime}</p>
+              </div>
               <a href={partyMapUrl} target="_blank" rel="noopener noreferrer" className="s2-btn">UBICACIÓN</a>
             </div>
           )}
         </div>
 
         {showGallery && (
-          <section className="s2-section">
+          <section className="s2-section gallery-section">
             <h2 className="s2-section-title">NUESTROS MOMENTOS</h2>
             <div className="s2-gallery-grid">
                {[...Array(6)].map((_, i) => (
@@ -119,17 +123,19 @@ function Skeleton2({ data, theme }) {
           </section>
         )}
 
-        <div className="s2-info-row">
+        <div className="s2-grid secondary-grid">
             {showDressCode && (
-              <div className="s2-info-item">
+              <div className="s2-card info-card">
+                <div className="s2-card-icon small">{typeof themeConfig.assets.dressCodeIcon === 'string' && themeConfig.assets.dressCodeIcon.length > 2 ? <img src={themeConfig.assets.dressCodeIcon} alt=""/> : themeConfig.assets.dressCodeIcon}</div>
                 <h4>DRESS CODE</h4>
                 <p>Elegante</p>
               </div>
             )}
             {showGifts && (
-              <div className="s2-info-item">
+              <div className="s2-card info-card">
+                <div className="s2-card-icon small">{typeof themeConfig.assets.giftIcon === 'string' && themeConfig.assets.giftIcon.length > 2 ? <img src={themeConfig.assets.giftIcon} alt=""/> : themeConfig.assets.giftIcon}</div>
                 <h4>REGALOS</h4>
-                <p>CBU/Alias: {alias}</p>
+                <p>{alias}</p>
               </div>
             )}
         </div>
