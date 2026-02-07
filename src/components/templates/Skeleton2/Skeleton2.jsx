@@ -64,14 +64,15 @@ function Skeleton2({ data, theme }) {
 
   return (
     <div id="skeleton2-template" style={dynamicStyles}>
-      <header className="s2-hero">
-        <div className="s2-hero-content">
-          <h1 className="s2-title">{name1} {name2 && `& ${name2}`}</h1>
-          <p className="s2-subtitle">¡ESTÁS INVITADO!</p>
-        </div>
-      </header>
+      <div className="s2-scroll-container">
+        <header className="s2-hero">
+          <div className="s2-hero-content">
+            <h1 className="s2-title">{name1} {name2 && `& ${name2}`}</h1>
+            <p className="s2-subtitle">¡ESTÁS INVITADO!</p>
+          </div>
+        </header>
 
-      <div className="s2-container">
+        <div className="s2-container">
         {showCountdown && (
           <section className="s2-section s2-countdown">
             <div className="s2-timer">
@@ -146,9 +147,10 @@ function Skeleton2({ data, theme }) {
           </div>
         )}
 
-        <footer className="s2-footer">
-          <p>CON AMOR, {name1}</p>
-        </footer>
+          <footer className="s2-footer">
+            <p>CON AMOR, {name1}</p>
+          </footer>
+        </div>
       </div>
     </div>
   );

@@ -20,6 +20,7 @@ function Skeleton1({ data, theme }) {
     alias = 'Alias.Bancario',
     whatsappNumber = '',
     musicUrl = '',
+    eventSubtitle = '',
 
     showCeremony = true,
     showParty = true,
@@ -78,6 +79,7 @@ function Skeleton1({ data, theme }) {
     '--card-bg': themeConfig.styles.cardBackground,
     '--text-color': themeConfig.styles.textColor,
     '--bg-image': `url(${themeConfig.assets.backgroundImage})`,
+    '--header-bg': `url(${themeConfig.assets.headerImage || themeConfig.assets.backgroundImage})`,
   };
 
   return (
@@ -111,12 +113,23 @@ function Skeleton1({ data, theme }) {
       <div className="skeleton1-scroll-container">
         
           <header className="header">
-             <video className="video-background" autoPlay loop muted playsInline key={themeConfig.assets.headerVideo}>
-                <source src={themeConfig.assets.headerVideo} type="video/mp4" />
-             </video>
+             {themeConfig.assets.headerVideo ? (
+                <video className="video-background" autoPlay loop muted playsInline key={themeConfig.assets.headerVideo}>
+                   <source src={themeConfig.assets.headerVideo} type="video/mp4" />
+                </video>
+             ) : (
+                <div
+                  className="video-background"
+                  style={{
+                    backgroundImage: `url(${themeConfig.assets.headerImage || themeConfig.assets.backgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                ></div>
+             )}
              <div className="overlay">
                 <h1 className="title">{name1}</h1>
-                <h2 className="subtitle">¡Mis 15 Años!</h2> 
+                <h2 className="subtitle">{eventSubtitle || '¡ESTÁS INVITADO!'}</h2>
                 <p className="hero-text">Con cariño te invito a compartir este día tan especial.</p>
                 <div className="scroll-indicator">﹀ Desplazar hacia abajo</div>
              </div>
@@ -194,9 +207,9 @@ function Skeleton1({ data, theme }) {
                 <p>Entre luces, risas y sueños, este día se convierte en recuerdo.</p>
                 <div className="slider">
                     <ul>
-                    {[...Array(10)].map((_, i) => (
+                    {[...Array(5)].map((_, i) => (
                         <li key={i}>
-                            <img src={`/assets/Rapunzel/img/foto_${(i % 5) + 1}.jpg`} alt={`Foto ${i}`} />
+                            <img src={`https://picsum.photos/seed/${themeConfig.id}${i}/400/500`} alt={`Foto ${i}`} />
                         </li>
                     ))}
                     </ul>

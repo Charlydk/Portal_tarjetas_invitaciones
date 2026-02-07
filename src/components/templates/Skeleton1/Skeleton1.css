@@ -113,7 +113,10 @@
     text-align: center;  
     color: #fff;
     overflow: hidden;
-    background: #000;
+    background-color: #000;
+    background-image: var(--header-bg);
+    background-size: cover;
+    background-position: center;
 }
 
 #skeleton1-template .video-background {
