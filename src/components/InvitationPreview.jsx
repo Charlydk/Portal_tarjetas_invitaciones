@@ -2,14 +2,23 @@ import React from 'react';
 import './InvitationPreview.css';
 import Skeleton1 from './templates/Skeleton1/Skeleton1';
 import Skeleton2 from './templates/Skeleton2/Skeleton2';
+import Skeleton3 from './templates/Skeleton3/Skeleton3';
+import Skeleton4 from './templates/Skeleton4/Skeleton4';
+import Skeleton5 from './templates/Skeleton5/Skeleton5';
+import Skeleton6 from './templates/Skeleton6/Skeleton6';
 import WeddingClassic from './templates/WeddingClassic/WeddingClassic';
 import NeonParty from './templates/NeonParty/NeonParty';
 import Corporate from './templates/Corporate/Corporate';
+import TemplateWrapper from './TemplateWrapper';
 import { themes } from '../data/themes';
 
 const SKELETON_MAP = {
   'Skeleton1': Skeleton1,
   'Skeleton2': Skeleton2,
+  'Skeleton3': Skeleton3,
+  'Skeleton4': Skeleton4,
+  'Skeleton5': Skeleton5,
+  'Skeleton6': Skeleton6,
 };
 
 const OLD_TEMPLATE_MAP = {
@@ -27,7 +36,9 @@ function InvitationPreview({ formData, themeId }) {
     if (SkeletonComponent) {
       return (
         <div className="preview-frame-container">
-           <SkeletonComponent data={formData} theme={themeConfig} />
+           <TemplateWrapper themeConfig={themeConfig}>
+              <SkeletonComponent data={formData} theme={themeConfig} />
+           </TemplateWrapper>
         </div>
       );
     }

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { useCountdown } from '../../../hooks/useCountdown';
 import './Skeleton1.css';
 
@@ -54,19 +54,6 @@ function Skeleton1({ data, theme }) {
     }
   };
 
-  const [showModal, setShowModal] = useState(true);
-  const handleEnter = () => { setShowModal(false); toggleAudio(); };
-
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
-  const toggleAudio = () => {
-    if (audioRef.current && themeConfig.assets.audio) {
-      if (isPlaying) audioRef.current.pause();
-      else audioRef.current.play().catch(() => console.log("Play bloqueado"));
-      setIsPlaying(!isPlaying);
-    }
-  };
-
   const timeLeft = useCountdown(eventDate);
 
   // Estilos dinámicos basados en el theme
@@ -86,29 +73,6 @@ function Skeleton1({ data, theme }) {
     <div id="skeleton1-template" style={dynamicStyles}>
       
       <div className="skeleton1-fixed-bg"></div>
-
-      <div className={`modal-overlay ${!showModal ? 'hidden' : ''}`}>
-        <div className="modal-content">
-          <h2 className="modal-title">¡Bienvenidos!</h2>
-          <p>🎵 Hay un sonido que forma parte de esta experiencia... <br/> ¿Te gustaría escucharlo?</p>
-          <div className="modal-buttons">
-            <button onClick={handleEnter} className="btn-modal primary">Sí, ¡claro!</button>
-            <button onClick={() => setShowModal(false)} className="btn-modal secondary">No, gracias</button>
-          </div>
-        </div>
-      </div>
-
-      {themeConfig.assets.audio && (
-        <audio ref={audioRef} loop>
-          <source src={themeConfig.assets.audio} type="audio/mpeg" />
-        </audio>
-      )}
-
-      {themeConfig.assets.audio && (
-        <button id="musicToggleButton" className={`${!showModal ? 'active' : ''} ${isPlaying ? 'playing' : ''}`} onClick={toggleAudio}>
-          {isPlaying ? '⏸' : '▶'}
-        </button>
-      )}
 
       <div className="skeleton1-scroll-container">
         

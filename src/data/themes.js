@@ -30,14 +30,14 @@ export const themes = {
     name: 'Cenicienta',
     skeleton: 'Skeleton1',
     assets: {
-      headerVideo: '', // Removed flakey video
+      headerVideo: '',
       headerImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000',
       backgroundImage: 'https://images.unsplash.com/photo-1505628346881-b72b27e84530?q=80&w=1000',
       ceremonyIcon: '👑',
       partyIcon: '👠',
       dressCodeIcon: '👔',
       giftIcon: '💎',
-      audio: ''
+      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
     },
     styles: {
       primaryColor: '#87CEEB',
@@ -49,6 +49,62 @@ export const themes = {
       textColor: '#ffffff'
     }
   },
+  'quince-sectional': {
+    id: 'quince-sectional',
+    name: 'Quinceañera Premium',
+    skeleton: 'Skeleton3',
+    assets: {
+      backgroundImage: 'https://images.unsplash.com/photo-1519741497674-611481863552',
+      sectionPhotos: [
+        'https://images.unsplash.com/photo-1511795409834-ef04bbd61622',
+        'https://images.unsplash.com/photo-1519225421980-715cb0215aed',
+        'https://images.unsplash.com/photo-1469334031218-e382a71b716b',
+        'https://images.unsplash.com/photo-1522673607200-1648832cee98'
+      ],
+      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
+    },
+    styles: {
+      primaryColor: '#8e44ad',
+      textColor: '#ffffff',
+      fontFamilyTitle: "'Dancing Script', cursive",
+      fontFamilyBody: "'Raleway', sans-serif",
+    }
+  },
+  'minimal-elegant': {
+    id: 'minimal-elegant',
+    name: 'Minimalista Elegante',
+    skeleton: 'Skeleton4',
+    assets: {
+      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'
+    },
+    styles: {
+      primaryColor: '#000000',
+      fontFamilyTitle: "'Montserrat', sans-serif",
+      fontFamilyBody: "'Montserrat', sans-serif",
+    }
+  },
+  'interactive-cards': {
+    id: 'interactive-cards',
+    name: 'Tarjetas Interactivas',
+    skeleton: 'Skeleton5',
+    assets: {
+      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'
+    },
+    styles: {
+      primaryColor: '#f39c12',
+      cardBackground: '#fdfcf0',
+    }
+  },
+  'multimedia-reel': {
+    id: 'multimedia-reel',
+    name: 'Multimedia Reel',
+    skeleton: 'Skeleton6',
+    assets: {
+      headerVideo: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
+      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'
+    },
+    styles: {}
+  },
   'modern-15': {
     id: 'modern-15',
     name: 'Moderna 15',
@@ -58,7 +114,8 @@ export const themes = {
       ceremonyIcon: '⛪',
       partyIcon: '🥂',
       dressCodeIcon: '👗',
-      giftIcon: '✨'
+      giftIcon: '✨',
+      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3'
     },
     styles: {
       primaryColor: '#FF1493',
@@ -81,7 +138,7 @@ export const themes = {
       partyIcon: '🥂',
       dressCodeIcon: '👔',
       giftIcon: '💍',
-      audio: ''
+      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3'
     },
     styles: {
       primaryColor: '#D4AF37',
@@ -102,7 +159,8 @@ export const themes = {
       ceremonyIcon: '⚡',
       partyIcon: '🔊',
       dressCodeIcon: '👕',
-      giftIcon: '💥'
+      giftIcon: '💥',
+      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3'
     },
     styles: {
       primaryColor: '#00FFFF',
@@ -122,7 +180,8 @@ export const themes = {
       ceremonyIcon: '💼',
       partyIcon: '🤝',
       dressCodeIcon: '🕴️',
-      giftIcon: '📈'
+      giftIcon: '📈',
+      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3'
     },
     styles: {
       primaryColor: '#2c3e50',

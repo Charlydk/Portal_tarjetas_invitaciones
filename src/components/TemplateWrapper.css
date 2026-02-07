@@ -1,0 +1,109 @@
+.template-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.template-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* --- MODAL --- */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    width: 85%;
+    max-width: 320px;
+    color: #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.modal-title {
+    margin-top: 0;
+    font-family: 'Playfair Display', serif;
+    color: #333;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.btn-modal {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    flex: 1;
+    transition: all 0.2s;
+}
+
+.btn-modal.primary {
+    background: #007bff;
+    color: #fff;
+}
+
+.btn-modal.secondary {
+    background: #eee;
+    color: #666;
+}
+
+/* --- BOTÓN FLOTANTE --- */
+.music-toggle-btn {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: var(--primary-color, #007bff);
+    color: #fff;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    z-index: 9000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.music-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+.music-toggle-btn.playing {
+    animation: pulse-music 2s infinite;
+}
+
+@keyframes pulse-music {
+    0% { box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb, 0, 123, 255), 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(var(--primary-color-rgb, 0, 123, 255), 0); }
+    100% { box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb, 0, 123, 255), 0); }
+}

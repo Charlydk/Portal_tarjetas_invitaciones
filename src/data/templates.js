@@ -20,8 +20,44 @@ export const templates = [
       category: 'XV Años'
     },
     {
+      id: 'quince-premium',
+      title: 'Mis 15 - Premium Sectional',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500&q=80',
+      path: '/demo/quince-premium',
+      themeId: 'quince-sectional',
+      slug: 'quince-premium',
+      category: 'XV Años'
+    },
+    {
+      id: 'minimalist',
+      title: 'Minimalista Elegante',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?w=500&q=80',
+      path: '/demo/minimalist',
+      themeId: 'minimal-elegant',
+      slug: 'minimalist',
+      category: 'Elegante'
+    },
+    {
+      id: 'interactive',
+      title: 'Interactiva - Magic Cards',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&q=80',
+      path: '/demo/interactive',
+      themeId: 'interactive-cards',
+      slug: 'interactive',
+      category: 'Moderno'
+    },
+    {
+      id: 'multimedia',
+      title: 'Multimedia Reel Style',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&q=80',
+      path: '/demo/multimedia',
+      themeId: 'multimedia-reel',
+      slug: 'multimedia',
+      category: 'Digital'
+    },
+    {
       id: 'modern-15',
-      title: 'Mis 15 - Moderno',
+      title: 'Mis 15 - Moderno Grid',
       thumbnailUrl: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&q=80',
       path: '/demo/modern-15',
       themeId: 'modern-15',

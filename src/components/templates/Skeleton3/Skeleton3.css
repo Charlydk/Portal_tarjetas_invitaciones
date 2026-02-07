@@ -1,0 +1,137 @@
+#skeleton3-template {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    color: var(--text-color);
+    font-family: var(--font-body), sans-serif;
+}
+
+.s3-scroll-container {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.s3-section {
+    height: 100vh;
+    min-height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.s3-hero .s3-overlay {
+    background: rgba(0,0,0,0.4);
+    padding: 3rem;
+    text-align: center;
+    border: 2px solid #fff;
+}
+
+.s3-title {
+    font-family: var(--font-title), cursive;
+    font-size: 4.5rem;
+    margin: 0;
+}
+
+.s3-subtitle {
+    letter-spacing: 10px;
+    font-size: 1.2rem;
+}
+
+.s3-info-section {
+    padding: 60px 20px;
+    background: #fff;
+    color: #333;
+    text-align: center;
+}
+
+.s3-timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.s3-time-item span {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.s3-time-item p {
+    font-size: 0.7rem;
+    margin: 0;
+    color: #888;
+}
+
+.s3-divider-photo {
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Parallax effect on desktop */
+}
+
+/* On mobile, fixed background can be buggy, so we might want scroll */
+@media (max-width: 768px) {
+    .s3-divider-photo {
+        background-attachment: scroll;
+    }
+}
+
+.s3-section-title {
+    font-family: var(--font-title), cursive;
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.s3-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+.s3-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+.s3-btn.primary {
+    background: var(--primary-color);
+    color: #fff;
+    border-radius: 50px;
+}
+
+.s3-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+.s3-gallery img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.s3-gift-area {
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 1px dashed #ccc;
+}
+
+.s3-final-footer {
+    margin-top: 60px;
+}
+.s3-final-footer h3 {
+    font-family: var(--font-title), cursive;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}

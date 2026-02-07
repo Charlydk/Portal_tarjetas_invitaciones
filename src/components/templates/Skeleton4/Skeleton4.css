@@ -1,0 +1,86 @@
+#skeleton4-template {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    color: #000;
+    font-family: var(--font-body), sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.s4-container {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid #eee;
+    padding: 60px 20px;
+}
+
+.s4-title {
+    font-family: var(--font-title);
+    font-weight: 300;
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.s4-divider {
+    width: 40px;
+    height: 1px;
+    background: #000;
+    margin: 20px auto;
+}
+
+.s4-date-header {
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+}
+
+.s4-countdown {
+    margin: 40px 0;
+}
+.s4-time {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: #888;
+}
+
+.s4-section {
+    margin-bottom: 50px;
+}
+.s4-section h3 {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: #999;
+    margin-bottom: 15px;
+}
+.s4-section p {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+.s4-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: #000;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+}
+
+.s4-rsvp-btn {
+    display: block;
+    background: #000;
+    color: #fff;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-top: 30px;
+}
