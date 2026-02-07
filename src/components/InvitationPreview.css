@@ -113,12 +113,35 @@
   height: 730px;      /* Alto aproximado */
   border: 12px solid #333; /* Marco negro */
   border-radius: 30px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;   /* Cambiado de auto a hidden para evitar doble scrollbar */
   position: relative;
   margin: 0 auto;
   background: white;
   box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+
+/* Estilizamos el scrollbar interno para que parezca más de celular en PC */
+.preview-frame-container *::-webkit-scrollbar {
+  width: 5px;
+}
+
+.preview-frame-container *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.preview-frame-container *::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.preview-frame-container *::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Para Firefox */
+.preview-frame-container * {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
 /* Estilo Móvil (Sin marco, pantalla completa) */
