@@ -34,6 +34,20 @@
     padding: 60px 30px;
     box-sizing: border-box;
     text-align: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.s6-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.s6-content {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .s6-title {
@@ -69,13 +83,6 @@
     font-weight: bold;
     font-size: 0.8rem;
     letter-spacing: 1px;
-    animation: s6-pulse 2s infinite;
-}
-
-@keyframes s6-pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255,255,255,0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
 }
 
 .s6-footer {
@@ -85,11 +92,4 @@
 
 .s6-scroll-icon {
     font-size: 1.5rem;
-    animation: s6-bounce 2s infinite;
-}
-
-@keyframes s6-bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-10px); }
-    60% { transform: translateY(-5px); }
 }

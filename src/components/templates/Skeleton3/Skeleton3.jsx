@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useCountdown } from '../../../hooks/useCountdown';
 import './Skeleton3.css';
 
@@ -57,6 +58,13 @@ function Skeleton3({ data, theme }) {
 
   const sectionPhotos = themeConfig.assets.sectionPhotos || [];
 
+  const fadeInUp = {
+    initial: { opacity: 0, y: 50 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.8 }
+  };
+
   return (
     <div id="skeleton3-template" style={dynamicStyles}>
       <div className="s3-scroll-container">
@@ -64,13 +72,27 @@ function Skeleton3({ data, theme }) {
         {/* SECTION 1: HERO */}
         <section className="s3-section s3-hero" style={{ backgroundImage: `url(${sectionPhotos[0] || themeConfig.assets.backgroundImage})` }}>
            <div className="s3-overlay">
-              <h1 className="s3-title">{name1}</h1>
-              <p className="s3-subtitle">MIS XV AÑOS</p>
+              <motion.h1
+                className="s3-title"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+              >
+                {name1}
+              </motion.h1>
+              <motion.p
+                className="s3-subtitle"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 1 }}
+              >
+                MIS XV AÑOS
+              </motion.p>
            </div>
         </section>
 
         {/* SECTION 2: COUNTDOWN */}
-        <section className="s3-info-section">
+        <motion.section className="s3-info-section" {...fadeInUp}>
            {showCountdown && (
              <div className="s3-timer">
                 <div className="s3-time-item"><span>{timeLeft.days}</span><p>DÍAS</p></div>
@@ -80,19 +102,19 @@ function Skeleton3({ data, theme }) {
              </div>
            )}
            <p className="s3-intro-text">Hay momentos que son especiales, pero compartirlos con vos los hace inolvidables.</p>
-        </section>
+        </motion.section>
 
         {/* SECTION 3: CEREMONY */}
         {showCeremony && (
           <>
             <div className="s3-divider-photo" style={{ backgroundImage: `url(${sectionPhotos[1] || themeConfig.assets.backgroundImage})` }}></div>
-            <section className="s3-info-section">
+            <motion.section className="s3-info-section" {...fadeInUp}>
                 <h2 className="s3-section-title">Ceremonia</h2>
                 <p><strong>{ceremonyPlace}</strong></p>
                 <p>{ceremonyAddress}</p>
                 <p>{ceremonyDate} - {ceremonyTime}</p>
                 <a href={ceremonyMapUrl} className="s3-btn">¿CÓMO LLEGAR?</a>
-            </section>
+            </motion.section>
           </>
         )}
 
@@ -100,13 +122,13 @@ function Skeleton3({ data, theme }) {
         {showParty && (
           <>
             <div className="s3-divider-photo" style={{ backgroundImage: `url(${sectionPhotos[2] || themeConfig.assets.backgroundImage})` }}></div>
-            <section className="s3-info-section">
+            <motion.section className="s3-info-section" {...fadeInUp}>
                 <h2 className="s3-section-title">Fiesta</h2>
                 <p><strong>{eventVenue || partyPlace}</strong></p>
                 <p>{partyAddress}</p>
                 <p>{partyDateString} - {partyTime}</p>
                 <a href={partyMapUrl} className="s3-btn">UBICACIÓN</a>
-            </section>
+            </motion.section>
           </>
         )}
 
@@ -114,19 +136,24 @@ function Skeleton3({ data, theme }) {
         {showGallery && (
           <>
             <div className="s3-divider-photo" style={{ backgroundImage: `url(${sectionPhotos[3] || themeConfig.assets.backgroundImage})` }}></div>
-            <section className="s3-info-section">
+            <motion.section className="s3-info-section" {...fadeInUp}>
                 <h2 className="s3-section-title">Galería</h2>
                 <div className="s3-gallery">
                    {[...Array(4)].map((_, i) => (
-                     <img key={i} src={`https://picsum.photos/seed/s3-${i}/300/300`} alt="Gallery" />
+                     <motion.img
+                        key={i}
+                        src={`https://picsum.photos/seed/s3-${i}/300/300`}
+                        alt="Gallery"
+                        whileHover={{ scale: 1.05 }}
+                     />
                    ))}
                 </div>
-            </section>
+            </motion.section>
           </>
         )}
 
         {/* SECTION 6: RSVP & GIFTS */}
-        <section className="s3-info-section s3-footer-section">
+        <motion.section className="s3-info-section s3-footer-section" {...fadeInUp}>
            {showGifts && (
              <div className="s3-gift-area">
                 <h3>Regalos</h3>
@@ -143,7 +170,7 @@ function Skeleton3({ data, theme }) {
               <p>TE ESPERO PARA FESTEJAR JUNTOS</p>
               <h3>{name1}</h3>
            </footer>
-        </section>
+        </motion.section>
 
       </div>
     </div>

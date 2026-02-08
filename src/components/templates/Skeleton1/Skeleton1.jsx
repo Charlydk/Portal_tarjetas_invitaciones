@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useCountdown } from '../../../hooks/useCountdown';
 import './Skeleton1.css';
 
@@ -32,7 +33,6 @@ function Skeleton1({ data, theme }) {
     showMusic = true,
   } = data || {};
 
-  // Si no hay theme, usamos uno por defecto (Rapunzel)
   const themeConfig = theme || {
     assets: {
       headerVideo: '/assets/Rapunzel/video/Tangled_live_wallpaper.mp4',
@@ -41,7 +41,6 @@ function Skeleton1({ data, theme }) {
       partyIcon: '/assets/Rapunzel/img/fiesta.png',
       dressCodeIcon: '/assets/Rapunzel/img/dresscode.jpg',
       giftIcon: '/assets/Rapunzel/img/regalo.gif',
-      audio: '/assets/Rapunzel/audio/cancion.mp3'
     },
     styles: {
       primaryColor: '#FF69B4',
@@ -56,7 +55,6 @@ function Skeleton1({ data, theme }) {
 
   const timeLeft = useCountdown(eventDate);
 
-  // Estilos dinámicos basados en el theme
   const dynamicStyles = {
     '--primary-color': themeConfig.styles.primaryColor,
     '--secondary-color': themeConfig.styles.secondaryColor,
@@ -69,13 +67,28 @@ function Skeleton1({ data, theme }) {
     '--header-bg': `url(${themeConfig.assets.headerImage || themeConfig.assets.backgroundImage})`,
   };
 
+  const fadeInUp = {
+    initial: { opacity: 0, y: 50 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.8, ease: "easeOut" }
+  };
+
+  const renderIcon = (asset) => {
+    if (!asset) return null;
+    if (typeof asset === 'string' && asset.length > 3) {
+      return <img src={asset} alt="Icono" className="section-icon" />;
+    }
+    return <span className="section-icon-emoji">{asset}</span>;
+  };
+
   return (
     <div id="skeleton1-template" style={dynamicStyles}>
-      
+
       <div className="skeleton1-fixed-bg"></div>
 
       <div className="skeleton1-scroll-container">
-        
+
           <header className="header">
              {themeConfig.assets.headerVideo ? (
                 <video className="video-background" autoPlay loop muted playsInline key={themeConfig.assets.headerVideo}>
@@ -92,16 +105,37 @@ function Skeleton1({ data, theme }) {
                 ></div>
              )}
              <div className="overlay">
-                <h1 className="title">{name1}</h1>
-                <h2 className="subtitle">{eventSubtitle || '¡ESTÁS INVITADO!'}</h2>
-                <p className="hero-text">Con cariño te invito a compartir este día tan especial.</p>
+                <motion.h1
+                    className="title"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                >
+                    {name1}
+                </motion.h1>
+                <motion.h2
+                    className="subtitle"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 1 }}
+                >
+                    {eventSubtitle || '¡ESTÁS INVITADO!'}
+                </motion.h2>
+                <motion.p
+                    className="hero-text"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1, duration: 1 }}
+                >
+                    Con cariño te invito a compartir este día tan especial.
+                </motion.p>
                 <div className="scroll-indicator">﹀ Desplazar hacia abajo</div>
              </div>
           </header>
 
           {showCeremony && (
-            <section className="card-section">
-                <img src={themeConfig.assets.ceremonyIcon} alt="Ceremonia" className="section-icon" />
+            <motion.section className="card-section" {...fadeInUp}>
+                {renderIcon(themeConfig.assets.ceremonyIcon)}
                 <h2>Ceremonia Religiosa</h2>
                 <div className="card-content">
                     <p><strong>LUGAR:</strong> {ceremonyPlace}</p>
@@ -110,12 +144,12 @@ function Skeleton1({ data, theme }) {
                     <p><strong>HORARIO:</strong> {ceremonyTime}</p>
                     <a href={ceremonyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">CÓMO LLEGAR</a>
                 </div>
-            </section>
+            </motion.section>
           )}
 
           {showParty && (
-            <section className="card-section">
-                <img src={themeConfig.assets.partyIcon} alt="Fiesta" className="section-icon" />
+            <motion.section className="card-section" {...fadeInUp}>
+                {renderIcon(themeConfig.assets.partyIcon)}
                 <h2>Fiesta</h2>
                 <div className="card-content">
                     <p><strong>SALÓN:</strong> {eventVenue || partyPlace}</p>
@@ -124,11 +158,11 @@ function Skeleton1({ data, theme }) {
                     <p><strong>HORARIO:</strong> {partyTime} ¡Puntual!</p>
                     <a href={partyMapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">VER UBICACIÓN</a>
                 </div>
-            </section>
+            </motion.section>
           )}
 
           {showCountdown && (
-            <section className="countdown-section">
+            <motion.section className="countdown-section" {...fadeInUp}>
                 <h3 className="countdown-title">¡Pronto el gran día!</h3>
                 <div className="timer-container">
                     <div className="timer-box"><span>{timeLeft.days}</span><p>Días</p></div>
@@ -137,22 +171,22 @@ function Skeleton1({ data, theme }) {
                     <div className="timer-box"><span>{timeLeft.seconds}</span><p>Seg</p></div>
                 </div>
                 <p className="countdown-footer">Con vos compartiendo este momento, será aún más significativo. ¡Te espero!</p>
-            </section>
+            </motion.section>
           )}
 
           {showDressCode && (
-            <section className="card-section">
-                <img src={themeConfig.assets.dressCodeIcon} alt="Dress Code" className="section-icon" />
+            <motion.section className="card-section" {...fadeInUp}>
+                {renderIcon(themeConfig.assets.dressCodeIcon)}
                 <h2>Dress Code</h2>
                 <div className="card-content">
                     <p>Pedimos asistir con vestimenta <br/><strong>** Elegante **</strong></p>
                 </div>
-            </section>
+            </motion.section>
           )}
 
           {showGifts && (
-            <section className="card-section">
-                <img src={themeConfig.assets.giftIcon} alt="Regalo" className="section-icon" />
+            <motion.section className="card-section" {...fadeInUp}>
+                {renderIcon(themeConfig.assets.giftIcon)}
                 <h2>Regalos</h2>
                 <div className="card-content">
                     <p>Tu presencia es el mejor regalo en este día tan especial.</p>
@@ -162,11 +196,11 @@ function Skeleton1({ data, theme }) {
                         <p className="alias-text">Alias: <strong>{alias}</strong></p>
                     </div>
                 </div>
-            </section>
+            </motion.section>
           )}
 
           {showGallery && (
-            <section className="slider-section">
+            <motion.section className="slider-section" {...fadeInUp}>
                 <h2>Un momento único ♥</h2>
                 <p>Entre luces, risas y sueños, este día se convierte en recuerdo.</p>
                 <div className="slider">
@@ -179,31 +213,31 @@ function Skeleton1({ data, theme }) {
                     </ul>
                 </div>
                 <a href="#" className="btn-action photo-btn">Compartí tus fotos</a>
-            </section>
+            </motion.section>
           )}
 
           {showRSVP && (
-            <section className="card-section">
+            <motion.section className="card-section" {...fadeInUp}>
                 <h2>Confirmación</h2>
                 <p>¡Espero contar con tu presencia!</p>
                 <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('¡Hola! Confirmo mi asistencia.')}`} target="_blank" rel="noopener noreferrer" className="btn-action">CONFIRMAR ASISTENCIA</a>
-            </section>
+            </motion.section>
           )}
 
           {showMusic && (
-            <section className="card-section">
+            <motion.section className="card-section" {...fadeInUp}>
                 <h2>Música</h2>
                 <p>¿Qué canciones querés escuchar?</p>
                 <a href={musicUrl} target="_blank" rel="noopener noreferrer" className="btn-action">SUGERIR CANCIÓN</a>
-            </section>
+            </motion.section>
           )}
 
-          <footer className="footer-skeleton1">
+          <motion.footer className="footer-skeleton1" {...fadeInUp}>
              <h2>¡Gracias!</h2>
              <h3>{name1}</h3>
              <p>© 2025 - Todos los derechos reservados.</p>
              <p className="dev-credit">Desarrollo web por InvitaWeb</p>
-          </footer>
+          </motion.footer>
       </div>
 
     </div>

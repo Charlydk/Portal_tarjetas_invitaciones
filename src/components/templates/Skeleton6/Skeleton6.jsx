@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import './Skeleton6.css';
 
 function Skeleton6({ data, theme }) {
@@ -19,25 +20,57 @@ function Skeleton6({ data, theme }) {
          <div className="s6-gradient-overlay"></div>
       </div>
 
-      <div className="s6-content">
-         <header className="s6-header">
-            <h1 className="s6-title">{name1}</h1>
+      <div className="s6-content s6-scroll-container">
+         <motion.header
+           className="s6-header"
+           initial={{ opacity: 0, y: -20 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 1, delay: 0.5 }}
+         >
+            <motion.h1
+              className="s6-title"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              {name1}
+            </motion.h1>
             <p className="s6-subtitle">{eventSubtitle}</p>
-         </header>
+         </motion.header>
 
-         <div className="s6-center-box">
+         <motion.div
+           className="s6-center-box"
+           initial={{ opacity: 0 }}
+           animate={{ opacity: 1 }}
+           transition={{ duration: 1, delay: 1 }}
+         >
             <div className="s6-floating-info">
                <p>Vive esta experiencia inolvidable junto a nosotros.</p>
-               <div className="s6-pulse-btn">
+               <motion.div
+                 className="s6-pulse-btn"
+                 animate={{ scale: [1, 1.05, 1] }}
+                 transition={{ duration: 2, repeat: Infinity }}
+               >
                   <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">CONFIRMAR ASISTENCIA</a>
-               </div>
+               </motion.div>
             </div>
-         </div>
+         </motion.div>
 
-         <footer className="s6-footer">
+         <motion.footer
+           className="s6-footer"
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 1, delay: 1.5 }}
+         >
             <p>Desliza para descubrir más detalles</p>
-            <div className="s6-scroll-icon">↓</div>
-         </footer>
+            <motion.div
+              className="s6-scroll-icon"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              ↓
+            </motion.div>
+         </motion.footer>
       </div>
     </div>
   );
