@@ -22,6 +22,8 @@ function Skeleton4({ data, theme }) {
     showCeremony = true,
     showParty = true,
     showCountdown = true,
+    showDressCode = true,
+    showGifts = true,
     showRSVP = true,
   } = data || {};
 
@@ -111,6 +113,21 @@ function Skeleton4({ data, theme }) {
                >
                  UBICACIÓN
                </motion.a>
+            </motion.section>
+          )}
+
+          {showDressCode && (
+            <motion.section className="s4-section" variants={fadeInUp}>
+               <h3>DRESS CODE</h3>
+               <p>Elegante</p>
+            </motion.section>
+          )}
+
+          {showGifts && (
+            <motion.section className="s4-section" variants={fadeInUp}>
+               <h3>REGALOS</h3>
+               <p>Tu presencia es nuestro mejor regalo.</p>
+               <p>CBU/Alias: <strong>{data.alias || 'Alias.Bancario'}</strong></p>
             </motion.section>
           )}
         </motion.main>

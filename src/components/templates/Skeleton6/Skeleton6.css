@@ -28,10 +28,7 @@
     position: relative;
     z-index: 1;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 60px 30px;
+    padding: 0 30px;
     box-sizing: border-box;
     text-align: center;
     overflow-y: auto;
@@ -50,11 +47,21 @@
     scrollbar-width: none;  /* Firefox */
 }
 
+.s6-full-height {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px;
+}
+
 .s6-title {
-    font-size: 3rem;
+    font-size: 4rem;
     font-weight: 800;
     margin: 0;
     letter-spacing: -2px;
+    line-height: 1;
 }
 
 .s6-subtitle {
@@ -62,6 +69,59 @@
     letter-spacing: 5px;
     text-transform: uppercase;
     opacity: 0.8;
+    margin-top: 1rem;
+}
+
+.s6-scroll-hint {
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.s6-info-card-section {
+    padding: 2rem 0;
+    width: 100%;
+}
+
+.s6-card-blur {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    padding: 2.5rem 1.5rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.s6-card-blur h3 {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+    margin-top: 0;
+}
+
+.s6-place {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.s6-countdown-mini {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.s6-countdown-mini span {
+    font-size: 2rem;
+    font-weight: 700;
+    display: block;
+}
+
+.s6-countdown-mini p {
+    font-size: 0.6rem;
+    opacity: 0.6;
+    margin: 0;
 }
 
 .s6-floating-info {
@@ -85,11 +145,8 @@
     letter-spacing: 1px;
 }
 
-.s6-footer {
-    opacity: 0.6;
+.s6-footer-minimal {
+    padding: 3rem 0;
+    opacity: 0.5;
     font-size: 0.8rem;
-}
-
-.s6-scroll-icon {
-    font-size: 1.5rem;
 }

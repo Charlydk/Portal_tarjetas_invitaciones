@@ -14,26 +14,35 @@ function Skeleton5({ data, theme }) {
     whatsappNumber = '',
     musicUrl = '',
     eventVenue = '',
+
+    showCeremony = true,
+    showParty = true,
+    showCountdown = true,
+    showDressCode = true,
+    showGifts = true,
+    showGallery = true,
+    showRSVP = true,
+    showMusic = true,
   } = data || {};
 
   const [activeCard, setActiveCard] = useState(null);
   const timeLeft = useCountdown(eventDate);
 
   const cards = [
-    {
+    showCountdown && {
         id: 'countdown',
         title: 'FALTAN',
         icon: '⏳',
         content: `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`
     },
-    { id: 'when', title: '¿CUÁNDO?', icon: '📅', content: partyDateString },
-    { id: 'where', title: '¿DÓNDE?', icon: '📍', content: `${ceremonyPlace} / ${eventVenue || partyPlace}` },
-    { id: 'dresscode', title: 'DRESS CODE', icon: '👗', content: 'Elegante' },
-    { id: 'album', title: 'ÁLBUM', icon: '📸', content: '¡Toca para ver nuestras fotos!' },
-    { id: 'music', title: 'MÚSICA', icon: '🎵', content: '¿Qué canción no puede faltar?' },
-    { id: 'gifts', title: 'REGALOS', icon: '🎁', content: `CBU/Alias: ${alias}` },
-    { id: 'rsvp', title: 'ASISTENCIA', icon: '✅', content: 'Confirmar por WhatsApp' },
-  ];
+    (showCeremony || showParty) && { id: 'when', title: '¿CUÁNDO?', icon: '📅', content: partyDateString },
+    (showCeremony || showParty) && { id: 'where', title: '¿DÓNDE?', icon: '📍', content: `${ceremonyPlace} / ${eventVenue || partyPlace}` },
+    showDressCode && { id: 'dresscode', title: 'DRESS CODE', icon: '👗', content: 'Elegante' },
+    showGallery && { id: 'album', title: 'ÁLBUM', icon: '📸', content: '¡Toca para ver nuestras fotos!' },
+    showMusic && { id: 'music', title: 'MÚSICA', icon: '🎵', content: '¿Qué canción no puede faltar?' },
+    showGifts && { id: 'gifts', title: 'REGALOS', icon: '🎁', content: `CBU/Alias: ${alias}` },
+    showRSVP && { id: 'rsvp', title: 'ASISTENCIA', icon: '✅', content: 'Confirmar por WhatsApp' },
+  ].filter(Boolean);
 
   const dynamicStyles = {
     '--primary-color': theme?.styles?.primaryColor || '#f39c12',
@@ -139,7 +148,7 @@ function Skeleton5({ data, theme }) {
         </motion.div>
 
         <AnimatePresence>
-          {activeCard === 'album' && (
+          {activeCard === 'album' && showGallery && (
               <motion.div
                 className="s5-gallery-preview"
                 initial={{ opacity: 0, height: 0 }}
@@ -147,13 +156,13 @@ function Skeleton5({ data, theme }) {
                 exit={{ opacity: 0, height: 0 }}
               >
                   <div className="s5-gallery-grid">
-                      {[...Array(4)].map((_, i) => (
+                      {(theme?.assets?.sectionPhotos || [...Array(4)]).map((src, i) => (
                           <motion.img
                             key={i}
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ delay: i * 0.1 }}
-                            src={`https://picsum.photos/seed/s5-${i}/200/200`}
+                            src={typeof src === 'string' ? src : `https://picsum.photos/seed/s5-${i}/200/200`}
                             alt="Gallery"
                           />
                       ))}

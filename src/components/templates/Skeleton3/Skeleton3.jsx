@@ -6,6 +6,7 @@ import './Skeleton3.css';
 function Skeleton3({ data, theme }) {
   const {
     name1 = 'Nombre',
+    name2 = '',
     eventDate = '2025-11-15T22:00:00',
     ceremonyDate = '11/11/2025',
     ceremonyTime = '19:30 HS',
@@ -24,6 +25,7 @@ function Skeleton3({ data, theme }) {
     showCeremony = true,
     showParty = true,
     showCountdown = true,
+    showDressCode = true,
     showGifts = true,
     showGallery = true,
     showRSVP = true,
@@ -86,7 +88,7 @@ function Skeleton3({ data, theme }) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 1 }}
               >
-                MIS XV AÑOS
+                {name2 ? 'NUESTRA BODA' : 'MI FIESTA'}
               </motion.p>
            </div>
         </section>
@@ -132,7 +134,16 @@ function Skeleton3({ data, theme }) {
           </>
         )}
 
-        {/* SECTION 5: GALLERY */}
+        {/* SECTION 5: DRESS CODE */}
+        {showDressCode && (
+          <motion.section className="s3-info-section" {...fadeInUp}>
+              <h2 className="s3-section-title">Dress Code</h2>
+              <p>La vestimenta para este evento es:</p>
+              <p><strong>Elegante</strong></p>
+          </motion.section>
+        )}
+
+        {/* SECTION 6: GALLERY */}
         {showGallery && (
           <>
             <div className="s3-divider-photo" style={{ backgroundImage: `url(${sectionPhotos[3] || themeConfig.assets.backgroundImage})` }}></div>

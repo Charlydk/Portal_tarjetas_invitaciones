@@ -1,25 +1,54 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
 function Navbar() {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+
+  const scrollToSection = (id) => {
+    if (isHome) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <a href="/" className="navbar-logo">
+        <Link to="/" className="navbar-logo">
           InvitaWeb
-        </a>
+        </Link>
         <ul className="nav-menu">
           <li className="nav-item">
-            <a href="#templates" className="nav-link">Modelos</a>
+            {isHome ? (
+              <a href="#templates" className="nav-link" onClick={() => scrollToSection('templates')}>Modelos</a>
+            ) : (
+              <Link to="/#templates" className="nav-link">Modelos</Link>
+            )}
           </li>
           <li className="nav-item">
-            <a href="#features" className="nav-link">Características</a>
+             {isHome ? (
+              <a href="#features" className="nav-link" onClick={() => scrollToSection('features')}>Características</a>
+            ) : (
+              <Link to="/#features" className="nav-link">Características</Link>
+            )}
           </li>
           <li className="nav-item">
-            <a href="#faq" className="nav-link">Preguntas</a>
+             {isHome ? (
+              <a href="#faq" className="nav-link" onClick={() => scrollToSection('faq')}>Preguntas</a>
+            ) : (
+              <Link to="/#faq" className="nav-link">Preguntas</Link>
+            )}
           </li>
           <li className="nav-item">
-            <a href="#contact" className="nav-link nav-button">¡La quiero!</a>
+             {isHome ? (
+              <a href="#contact" className="nav-link nav-button" onClick={() => scrollToSection('contact')}>¡La quiero!</a>
+            ) : (
+              <Link to="/#contact" className="nav-link nav-button">¡La quiero!</Link>
+            )}
           </li>
         </ul>
       </div>
