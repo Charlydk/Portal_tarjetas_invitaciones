@@ -1,19 +1,33 @@
 // src/data/themes.js
 
+const SHARED_ASSETS = {
+  video1: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
+  audio1: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+  audio2: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+  audio3: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+  audio4: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+  audio5: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
+  audio6: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
+  audio8: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
+  audio9: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
+  audio10: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3',
+  audio11: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3',
+};
+
 export const themes = {
   'rapunzel': {
     id: 'rapunzel',
     name: 'Rapunzel',
     skeleton: 'Skeleton1',
     assets: {
-      headerVideo: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
+      headerVideo: SHARED_ASSETS.video1,
       headerImage: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1000',
       backgroundImage: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000',
       ceremonyIcon: '🌸',
       partyIcon: '🏮',
       dressCodeIcon: '👗',
       giftIcon: '🎁',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+      audio: SHARED_ASSETS.audio1
     },
     styles: {
       primaryColor: '#FF69B4',
@@ -37,7 +51,7 @@ export const themes = {
       partyIcon: '👠',
       dressCodeIcon: '👔',
       giftIcon: '💎',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
+      audio: SHARED_ASSETS.audio2
     },
     styles: {
       primaryColor: '#87CEEB',
@@ -61,7 +75,7 @@ export const themes = {
         'https://images.unsplash.com/photo-1469334031218-e382a71b716b',
         'https://images.unsplash.com/photo-1522673607200-1648832cee98'
       ],
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
+      audio: SHARED_ASSETS.audio3
     },
     styles: {
       primaryColor: '#8e44ad',
@@ -75,7 +89,7 @@ export const themes = {
     name: 'Minimalista Elegante',
     skeleton: 'Skeleton4',
     assets: {
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'
+      audio: SHARED_ASSETS.audio4
     },
     styles: {
       primaryColor: '#000000',
@@ -88,7 +102,7 @@ export const themes = {
     name: 'Tarjetas Interactivas',
     skeleton: 'Skeleton5',
     assets: {
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'
+      audio: SHARED_ASSETS.audio5
     },
     styles: {
       primaryColor: '#f39c12',
@@ -100,8 +114,8 @@ export const themes = {
     name: 'Multimedia Reel',
     skeleton: 'Skeleton6',
     assets: {
-      headerVideo: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'
+      headerVideo: SHARED_ASSETS.video1,
+      audio: SHARED_ASSETS.audio6
     },
     styles: {}
   },
@@ -115,7 +129,7 @@ export const themes = {
       partyIcon: '🥂',
       dressCodeIcon: '👗',
       giftIcon: '✨',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3'
+      audio: SHARED_ASSETS.audio8
     },
     styles: {
       primaryColor: '#FF1493',
@@ -138,7 +152,7 @@ export const themes = {
       partyIcon: '🥂',
       dressCodeIcon: '👔',
       giftIcon: '💍',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3'
+      audio: SHARED_ASSETS.audio9
     },
     styles: {
       primaryColor: '#D4AF37',
@@ -160,7 +174,7 @@ export const themes = {
       partyIcon: '🔊',
       dressCodeIcon: '👕',
       giftIcon: '💥',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3'
+      audio: SHARED_ASSETS.audio10
     },
     styles: {
       primaryColor: '#00FFFF',
@@ -181,7 +195,7 @@ export const themes = {
       partyIcon: '🤝',
       dressCodeIcon: '🕴️',
       giftIcon: '📈',
-      audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3'
+      audio: SHARED_ASSETS.audio11
     },
     styles: {
       primaryColor: '#2c3e50',

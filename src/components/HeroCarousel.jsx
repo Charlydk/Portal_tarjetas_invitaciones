@@ -2,6 +2,12 @@ import React from 'react';
 import Slider from 'react-slick';
 import './HeroCarousel.css';
 
+// Importación de imágenes desde src/assets para que Vite las procese (hashing, optimización)
+import img1 from '../assets/carousel/carrusel-1.png';
+import img2 from '../assets/carousel/carrusel-2.png';
+import img3 from '../assets/carousel/carrusel-3.png';
+import img4 from '../assets/carousel/carrusel-4.png';
+
 function HeroCarousel() {
   // Configuración del carrusel
   const settings = {
@@ -16,12 +22,7 @@ function HeroCarousel() {
     arrows: false,      // Oculta las flechas de navegación
   };
 
-  const images = [
-    '/assets/carrusel-1.png',
-    '/assets/carrusel-2.png',
-    '/assets/carrusel-3.png',
-    '/assets/carrusel-4.png',
-  ];
+  const images = [img1, img2, img3, img4];
 
   return (
     <div className="hero-carousel">

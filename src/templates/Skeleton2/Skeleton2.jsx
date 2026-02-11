@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useCountdown } from '../../../hooks/useCountdown';
+import { useCountdown } from '../../hooks/useCountdown';
 import './Skeleton2.css';
 
 function Skeleton2({ data, theme }) {

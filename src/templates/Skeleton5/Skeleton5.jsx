@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCountdown } from '../../../hooks/useCountdown';
+import { useCountdown } from '../../hooks/useCountdown';
 import './Skeleton5.css';
 
 function Skeleton5({ data, theme }) {

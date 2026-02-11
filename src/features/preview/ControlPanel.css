@@ -77,3 +77,14 @@
   font-size: 0.8rem;
   cursor: pointer;
 }
+
+.input-error {
+  border-color: #dc3545 !important;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 4px;
+}

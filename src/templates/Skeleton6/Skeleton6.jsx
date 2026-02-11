@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useCountdown } from '../../../hooks/useCountdown';
+import { useCountdown } from '../../hooks/useCountdown';
 import './Skeleton6.css';
 
 function Skeleton6({ data, theme }) {
@@ -25,6 +25,14 @@ function Skeleton6({ data, theme }) {
 
   const themeConfig = theme || {};
 
+  const dynamicStyles = {
+    '--primary-color': themeConfig.styles?.primaryColor || 'var(--primary-color)',
+    '--secondary-color': themeConfig.styles?.secondaryColor || 'var(--secondary-color)',
+    '--font-title': themeConfig.styles?.fontFamilyTitle || 'var(--font-title)',
+    '--font-body': themeConfig.styles?.fontFamilyBody || 'var(--font-body)',
+    '--text-color': themeConfig.styles?.textColor || '#ffffff',
+  };
+
   const fadeInUp = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
@@ -33,7 +41,7 @@ function Skeleton6({ data, theme }) {
   };
 
   return (
-    <div id="skeleton6-template">
+    <div id="skeleton6-template" style={dynamicStyles}>
       <div className="s6-video-bg">
          <video autoPlay loop muted playsInline key={themeConfig.assets?.headerVideo}>
             <source src={themeConfig.assets?.headerVideo} type="video/mp4" />

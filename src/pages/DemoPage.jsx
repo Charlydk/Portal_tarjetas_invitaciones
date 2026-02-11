@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ControlPanel from '../components/ControlPanel';
-import InvitationPreview from '../components/InvitationPreview';
+import ControlPanel from '../features/preview/ControlPanel';
+import InvitationPreview from '../features/preview/InvitationPreview';
 import { templates } from '../data/templates';
 import './DemoPage.css';
 

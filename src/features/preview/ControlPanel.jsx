@@ -28,7 +28,14 @@ function ControlPanel({ formData, setFormData }) {
         </div>
         <div className="form-group">
           <label>Fecha Real del Evento (Para el contador)</label>
-          <input type="datetime-local" name="eventDate" value={formData.eventDate} onChange={handleChange} />
+          <input
+            type="datetime-local"
+            name="eventDate"
+            value={formData.eventDate}
+            onChange={handleChange}
+            className={!formData.eventDate ? 'input-error' : ''}
+          />
+          {!formData.eventDate && <small className="error-text">La fecha es necesaria para el contador.</small>}
         </div>
         <div className="form-group">
           <label>Nombre del Lugar (General)</label>

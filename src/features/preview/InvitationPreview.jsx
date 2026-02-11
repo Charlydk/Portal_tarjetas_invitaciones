@@ -1,16 +1,13 @@
 import React from 'react';
 import './InvitationPreview.css';
-import Skeleton1 from './templates/Skeleton1/Skeleton1';
-import Skeleton2 from './templates/Skeleton2/Skeleton2';
-import Skeleton3 from './templates/Skeleton3/Skeleton3';
-import Skeleton4 from './templates/Skeleton4/Skeleton4';
-import Skeleton5 from './templates/Skeleton5/Skeleton5';
-import Skeleton6 from './templates/Skeleton6/Skeleton6';
-import WeddingClassic from './templates/WeddingClassic/WeddingClassic';
-import NeonParty from './templates/NeonParty/NeonParty';
-import Corporate from './templates/Corporate/Corporate';
+import Skeleton1 from '../../templates/Skeleton1/Skeleton1';
+import Skeleton2 from '../../templates/Skeleton2/Skeleton2';
+import Skeleton3 from '../../templates/Skeleton3/Skeleton3';
+import Skeleton4 from '../../templates/Skeleton4/Skeleton4';
+import Skeleton5 from '../../templates/Skeleton5/Skeleton5';
+import Skeleton6 from '../../templates/Skeleton6/Skeleton6';
 import TemplateWrapper from './TemplateWrapper';
-import { themes } from '../data/themes';
+import { themes } from '../../data/themes';
 
 const SKELETON_MAP = {
   'Skeleton1': Skeleton1,
@@ -19,12 +16,6 @@ const SKELETON_MAP = {
   'Skeleton4': Skeleton4,
   'Skeleton5': Skeleton5,
   'Skeleton6': Skeleton6,
-};
-
-const OLD_TEMPLATE_MAP = {
-  'theme-wedding': WeddingClassic,
-  'theme-neon': NeonParty,
-  'theme-corporate': Corporate,
 };
 
 function InvitationPreview({ formData, themeId }) {
@@ -44,17 +35,7 @@ function InvitationPreview({ formData, themeId }) {
     }
   }
 
-  // 2. Fallback al sistema antiguo (compatibilidad)
-  const OldTemplateComponent = OLD_TEMPLATE_MAP[themeId];
-  if (OldTemplateComponent) {
-    return (
-      <div className="preview-frame-container">
-         <OldTemplateComponent data={formData} />
-      </div>
-    );
-  }
-
-  // 3. Fallback genérico
+  // 2. Fallback genérico
   return (
     <div className="preview-frame-container">
       <div className="invitation-preview generic">
