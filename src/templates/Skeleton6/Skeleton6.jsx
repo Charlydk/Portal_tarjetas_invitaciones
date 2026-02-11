@@ -9,6 +9,7 @@ function Skeleton6({ data, theme }) {
     name2 = '',
     eventDate = '2025-11-15T22:00:00',
     eventSubtitle = '¡ESTÁS INVITADO!',
+    welcomePhrase = '',
     ceremonyPlace = 'Parroquia',
     ceremonyDate = '11/11/2025',
     ceremonyTime = '19:30 HS',
@@ -64,7 +65,7 @@ function Skeleton6({ data, theme }) {
             >
               {name1} {name2 && `& ${name2}`}
             </motion.h1>
-            <p className="s6-subtitle">{eventSubtitle}</p>
+            <p className="s6-subtitle">{welcomePhrase || eventSubtitle}</p>
 
             <div className="s6-scroll-hint">
                <p>Desliza para ver detalles</p>

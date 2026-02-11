@@ -22,6 +22,7 @@ function Skeleton1({ data, theme }) {
     whatsappNumber = '',
     musicUrl = '',
     eventSubtitle = '',
+    welcomePhrase = '',
 
     showCeremony = true,
     showParty = true,
@@ -119,7 +120,7 @@ function Skeleton1({ data, theme }) {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5, duration: 1 }}
                 >
-                    {eventSubtitle || '¡ESTÁS INVITADO!'}
+                    {welcomePhrase || eventSubtitle || '¡ESTÁS INVITADO!'}
                 </motion.h2>
                 <motion.p
                     className="hero-text"

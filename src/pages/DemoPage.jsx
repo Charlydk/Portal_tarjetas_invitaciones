@@ -16,6 +16,7 @@ function DemoPage() {
   const [formData, setFormData] = useState({
     name1: 'Zoe',
     name2: 'Lucas',
+    welcomePhrase: '¡Estás invitado!',
     eventDate: '2025-11-15T22:00:00',
     eventVenue: 'Salón La Soñada',
     ceremonyDate: '11/11/2025',
