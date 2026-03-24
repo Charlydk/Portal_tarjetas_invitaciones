@@ -1,0 +1,72 @@
+.featuredDemoSection {
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.sectionSubtitle {
+  max-width: 600px;
+  margin: 0 auto 2.5rem auto;
+  font-size: 1.1rem;
+  color: #6c757d;
+}
+
+.phoneMockup {
+  position: relative;
+  width: 375px;
+  height: 760px;
+  margin: 2rem auto;
+  border: 12px solid #111;
+  border-radius: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background-color: #111;
+}
+
+.phoneNotch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 25px;
+  background-color: #111;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  z-index: 2;
+}
+
+.phoneScreenContainer {
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+}
+
+.phoneScreen {
+  display: block;
+  width: calc(100% + 15px);
+  height: 100%;
+  border: none;
+  background-color: #fff;
+}
+
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .phoneMockup {
+    transform: scale(0.8);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}

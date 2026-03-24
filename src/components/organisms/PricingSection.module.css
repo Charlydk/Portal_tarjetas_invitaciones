@@ -1,0 +1,124 @@
+.pricingSection {
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.pricingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pricingCard {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.pricingCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.popular {
+  border-color: #007bff;
+  transform: scale(1.05); 
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.2);
+}
+
+.popularBadge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.3rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.planName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.planDescription {
+  font-size: 0.9rem;
+  color: #6c757d;
+  height: 60px; 
+}
+
+.planPrice {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #007bff;
+  margin: 1.5rem 0;
+}
+
+.priceUnit {
+  font-size: 1rem;
+  color: #6c757d;
+  font-weight: normal;
+}
+
+.planFeatures {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.planFeatures li {
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.ctaButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.planCta {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+}

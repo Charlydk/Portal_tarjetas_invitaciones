@@ -1,0 +1,44 @@
+.finalCtaSection {
+  background-color: #343a40;
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background-color 0.2s, transform 0.2s;
+  margin-top: 1rem;
+}
+
+.ctaButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.ctaButtonSecondary {
+  background-color: #28a745;
+}
+
+.ctaButtonSecondary:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+}

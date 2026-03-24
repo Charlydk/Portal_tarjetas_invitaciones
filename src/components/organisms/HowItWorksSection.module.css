@@ -1,0 +1,36 @@
+.howItWorksSection {
+  padding: 4rem 2rem;
+  background-color: #fff;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.stepsContainer {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap; 
+}
+
+.step {
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
+}
+
+.step h3 {
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+}
