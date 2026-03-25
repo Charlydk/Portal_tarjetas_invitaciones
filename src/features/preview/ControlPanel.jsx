@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { invitationModels } from '../../data/models';
 import './ControlPanel.css';
 
 function ControlPanel({ formData, setFormData }) {
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 4;
+  const totalSteps = 5;
 
   // Función que maneja tanto texto como casillas de verificación (checkboxes)
   const handleChange = (e) => {
@@ -15,11 +16,16 @@ function ControlPanel({ formData, setFormData }) {
     }));
   };
 
+  const currentModel = invitationModels.find(m => m.id === formData.modelId);
+
   const nextStep = () => {
     if (currentStep === 1) {
+      if (!formData.modelId || !formData.variantId) {
+        return;
+      }
+    }
+    if (currentStep === 2) {
       if (!formData.name1 || !formData.eventDate) {
-        // En lugar de alert, podríamos mostrar un mensaje en UI,
-        // pero por ahora cumplimos con la validación simple solicitada.
         return;
       }
     }
@@ -45,10 +51,11 @@ function ControlPanel({ formData, setFormData }) {
         <div className="progress-info">
           <span>Paso {currentStep} de {totalSteps}</span>
           <span className="step-name">
-            {currentStep === 1 && "Protagonistas"}
-            {currentStep === 2 && "¿Cuándo y Dónde?"}
-            {currentStep === 3 && "Secciones y Estilo"}
-            {currentStep === 4 && "Confirmación y Música"}
+            {currentStep === 1 && "Diseño"}
+            {currentStep === 2 && "Protagonistas"}
+            {currentStep === 3 && "¿Cuándo y Dónde?"}
+            {currentStep === 4 && "Secciones y Estilo"}
+            {currentStep === 5 && "Confirmación y Música"}
           </span>
         </div>
         <div className="progress-track">
@@ -69,10 +76,63 @@ function ControlPanel({ formData, setFormData }) {
             exit="exit"
             transition={{ duration: 0.2 }}
           >
-            {/* PASO 1: PROTAGONISTAS */}
+            {/* PASO 1: DISEÑO (NUEVO) */}
             {currentStep === 1 && (
               <div className="panel-section">
-                <h3>🎉 Paso 1: Protagonistas</h3>
+                <h3>🖌️ Paso 1: Diseño</h3>
+                <div className="form-group">
+                  <label>Modelo Base</label>
+                  <select 
+                    name="modelId" 
+                    value={formData.modelId || ''} 
+                    onChange={(e) => {
+                      handleChange(e);
+                      // Auto-select the first variant of the new model
+                      const newModel = invitationModels.find(m => m.id === e.target.value);
+                      if (newModel && newModel.variants.length > 0) {
+                        handleChange({ target: { name: 'variantId', value: newModel.variants[0].id }});
+                      }
+                    }}
+                    className={!formData.modelId ? 'input-error' : ''}
+                  >
+                    <option value="" disabled>Seleccioná un Modelo...</option>
+                    {invitationModels.map(model => (
+                      <option key={model.id} value={model.id}>{model.name}</option>
+                    ))}
+                  </select>
+                  {!formData.modelId && <small className="error-text">Elegí la estructura base.</small>}
+                </div>
+
+                {currentModel && (
+                  <div className="form-group slide-in">
+                    <label>Variante (Estilo / Colores)</label>
+                    <div className="variants-grid">
+                      {currentModel.variants.map(variant => (
+                        <div 
+                          key={variant.id} 
+                          className={`variant-card ${formData.variantId === variant.id ? 'selected' : ''}`}
+                          onClick={() => handleChange({ target: { name: 'variantId', value: variant.id }})}
+                        >
+                          <div 
+                            className="variant-color-preview" 
+                            style={{ 
+                              background: variant.styles.primaryColor || '#ddd',
+                              borderBottom: `4px solid ${variant.styles.secondaryColor || '#ccc'}`
+                            }}
+                          ></div>
+                          <span>{variant.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* PASO 2: PROTAGONISTAS */}
+            {currentStep === 2 && (
+              <div className="panel-section">
+                <h3>🎉 Paso 2: Protagonistas</h3>
                 <div className="form-group">
                   <label>Nombre 1 (Homenajeada/o o Novia) *</label>
                   <input
@@ -113,10 +173,10 @@ function ControlPanel({ formData, setFormData }) {
               </div>
             )}
 
-            {/* PASO 2: CUÁNDO Y DÓNDE */}
-            {currentStep === 2 && (
+            {/* PASO 3: CUÁNDO Y DÓNDE */}
+            {currentStep === 3 && (
               <div className="panel-section">
-                <h3>⛪ Paso 2: ¿Cuándo y Dónde?</h3>
+                <h3>⛪ Paso 3: ¿Cuándo y Dónde?</h3>
 
                 <div className="wizard-sub-section">
                   <h4>Ceremonia Religiosa</h4>
@@ -172,10 +232,10 @@ function ControlPanel({ formData, setFormData }) {
               </div>
             )}
 
-            {/* PASO 3: SECCIONES Y ESTILO */}
-            {currentStep === 3 && (
+            {/* PASO 4: SECCIONES Y ESTILO */}
+            {currentStep === 4 && (
               <div className="panel-section">
-                <h3>🎨 Paso 3: Secciones y Estilo</h3>
+                <h3>🎨 Paso 4: Secciones y Estilo</h3>
                 <p className="step-description">Activa o desactiva las secciones que quieres mostrar en tu tarjeta.</p>
 
                 <div className="toggle-list">
@@ -213,10 +273,10 @@ function ControlPanel({ formData, setFormData }) {
               </div>
             )}
 
-            {/* PASO 4: CONFIRMACIÓN Y MÚSICA */}
-            {currentStep === 4 && (
+            {/* PASO 5: CONFIRMACIÓN Y MÚSICA */}
+            {currentStep === 5 && (
               <div className="panel-section">
-                <h3>✅ Paso 4: Confirmación y Música</h3>
+                <h3>✅ Paso 5: Confirmación y Música</h3>
 
                 <div className="form-group">
                   <label>WhatsApp (Número con código de país)</label>
@@ -264,7 +324,11 @@ function ControlPanel({ formData, setFormData }) {
 
         {currentStep < totalSteps ? (
           <button
-            className={`btn-wizard next ${(!formData.name1 || !formData.eventDate) && currentStep === 1 ? 'disabled' : ''}`}
+            className={`btn-wizard next ${
+              (currentStep === 1 && (!formData.modelId || !formData.variantId)) || 
+              (currentStep === 2 && (!formData.name1 || !formData.eventDate)) 
+                ? 'disabled' : ''
+            }`}
             onClick={nextStep}
           >
             Siguiente →

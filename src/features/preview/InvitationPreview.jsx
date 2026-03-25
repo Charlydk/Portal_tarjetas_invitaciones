@@ -7,7 +7,7 @@ import Skeleton4 from '../../templates/Skeleton4/Skeleton4';
 import Skeleton5 from '../../templates/Skeleton5/Skeleton5';
 import Skeleton6 from '../../templates/Skeleton6/Skeleton6';
 import TemplateWrapper from './TemplateWrapper';
-import { themes } from '../../data/themes';
+import { invitationModels } from '../../data/models';
 
 const SKELETON_MAP = {
   'Skeleton1': Skeleton1,
@@ -19,16 +19,27 @@ const SKELETON_MAP = {
 };
 
 function InvitationPreview({ formData, themeId }) {
-  // 1. Intentamos buscar en el nuevo sistema de temas
-  const themeConfig = themes[themeId];
+  // 1. Resolve Model and Variant
+  // If formData provides it, use it. Otherwise falback to finding which model has the themeId.
+  let selectedModel = null;
+  let selectedVariant = null;
 
-  if (themeConfig) {
-    const SkeletonComponent = SKELETON_MAP[themeConfig.skeleton];
+  if (formData.modelId && formData.variantId) {
+    selectedModel = invitationModels.find(m => m.id === formData.modelId);
+    selectedVariant = selectedModel?.variants.find(v => v.id === formData.variantId);
+  } else if (themeId) {
+    // Backward compatibility for existing template routing
+    selectedModel = invitationModels.find(m => m.variants.some(v => v.id === themeId));
+    selectedVariant = selectedModel?.variants.find(v => v.id === themeId);
+  }
+
+  if (selectedModel && selectedVariant) {
+    const SkeletonComponent = SKELETON_MAP[selectedModel.skeletonComponent];
     if (SkeletonComponent) {
       return (
         <div className="preview-frame-container">
-           <TemplateWrapper themeConfig={themeConfig}>
-              <SkeletonComponent data={formData} theme={themeConfig} />
+           <TemplateWrapper themeConfig={selectedVariant}>
+              <SkeletonComponent data={formData} theme={selectedVariant} />
            </TemplateWrapper>
         </div>
       );

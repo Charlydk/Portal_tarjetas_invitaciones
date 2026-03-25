@@ -3,17 +3,33 @@ import { useParams } from 'react-router-dom';
 import ControlPanel from '../features/preview/ControlPanel';
 import InvitationPreview from '../features/preview/InvitationPreview';
 import { templates } from '../data/templates';
+import { invitationModels } from '../data/models';
 import './DemoPage.css';
 
 function DemoPage() {
   const { templateId } = useParams();
   const currentTemplate = templates.find(t => t.slug === templateId);
+  const targetThemeId = currentTemplate?.themeId || currentTemplate?.theme || '';
+
+  // Find corresponding model and variant to pre-fill
+  let initialModelId = '';
+  let initialVariantId = '';
+  
+  if (targetThemeId) {
+    const parentModel = invitationModels.find(m => m.variants.some(v => v.id === targetThemeId));
+    if (parentModel) {
+      initialModelId = parentModel.id;
+      initialVariantId = targetThemeId;
+    }
+  }
 
   // Estado para las pestañas en móvil ('edit' o 'preview')
   const [activeTab, setActiveTab] = useState('edit');
 
   // Estado del formulario (Incluye tus interruptores del Wizard)
   const [formData, setFormData] = useState({
+    modelId: initialModelId,
+    variantId: initialVariantId,
     name1: 'Zoe',
     name2: 'Lucas',
     welcomePhrase: '¡Estás invitado!',
