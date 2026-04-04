@@ -55,29 +55,28 @@ export const faqData = [
 
 export const pricingData = [
   {
-    plan: 'Invitación Digital',
-    price: '$7.000',
-    description: 'Perfecto para empezar. Todas las funcionalidades esenciales para un evento increíble.',
+    plan: 'Hacelo vos',
+    price: 'Desde $10.000',
+    description: 'Elegí módulos, personalizá y obtené tu invitación en minutos',
     features: [
-      'Cuenta Regresiva',
-      'Galería de hasta 10 fotos',
-      'Mapa de Ubicación (Google Maps)',
-      'Confirmación de Asistencia (RSVP)',
-      'Sugerencia de Canciones',
+      'Activación inmediata',
+      '100% online'
     ],
     popular: false,
+    ctaText: 'Crear mi invitación',
+    ctaUrl: '#templates'
   },
   {
-    plan: 'Paquete Premium',
-    price: '$9.500',
-    description: 'La experiencia completa. Ideal para bodas y grandes eventos.',
+    plan: 'Te ayudamos',
+    price: 'A Medida',
+    description: 'Si querés algo más personalizado o no sabés por dónde empezar, te acompañamos',
     features: [
-      'Todas las funcionalidades del plan Digital',
-      'Galería de fotos y videos ilimitada',
-      'Sección "Lista de Regalos"',
-      'Dress Code (Código de Vestimenta)',
-      'Frase del día y agradecimientos',
+      'Diseño más personalizado',
+      'Acompañamiento constante',
+      'Ajustes según necesidad'
     ],
     popular: true,
+    ctaText: 'Contactar por WhatsApp',
+    ctaUrl: '#contact'
   },
 ];

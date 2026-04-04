@@ -6,6 +6,7 @@ import Skeleton3 from '../../templates/Skeleton3/Skeleton3';
 import Skeleton4 from '../../templates/Skeleton4/Skeleton4';
 import Skeleton5 from '../../templates/Skeleton5/Skeleton5';
 import Skeleton6 from '../../templates/Skeleton6/Skeleton6';
+import Tarjeta4 from '../../templates/Tarjeta4/Tarjeta4';
 import TemplateWrapper from './TemplateWrapper';
 import { invitationModels } from '../../data/models';
 
@@ -16,9 +17,13 @@ const SKELETON_MAP = {
   'Skeleton4': Skeleton4,
   'Skeleton5': Skeleton5,
   'Skeleton6': Skeleton6,
+  'Tarjeta4': Tarjeta4,
 };
 
-function InvitationPreview({ formData, themeId }) {
+function InvitationPreview({ formData, themeId, activeStep }) {
+  // El scroll automático fue removido — el wizard dinámico ya no tiene
+  // un mapeo fijo de paso → sección de la tarjeta.
+
   // 1. Resolve Model and Variant
   // If formData provides it, use it. Otherwise falback to finding which model has the themeId.
   let selectedModel = null;

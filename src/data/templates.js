@@ -90,5 +90,14 @@ export const templates = [
       themeId: 'corporate-classic',
       slug: 'evento-corporativo',
       category: 'Corporativo'
+    },
+    { 
+      id: 'tarjeta4-belen-agustin',
+      title: 'Boda Rings', 
+      thumbnailUrl: '/templates/tarjeta4/img/main_section_background.jpg',
+      path: '/demo/tarjeta4-belen-agustin',
+      themeId: 'tarjeta4-belen-agustin',
+      slug: 'tarjeta4-belen-agustin',
+      category: 'Boda'
     }
 ];

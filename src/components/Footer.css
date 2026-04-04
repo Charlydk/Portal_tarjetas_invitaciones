@@ -1,18 +1,19 @@
 .footer {
-    background-color: #343a40;
-    padding: 2rem 0;
-    color: #fff;
-    text-align: center;
-  }
-  
-  .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-  
-  .footer-text {
-    margin: 0.5rem 0;
-    font-size: 0.9rem;
-    color: #adb5bd;
-  }
+  background-color: var(--color-text);
+  padding: var(--space-2xl) 0;
+  color: #fff;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.footer-text {
+  margin: var(--space-sm) 0;
+  font-size: 1rem;
+  color: var(--color-background);
+  opacity: 0.8;
+}
