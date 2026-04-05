@@ -1,10 +1,10 @@
 .demo-page-container {
   display: flex;
-  min-height: calc(100vh - 80px); /* Restamos la altura del Navbar */
+  min-height: calc(100vh - 80px);
   background-color: #f4f6f8;
 }
 
-/* --- ESTILOS ESCRITORIO (Desktop) --- */
+/* ── Desktop ── */
 .control-panel-column {
   flex: 1;
   padding: 2rem;
@@ -20,7 +20,7 @@
   background-color: #e9ecef;
   display: flex;
   justify-content: center;
-  align-items: center; /* Centra el celular en la pantalla */
+  align-items: center;
   overflow-y: auto;
   height: calc(100vh - 80px);
 }
@@ -28,83 +28,89 @@
 .panel-header {
   margin-bottom: 2rem;
 }
-
 .panel-header h2 {
   margin-bottom: 0.5rem;
   color: #333;
+  font-size: 1.4rem;
 }
-
 .panel-header p {
   color: #666;
+  font-size: 1rem;
 }
 
-/* Ocultamos las pestañas en escritorio por defecto */
-.mobile-tabs {
+/* ── FAB (Floating Action Button) móvil ── */
+.mobile-fab {
   display: none;
 }
 
-/* --- ESTILOS MÓVILES (Responsive) --- */
+/* ── Responsive ── */
 @media (max-width: 768px) {
   .demo-page-container {
     flex-direction: column;
     height: auto;
-    width: 100%;          /* 👈 Asegura ancho total */
-    overflow-x: hidden;   /* 👈 CLAVE: Evita el scroll horizontal */
+    width: 100%;
+    overflow-x: hidden;
   }
 
-  /* Mostramos las pestañas arriba */
-  .mobile-tabs {
-    display: flex;
-    position: sticky;
-    top: 80px;
-    z-index: 100;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    width: 100%;        /* 👈 Asegura ancho total */
-  }
-
-  .tab-btn {
-    flex: 1;
-    padding: 15px;
-    border: none;
-    background: #fff;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #666;
-    border-bottom: 3px solid transparent;
-    cursor: pointer;
-  }
-
-  .tab-btn.active {
-    color: #007bff;
-    border-bottom: 3px solid #007bff;
-    background: #f8f9fa;
-  }
-
-  /* Clases para ocultar columnas según la pestaña activa */
   .hidden-mobile {
     display: none !important;
   }
 
-  /* 👇 REGLA COMÚN PARA AMBAS COLUMNAS EN MÓVIL */
   .control-panel-column,
   .preview-column {
-      width: 100% !important;      /* Fuerzo el ancho exacto */
-      box-sizing: border-box;      /* El padding no suma al ancho total */
+    width: 100% !important;
+    box-sizing: border-box;
+    height: auto;
   }
 
   .control-panel-column {
-    height: auto;
     border-right: none;
     padding: 1rem;
-    background-color: #fff; /* Asegura fondo blanco */
+    background-color: #fff;
+    /* Padding inferior para que el FAB no tape el botón de "Siguiente" */
+    padding-bottom: 5rem;
   }
 
   .preview-column {
     padding: 0;
-    height: auto;
-    min-height: calc(100vh - 140px);
+    min-height: calc(100vh - 80px);
     background-color: #333;
     align-items: flex-start;
+    /* Padding inferior para el FAB */
+    padding-bottom: 5rem;
+  }
+
+  /* ── FAB visible en móvil ── */
+  .mobile-fab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    z-index: 999;
+    padding: 14px 22px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+  }
+
+  .mobile-fab.fab-preview {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+  }
+
+  .mobile-fab.fab-edit {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+  }
+
+  .mobile-fab:active {
+    transform: scale(0.95);
   }
 }

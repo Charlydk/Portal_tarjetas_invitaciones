@@ -16,9 +16,9 @@ export const renderIcon = (asset) => {
   return <span className="section-icon-emoji">{asset}</span>;
 };
 
-export function CeremonyBox({ icon, place, address, date, time, mapUrl }) {
+export function CeremonyBox({ id, icon, place, address, date, time, mapUrl }) {
   return (
-    <motion.section className="card-section" {...fadeInUp}>
+    <motion.section id={id} className="card-section" {...fadeInUp}>
       {renderIcon(icon)}
       <h2>Ceremonia Religiosa</h2>
       <div className="card-content">
@@ -26,15 +26,17 @@ export function CeremonyBox({ icon, place, address, date, time, mapUrl }) {
           <p><strong>UBICACIÓN:</strong> {address}</p>
           <p><strong>DÍA:</strong> {date}</p>
           <p><strong>HORARIO:</strong> {time}</p>
-          <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">CÓMO LLEGAR</a>
+          {mapUrl && (
+            <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">CÓMO LLEGAR</a>
+          )}
       </div>
     </motion.section>
   );
 }
 
-export function PartyBox({ icon, place, eventVenue, address, date, time, mapUrl }) {
+export function PartyBox({ id, icon, place, eventVenue, address, date, time, mapUrl }) {
   return (
-    <motion.section className="card-section" {...fadeInUp}>
+    <motion.section id={id} className="card-section" {...fadeInUp}>
       {renderIcon(icon)}
       <h2>Fiesta</h2>
       <div className="card-content">
@@ -42,44 +44,50 @@ export function PartyBox({ icon, place, eventVenue, address, date, time, mapUrl 
           <p><strong>UBICACIÓN:</strong> {address}</p>
           <p><strong>DÍA:</strong> {date}</p>
           <p><strong>HORARIO:</strong> {time} ¡Puntual!</p>
-          <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">VER UBICACIÓN</a>
+          {mapUrl && (
+            <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="btn-action">VER UBICACIÓN</a>
+          )}
       </div>
     </motion.section>
   );
 }
 
-export function DressCodeBox({ icon }) {
+export function DressCodeBox({ id, icon, description }) {
   return (
-    <motion.section className="card-section" {...fadeInUp}>
+    <motion.section id={id} className="card-section" {...fadeInUp}>
       {renderIcon(icon)}
       <h2>Dress Code</h2>
       <div className="card-content">
-          <p>Pedimos asistir con vestimenta <br/><strong>** Elegante **</strong></p>
+          <p>{description || 'Pedimos asistir con vestimenta'} <br/><strong>{!description ? '** Elegante **' : ''}</strong></p>
       </div>
     </motion.section>
   );
 }
 
-export function GiftsBox({ icon, alias }) {
+export function GiftsBox({ id, icon, alias, giftMode = 'cbu' }) {
   return (
-    <motion.section className="card-section" {...fadeInUp}>
+    <motion.section id={id} className="card-section" {...fadeInUp}>
       {renderIcon(icon)}
       <h2>Regalos</h2>
       <div className="card-content">
           <p>Tu presencia es el mejor regalo en este día tan especial.</p>
           <p>Si querés acompañarme con un detalle para esta nueva etapa, lo voy a recibir con mucho cariño.</p>
           <div className="gift-box">
-              <p>💌 Cofre a disposición en el salón</p>
-              <p className="alias-text">Alias: <strong>{alias}</strong></p>
+              {(giftMode === 'cofre' || giftMode === 'both') && (
+                <p>💌 Cofre a disposición en el salón</p>
+              )}
+              {(giftMode === 'cbu' || giftMode === 'both') && alias && (
+                <p className="alias-text">Alias: <strong>{alias}</strong></p>
+              )}
           </div>
       </div>
     </motion.section>
   );
 }
 
-export function GalleryBox({ themeId }) {
+export function GalleryBox({ id, themeId }) {
   return (
-    <motion.section className="slider-section" {...fadeInUp}>
+    <motion.section id={id} className="slider-section" {...fadeInUp}>
       <h2>Un momento único ♥</h2>
       <p>Entre luces, risas y sueños, este día se convierte en recuerdo.</p>
       <div className="slider">
@@ -96,9 +104,9 @@ export function GalleryBox({ themeId }) {
   );
 }
 
-export function RSVPBox({ whatsappNumber }) {
+export function RSVPBox({ id, whatsappNumber }) {
   return (
-    <motion.section className="card-section" {...fadeInUp}>
+    <motion.section id={id} className="card-section" {...fadeInUp}>
       <h2>Confirmación</h2>
       <p>¡Espero contar con tu presencia!</p>
       <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('¡Hola! Confirmo mi asistencia.')}`} target="_blank" rel="noopener noreferrer" className="btn-action">CONFIRMAR ASISTENCIA</a>
@@ -106,9 +114,9 @@ export function RSVPBox({ whatsappNumber }) {
   );
 }
 
-export function MusicBox({ musicUrl }) {
+export function MusicBox({ id, musicUrl }) {
   return (
-    <motion.section className="card-section" {...fadeInUp}>
+    <motion.section id={id} className="card-section" {...fadeInUp}>
       <h2>Música</h2>
       <p>¿Qué canciones querés escuchar?</p>
       <a href={musicUrl} target="_blank" rel="noopener noreferrer" className="btn-action">SUGERIR CANCIÓN</a>
@@ -116,9 +124,9 @@ export function MusicBox({ musicUrl }) {
   );
 }
 
-export function InvitationFooter({ title }) {
+export function InvitationFooter({ id, title }) {
   return (
-    <motion.footer className="footer-skeleton1" {...fadeInUp}>
+    <motion.footer id={id} className="footer-skeleton1" {...fadeInUp}>
       <h2>¡Gracias!</h2>
       <h3>{title}</h3>
       <p>© 2025 - Todos los derechos reservados.</p>

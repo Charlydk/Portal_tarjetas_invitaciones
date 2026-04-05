@@ -45,9 +45,9 @@ function Navbar() {
           </li>
           <li className="nav-item">
              {isHome ? (
-              <a href="#contact" className="nav-link nav-button" onClick={() => scrollToSection('contact')}>¡La quiero!</a>
+              <a href="#contact" className="nav-link btn-primary" onClick={() => scrollToSection('contact')}>¡La quiero!</a>
             ) : (
-              <Link to="/#contact" className="nav-link nav-button">¡La quiero!</Link>
+              <Link to="/#contact" className="nav-link btn-primary">¡La quiero!</Link>
             )}
           </li>
         </ul>

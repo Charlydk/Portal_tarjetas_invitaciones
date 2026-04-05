@@ -93,6 +93,26 @@ export const invitationModels = [
     ]
   },
   {
+    id: 'model-tarjeta4',
+    name: 'Boda Premium Real',
+    skeletonComponent: 'Tarjeta4',
+    description: 'Estructura elegante y moderna con modales interactivos y fondo en video.',
+    variants: [
+      {
+        id: 'tarjeta4-belen-agustin',
+        name: 'Belen & Agustin (Original)',
+        assets: {
+          backgroundImage: '/templates/tarjeta4/img/main_section_background.jpg'
+        },
+        styles: {
+          primaryColor: '#FF69B4',
+          fontFamilyTitle: "'Great Vibes', cursive",
+          fontFamilyBody: "'DM Sans', sans-serif"
+        }
+      }
+    ]
+  },
+  {
     id: 'skeleton2',
     name: 'Tarjetero Moderno',
     skeletonComponent: 'Skeleton2',

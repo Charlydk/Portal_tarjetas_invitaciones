@@ -1,0 +1,35 @@
+# openspec/config.yaml
+schema: spec-driven
+
+context: |
+  Tech stack: React 19 (Vite), react-router-dom, framer-motion
+  Architecture: Hierarchical Model-Variant system (src/data/models.js)
+  Testing: Playwright (@playwright/test)
+  Style: ESLint, Prettier
+
+strict_tdd: true
+
+testing:
+  runner:
+    command: "npx playwright test"
+    framework: playwright
+  layers:
+    unit: true
+    e2e: true
+
+rules:
+  proposal:
+    - Include description of new segment categories
+    - Identify impact on models.js and ControlPanel.jsx
+  specs:
+    - Use Given/When/Then format for scenarios
+  design:
+    - Document the new hierarchical data structure
+  tasks:
+    - Group by Data, UI, and Navigation
+  apply:
+    - Follow Atomic Design patterns
+  verify:
+    - Run playwright tests
+  archive:
+    - Ensure models.js is clean

@@ -10,11 +10,11 @@ function HeroSection() {
       </div>
       
       <div className={styles.heroContent}>
-        <h1 className={styles.heroTitle}>Invitaciones Web que Cautivan</h1>
+        <h1 className={styles.heroTitle}>Invitaciones Elegantes para tus Eventos</h1>
         <p className={styles.heroSubtitle}>
-          Crea y comparte invitaciones interactivas e inolvidables en minutos. Perfectas para cualquier ocasión y amigables con el planeta.
+          Crea y comparte invitaciones cautivadoras en minutos. Totalmente interactivas y 100% digitales.
         </p>
-        <a href="#templates" className={styles.ctaButton}>Ver Plantillas</a>
+        <a href="#templates" className="btn-primary">Descubrir Diseños</a>
       </div>
     </header>
   );
