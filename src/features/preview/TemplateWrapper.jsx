@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './TemplateWrapper.css';
 
-function TemplateWrapper({ children, themeConfig }) {
-  const [showModal, setShowModal] = useState(true);
+function TemplateWrapper({ children, themeConfig, isEditorMode = false }) {
+  // En modo editor el modal nunca debe aparecer — arranca cerrado
+  const [showModal, setShowModal] = useState(!isEditorMode);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
@@ -41,8 +42,8 @@ function TemplateWrapper({ children, themeConfig }) {
 
   return (
     <div className="template-wrapper">
-      {/* Welcome Modal */}
-      {themeConfig?.assets?.audio && (
+      {/* Welcome Modal — solo en vista final del invitado, nunca en el editor */}
+      {themeConfig?.assets?.audio && !isEditorMode && (
         <div className={`modal-overlay ${!showModal ? 'hidden' : ''}`}>
           <div className="modal-content">
             <h2 className="modal-title">¡Bienvenidos!</h2>
@@ -62,8 +63,8 @@ function TemplateWrapper({ children, themeConfig }) {
         </audio>
       )}
 
-      {/* Floating Music Button */}
-      {themeConfig?.assets?.audio && !showModal && (
+      {/* Floating Music Button — en editor: solo muestra indicador, sin audio */}
+      {themeConfig?.assets?.audio && !isEditorMode && !showModal && (
         <button
           className={`music-toggle-btn ${isPlaying ? 'playing' : ''}`}
           onClick={toggleAudio}
@@ -71,6 +72,9 @@ function TemplateWrapper({ children, themeConfig }) {
         >
           {isPlaying ? '⏸' : '▶'}
         </button>
+      )}
+      {themeConfig?.assets?.audio && isEditorMode && (
+        <div className="music-editor-badge" title="Audio configurado (visible en la tarjeta final)">🎵</div>
       )}
 
       {/* Render the actual invitation (Skeleton) */}

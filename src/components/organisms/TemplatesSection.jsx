@@ -33,11 +33,25 @@ function TemplatesSection() {
   const getMockFormData = (template) => ({
     name1: "Ana",
     name2: "Juan",
+    welcomePhrase: "¡Bienvenidos a nuestra Boda!",
+    invitePhrase: "Con mucha alegría los invitamos a celebrar nuestra unión.",
     eventDate: new Date(new Date().setMonth(new Date().getMonth() + 2)).toISOString(),
     eventVenue: "Salón Principal",
-    partyPlace: "Salón Principal",
+    partyPlace: "Castillo de Eventos",
+    partyAddress: "Av. Libertador 1234, CABA",
     modelId: template?.modelId,
     variantId: template?.variantId,
+    // Módulos activos para la preview
+    showCivil: true,
+    showCeremony: true,
+    showParty: true,
+    showCountdown: true,
+    showDressCode: true,
+    showGifts: true,
+    showGallery: true,
+    showMusic: true,
+    showRSVP: true,
+    askDiets: true,
   });
 
   return (
@@ -161,8 +175,8 @@ function TemplatesSection() {
           }} onClick={e => e.stopPropagation()}>
             
             {/* Left side: Interactive preview in phone frame */}
-            <div style={{ width: '318px', height: '620px', flex: '0 0 auto', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', overflow: 'hidden' }}>
-              <div style={{ transform: 'scale(0.85)', transformOrigin: 'top center' }}>
+            <div style={{ width: '400px', height: '80vh', flex: '0 0 auto', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+              <div style={{ width: '100%', height: '100%' }}>
                 <InvitationPreview formData={getMockFormData(selectedTemplate)} />
               </div>
             </div>
