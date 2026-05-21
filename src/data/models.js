@@ -2,16 +2,8 @@
 
 const SHARED_ASSETS = {
   video1: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
-  audio1: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-  audio2: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-  audio3: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
-  audio4: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
-  audio5: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
-  audio6: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
-  audio8: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
-  audio9: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
-  audio10: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3',
-  audio11: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3',
+  // Canon en Re — Kevin MacLeod (CC Attribution 3.0) — demo para todas las tarjetas
+  demoAudio: 'https://archive.org/download/Kevin-MacLeod_Famous-Classics_2008_FullAlbum/Famous%20Classics/Kevin%20MacLeod%20-%2002%20-%20Canon%20in%20D%20Major.mp3',
 };
 
 export const invitationModels = [
@@ -32,7 +24,7 @@ export const invitationModels = [
           partyIcon: '🏮',
           dressCodeIcon: '👗',
           giftIcon: '🎁',
-          audio: SHARED_ASSETS.audio1
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#FF69B4',
@@ -55,7 +47,7 @@ export const invitationModels = [
           partyIcon: '👠',
           dressCodeIcon: '👔',
           giftIcon: '💎',
-          audio: SHARED_ASSETS.audio2
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#87CEEB',
@@ -78,7 +70,7 @@ export const invitationModels = [
           partyIcon: '🥂',
           dressCodeIcon: '👔',
           giftIcon: '💍',
-          audio: SHARED_ASSETS.audio9
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#D4AF37',
@@ -101,7 +93,7 @@ export const invitationModels = [
           partyIcon: '🥂',
           dressCodeIcon: '👗',
           giftIcon: '💌',
-          audio: SHARED_ASSETS.audio3
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#B76E79',
@@ -124,7 +116,7 @@ export const invitationModels = [
           partyIcon: '🥂',
           dressCodeIcon: '👔',
           giftIcon: '💍',
-          audio: SHARED_ASSETS.audio5
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#C8A400',
@@ -147,7 +139,7 @@ export const invitationModels = [
           partyIcon: '🍃',
           dressCodeIcon: '👗',
           giftIcon: '🎁',
-          audio: SHARED_ASSETS.audio8
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#2E8B57',
@@ -170,7 +162,7 @@ export const invitationModels = [
           partyIcon: '✨',
           dressCodeIcon: '💃',
           giftIcon: '🎀',
-          audio: SHARED_ASSETS.audio4
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#9B59B6',
@@ -193,7 +185,7 @@ export const invitationModels = [
           partyIcon: '🎊',
           dressCodeIcon: '👗',
           giftIcon: '🎁',
-          audio: SHARED_ASSETS.audio6
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#FF6B6B',
@@ -216,7 +208,7 @@ export const invitationModels = [
           partyIcon: '🥂',
           dressCodeIcon: '👔',
           giftIcon: '🎁',
-          audio: SHARED_ASSETS.audio11
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#C8A400',
@@ -239,7 +231,7 @@ export const invitationModels = [
           partyIcon: '🎈',
           dressCodeIcon: '👗',
           giftIcon: '🎁',
-          audio: SHARED_ASSETS.audio3
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#5DADE2',
@@ -262,7 +254,7 @@ export const invitationModels = [
           partyIcon: '🍾',
           dressCodeIcon: '💃',
           giftIcon: '🎁',
-          audio: SHARED_ASSETS.audio10
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#E74C3C',
@@ -285,7 +277,7 @@ export const invitationModels = [
           partyIcon: '🥂',
           dressCodeIcon: '👗',
           giftIcon: '💌',
-          audio: SHARED_ASSETS.audio9
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#C0392B',
@@ -334,7 +326,7 @@ export const invitationModels = [
           partyIcon: '🥂',
           dressCodeIcon: '👗',
           giftIcon: '✨',
-          audio: SHARED_ASSETS.audio8
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#FF1493',
@@ -354,7 +346,7 @@ export const invitationModels = [
           partyIcon: '🔊',
           dressCodeIcon: '👕',
           giftIcon: '💥',
-          audio: SHARED_ASSETS.audio10
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#00FFFF',
@@ -374,7 +366,7 @@ export const invitationModels = [
           partyIcon: '🤝',
           dressCodeIcon: '🕴️',
           giftIcon: '📈',
-          audio: SHARED_ASSETS.audio11
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#2c3e50',
@@ -404,7 +396,7 @@ export const invitationModels = [
             'https://images.unsplash.com/photo-1469334031218-e382a71b716b',
             'https://images.unsplash.com/photo-1522673607200-1648832cee98'
           ],
-          audio: SHARED_ASSETS.audio3
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#8e44ad',
@@ -425,7 +417,7 @@ export const invitationModels = [
         id: 'minimal-elegant',
         name: 'Blanco Negro Classic',
         assets: {
-          audio: SHARED_ASSETS.audio4
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#000000',
@@ -445,7 +437,7 @@ export const invitationModels = [
         id: 'interactive-cards',
         name: 'Golden Glow',
         assets: {
-          audio: SHARED_ASSETS.audio5
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#f39c12',
@@ -465,7 +457,7 @@ export const invitationModels = [
         name: 'Reel Urbano',
         assets: {
           headerVideo: SHARED_ASSETS.video1,
-          audio: SHARED_ASSETS.audio6
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {}
       }
@@ -486,7 +478,7 @@ export const invitationModels = [
           partyIcon: '🥂',
           dressCodeIcon: '🎩',
           giftIcon: '💎',
-          audio: SHARED_ASSETS.audio9
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#C8A400',
@@ -505,7 +497,7 @@ export const invitationModels = [
           partyIcon: '✨',
           dressCodeIcon: '💃',
           giftIcon: '🎀',
-          audio: SHARED_ASSETS.audio4
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#C39BD3',
@@ -524,7 +516,7 @@ export const invitationModels = [
           partyIcon: '🍾',
           dressCodeIcon: '🕴️',
           giftIcon: '🎁',
-          audio: SHARED_ASSETS.audio10
+          audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#E74C3C',
@@ -546,7 +538,7 @@ export const invitationModels = [
         id: 'ivory-gold-boda',
         name: 'Ivory & Gold',
         assets: {
-          audio: SHARED_ASSETS.audio9,
+          audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '💒', partyIcon: '🥂', dressCodeIcon: '🎩', giftIcon: '💍',
         },
         styles: {
@@ -561,7 +553,7 @@ export const invitationModels = [
         id: 'ivory-blush-boda',
         name: 'Ivory & Blush',
         assets: {
-          audio: SHARED_ASSETS.audio3,
+          audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '💒', partyIcon: '🌸', dressCodeIcon: '👗', giftIcon: '💌',
         },
         styles: {
@@ -584,7 +576,7 @@ export const invitationModels = [
         id: 'floral-rosegold-boda',
         name: 'Floral Rose Gold',
         assets: {
-          audio: SHARED_ASSETS.audio3,
+          audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '🌸', partyIcon: '🥂', dressCodeIcon: '👗', giftIcon: '💐',
         },
         styles: {
@@ -599,7 +591,7 @@ export const invitationModels = [
         id: 'floral-mauve-boda',
         name: 'Floral Mauve',
         assets: {
-          audio: SHARED_ASSETS.audio8,
+          audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '💐', partyIcon: '🌹', dressCodeIcon: '👗', giftIcon: '💌',
         },
         styles: {
@@ -622,7 +614,7 @@ export const invitationModels = [
         id: 'botanico-sage-boda',
         name: 'Sage & Linen',
         assets: {
-          audio: SHARED_ASSETS.audio8,
+          audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '🌿', partyIcon: '🍃', dressCodeIcon: '👗', giftIcon: '🎁',
         },
         styles: {
@@ -637,7 +629,7 @@ export const invitationModels = [
         id: 'botanico-olive-boda',
         name: 'Olive & Earth',
         assets: {
-          audio: SHARED_ASSETS.audio9,
+          audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '🌱', partyIcon: '🍂', dressCodeIcon: '👔', giftIcon: '🎁',
         },
         styles: {
@@ -669,7 +661,7 @@ export const invitationModels = [
           countdownBg:   'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
           galleryBg:     'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
           rsvpImage:     'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=1200',
-          audio: SHARED_ASSETS.audio9,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#D4AF37',
@@ -689,7 +681,7 @@ export const invitationModels = [
           countdownBg:   'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=1200',
           galleryBg:     'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200',
           rsvpImage:     'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
-          audio: SHARED_ASSETS.audio3,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#C8B08A',
@@ -709,7 +701,7 @@ export const invitationModels = [
           countdownBg:   'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
           galleryBg:     'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
           rsvpImage:     'https://images.unsplash.com/photo-1460472178825-e5240623afd5?q=80&w=1200',
-          audio: SHARED_ASSETS.audio5,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#7BAFD4',
@@ -729,7 +721,7 @@ export const invitationModels = [
           countdownBg:   'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200',
           galleryBg:     'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=1200',
           rsvpImage:     'https://images.unsplash.com/photo-1460472178825-e5240623afd5?q=80&w=1200',
-          audio: SHARED_ASSETS.audio3,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#D4A5B0',
@@ -749,7 +741,7 @@ export const invitationModels = [
           countdownBg:   'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
           galleryBg:     'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
           rsvpImage:     'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200',
-          audio: SHARED_ASSETS.audio8,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#9CBD8A',
@@ -777,7 +769,7 @@ export const invitationModels = [
           ceremonyImage: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=900',
           partyImage:    'https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?q=80&w=900',
           rsvpImage:     'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=900',
-          audio: SHARED_ASSETS.audio11,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#1A1A1A',
@@ -797,7 +789,7 @@ export const invitationModels = [
           ceremonyImage: 'https://images.unsplash.com/photo-1460472178825-e5240623afd5?q=80&w=900',
           partyImage:    'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=900',
           rsvpImage:     'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=900',
-          audio: SHARED_ASSETS.audio8,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#C4773A',
@@ -817,7 +809,7 @@ export const invitationModels = [
           ceremonyImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=900',
           partyImage:    'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=900',
           rsvpImage:     'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=900',
-          audio: SHARED_ASSETS.audio3,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#B87A8A',
@@ -844,7 +836,7 @@ export const invitationModels = [
         assets: {
           heroImage:   'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200',
           accentImage: 'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
-          audio: SHARED_ASSETS.audio9,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#8B7355',
@@ -861,7 +853,7 @@ export const invitationModels = [
         assets: {
           heroImage:   'https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?q=80&w=1200',
           accentImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200',
-          audio: SHARED_ASSETS.audio11,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#C8A400',
@@ -886,7 +878,7 @@ export const invitationModels = [
         id: 'paper-luxe-ivory',
         name: 'Ivory & Gold',
         assets: {
-          audio: SHARED_ASSETS.audio9,
+          audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '💒', partyIcon: '🥂', dressCodeIcon: '🎩', giftIcon: '💍',
         },
         styles: {
@@ -901,7 +893,7 @@ export const invitationModels = [
         id: 'paper-luxe-champagne',
         name: 'Champagne & Blush',
         assets: {
-          audio: SHARED_ASSETS.audio3,
+          audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '💐', partyIcon: '🌸', dressCodeIcon: '👗', giftIcon: '💌',
         },
         styles: {
@@ -916,7 +908,7 @@ export const invitationModels = [
         id: 'paper-luxe-sage',
         name: 'Sage & Linen',
         assets: {
-          audio: SHARED_ASSETS.audio8,
+          audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '🌿', partyIcon: '🍃', dressCodeIcon: '👗', giftIcon: '🎁',
         },
         styles: {
@@ -946,7 +938,7 @@ export const invitationModels = [
           gallery2:  'https://images.unsplash.com/photo-1460472178825-e5240623afd5?q=80&w=600',
           gallery3:  'https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?q=80&w=600',
           gallery4:  'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=600',
-          audio: SHARED_ASSETS.audio9,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#C9A84C',
@@ -965,7 +957,7 @@ export const invitationModels = [
           gallery2:  'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=600',
           gallery3:  'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600',
           gallery4:  'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=600',
-          audio: SHARED_ASSETS.audio11,
+          audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
           primaryColor: '#B8A060',
