@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './DemoSection.module.css';
+import DemoEmbed from '../DemoEmbed';
 
 function DemoSection() {
   return (
@@ -42,12 +43,7 @@ function DemoSection() {
       >
         <div className={styles.phoneNotch}></div>
         <div className={styles.phoneScreenContainer}>
-          <iframe
-            src="https://belenagustin.netlify.app/"
-            className={styles.phoneScreen}
-            title="Ejemplo de Invitación Web Interactiva"
-            loading="lazy"
-          ></iframe>
+          <DemoEmbed variantId="tarjeta4-belen-agustin" />
         </div>
       </motion.div>
     </section>
