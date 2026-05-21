@@ -6,7 +6,7 @@
   --s15-cream:      #FAF7F2;
   --s15-dark:       #2C2416;
   --s15-band:       #1E1A14;
-  --s15-sub:        #7A6A52;
+  --s15-sub:        #4A3A28;
   --s15-font-title: 'Playfair Display', serif;
   --s15-font-body:  'EB Garamond', serif;
 
@@ -23,12 +23,13 @@
 /* ── LABEL ── */
 .s15-label {
   font-family: var(--s15-font-body);
-  font-size: 0.72rem;
-  letter-spacing: 0.35em;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--s15-gold);
+  color: var(--s15-gold-dark);
   text-align: center;
   display: block;
+  font-weight: 500;
 }
 
 /* ── DIVIDER ── */
@@ -182,9 +183,9 @@
 }
 
 .s15-section {
-  padding: 44px 0;
+  padding: 52px 0;
   text-align: center;
-  border-bottom: 1px solid rgba(201, 169, 110, 0.18);
+  border-bottom: 1px solid rgba(201, 169, 110, 0.35);
 }
 .s15-section:last-child { border-bottom: none; }
 
@@ -205,23 +206,24 @@
 }
 
 .s15-addr {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--s15-sub);
   margin: 4px 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .s15-datetime {
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
+  font-size: 0.88rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--s15-dark);
-  margin: 10px 0 0;
+  margin: 12px 0 0;
+  font-weight: 500;
 }
 
 .s15-body-text {
-  font-size: 0.95rem;
-  line-height: 1.75;
+  font-size: 1rem;
+  line-height: 1.8;
   color: var(--s15-sub);
   margin: 6px 0;
 }
@@ -238,6 +240,65 @@
   padding-bottom: 2px;
 }
 
+/* ── COUNTDOWN OVERRIDE (estilo Paper Luxe) ── */
+#skeleton15-template .countdown-section {
+  background: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+#skeleton15-template .countdown-title {
+  font-family: var(--s15-font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--s15-gold-dark);
+  font-weight: 500;
+  font-style: normal;
+  margin-bottom: 28px;
+}
+#skeleton15-template .timer-container {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  border: 1px solid rgba(201, 169, 110, 0.35);
+}
+#skeleton15-template .timer-box {
+  flex: 1;
+  text-align: center;
+  padding: 24px 8px 20px;
+  border-right: 1px solid rgba(201, 169, 110, 0.35);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+#skeleton15-template .timer-box:last-child {
+  border-right: none;
+}
+#skeleton15-template .timer-box span {
+  font-family: var(--s15-font-title);
+  font-size: clamp(1.8rem, 7vw, 2.6rem);
+  font-weight: 400;
+  color: var(--s15-dark);
+  line-height: 1;
+  display: block;
+}
+#skeleton15-template .timer-box p {
+  font-family: var(--s15-font-body);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--s15-gold-dark);
+  margin: 10px 0 0;
+}
+#skeleton15-template .countdown-footer {
+  font-family: var(--s15-font-body);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--s15-sub);
+  margin-top: 20px;
+}
+
 /* ── GALLERY ── */
 .s15-gallery-grid {
   display: grid;
@@ -249,6 +310,7 @@
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
+  object-position: center top;
   filter: sepia(8%) brightness(0.96);
 }
 

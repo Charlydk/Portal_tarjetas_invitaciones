@@ -38,10 +38,10 @@ const DEMO_DATA = {
   musicPlaylistUrl: 'https://open.spotify.com',
   dressCodeDescription: 'Formal · Tonos neutros y pasteles',
   galleryPhotos: [
-    'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400',
+    'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=400',
     'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=400',
     'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=400',
-    'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=400',
+    'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=400',
   ],
   showCivil: false, showCeremony: true, showParty: true,
   showCountdown: true, showDressCode: true, showGifts: true,

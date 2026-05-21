@@ -75,7 +75,7 @@
 
 /* --- BOTÓN FLOTANTE --- */
 .music-toggle-btn {
-    position: absolute;
+    position: fixed;
     bottom: 25px;
     right: 25px;
     width: 55px;
