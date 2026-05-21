@@ -68,20 +68,6 @@ export function StepConfirm({ formData, handleChange }) {
         </div>
       )}
 
-      {formData.showMusic && (
-        <div className="form-group">
-          <label>🎵 Link de Playlist (Spotify / YouTube)</label>
-          <input
-            type="text"
-            name="musicUrl"
-            value={formData.musicUrl || ''}
-            onChange={handleChange}
-            placeholder="https://open.spotify.com/..."
-          />
-          <small>Link para que tus invitados sugieran música para el evento.</small>
-        </div>
-      )}
-
       <div className="wizard-final-card">
         <h4>🎉 ¡Todo listo!</h4>
         <p>Revisá la vista previa a la derecha para ver cómo quedó tu invitación.</p>

@@ -1,27 +1,44 @@
+/* ─── FINAL CTA ──────────────────────────────────────────────────────────────── */
+
 .finalCtaSection {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   color: white;
   padding: var(--space-3xl) var(--space-lg);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.finalCtaSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(219,39,119,0.18) 0%, transparent 65%);
+  pointer-events: none;
 }
 
 .sectionTitle {
   font-family: var(--font-title);
-  font-size: 4rem;
-  margin-bottom: var(--space-md);
+  font-size: 3.8rem;
+  margin: 0 0 1rem;
   color: white;
+  position: relative;
+  font-weight: 400;
 }
 
 .sectionSubtitle {
   font-family: var(--font-body);
-  font-size: 1.5rem;
-  margin-bottom: var(--space-2xl);
-  opacity: 0.9;
+  font-size: 1.05rem;
+  margin: 0 0 2.5rem;
+  opacity: 0.75;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
 }
 
 @media (max-width: 768px) {
   .sectionTitle {
-    font-size: 3rem;
+    font-size: 2.6rem;
   }
 }
-

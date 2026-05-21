@@ -1,7 +1,7 @@
 .faqSection {
   padding: var(--space-3xl) var(--space-lg);
   text-align: center;
-  background-color: white;
+  background-color: transparent;
 }
 
 .sectionTitle {

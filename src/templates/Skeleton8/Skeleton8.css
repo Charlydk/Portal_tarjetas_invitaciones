@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Lato:wght@300;400&display=swap');
+
+#skeleton8-template {
+  --s8-gold: #B8960C;
+  --s8-dark: #3D2B1F;
+  --s8-bg: #FDF8F0;
+  --s8-font-title: 'Playfair Display', serif;
+  --s8-font-body: 'Lato', sans-serif;
+
+  background-color: var(--s8-bg);
+  color: var(--s8-dark);
+  font-family: var(--s8-font-body);
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#skeleton8-template { -ms-overflow-style: none; scrollbar-width: none; }
+#skeleton8-template::-webkit-scrollbar { display: none; }
+
+/* ── HERO ── */
+.s8-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100svh;
+  padding: 60px 24px;
+  text-align: center;
+  position: relative;
+  background-color: var(--s8-bg);
+}
+
+.s8-hero-border-top,
+.s8-hero-border-bot {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--s8-gold), transparent);
+}
+.s8-hero-border-top { top: 32px; }
+.s8-hero-border-bot { bottom: 32px; }
+
+.s8-eyebrow {
+  font-family: var(--s8-font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--s8-gold);
+  margin-bottom: 24px;
+}
+
+.s8-names {
+  font-family: var(--s8-font-title);
+  font-size: clamp(2.8rem, 8vw, 5rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--s8-dark);
+  margin: 0 0 24px;
+}
+
+.s8-amp {
+  font-style: italic;
+  color: var(--s8-gold);
+  margin: 0 8px;
+}
+
+.s8-invite-text {
+  font-family: var(--s8-font-body);
+  font-size: 0.95rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--s8-dark);
+  max-width: 340px;
+  margin: 16px auto 0;
+  opacity: 0.85;
+}
+
+/* ── ORNAMENT ── */
+.s8-ornament {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 280px;
+  margin: 20px auto;
+}
+
+.s8-orn-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--s8-gold));
+  transform-origin: left center;
+}
+.s8-orn-line + .s8-orn-diamond + .s8-orn-line {
+  transform-origin: right center;
+  background: linear-gradient(90deg, var(--s8-gold), transparent);
+}
+
+.s8-orn-diamond {
+  font-size: 0.5rem;
+  color: var(--s8-gold);
+  flex-shrink: 0;
+}
+
+/* ── BODY ── */
+.s8-body {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+}
+
+.s8-section {
+  padding: 48px 0;
+  text-align: center;
+  border-bottom: 1px solid rgba(184, 150, 12, 0.15);
+}
+.s8-section:last-child {
+  border-bottom: none;
+}
+
+.s8-section-title {
+  font-family: var(--s8-font-title);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--s8-dark);
+  margin: 0 0 12px;
+}
+
+.s8-venue {
+  font-family: var(--s8-font-title);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--s8-gold);
+  margin: 8px 0 4px;
+}
+
+.s8-addr {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin: 4px 0;
+}
+
+.s8-datetime {
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 8px 0 0;
+  color: var(--s8-dark);
+}
+
+.s8-body-text {
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.7;
+  margin: 6px 0;
+  opacity: 0.85;
+}
+
+.s8-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--s8-gold);
+  text-decoration: none;
+  border-bottom: 1px solid var(--s8-gold);
+  padding-bottom: 2px;
+}
+
+/* ── GALLERY ── */
+.s8-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.s8-gallery-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 2px;
+  filter: sepia(10%) brightness(0.97);
+}
+
+/* ── BUTTONS ── */
+.s8-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 36px;
+  background: var(--s8-dark);
+  color: var(--s8-bg);
+  font-family: var(--s8-font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--s8-dark);
+  transition: background 0.3s, color 0.3s;
+}
+.s8-btn:hover {
+  background: var(--s8-gold);
+  border-color: var(--s8-gold);
+}
+
+.s8-btn-outline {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 32px;
+  background: transparent;
+  color: var(--s8-dark);
+  font-family: var(--s8-font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--s8-gold);
+}
+
+/* ── RSVP ── */
+.s8-rsvp {
+  background: rgba(184, 150, 12, 0.04);
+  padding: 48px 24px;
+  border-radius: 2px;
+}
+
+/* ── FOOTER ── */
+.s8-footer {
+  text-align: center;
+  padding: 32px 24px;
+  font-family: var(--s8-font-title);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--s8-gold);
+  border-top: 1px solid rgba(184, 150, 12, 0.3);
+}

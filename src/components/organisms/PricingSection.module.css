@@ -1,6 +1,6 @@
 .pricingSection {
   padding: var(--space-3xl) var(--space-lg);
-  background-color: var(--color-background);
+  background-color: transparent;
   text-align: center;
 }
 

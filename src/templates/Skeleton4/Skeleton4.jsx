@@ -17,7 +17,9 @@ function Skeleton4({ data, theme }) {
     partyTime = '22:00 HS',
     partyPlace = 'Salón',
     partyMapUrl = '#',
+    alias = 'Alias.Bancario',
     whatsappNumber = '',
+    dressCodeDescription = 'Elegante',
 
     showCeremony = true,
     showParty = true,
@@ -56,25 +58,22 @@ function Skeleton4({ data, theme }) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
         >
-           <motion.h1
-             className="s4-title"
-             initial={{ letterSpacing: "0px" }}
-             animate={{ letterSpacing: "4px" }}
-             transition={{ duration: 1.5, delay: 0.5 }}
-           >
-             {name1} {name2 && `& ${name2}`}
-           </motion.h1>
-           <div className="s4-divider"></div>
-           <p className="s4-date-header">{partyDateString}</p>
+          <motion.h1
+            className="s4-title"
+            initial={{ letterSpacing: "0px" }}
+            animate={{ letterSpacing: "4px" }}
+            transition={{ duration: 1.5, delay: 0.5 }}
+          >
+            {name1} {name2 && `& ${name2}`}
+          </motion.h1>
+          <div className="s4-divider"></div>
+          <p className="s4-date-header">{partyDateString}</p>
         </motion.header>
 
         {showCountdown && (
-           <motion.div
-             className="s4-countdown"
-             {...fadeInUp}
-           >
-              <div className="s4-time">{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</div>
-           </motion.div>
+          <motion.div className="s4-countdown" {...fadeInUp}>
+            <div className="s4-time">{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</div>
+          </motion.div>
         )}
 
         <motion.main
@@ -86,65 +85,62 @@ function Skeleton4({ data, theme }) {
         >
           {showCeremony && (
             <motion.section className="s4-section" variants={fadeInUp}>
-               <h3>CEREMONIA</h3>
-               <p>{ceremonyPlace}</p>
-               <p>{ceremonyDate} — {ceremonyTime}</p>
-               <motion.a
+              <h3>CEREMONIA</h3>
+              <p>{ceremonyPlace}</p>
+              <p>{ceremonyDate} — {ceremonyTime}</p>
+              <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 href={ceremonyMapUrl}
                 className="s4-link"
-               >
-                 UBICACIÓN
-               </motion.a>
+              >
+                UBICACIÓN
+              </motion.a>
             </motion.section>
           )}
 
           {showParty && (
             <motion.section className="s4-section" variants={fadeInUp}>
-               <h3>FIESTA</h3>
-               <p>{eventVenue || partyPlace}</p>
-               <p>{partyDateString} — {partyTime}</p>
-               <motion.a
+              <h3>FIESTA</h3>
+              <p>{eventVenue || partyPlace}</p>
+              <p>{partyDateString} — {partyTime}</p>
+              <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 href={partyMapUrl}
                 className="s4-link"
-               >
-                 UBICACIÓN
-               </motion.a>
+              >
+                UBICACIÓN
+              </motion.a>
             </motion.section>
           )}
 
           {showDressCode && (
             <motion.section className="s4-section" variants={fadeInUp}>
-               <h3>DRESS CODE</h3>
-               <p>Elegante</p>
+              <h3>DRESS CODE</h3>
+              <p>{dressCodeDescription || 'Elegante'}</p>
             </motion.section>
           )}
 
           {showGifts && (
             <motion.section className="s4-section" variants={fadeInUp}>
-               <h3>REGALOS</h3>
-               <p>Tu presencia es nuestro mejor regalo.</p>
-               <p>CBU/Alias: <strong>{data.alias || 'Alias.Bancario'}</strong></p>
+              <h3>REGALOS</h3>
+              <p>Tu presencia es nuestro mejor regalo.</p>
+              <p>CBU/Alias: <strong>{alias}</strong></p>
             </motion.section>
           )}
         </motion.main>
 
         {showRSVP && (
-           <motion.footer
-             className="s4-footer"
-             {...fadeInUp}
-           >
-              <motion.a
-                whileHover={{ backgroundColor: "#ffffff", color: "#000000" }}
-                href={`https://wa.me/${whatsappNumber}`}
-                className="s4-rsvp-btn"
-              >
-                CONFIRMAR ASISTENCIA
-              </motion.a>
-           </motion.footer>
+          <motion.footer className="s4-footer" {...fadeInUp}>
+            <motion.a
+              whileHover={{ backgroundColor: "#ffffff", color: "#000000" }}
+              href={`https://wa.me/${whatsappNumber}`}
+              className="s4-rsvp-btn"
+            >
+              CONFIRMAR ASISTENCIA
+            </motion.a>
+          </motion.footer>
         )}
       </div>
     </div>

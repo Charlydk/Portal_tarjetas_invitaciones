@@ -2,6 +2,7 @@ import React from 'react';
 import { HeroHeader } from '../../components/invitation-pieces/HeroHeader';
 import { CountdownBox } from '../../components/invitation-pieces/CountdownBox';
 import {
+  CivilBox,
   CeremonyBox,
   PartyBox,
   DressCodeBox,
@@ -32,14 +33,19 @@ function Skeleton1({ data, theme }) {
     partyMapUrl = '#',
     partyMapUnknown = false,
     alias = 'Alias.Bancario',
+    bankCbu = '',
     giftMode = 'cbu',
     whatsappNumber = '',
-    musicUrl = '',
-    eventSubtitle = '',
+    musicPlaylistUrl = '',
     welcomePhrase = '',
     invitePhrase = 'Con cariño te invito a compartir este día tan especial',
     dressCodeDescription = '',
+    galleryPhotos = [],
 
+    civilDate = '', civilTime = '', civilPlace = '', civilAddress = '',
+    civilMapUrl = '#', civilMapUnknown = false,
+
+    showCivil = false,
     showCeremony = true,
     showParty = true,
     showCountdown = true,
@@ -87,20 +93,31 @@ function Skeleton1({ data, theme }) {
       <div className="skeleton1-fixed-bg"></div>
 
       <div className="skeleton1-scroll-container">
-          <HeroHeader 
+          <HeroHeader
             id="section-protagonists"
             videoUrl={themeConfig.assets.headerVideo}
             imageUrl={themeConfig.assets.headerImage || themeConfig.assets.backgroundImage}
             title={name1}
             name2={name2}
-            subtitle={eventSubtitle}
             welcomePhrase={welcomePhrase}
             invitePhrase={invitePhrase}
           />
 
+          {showCivil && (
+            <CivilBox
+              id="section-civil"
+              icon={themeConfig.assets.ceremonyIcon}
+              place={civilPlace}
+              address={civilAddress}
+              date={civilDate}
+              time={civilTime}
+              mapUrl={civilMapUnknown ? null : civilMapUrl}
+            />
+          )}
+
           {showCeremony && (
-            <CeremonyBox 
-              id="section-venue"
+            <CeremonyBox
+              id={!showCivil ? 'section-civil' : 'section-venue'}
               icon={themeConfig.assets.ceremonyIcon}
               place={ceremonyPlace}
               address={ceremonyAddress}
@@ -111,8 +128,8 @@ function Skeleton1({ data, theme }) {
           )}
 
           {showParty && (
-            <PartyBox 
-              id={!showCeremony ? "section-venue" : undefined}
+            <PartyBox
+              id={!showCeremony && !showCivil ? 'section-venue' : undefined}
               icon={themeConfig.assets.partyIcon}
               place={partyPlace}
               eventVenue={eventVenue}
@@ -125,15 +142,34 @@ function Skeleton1({ data, theme }) {
 
           {showCountdown && <CountdownBox eventDate={eventDate} />}
 
-          {showDressCode && <DressCodeBox id="section-sections" icon={themeConfig.assets.dressCodeIcon} description={dressCodeDescription} />}
+          {showDressCode && (
+            <DressCodeBox
+              id="section-sections"
+              icon={themeConfig.assets.dressCodeIcon}
+              description={dressCodeDescription}
+            />
+          )}
 
-          {showGifts && <GiftsBox id={!showDressCode ? "section-sections" : undefined} icon={themeConfig.assets.giftIcon} alias={alias} giftMode={giftMode} />}
+          {showGifts && (
+            <GiftsBox
+              id={!showDressCode ? 'section-sections' : undefined}
+              icon={themeConfig.assets.giftIcon}
+              alias={alias}
+              bankCbu={bankCbu}
+              giftMode={giftMode}
+            />
+          )}
 
-          {showGallery && <GalleryBox themeId={themeConfig.id} />}
+          {showGallery && <GalleryBox id="section-gallery" photos={galleryPhotos} />}
 
           {showRSVP && <RSVPBox id="section-confirm" whatsappNumber={whatsappNumber} />}
 
-          {showMusic && <MusicBox id={!showRSVP ? "section-confirm" : undefined} musicUrl={musicUrl} />}
+          {showMusic && (
+            <MusicBox
+              id={!showRSVP ? 'section-confirm' : undefined}
+              musicUrl={musicPlaylistUrl}
+            />
+          )}
 
           <InvitationFooter title={name1} />
       </div>

@@ -10,7 +10,10 @@ import { StepMusic }       from './steps/StepMusic';
 import { StepGifts }       from './steps/StepGifts';
 import { StepConfirm }     from './steps/StepConfirm';
 import { BASE_PRICE, MODULE_PRICES } from '../../data/pricing';
+import { submitInvitationLead, buildWhatsAppMessage } from '../../lib/invitationService';
 import './ControlPanel.css';
+
+const BUSINESS_WA = import.meta.env.VITE_BUSINESS_WHATSAPP || '5491100000000';
 
 // ─── Registro maestro de pasos ──────────────────────────────────────────────
 const STEP_REGISTRY = [
@@ -27,6 +30,7 @@ const STEP_REGISTRY = [
 
 function ControlPanel({ formData, setFormData, currentStep, setCurrentStep }) {
   const [showFinalModal, setShowFinalModal] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('idle'); // idle | loading | success | error
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -68,6 +72,17 @@ function ControlPanel({ formData, setFormData, currentStep, setCurrentStep }) {
   };
 
   const designSkipped = formData.modelId && formData.variantId;
+
+  const handleFinish = async () => {
+    setSubmitStatus('loading');
+    setShowFinalModal(true);
+    try {
+      await submitInvitationLead(formData, totalPrice);
+      setSubmitStatus('success');
+    } catch {
+      setSubmitStatus('error');
+    }
+  };
 
   return (
     <div className="control-panel wizard">
@@ -113,13 +128,13 @@ function ControlPanel({ formData, setFormData, currentStep, setCurrentStep }) {
             Siguiente →
           </button>
         ) : (
-          <button className="btn-wizard finish" onClick={() => setShowFinalModal(true)}>
+          <button className="btn-wizard finish" onClick={handleFinish}>
             ¡Todo Listo! ✨
           </button>
         )}
       </div>
 
-      {/* ─── MODAL FINAL (PREMIUM) ── */}
+      {/* ─── MODAL FINAL ── */}
       <AnimatePresence>
         {showFinalModal && (
           <div className="final-modal-overlay">
@@ -129,22 +144,44 @@ function ControlPanel({ formData, setFormData, currentStep, setCurrentStep }) {
               exit={{ scale: 0.8, opacity: 0 }}
               className="final-modal-card"
             >
-              <div className="modal-icon">✅</div>
-              <h2>¡Configuración Guardada!</h2>
-              <p>Hiciste un trabajo increíble personalizando tu invitación. <br/><strong>Tus datos ya están guardados en este navegador.</strong></p>
-              
-              <div className="modal-next-steps">
-                <p>Ahora podés:</p>
-                <ul>
-                  <li>Explorar otros diseños con tus mismos datos.</li>
-                  <li>Compartir el link de esta demo con un asesor.</li>
-                  <li>Seguir ajustando los detalles cuando quieras.</li>
-                </ul>
-              </div>
+              {submitStatus === 'loading' ? (
+                <>
+                  <div className="modal-icon modal-spinner">⏳</div>
+                  <h2>Guardando tu pedido…</h2>
+                  <p>Un segundo, ya casi está.</p>
+                </>
+              ) : (
+                <>
+                  <div className="modal-icon">🎉</div>
+                  <h2>¡Tu invitación está lista!</h2>
+                  <p>Configuraste todos los detalles. El próximo paso es confirmar tu pedido.</p>
 
-              <button className="btn-wizard next" onClick={() => setShowFinalModal(false)}>
-                Continuar explorando
-              </button>
+                  <div className="modal-price-badge">
+                    💰 ${totalPrice.toLocaleString('es-AR')}
+                  </div>
+
+                  <p className="modal-cta-label">Contactanos por WhatsApp para arrancar:</p>
+
+                  <a
+                    href={`https://wa.me/${BUSINESS_WA}?text=${encodeURIComponent(buildWhatsAppMessage(formData, totalPrice))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-whatsapp-cta"
+                  >
+                    💬 Confirmar pedido por WhatsApp
+                  </a>
+
+                  {submitStatus === 'error' && (
+                    <p className="modal-error-hint">
+                      (No se pudo guardar tu configuración en la nube, pero podés contactarnos igual)
+                    </p>
+                  )}
+
+                  <button className="btn-wizard-outline-modal" onClick={() => setShowFinalModal(false)}>
+                    Seguir editando
+                  </button>
+                </>
+              )}
             </motion.div>
           </div>
         )}

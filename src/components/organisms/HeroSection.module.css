@@ -1,73 +1,322 @@
-.heroSection {
-  color: white; /* Contrast with the dark overlay */
-  height: 90vh;
+/* ─── HERO SECTION ───────────────────────────────────────────────────────────── */
+
+.heroWrapper {
+  background: linear-gradient(135deg, #1a0a2e 0%, #3b1278 35%, #7c1f5a 65%, #db2777 100%);
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   overflow: hidden;
 }
 
-.heroCarouselContainer {
+.heroSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  min-height: calc(100vh - 72px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  gap: 60px;
+  position: relative;
+}
+
+/* ─── Fondo decorativo (blobs + dots) ───────────────────────────────────────── */
+
+.bgBlob1 {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -80px;
+  right: -120px;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,100,180,0.28) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+  animation: blobDrift1 12s ease-in-out infinite alternate;
+}
+
+.bgBlob2 {
+  position: absolute;
+  bottom: -60px;
+  left: -80px;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(120,60,255,0.22) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+  animation: blobDrift2 15s ease-in-out infinite alternate;
+}
+
+/* Dot grid sutil — patrón a 5% de opacidad */
+.bgDots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+}
+
+@keyframes blobDrift1 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(30px, 20px) scale(1.08); }
+}
+
+@keyframes blobDrift2 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(-20px, 30px) scale(1.06); }
+}
+
+/* ─── Columna izquierda ──────────────────────────────────────────────────────── */
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
   z-index: 1;
 }
 
-/* Glassmorphism/Dark Theme Overlay from Pro Max rules */
-.heroCarouselContainer::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(131, 24, 67, 0.6); /* Using text-color rgb with opacity */
-  backdrop-filter: blur(2px);
-}
-
-.heroContent {
-  position: relative;
-  z-index: 2;
-  max-width: 800px;
-  padding: var(--space-xl);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-xl);
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 0 1.4rem;
 }
 
 .heroTitle {
-  font-size: 4rem; 
-  margin: 0;
   font-family: var(--font-title);
-  color: white; /* Override global primary color for dark background */
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  line-height: 1.08;
+  color: #ffffff;
+  margin: 0 0 1.4rem;
+  font-weight: 400;
+  max-width: 520px;
 }
 
 .heroSubtitle {
-  font-size: 1.5rem;
-  margin-top: var(--space-md);
-  margin-bottom: var(--space-xl);
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0 0 2.4rem;
+  max-width: 420px;
+}
+
+.heroActions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 1.8rem;
+}
+
+.btnMain {
+  background: var(--color-primary);
+  color: white;
+  padding: 15px 36px;
+  border-radius: 50px;
   font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 6px 22px rgba(219,39,119,0.38);
+  transition: transform 220ms ease, box-shadow 220ms ease;
 }
 
-@media (max-width: 768px) {
+.btnMain:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(219,39,119,0.48);
+  color: white;
+}
+
+.btnOutline {
+  border: 2px solid rgba(255,255,255,0.45);
+  color: #ffffff;
+  padding: 13px 30px;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 220ms ease, background 220ms ease;
+  background: rgba(255,255,255,0.07);
+}
+
+.btnOutline:hover {
+  border-color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.14);
+  color: #ffffff;
+}
+
+.trustRow {
+  display: flex;
+  gap: 18px;
+  font-size: 0.76rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: 600;
+  flex-wrap: wrap;
+  letter-spacing: 0.2px;
+}
+
+/* ─── Columna derecha — phone mockup ─────────────────────────────────────────── */
+
+.heroRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.phoneGlow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(219,39,119,0.22) 0%, transparent 65%);
+  z-index: 0;
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50%       { transform: scale(1.12); opacity: 1; }
+}
+
+.phoneFrame {
+  position: relative;
+  z-index: 1;
+  width: 260px;
+  aspect-ratio: 9 / 19;
+  border: 10px solid #111;
+  border-radius: 38px;
+  overflow: hidden;
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.22),
+    0 8px 20px rgba(0,0,0,0.12),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+  background: #111;
+  animation: phoneFloat 5s ease-in-out infinite;
+}
+
+.phoneNotch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 20px;
+  background: #111;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  z-index: 2;
+}
+
+.phoneScreen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes phoneFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%       { transform: translateY(-12px) rotate(1deg); }
+}
+
+/* ─── Badges flotantes ────────────────────────────────────────────────────────── */
+
+.badge1,
+.badge2 {
+  position: absolute;
+  background: white;
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  white-space: nowrap;
+  z-index: 2;
+  border: 1px solid var(--color-border);
+}
+
+.badge1 {
+  top: 14%;
+  left: -10px;
+  animation: badgeFloat1 4s ease-in-out infinite;
+}
+
+.badge2 {
+  bottom: 18%;
+  right: -8px;
+  animation: badgeFloat2 5s ease-in-out infinite;
+}
+
+@keyframes badgeFloat1 {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes badgeFloat2 {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .heroSection {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 48px 24px 60px;
+    gap: 48px;
+    min-height: auto;
+  }
+
+  .heroLeft {
+    align-items: center;
+    order: 2;
+  }
+
+  .heroRight {
+    order: 1;
+  }
+
   .heroTitle {
-    font-size: 3rem;
+    font-size: 2.8rem;
   }
-  .heroSubtitle {
-    font-size: 1.25rem;
+
+  .heroActions {
+    justify-content: center;
   }
-  .heroContent {
-    padding: var(--space-lg);
-    margin: var(--space-md);
+
+  .trustRow {
+    justify-content: center;
+  }
+
+  .phoneFrame {
+    width: 200px;
+  }
+
+  .badge1, .badge2 {
+    display: none;
   }
 }
 
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 2.3rem;
+  }
+
+  .btnMain, .btnOutline {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Lato:wght@300;400&display=swap');
+
+#skeleton9-template {
+  --s9-rose: #C4819B;
+  --s9-dark: #5A3D45;
+  --s9-bg: #FFF8F8;
+  --s9-font-title: 'Dancing Script', cursive;
+  --s9-font-body: 'Lato', sans-serif;
+
+  background-color: var(--s9-bg);
+  color: var(--s9-dark);
+  font-family: var(--s9-font-body);
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#skeleton9-template { -ms-overflow-style: none; scrollbar-width: none; }
+#skeleton9-template::-webkit-scrollbar { display: none; }
+
+/* ── HERO ── */
+.s9-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fff5f7 0%, #fff8f8 100%);
+}
+
+.s9-flower-left,
+.s9-flower-right {
+  position: absolute;
+  top: 0;
+  width: 160px;
+  height: 200px;
+  pointer-events: none;
+  z-index: 1;
+}
+.s9-flower-left  { left: 0; }
+.s9-flower-right { right: 0; }
+
+.s9-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 60px 24px;
+  max-width: 380px;
+}
+
+.s9-eyebrow {
+  font-family: var(--s9-font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--s9-rose);
+  margin-bottom: 16px;
+}
+
+.s9-names {
+  font-family: var(--s9-font-title);
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--s9-dark);
+  margin: 0;
+}
+
+.s9-amp {
+  font-size: 2.5rem;
+  color: var(--s9-rose);
+  display: block;
+  margin: 4px 0;
+}
+
+.s9-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--s9-rose), transparent);
+  margin: 24px auto;
+  max-width: 200px;
+  transform-origin: center;
+}
+
+.s9-invite-text {
+  font-family: var(--s9-font-body);
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--s9-dark);
+  opacity: 0.8;
+}
+
+/* ── SIDE FLORALS en secciones ── */
+.s9-event-block {
+  position: relative;
+  overflow: hidden;
+}
+
+.s9-side-left,
+.s9-side-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 120px;
+  pointer-events: none;
+  opacity: 0.75;
+}
+.s9-side-left  { left: 0; }
+.s9-side-right { right: 0; }
+
+/* ── BODY ── */
+.s9-body {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+}
+
+.s9-section {
+  padding: 44px 0;
+  text-align: center;
+  border-bottom: 1px solid rgba(196, 129, 155, 0.15);
+}
+.s9-section:last-child { border-bottom: none; }
+
+.s9-section-title {
+  font-family: var(--s9-font-title);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--s9-dark);
+  margin: 0 0 12px;
+}
+
+.s9-venue {
+  font-family: var(--s9-font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--s9-rose);
+  margin: 8px 0 4px;
+}
+
+.s9-addr {
+  font-size: 0.84rem;
+  opacity: 0.65;
+  margin: 4px 0;
+}
+
+.s9-datetime {
+  font-size: 0.88rem;
+  letter-spacing: 0.1em;
+  margin: 10px 0 0;
+}
+
+.s9-body-text {
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.7;
+  margin: 6px 0;
+  opacity: 0.85;
+}
+
+.s9-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--s9-rose);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(196, 129, 155, 0.5);
+  padding-bottom: 2px;
+}
+
+/* ── GALLERY ── */
+.s9-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.s9-gallery-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50% 4px 50% 4px;
+}
+
+/* ── RSVP ── */
+.s9-rsvp {
+  background: linear-gradient(135deg, rgba(196,129,155,0.08), rgba(255,255,255,0));
+  border-radius: 4px;
+}
+
+/* ── BUTTONS ── */
+.s9-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 13px 40px;
+  background: var(--s9-rose);
+  color: #fff;
+  font-family: var(--s9-font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: background 0.3s;
+}
+.s9-btn:hover { background: var(--s9-dark); }
+
+.s9-btn-outline {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 11px 36px;
+  background: transparent;
+  color: var(--s9-rose);
+  font-family: var(--s9-font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--s9-rose);
+  border-radius: 50px;
+}
+
+/* ── FOOTER ── */
+.s9-footer {
+  text-align: center;
+  padding: 32px 24px;
+  font-family: var(--s9-font-title);
+  font-size: 1.6rem;
+  color: var(--s9-rose);
+  border-top: 1px solid rgba(196, 129, 155, 0.25);
+}

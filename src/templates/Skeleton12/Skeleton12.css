@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap');
+
+#skeleton12-template {
+  --s12-accent: #C4A35A;
+  --s12-bg: #FAFAF8;
+  --s12-text: #2C2C2C;
+  --s12-font-title: 'Playfair Display', serif;
+  --s12-font-body: 'Lato', sans-serif;
+
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--s12-bg);
+  color: var(--s12-text);
+  font-family: var(--s12-font-body);
+}
+#skeleton12-template { -ms-overflow-style: none; scrollbar-width: none; }
+#skeleton12-template::-webkit-scrollbar { display: none; }
+
+/* ── HERO ── */
+.s12-hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.s12-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 60%);
+}
+
+.s12-hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 48px 32px;
+  width: 100%;
+}
+
+.s12-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--s12-accent);
+  margin-bottom: 12px;
+}
+
+.s12-names {
+  font-family: var(--s12-font-title);
+  font-size: clamp(2.8rem, 9vw, 5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: #fff;
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+
+.s12-amp { color: var(--s12-accent); font-style: normal; }
+
+.s12-invite {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.8);
+  max-width: 280px;
+  line-height: 1.6;
+}
+
+/* ── SPLIT ── */
+.s12-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 55vh;
+}
+
+.s12-split--reversed {
+  direction: rtl;
+}
+.s12-split--reversed > * { direction: ltr; }
+
+.s12-split-image {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  min-height: 300px;
+}
+
+.s12-split-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.s12-split-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 32px;
+  background: var(--s12-bg);
+}
+
+.s12-tag {
+  font-family: var(--s12-font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--s12-accent);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.s12-event-title {
+  font-family: var(--s12-font-title);
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--s12-text);
+  margin: 0 0 10px;
+}
+
+.s12-detail {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: rgba(44,44,44,0.7);
+  margin: 4px 0;
+  line-height: 1.6;
+}
+
+.s12-date {
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--s12-text);
+  margin: 10px 0 0;
+}
+
+.s12-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  color: var(--s12-accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(196,163,90,0.4);
+  padding-bottom: 2px;
+}
+
+/* ── COUNTDOWN ── */
+.s12-countdown-wrap {
+  padding: 48px 24px;
+  background: var(--s12-bg);
+  border-top: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ── EXTRAS ── */
+.s12-extras {
+  background: #f4f0eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.s12-extra-card {
+  padding: 40px 32px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  text-align: center;
+}
+.s12-extra-card:last-child { border-bottom: none; }
+
+.s12-extra-card h3 {
+  font-family: var(--s12-font-title);
+  font-size: 1.3rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--s12-accent);
+  margin: 0 0 8px;
+}
+
+.s12-extra-card p {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--s12-text);
+  margin: 4px 0;
+  line-height: 1.6;
+}
+
+/* ── GALLERY ── */
+.s12-gallery {
+  padding: 48px 24px;
+  background: var(--s12-bg);
+  text-align: center;
+}
+
+.s12-gallery-title {
+  font-family: var(--s12-font-title);
+  font-size: 1.6rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--s12-text);
+  margin: 0 0 24px;
+}
+
+.s12-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.s12-gallery-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+/* ── RSVP split text override ── */
+.s12-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 32px;
+  background: var(--s12-accent);
+  color: #fff;
+  font-family: var(--s12-font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: opacity 0.2s;
+}
+.s12-btn:hover { opacity: 0.85; }
+
+/* ── FOOTER ── */
+.s12-footer {
+  text-align: center;
+  padding: 28px 24px;
+  background: var(--s12-bg);
+  font-family: var(--s12-font-title);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--s12-accent);
+  border-top: 1px solid rgba(196,163,90,0.2);
+}
+.s12-footer p { margin: 0; }

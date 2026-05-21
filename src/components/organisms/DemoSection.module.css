@@ -1,30 +1,42 @@
+/* ─── DEMO SECTION ───────────────────────────────────────────────────────────── */
+
 .featuredDemoSection {
   padding: var(--space-3xl) var(--space-lg);
-  background-color: var(--color-background);
+  background: transparent;
   text-align: center;
 }
 
-.sectionTitle {
-  font-family: var(--font-title);
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   color: var(--color-primary);
-  font-size: 3.5rem;
-  margin-bottom: var(--space-md);
+  margin: 0 0 0.75rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 0.75rem;
 }
 
 .sectionSubtitle {
-  max-width: 600px;
-  margin: 0 auto var(--space-2xl) auto;
-  font-size: 1.25rem;
-  color: var(--color-text);
-  opacity: 0.8;
+  max-width: 560px;
+  margin: 0 auto 3rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
 }
 
 .phoneMockup {
   position: relative;
-  width: 375px;
-  height: 760px;
-  margin: var(--space-lg) auto;
-  border: 12px solid #111;
+  width: 340px;
+  height: 700px;
+  margin: 0 auto;
+  border: 10px solid #111;
   border-radius: 40px;
   box-shadow: var(--shadow-xl);
   background-color: #111;
@@ -32,7 +44,7 @@
 }
 
 .phoneMockup:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
 }
 
 .phoneNotch {
@@ -40,43 +52,37 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 150px;
-  height: 25px;
+  width: 120px;
+  height: 22px;
   background-color: #111;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
   z-index: 2;
 }
 
 .phoneScreenContainer {
   width: 100%;
   height: 100%;
-  border-radius: 28px;
+  border-radius: 30px;
   overflow: hidden;
   position: relative;
 }
 
 .phoneScreen {
   display: block;
-  width: calc(100% + 15px); /* Hide scrollbars hack */
+  width: calc(100% + 15px);
   height: 100%;
   border: none;
   background-color: #fff;
 }
 
-@media (max-width: 768px) {
-  .sectionTitle {
-    font-size: 2.5rem;
-  }
-}
-
 @media (max-width: 600px) {
   .phoneMockup {
-    transform: scale(0.85);
-    margin: -2rem auto;
+    width: 290px;
+    height: 580px;
   }
-  .phoneMockup:hover {
-    transform: scale(0.85) translateY(-5px);
+
+  .sectionTitle {
+    font-size: 1.9rem;
   }
 }
-

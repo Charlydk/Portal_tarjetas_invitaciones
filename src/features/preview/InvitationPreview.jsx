@@ -1,24 +1,8 @@
 import React, { useEffect } from 'react';
 import './InvitationPreview.css';
-import Skeleton1 from '../../templates/Skeleton1/Skeleton1';
-import Skeleton2 from '../../templates/Skeleton2/Skeleton2';
-import Skeleton3 from '../../templates/Skeleton3/Skeleton3';
-import Skeleton4 from '../../templates/Skeleton4/Skeleton4';
-import Skeleton5 from '../../templates/Skeleton5/Skeleton5';
-import Skeleton6 from '../../templates/Skeleton6/Skeleton6';
-import Tarjeta4 from '../../templates/Tarjeta4/Tarjeta4';
 import TemplateWrapper from './TemplateWrapper';
 import { invitationModels } from '../../data/models';
-
-const SKELETON_MAP = {
-  'Skeleton1': Skeleton1,
-  'Skeleton2': Skeleton2,
-  'Skeleton3': Skeleton3,
-  'Skeleton4': Skeleton4,
-  'Skeleton5': Skeleton5,
-  'Skeleton6': Skeleton6,
-  'Tarjeta4': Tarjeta4,
-};
+import { SKELETON_MAP } from '../../lib/skeletonMap';
 
 // Mapeo paso → sección en la tarjeta
 const STEP_SECTION_MAP = {
@@ -31,7 +15,7 @@ const STEP_SECTION_MAP = {
   confirm:      'section-rsvp',
 };
 
-function InvitationPreview({ formData, themeId, activeStepId }) {
+function InvitationPreview({ formData, themeId, activeStepId, isEditorMode = true, fullScreen = false, audioEnabled = false }) {
   // ── Scroll sync ──────────────────────────────────────────────────────────
   useEffect(() => {
     if (!activeStepId) return;
@@ -60,13 +44,14 @@ function InvitationPreview({ formData, themeId, activeStepId }) {
   if (selectedModel && selectedVariant) {
     const SkeletonComponent = SKELETON_MAP[selectedModel.skeletonComponent];
     if (SkeletonComponent) {
-      return (
-        <div className="preview-frame-container">
-          <TemplateWrapper themeConfig={selectedVariant} isEditorMode={true}>
-            <SkeletonComponent data={formData} theme={selectedVariant} />
-          </TemplateWrapper>
-        </div>
+      const content = (
+        <TemplateWrapper themeConfig={selectedVariant} isEditorMode={isEditorMode} audioEnabled={audioEnabled}>
+          <SkeletonComponent data={formData} theme={selectedVariant} />
+        </TemplateWrapper>
       );
+      return fullScreen
+        ? content
+        : <div className="preview-frame-container">{content}</div>;
     }
   }
 

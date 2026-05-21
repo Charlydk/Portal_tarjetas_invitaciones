@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+#skeleton15-template {
+  --s15-gold:       #C9A96E;
+  --s15-gold-dark:  #A07840;
+  --s15-cream:      #FAF7F2;
+  --s15-dark:       #2C2416;
+  --s15-band:       #1E1A14;
+  --s15-sub:        #7A6A52;
+  --s15-font-title: 'Playfair Display', serif;
+  --s15-font-body:  'EB Garamond', serif;
+
+  background-color: var(--s15-cream);
+  color: var(--s15-dark);
+  font-family: var(--s15-font-body);
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#skeleton15-template { -ms-overflow-style: none; scrollbar-width: none; }
+#skeleton15-template::-webkit-scrollbar { display: none; }
+
+/* ── LABEL ── */
+.s15-label {
+  font-family: var(--s15-font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--s15-gold);
+  text-align: center;
+  display: block;
+}
+
+/* ── DIVIDER ── */
+.s15-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px auto;
+  max-width: 280px;
+}
+.s15-divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--s15-gold);
+  opacity: 0.5;
+}
+.s15-divider-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--s15-gold);
+  flex-shrink: 0;
+}
+
+/* ── HERO ── */
+.s15-hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+  position: relative;
+}
+
+.s15-hero-frame {
+  position: absolute;
+  inset: 20px;
+  border: 1px solid var(--s15-gold);
+  opacity: 0.45;
+  pointer-events: none;
+}
+.s15-hero-frame-inner {
+  position: absolute;
+  inset: 28px;
+  border: 0.5px solid var(--s15-gold);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.s15-hero-top-label {
+  margin-bottom: 32px;
+}
+
+.s15-names {
+  font-family: var(--s15-font-title);
+  font-size: clamp(3rem, 9vw, 5.5rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.1;
+  color: var(--s15-dark);
+  margin: 0 0 8px;
+}
+
+.s15-amp {
+  display: block;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--s15-gold);
+  margin: 4px 0;
+  line-height: 1;
+}
+
+.s15-hero-invite {
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--s15-sub);
+  max-width: 300px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.s15-scroll-hint {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--s15-gold);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  opacity: 0.7;
+}
+
+/* ── DATE BAND ── */
+.s15-date-band {
+  background-color: var(--s15-band);
+  padding: 40px 24px;
+  text-align: center;
+  position: relative;
+}
+.s15-date-band::before,
+.s15-date-band::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--s15-gold);
+  opacity: 0.5;
+}
+.s15-date-band::before { top: 0; }
+.s15-date-band::after  { bottom: 0; }
+
+.s15-band-label {
+  font-family: var(--s15-font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--s15-gold);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.s15-band-date-day {
+  font-family: var(--s15-font-title);
+  font-size: clamp(3.5rem, 12vw, 6rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  margin: 0;
+}
+
+.s15-band-date-full {
+  font-family: var(--s15-font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--s15-gold);
+  margin-top: 6px;
+  display: block;
+}
+
+/* ── BODY ── */
+.s15-body {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 28px 64px;
+}
+
+.s15-section {
+  padding: 44px 0;
+  text-align: center;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.18);
+}
+.s15-section:last-child { border-bottom: none; }
+
+.s15-section-title {
+  font-family: var(--s15-font-title);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--s15-dark);
+  margin: 12px 0 16px;
+}
+
+.s15-venue {
+  font-family: var(--s15-font-title);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--s15-gold);
+  margin: 8px 0 4px;
+}
+
+.s15-addr {
+  font-size: 0.9rem;
+  color: var(--s15-sub);
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+.s15-datetime {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--s15-dark);
+  margin: 10px 0 0;
+}
+
+.s15-body-text {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--s15-sub);
+  margin: 6px 0;
+}
+
+.s15-map-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--s15-gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.5);
+  padding-bottom: 2px;
+}
+
+/* ── GALLERY ── */
+.s15-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 20px;
+}
+.s15-gallery-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  filter: sepia(8%) brightness(0.96);
+}
+
+/* ── BUTTONS ── */
+.s15-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 13px 38px;
+  background: var(--s15-dark);
+  color: var(--s15-cream);
+  font-family: var(--s15-font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--s15-dark);
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+.s15-btn:hover {
+  background: var(--s15-gold);
+  border-color: var(--s15-gold);
+  color: var(--s15-dark);
+}
+
+.s15-btn-outline {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 11px 32px;
+  background: transparent;
+  color: var(--s15-dark);
+  font-family: var(--s15-font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--s15-gold);
+  transition: background 0.3s;
+}
+.s15-btn-outline:hover {
+  background: rgba(201, 169, 110, 0.1);
+}
+
+/* ── FOOTER ── */
+.s15-footer {
+  text-align: center;
+  padding: 32px 24px;
+  font-family: var(--s15-font-title);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--s15-gold);
+  border-top: 1px solid rgba(201, 169, 110, 0.3);
+}

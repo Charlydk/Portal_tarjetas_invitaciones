@@ -3,6 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCountdown } from '../../hooks/useCountdown';
 import './Skeleton5.css';
 
+const SAMPLE_PHOTOS = [
+  'https://images.unsplash.com/photo-1519741497674-611481863552?w=300&q=80',
+  'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=300&q=80',
+  'https://images.unsplash.com/photo-1522673607200-1648832cee98?w=300&q=80',
+  'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=300&q=80',
+];
+
 function Skeleton5({ data, theme }) {
   const {
     name1 = 'Nombre',
@@ -12,8 +19,10 @@ function Skeleton5({ data, theme }) {
     partyPlace = 'Salón',
     alias = 'Alias.Bancario',
     whatsappNumber = '',
-    musicUrl = '',
+    musicPlaylistUrl = '',
     eventVenue = '',
+    dressCodeDescription = 'Elegante',
+    galleryPhotos = [],
 
     showCeremony = true,
     showParty = true,
@@ -27,17 +36,18 @@ function Skeleton5({ data, theme }) {
 
   const [activeCard, setActiveCard] = useState(null);
   const timeLeft = useCountdown(eventDate);
+  const displayPhotos = galleryPhotos.length > 0 ? galleryPhotos : SAMPLE_PHOTOS;
 
   const cards = [
     showCountdown && {
-        id: 'countdown',
-        title: 'FALTAN',
-        icon: '⏳',
-        content: `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`
+      id: 'countdown',
+      title: 'FALTAN',
+      icon: '⏳',
+      content: `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`
     },
     (showCeremony || showParty) && { id: 'when', title: '¿CUÁNDO?', icon: '📅', content: partyDateString },
     (showCeremony || showParty) && { id: 'where', title: '¿DÓNDE?', icon: '📍', content: `${ceremonyPlace} / ${eventVenue || partyPlace}` },
-    showDressCode && { id: 'dresscode', title: 'DRESS CODE', icon: '👗', content: 'Elegante' },
+    showDressCode && { id: 'dresscode', title: 'DRESS CODE', icon: '👗', content: dressCodeDescription || 'Elegante' },
     showGallery && { id: 'album', title: 'ÁLBUM', icon: '📸', content: '¡Toca para ver nuestras fotos!' },
     showMusic && { id: 'music', title: 'MÚSICA', icon: '🎵', content: '¿Qué canción no puede faltar?' },
     showGifts && { id: 'gifts', title: 'REGALOS', icon: '🎁', content: `CBU/Alias: ${alias}` },
@@ -51,28 +61,17 @@ function Skeleton5({ data, theme }) {
 
   const handleCardClick = (card) => {
     if (activeCard === card.id) {
-        setActiveCard(null);
+      setActiveCard(null);
+      if (card.id === 'rsvp') window.open(`https://wa.me/${whatsappNumber}`, '_blank');
+      if (card.id === 'music' && musicPlaylistUrl) window.open(musicPlaylistUrl, '_blank');
     } else {
-        setActiveCard(card.id);
-    }
-
-    // Actions for specific cards if needed
-    if (card.id === 'rsvp' && activeCard === card.id) {
-        window.open(`https://wa.me/${whatsappNumber}`, '_blank');
-    }
-    if (card.id === 'music' && activeCard === card.id) {
-        window.open(musicUrl, '_blank');
+      setActiveCard(card.id);
     }
   };
 
   const container = {
     hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } }
   };
 
   const item = {
@@ -89,19 +88,16 @@ function Skeleton5({ data, theme }) {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-           <motion.div
-             className="s5-circle-decoration"
-             animate={{
-               rotate: 360,
-               scale: [1, 1.1, 1]
-             }}
-             transition={{
-               rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-               scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-             }}
-           ></motion.div>
-           <h1 className="s5-title">{name1}</h1>
-           <p className="s5-subtitle">¡FESTEJEMOS!</p>
+          <motion.div
+            className="s5-circle-decoration"
+            animate={{ rotate: 360, scale: [1, 1.1, 1] }}
+            transition={{
+              rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+              scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+            }}
+          ></motion.div>
+          <h1 className="s5-title">{name1}</h1>
+          <p className="s5-subtitle">¡FESTEJEMOS!</p>
         </motion.header>
 
         <motion.div
@@ -111,63 +107,63 @@ function Skeleton5({ data, theme }) {
           whileInView="show"
           viewport={{ once: true }}
         >
-           {cards.map(card => (
-             <motion.div
-               key={card.id}
-               variants={item}
-               whileHover={{ scale: 1.05 }}
-               whileTap={{ scale: 0.95 }}
-               className={`s5-card ${activeCard === card.id ? 'active' : ''}`}
-               onClick={() => handleCardClick(card)}
-             >
-                <div className="s5-card-inner">
-                    <div className="s5-card-front">
-                        <span className="s5-card-icon">{card.icon}</span>
-                        <h3>{card.title}</h3>
-                    </div>
-                    <div className="s5-card-back">
-                        <div className="s5-card-content">
-                            {card.id === 'countdown' ? (
-                                <div className="s5-timer-mini">
-                                    <div><span>{timeLeft.days}</span><p>D</p></div>
-                                    <div><span>{timeLeft.hours}</span><p>H</p></div>
-                                    <div><span>{timeLeft.minutes}</span><p>M</p></div>
-                                    <div><span>{timeLeft.seconds}</span><p>S</p></div>
-                                </div>
-                            ) : (
-                                <p>{card.content}</p>
-                            )}
-                            {(card.id === 'rsvp' || card.id === 'music' || card.id === 'album') && (
-                                <span className="s5-tap-hint">Toca de nuevo</span>
-                            )}
-                        </div>
-                    </div>
+          {cards.map(card => (
+            <motion.div
+              key={card.id}
+              variants={item}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`s5-card ${activeCard === card.id ? 'active' : ''}`}
+              onClick={() => handleCardClick(card)}
+            >
+              <div className="s5-card-inner">
+                <div className="s5-card-front">
+                  <span className="s5-card-icon">{card.icon}</span>
+                  <h3>{card.title}</h3>
                 </div>
-             </motion.div>
-           ))}
+                <div className="s5-card-back">
+                  <div className="s5-card-content">
+                    {card.id === 'countdown' ? (
+                      <div className="s5-timer-mini">
+                        <div><span>{timeLeft.days}</span><p>D</p></div>
+                        <div><span>{timeLeft.hours}</span><p>H</p></div>
+                        <div><span>{timeLeft.minutes}</span><p>M</p></div>
+                        <div><span>{timeLeft.seconds}</span><p>S</p></div>
+                      </div>
+                    ) : (
+                      <p>{card.content}</p>
+                    )}
+                    {(card.id === 'rsvp' || card.id === 'music' || card.id === 'album') && (
+                      <span className="s5-tap-hint">Toca de nuevo</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
 
         <AnimatePresence>
           {activeCard === 'album' && showGallery && (
-              <motion.div
-                className="s5-gallery-preview"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-              >
-                  <div className="s5-gallery-grid">
-                      {(theme?.assets?.sectionPhotos || [...Array(4)]).map((src, i) => (
-                          <motion.img
-                            key={i}
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: i * 0.1 }}
-                            src={typeof src === 'string' ? src : `https://picsum.photos/seed/s5-${i}/200/200`}
-                            alt="Gallery"
-                          />
-                      ))}
-                  </div>
-              </motion.div>
+            <motion.div
+              className="s5-gallery-preview"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <div className="s5-gallery-grid">
+                {displayPhotos.slice(0, 4).map((src, i) => (
+                  <motion.img
+                    key={i}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: i * 0.1 }}
+                    src={src}
+                    alt={`Foto ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -177,7 +173,7 @@ function Skeleton5({ data, theme }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-           <p>Toca las tarjetas para descubrir más detalles</p>
+          <p>Toca las tarjetas para descubrir más detalles</p>
         </motion.footer>
       </div>
     </div>

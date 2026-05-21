@@ -1,52 +1,110 @@
-.howItWorksSection {
+/* ─── HOW IT WORKS ───────────────────────────────────────────────────────────── */
+
+.section {
   padding: var(--space-3xl) var(--space-lg);
-  background-color: white;
+  background: transparent;
   text-align: center;
 }
 
-.sectionTitle {
-  font-family: var(--font-title);
-  font-size: 3.5rem;
-  margin-bottom: var(--space-2xl);
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   color: var(--color-primary);
+  margin: 0 0 0.75rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 0.75rem;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin: 0 0 3.5rem;
 }
 
 .stepsContainer {
   display: flex;
-  justify-content: space-around;
-  gap: var(--space-xl);
-  margin-top: var(--space-xl);
-  flex-wrap: wrap; 
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .step {
   flex: 1;
-  min-width: 250px;
-  max-width: 350px;
-  padding: var(--space-lg);
-  transition: transform 0.3s ease;
+  min-width: 220px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
-.step:hover {
-  transform: translateY(-5px);
+.stepNumber {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  opacity: 0.12;
+  line-height: 1;
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  user-select: none;
 }
 
-.step h3 {
-  font-size: 1.8rem;
-  color: var(--color-cta);
-  margin-bottom: var(--space-sm);
+.stepIcon {
+  font-size: 2.4rem;
+  margin-bottom: 1.2rem;
+  position: relative;
+  z-index: 1;
+  background: white;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  border: 2px solid var(--color-border);
+  margin-top: 24px;
 }
 
-.step p {
+.stepTitle {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--color-text);
-  font-size: 1.3rem; 
-  line-height: 1.6;
-  opacity: 1;
+  margin: 0 0 0.6rem;
 }
 
-@media (max-width: 768px) {
-  .sectionTitle {
-    font-size: 2.5rem;
+.stepDesc {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.9rem;
+  }
+
+  .stepsContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step {
+    max-width: 320px;
   }
 }
-

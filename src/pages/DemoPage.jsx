@@ -24,7 +24,8 @@ const STEP_CONDITIONS = [
 
 function DemoPage() {
   const { templateId } = useParams();
-  const currentTemplate = templates.find(t => t.slug === templateId);
+  const currentTemplate = templates.find(t => t.slug === templateId)
+    || templates.find(t => t.themeId === templateId);
   const targetThemeId = currentTemplate?.themeId || currentTemplate?.theme || '';
 
   let initialModelId = '';
