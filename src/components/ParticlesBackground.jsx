@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const COLORS = [
+const DEFAULT_COLORS = [
   [219, 39, 119],   // rose
   [244, 114, 182],  // pink
   [167, 139, 250],  // violet
@@ -8,25 +8,23 @@ const COLORS = [
   [251, 207, 232],  // blush
 ];
 
-const PARTICLE_COUNT = 100;
-
-function createParticle(canvasW, canvasH, fromScratch = false) {
-  const [r, g, b] = COLORS[Math.floor(Math.random() * COLORS.length)];
+function createParticle(canvasW, canvasH, colors, fromScratch = false) {
+  const [r, g, b] = colors[Math.floor(Math.random() * colors.length)];
   return {
     x:         Math.random() * canvasW,
     y:         fromScratch
                  ? Math.random() * canvasH
                  : canvasH + Math.random() * 80,
-    size:      Math.random() * 4.5 + 1.5,           // 1.5 – 6 px
+    size:      Math.random() * 4.5 + 1.5,
     speedY:    -(Math.random() * 0.6 + 0.2),
-    opacity:   Math.random() * 0.45 + 0.35,          // 0.35 – 0.80
+    opacity:   Math.random() * 0.45 + 0.35,
     r, g, b,
     offset:    Math.random() * Math.PI * 2,
     amplitude: Math.random() * 0.55 + 0.15,
   };
 }
 
-export default function ParticlesBackground() {
+export default function ParticlesBackground({ colors = DEFAULT_COLORS, count = 100 }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -44,9 +42,8 @@ export default function ParticlesBackground() {
     resize();
     window.addEventListener('resize', resize);
 
-    // Spawn particles spread across the canvas on init
-    const particles = Array.from({ length: PARTICLE_COUNT }, () =>
-      createParticle(canvas.width, canvas.height, true)
+    const particles = Array.from({ length: count }, () =>
+      createParticle(canvas.width, canvas.height, colors, true)
     );
 
     const draw = () => {
@@ -54,13 +51,11 @@ export default function ParticlesBackground() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       for (const p of particles) {
-        // Sine-wave horizontal drift
-        p.x    += Math.sin(t * 0.008 + p.offset) * p.amplitude;
-        p.y    += p.speedY;
+        p.x += Math.sin(t * 0.008 + p.offset) * p.amplitude;
+        p.y += p.speedY;
 
-        // Recycle when off the top
         if (p.y < -10) {
-          Object.assign(p, createParticle(canvas.width, canvas.height, false));
+          Object.assign(p, createParticle(canvas.width, canvas.height, colors, false));
         }
 
         ctx.beginPath();

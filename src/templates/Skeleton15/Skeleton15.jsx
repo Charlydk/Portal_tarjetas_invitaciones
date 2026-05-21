@@ -1,7 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CountdownBox } from '../../components/invitation-pieces/CountdownBox';
+import ParticlesBackground from '../../components/ParticlesBackground';
 import './Skeleton15.css';
+
+const GOLD_PARTICLES = [
+  [201, 169, 110],  // gold
+  [220, 190, 140],  // light gold
+  [160, 120,  64],  // dark gold
+  [250, 247, 242],  // cream
+  [235, 220, 190],  // warm white
+];
 
 const SAMPLE_PHOTOS = [
   'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600',
@@ -84,6 +93,8 @@ function Skeleton15({ data, theme }) {
 
   return (
     <div id="skeleton15-template" style={dynamicStyles}>
+
+      <ParticlesBackground colors={GOLD_PARTICLES} count={60} />
 
       {/* ── HERO ── */}
       <section id="section-protagonists" className="s15-hero">
