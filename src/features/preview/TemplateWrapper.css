@@ -107,3 +107,22 @@
     70% { box-shadow: 0 0 0 15px rgba(var(--primary-color-rgb, 0, 123, 255), 0); }
     100% { box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb, 0, 123, 255), 0); }
 }
+
+.music-toggle-btn.loading {
+    cursor: default;
+    opacity: 0.85;
+}
+
+.music-spinner {
+    display: block;
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin-audio 0.75s linear infinite;
+}
+
+@keyframes spin-audio {
+    to { transform: rotate(360deg); }
+}
