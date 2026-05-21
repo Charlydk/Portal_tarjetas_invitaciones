@@ -6,35 +6,52 @@ function TemplateWrapper({ children, themeConfig, isEditorMode = false, audioEna
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef(null);
 
+  // Escuchar eventos nativos del audio — más confiables que la promesa de play()
   useEffect(() => {
-    if (!audioRef.current || !themeConfig?.assets?.audio) return;
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const onWaiting = () => setIsLoading(true);
+    const onPlaying = () => { setIsPlaying(true); setIsLoading(false); };
+    const onPause   = () => { setIsPlaying(false); setIsLoading(false); };
+
+    audio.addEventListener('waiting', onWaiting);
+    audio.addEventListener('playing', onPlaying);
+    audio.addEventListener('pause',   onPause);
+
+    return () => {
+      audio.removeEventListener('waiting', onWaiting);
+      audio.removeEventListener('playing', onPlaying);
+      audio.removeEventListener('pause',   onPause);
+    };
+  }, []);
+
+  // Arrancar / pausar cuando cambia audioEnabled
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !themeConfig?.assets?.audio) return;
     if (audioEnabled) {
       setIsLoading(true);
-      audioRef.current.play()
-        .then(() => { setIsPlaying(true); setIsLoading(false); })
-        .catch(() => { setIsLoading(false); });
+      audio.play().catch(() => setIsLoading(false));
     } else {
-      audioRef.current.pause();
-      setIsPlaying(false);
-      setIsLoading(false);
+      audio.pause();
     }
   }, [audioEnabled, themeConfig?.assets?.audio]);
 
+  // Resetear al cambiar de canción
   useEffect(() => {
     setIsPlaying(false);
     setIsLoading(false);
   }, [themeConfig?.assets?.audio]);
 
   const toggleAudio = () => {
-    if (!audioRef.current || isLoading) return;
+    const audio = audioRef.current;
+    if (!audio || isLoading) return;
     if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
+      audio.pause();
     } else {
       setIsLoading(true);
-      audioRef.current.play()
-        .then(() => { setIsPlaying(true); setIsLoading(false); })
-        .catch(() => { setIsLoading(false); });
+      audio.play().catch(() => setIsLoading(false));
     }
   };
 
