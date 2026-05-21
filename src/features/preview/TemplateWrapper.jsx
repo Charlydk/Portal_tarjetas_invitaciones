@@ -2,39 +2,45 @@ import React, { useState, useRef, useEffect } from 'react';
 import './TemplateWrapper.css';
 
 function TemplateWrapper({ children, themeConfig, isEditorMode = false, audioEnabled = false }) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPlaying, setIsPlaying]     = useState(false);
+  const [isLoading, setIsLoading]     = useState(false);
+  const [pendingPlay, setPendingPlay] = useState(false);
   const audioRef = useRef(null);
 
-  // Escuchar eventos nativos del audio — más confiables que la promesa de play()
+  // Eventos nativos del audio element
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-
-    const onWaiting = () => setIsLoading(true);
     const onPlaying = () => { setIsPlaying(true); setIsLoading(false); };
-    const onPause   = () => { setIsPlaying(false); setIsLoading(false); };
-
-    audio.addEventListener('waiting', onWaiting);
+    const onPause   = () => { setIsPlaying(false); };
+    const onWaiting = () => setIsLoading(true);
     audio.addEventListener('playing', onPlaying);
     audio.addEventListener('pause',   onPause);
-
+    audio.addEventListener('waiting', onWaiting);
     return () => {
-      audio.removeEventListener('waiting', onWaiting);
       audio.removeEventListener('playing', onPlaying);
       audio.removeEventListener('pause',   onPause);
+      audio.removeEventListener('waiting', onWaiting);
     };
   }, []);
 
-  // Arrancar / pausar cuando cambia audioEnabled
+  // Fase 2: play() se llama DESPUÉS de que React pintó el spinner
   useEffect(() => {
+    if (!pendingPlay) return;
     const audio = audioRef.current;
-    if (!audio || !themeConfig?.assets?.audio) return;
+    if (!audio) return;
+    setPendingPlay(false);
+    audio.play().catch(() => setIsLoading(false));
+  }, [pendingPlay]);
+
+  // Arrancar / pausar cuando cambia audioEnabled desde fuera (WelcomeScreen)
+  useEffect(() => {
+    if (!themeConfig?.assets?.audio) return;
     if (audioEnabled) {
-      setIsLoading(true);
-      audio.play().catch(() => setIsLoading(false));
+      setIsLoading(true);   // Fase 1: spinner aparece
+      setPendingPlay(true); // Fase 2: play() se ejecuta en el próximo efecto
     } else {
-      audio.pause();
+      audioRef.current?.pause();
     }
   }, [audioEnabled, themeConfig?.assets?.audio]);
 
@@ -45,13 +51,12 @@ function TemplateWrapper({ children, themeConfig, isEditorMode = false, audioEna
   }, [themeConfig?.assets?.audio]);
 
   const toggleAudio = () => {
-    const audio = audioRef.current;
-    if (!audio || isLoading) return;
+    if (isLoading) return;
     if (isPlaying) {
-      audio.pause();
+      audioRef.current?.pause();
     } else {
-      setIsLoading(true);
-      audio.play().catch(() => setIsLoading(false));
+      setIsLoading(true);   // Fase 1: spinner
+      setPendingPlay(true); // Fase 2: play() post-render
     }
   };
 
