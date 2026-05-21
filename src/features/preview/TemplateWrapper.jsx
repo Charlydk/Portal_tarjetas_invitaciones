@@ -63,18 +63,26 @@ function TemplateWrapper({ children, themeConfig, isEditorMode = false, audioEna
   return (
     <div className="template-wrapper">
       {themeConfig?.assets?.audio && (
-        <audio ref={audioRef} loop key={themeConfig.assets.audio}>
+        <audio ref={audioRef} loop preload="none" key={themeConfig.assets.audio}>
           <source src={themeConfig.assets.audio} type="audio/mpeg" />
         </audio>
       )}
 
-      {themeConfig?.assets?.audio && !isEditorMode && (
+      {/* Overlay de carga — fuera del template, imposible que quede tapado */}
+      {isLoading && !isEditorMode && (
+        <div className="audio-loading-overlay">
+          <div className="audio-loading-spinner" />
+          <p className="audio-loading-text">Cargando música...</p>
+        </div>
+      )}
+
+      {themeConfig?.assets?.audio && !isEditorMode && !isLoading && (
         <button
-          className={`music-toggle-btn ${isPlaying ? 'playing' : ''} ${isLoading ? 'loading' : ''}`}
+          className={`music-toggle-btn ${isPlaying ? 'playing' : ''}`}
           onClick={toggleAudio}
-          title={isLoading ? 'Cargando...' : isPlaying ? 'Pausar música' : 'Reproducir música'}
+          title={isPlaying ? 'Pausar música' : 'Reproducir música'}
         >
-          {isLoading ? <span className="music-spinner" /> : isPlaying ? '⏸' : '▶'}
+          {isPlaying ? '⏸' : '▶'}
         </button>
       )}
 
