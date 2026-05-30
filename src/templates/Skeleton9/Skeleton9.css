@@ -175,23 +175,30 @@
 .s9-side-left  { left: 0; }
 .s9-side-right { right: 0; }
 
-/* ── Watercolor floral backgrounds — large, soft, ambient ── */
+/* ── Watercolor floral backgrounds — large, visible, decorative ── */
 .s9-watercolor {
   position: absolute;
-  width: 240px;
-  height: 280px;
+  width: 180px;
+  height: 220px;
   pointer-events: none;
   z-index: 0;
-  filter: blur(0.5px);
 }
-.s9-watercolor-left  { left: -90px;  top: -20px; }
-.s9-watercolor-right { right: -90px; bottom: -20px; transform: scaleX(-1); }
-.s9-watercolor svg { width: 100%; height: 100%; }
+.s9-watercolor-left  { left: -55px;  top: -10px; }
+.s9-watercolor-right { right: -55px; bottom: -10px; }
+.s9-watercolor svg { width: 100%; height: 100%; display: block; }
 
 /* Event block content must be above watercolor */
 .s9-event-block > *:not(.s9-watercolor) {
   position: relative;
   z-index: 1;
+}
+
+/* Alternating soft section tints */
+.s9-event-block:nth-of-type(odd) {
+  background: linear-gradient(180deg, rgba(248, 220, 228, 0.18), rgba(248, 220, 228, 0));
+}
+.s9-event-block:nth-of-type(even) {
+  background: linear-gradient(180deg, rgba(248, 234, 218, 0.22), rgba(248, 234, 218, 0));
 }
 
 /* ── Body ── */

@@ -31,8 +31,7 @@ const SAMPLE_PHOTOS = [
 
 const fadeUp = {
   initial: { opacity: 0, y: 28 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
+  animate: { opacity: 1, y: 0 },
   transition: { duration: 0.8, ease: 'easeOut' },
 };
 
@@ -105,36 +104,46 @@ function FlowerCornerRight({ animate }) {
   );
 }
 
-// ── Watercolor floral background (entra al hacer scroll, ambient) ──
+// ── Watercolor floral — entra al cargar, claramente visible ──
 function WatercolorBackground({ side = 'left', delay = 0 }) {
   const initial = side === 'left'
-    ? { x: -120, opacity: 0, rotate: -8 }
-    : { x: 120, opacity: 0, rotate: 8 };
+    ? { x: -60, opacity: 0, rotate: -6 }
+    : { x: 60, opacity: 0, rotate: 6 };
   return (
     <motion.div
       className={`s9-watercolor s9-watercolor-${side}`}
       initial={initial}
-      whileInView={{ x: 0, opacity: 0.55, rotate: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay }}
+      animate={{ x: 0, opacity: 1, rotate: 0 }}
+      transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.1 + delay }}
     >
       <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Soft watercolor blobs */}
-        <circle cx="100" cy="100" r="80" fill="#F0D5DC" opacity="0.35"/>
-        <circle cx="80"  cy="140" r="60" fill="#E8C5CE" opacity="0.40"/>
-        <circle cx="130" cy="80"  r="55" fill="#F8E0E6" opacity="0.45"/>
-        <circle cx="60"  cy="60"  r="40" fill="#FFE5EB" opacity="0.35"/>
-        {/* Leaves */}
-        <ellipse cx="100" cy="100" rx="22" ry="10" fill="#A8C09E" opacity="0.5" transform="rotate(-25 100 100)"/>
-        <ellipse cx="135" cy="120" rx="18" ry="9"  fill="#A8C09E" opacity="0.45" transform="rotate(20 135 120)"/>
-        <ellipse cx="70"  cy="160" rx="20" ry="9"  fill="#B5C9A0" opacity="0.45" transform="rotate(-40 70 160)"/>
-        {/* Rose centers */}
-        <circle cx="100" cy="100" r="18" fill="#D4A5B0" opacity="0.65"/>
-        <circle cx="100" cy="100" r="11" fill="#C4819B" opacity="0.75"/>
-        <circle cx="100" cy="100" r="5"  fill="#B06080" opacity="0.85"/>
-        {/* Smaller rose */}
-        <circle cx="55" cy="180" r="12" fill="#E8C5CE" opacity="0.7"/>
-        <circle cx="55" cy="180" r="7"  fill="#C4819B" opacity="0.75"/>
+        {/* Watercolor wash — multiple soft layers for depth */}
+        <circle cx="100" cy="100" r="85" fill="#F8DCE4" opacity="0.65"/>
+        <circle cx="80"  cy="140" r="65" fill="#F2C6D2" opacity="0.55"/>
+        <circle cx="130" cy="80"  r="58" fill="#FAE0E8" opacity="0.6"/>
+        {/* Leaves — sage green */}
+        <ellipse cx="105" cy="105" rx="28" ry="13" fill="#8FA678" opacity="0.7" transform="rotate(-25 105 105)"/>
+        <ellipse cx="140" cy="125" rx="22" ry="11" fill="#8FA678" opacity="0.65" transform="rotate(22 140 125)"/>
+        <ellipse cx="68"  cy="165" rx="24" ry="11" fill="#A8C09E" opacity="0.6"  transform="rotate(-42 68 165)"/>
+        <ellipse cx="155" cy="70"  rx="18" ry="9"  fill="#8FA678" opacity="0.55" transform="rotate(35 155 70)"/>
+        {/* Main rose — vivid */}
+        <circle cx="100" cy="100" r="26" fill="#E8B7C3" opacity="0.95"/>
+        <circle cx="100" cy="100" r="18" fill="#D08CA0" opacity="0.95"/>
+        <circle cx="100" cy="100" r="11" fill="#B5708A" opacity="1"/>
+        <circle cx="100" cy="100" r="5"  fill="#8C4C66" opacity="1"/>
+        {/* Outer petals */}
+        <ellipse cx="100" cy="76"  rx="10" ry="14" fill="#E8B7C3" opacity="0.85"/>
+        <ellipse cx="124" cy="100" rx="14" ry="10" fill="#E8B7C3" opacity="0.85"/>
+        <ellipse cx="76"  cy="100" rx="14" ry="10" fill="#E8B7C3" opacity="0.85"/>
+        <ellipse cx="100" cy="124" rx="10" ry="14" fill="#E8B7C3" opacity="0.85"/>
+        {/* Secondary rose */}
+        <circle cx="55" cy="180" r="16" fill="#F0C5D0" opacity="0.9"/>
+        <circle cx="55" cy="180" r="10" fill="#D08CA0" opacity="0.95"/>
+        <circle cx="55" cy="180" r="5"  fill="#B5708A" opacity="1"/>
+        {/* Tiny buds */}
+        <circle cx="170" cy="150" r="6" fill="#E8B7C3" opacity="0.8"/>
+        <circle cx="170" cy="150" r="3.5" fill="#D08CA0" opacity="0.9"/>
+        <circle cx="160" cy="180" r="4" fill="#F0C5D0" opacity="0.75"/>
       </svg>
     </motion.div>
   );
@@ -144,8 +153,7 @@ function FloralDivider() {
   return (
     <motion.div className="s9-floral-divider"
       initial={{ opacity: 0, scaleX: 0.5 }}
-      whileInView={{ opacity: 1, scaleX: 1 }}
-      viewport={{ once: true }}
+      animate={{ opacity: 1, scaleX: 1 }}
       transition={{ duration: 0.7 }}
     >
       <svg viewBox="0 0 240 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -422,8 +430,7 @@ function Skeleton9({ data, theme }) {
                 {displayPhotos.map((src, i) => (
                   <motion.div key={i} className="s9-carousel-item"
                     initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
                     onClick={() => setLightboxIdx(i)}
                   >
