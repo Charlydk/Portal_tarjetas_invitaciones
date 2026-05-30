@@ -55,6 +55,7 @@ function Skeleton5({ data, theme }) {
   } = data || {};
 
   const [activeCard, setActiveCard] = useState(null);
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const timeLeft = useCountdown(eventDate);
   const displayPhotos = galleryPhotos.length > 0 ? galleryPhotos : SAMPLE_PHOTOS;
 
@@ -121,6 +122,47 @@ function Skeleton5({ data, theme }) {
     <div id="skeleton5-template" style={dynamicStyles}>
       <ParticlesBackground colors={GOLD_PARTICLES} count={35} />
 
+      {/* ── Gallery modal ── */}
+      <AnimatePresence>
+        {galleryOpen && showGallery && (
+          <motion.div
+            className="s5-gallery-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setGalleryOpen(false)}
+          >
+            <motion.div
+              className="s5-gallery-modal-content"
+              initial={{ y: 36, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              transition={{ duration: 0.28 }}
+              onClick={e => e.stopPropagation()}
+            >
+              <button
+                className="s5-gallery-close"
+                onClick={() => setGalleryOpen(false)}
+              >✕</button>
+              <p className="s5-gallery-modal-title">Nuestros momentos</p>
+              <div className="s5-gallery-modal-grid">
+                {displayPhotos.slice(0, 4).map((src, i) => (
+                  <motion.img
+                    key={i}
+                    initial={{ scale: 0.85, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: i * 0.07, duration: 0.25 }}
+                    src={src}
+                    alt={`Foto ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="s5-wrapper s5-scroll-container">
 
         {/* ── Header ── */}
@@ -176,6 +218,16 @@ function Skeleton5({ data, theme }) {
                       <div><span>{timeLeft.minutes}</span><p>M</p></div>
                       <div><span>{timeLeft.seconds}</span><p>S</p></div>
                     </div>
+                  ) : card.id === 'album' ? (
+                    <>
+                      <p className="s5-card-text">{card.content}</p>
+                      <button
+                        className="s5-card-gallery-btn"
+                        onClick={e => { e.stopPropagation(); setGalleryOpen(true); }}
+                      >
+                        Ver galería →
+                      </button>
+                    </>
                   ) : (
                     <>
                       <p className="s5-card-text">{card.content}</p>
@@ -197,32 +249,6 @@ function Skeleton5({ data, theme }) {
             </motion.div>
           ))}
         </motion.div>
-
-        {/* ── Gallery expandible ── */}
-        <AnimatePresence>
-          {activeCard === 'album' && showGallery && (
-            <motion.div
-              className="s5-gallery-preview"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="s5-gallery-grid">
-                {displayPhotos.slice(0, 4).map((src, i) => (
-                  <motion.img
-                    key={i}
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: i * 0.08 }}
-                    src={src}
-                    alt={`Foto ${i + 1}`}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* ── CTA Buttons ── */}
         {(showRSVP || showMusic) && (

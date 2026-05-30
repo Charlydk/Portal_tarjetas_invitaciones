@@ -178,6 +178,23 @@
   white-space: pre-line;
 }
 
+.s5-card-gallery-btn {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 7px 18px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.s5-card-gallery-btn:hover { opacity: 0.85; }
+
 .s5-card-map-link {
   display: inline-block;
   margin-top: 8px;
@@ -194,6 +211,66 @@
 /* Last card spans both columns when count is odd */
 .s5-card:last-child:nth-child(odd) {
   grid-column: 1 / -1;
+}
+
+/* ── GALLERY MODAL ── */
+.s5-gallery-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 8, 3, 0.80);
+  backdrop-filter: blur(5px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.s5-gallery-modal-content {
+  background: #FFFDF7;
+  border-radius: 18px;
+  padding: 24px 18px 20px;
+  width: 100%;
+  max-width: 320px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.s5-gallery-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #AAA;
+  line-height: 1;
+  padding: 4px;
+  transition: color 0.2s;
+}
+.s5-gallery-close:hover { color: #555; }
+
+.s5-gallery-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.s5-gallery-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.s5-gallery-modal-grid img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 /* Countdown mini */
