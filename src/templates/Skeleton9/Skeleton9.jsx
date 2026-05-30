@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { CountdownBox } from '../../components/invitation-pieces/CountdownBox';
+import FallingPetals from '../../components/FallingPetals';
 import './Skeleton9.css';
 
 // ── Google Calendar URL ────────────────────────────────────────────────────────
@@ -104,47 +105,36 @@ function FlowerCornerRight({ animate }) {
   );
 }
 
-function SideFloralLeft() {
+// ── Watercolor floral background (entra al hacer scroll, ambient) ──
+function WatercolorBackground({ side = 'left', delay = 0 }) {
+  const initial = side === 'left'
+    ? { x: -120, opacity: 0, rotate: -8 }
+    : { x: 120, opacity: 0, rotate: 8 };
   return (
-    <motion.div className="s9-side-left"
-      initial={{ x: -60, opacity: 0 }}
-      whileInView={{ x: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.9, ease: 'easeOut' }}
+    <motion.div
+      className={`s9-watercolor s9-watercolor-${side}`}
+      initial={initial}
+      whileInView={{ x: 0, opacity: 0.55, rotate: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay }}
     >
-      <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5 130 Q28 85 52 45" stroke="#8B6B5E" strokeWidth="1.2" fill="none" opacity="0.45"/>
-        <path d="M15 120 Q35 85 45 55" stroke="#8B6B5E" strokeWidth="0.8" fill="none" opacity="0.3"/>
-        <ellipse cx="40" cy="78" rx="11" ry="7" fill="#9CAF88" opacity="0.6" transform="rotate(-35 40 78)"/>
-        <ellipse cx="52" cy="54" rx="9" ry="6" fill="#9CAF88" opacity="0.55" transform="rotate(-50 52 54)"/>
-        <circle cx="55" cy="40" r="12" fill="#F0D5DC" opacity="0.75"/>
-        <circle cx="55" cy="40" r="8" fill="#D4A5B0" opacity="0.82"/>
-        <circle cx="55" cy="40" r="4.5" fill="#C4819B" opacity="0.88"/>
-        <circle cx="22" cy="105" r="6" fill="#E8C5CE" opacity="0.6"/>
-        <circle cx="35" cy="88" r="4" fill="#F0D5DC" opacity="0.55"/>
-      </svg>
-    </motion.div>
-  );
-}
-
-function SideFloralRight() {
-  return (
-    <motion.div className="s9-side-right"
-      initial={{ x: 60, opacity: 0 }}
-      whileInView={{ x: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.9, ease: 'easeOut', delay: 0.15 }}
-    >
-      <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M75 130 Q52 85 28 45" stroke="#8B6B5E" strokeWidth="1.2" fill="none" opacity="0.45"/>
-        <path d="M65 120 Q45 85 35 55" stroke="#8B6B5E" strokeWidth="0.8" fill="none" opacity="0.3"/>
-        <ellipse cx="40" cy="78" rx="11" ry="7" fill="#9CAF88" opacity="0.6" transform="rotate(35 40 78)"/>
-        <ellipse cx="28" cy="54" rx="9" ry="6" fill="#9CAF88" opacity="0.55" transform="rotate(50 28 54)"/>
-        <circle cx="25" cy="40" r="12" fill="#F0D5DC" opacity="0.75"/>
-        <circle cx="25" cy="40" r="8" fill="#D4A5B0" opacity="0.82"/>
-        <circle cx="25" cy="40" r="4.5" fill="#C4819B" opacity="0.88"/>
-        <circle cx="58" cy="105" r="6" fill="#E8C5CE" opacity="0.6"/>
-        <circle cx="45" cy="88" r="4" fill="#F0D5DC" opacity="0.55"/>
+      <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Soft watercolor blobs */}
+        <circle cx="100" cy="100" r="80" fill="#F0D5DC" opacity="0.35"/>
+        <circle cx="80"  cy="140" r="60" fill="#E8C5CE" opacity="0.40"/>
+        <circle cx="130" cy="80"  r="55" fill="#F8E0E6" opacity="0.45"/>
+        <circle cx="60"  cy="60"  r="40" fill="#FFE5EB" opacity="0.35"/>
+        {/* Leaves */}
+        <ellipse cx="100" cy="100" rx="22" ry="10" fill="#A8C09E" opacity="0.5" transform="rotate(-25 100 100)"/>
+        <ellipse cx="135" cy="120" rx="18" ry="9"  fill="#A8C09E" opacity="0.45" transform="rotate(20 135 120)"/>
+        <ellipse cx="70"  cy="160" rx="20" ry="9"  fill="#B5C9A0" opacity="0.45" transform="rotate(-40 70 160)"/>
+        {/* Rose centers */}
+        <circle cx="100" cy="100" r="18" fill="#D4A5B0" opacity="0.65"/>
+        <circle cx="100" cy="100" r="11" fill="#C4819B" opacity="0.75"/>
+        <circle cx="100" cy="100" r="5"  fill="#B06080" opacity="0.85"/>
+        {/* Smaller rose */}
+        <circle cx="55" cy="180" r="12" fill="#E8C5CE" opacity="0.7"/>
+        <circle cx="55" cy="180" r="7"  fill="#C4819B" opacity="0.75"/>
       </svg>
     </motion.div>
   );
@@ -225,6 +215,13 @@ function Skeleton9({ data, theme }) {
 
   const [dressCodeOpen, setDressCodeOpen] = useState(false);
   const [giftsOpen, setGiftsOpen] = useState(false);
+  const [lightboxIdx, setLightboxIdx] = useState(null);
+
+  const scrollRef = useRef(null);
+  const { scrollYProgress } = useScroll({ container: scrollRef });
+  const heroBgY  = useTransform(scrollYProgress, [0, 0.4], ['0%', '30%']);
+  const heroTxtY = useTransform(scrollYProgress, [0, 0.3], ['0%', '15%']);
+  const heroOpc  = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
   const th = theme?.styles || {};
   const heroImage = theme?.assets?.heroImage;
@@ -276,18 +273,22 @@ function Skeleton9({ data, theme }) {
       </FloralModal>
 
       {/* ── Scroll container ── */}
-      <div className="s9-scroll">
+      <div className="s9-scroll" ref={scrollRef}>
 
         {/* HERO */}
         <section id="section-protagonists" className="s9-hero">
           {heroImage && (
-            <div className="s9-hero-bg" style={{ backgroundImage: `url(${heroImage})` }} />
+            <motion.div
+              className="s9-hero-bg"
+              style={{ backgroundImage: `url(${heroImage})`, y: heroBgY }}
+            />
           )}
           <div className="s9-hero-overlay" />
+          <FallingPetals count={22} />
           <FlowerCornerLeft animate />
           <FlowerCornerRight animate />
 
-          <div className="s9-hero-content">
+          <motion.div className="s9-hero-content" style={{ y: heroTxtY, opacity: heroOpc }}>
             <motion.p className="s9-eyebrow"
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.3 }}
@@ -336,7 +337,7 @@ function Skeleton9({ data, theme }) {
                 transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
               >↓</motion.span>
             </motion.div>
-          </div>
+          </motion.div>
         </section>
 
         {/* BODY */}
@@ -350,7 +351,7 @@ function Skeleton9({ data, theme }) {
 
           {showCivil && (
             <motion.section id="section-civil" className="s9-section s9-event-block" {...fadeUp}>
-              <SideFloralLeft /><SideFloralRight />
+              <WatercolorBackground side="left" /><WatercolorBackground side="right" delay={0.2} />
               <span className="s9-section-label">Ceremonia Civil</span>
               <h3 className="s9-section-title">{civilPlace || 'Registro Civil'}</h3>
               <FloralDivider />
@@ -366,7 +367,7 @@ function Skeleton9({ data, theme }) {
 
           {showCeremony && (
             <motion.section id="section-venue" className="s9-section s9-event-block" {...fadeUp}>
-              <SideFloralLeft /><SideFloralRight />
+              <WatercolorBackground side="left" /><WatercolorBackground side="right" delay={0.2} />
               <span className="s9-section-label">Ceremonia</span>
               <h3 className="s9-section-title">{ceremonyPlace || 'Parroquia'}</h3>
               <FloralDivider />
@@ -385,7 +386,7 @@ function Skeleton9({ data, theme }) {
               id={!showCeremony ? 'section-venue' : undefined}
               className="s9-section s9-event-block" {...fadeUp}
             >
-              <SideFloralLeft /><SideFloralRight />
+              <WatercolorBackground side="left" /><WatercolorBackground side="right" delay={0.2} />
               <span className="s9-section-label">Recepción</span>
               <h3 className="s9-section-title">{eventVenue || partyPlace || 'Salón'}</h3>
               <FloralDivider />
@@ -401,7 +402,7 @@ function Skeleton9({ data, theme }) {
 
           {showDressCode && (
             <motion.section id="section-sections" className="s9-section s9-event-block" {...fadeUp}>
-              <SideFloralLeft /><SideFloralRight />
+              <WatercolorBackground side="left" /><WatercolorBackground side="right" delay={0.2} />
               <span className="s9-section-label">Para la ocasión</span>
               <h3 className="s9-section-title">Dress Code</h3>
               <FloralDivider />
@@ -424,18 +425,22 @@ function Skeleton9({ data, theme }) {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
+                    onClick={() => setLightboxIdx(i)}
                   >
                     <img src={src} alt={`Foto ${i + 1}`} />
+                    <div className="s9-carousel-overlay">
+                      <span>Ver más grande</span>
+                    </div>
                   </motion.div>
                 ))}
               </div>
-              <p className="s9-carousel-hint">Deslizá para ver más →</p>
+              <p className="s9-carousel-hint">Deslizá · Tocá la foto para ampliar</p>
             </motion.section>
           )}
 
           {showGifts && (
             <motion.section id="section-gifts" className="s9-section s9-event-block" {...fadeUp}>
-              <SideFloralLeft /><SideFloralRight />
+              <WatercolorBackground side="left" /><WatercolorBackground side="right" delay={0.2} />
               <span className="s9-section-label">Con amor</span>
               <h3 className="s9-section-title">Regalos</h3>
               <FloralDivider />
@@ -465,7 +470,7 @@ function Skeleton9({ data, theme }) {
 
           {showRSVP && (
             <motion.section id="section-confirm" className="s9-section s9-rsvp" {...fadeUp}>
-              <SideFloralLeft /><SideFloralRight />
+              <WatercolorBackground side="left" /><WatercolorBackground side="right" delay={0.2} />
               <span className="s9-section-label">¿Nos acompañás?</span>
               <h3 className="s9-section-title">Confirmá tu asistencia</h3>
               <FloralDivider />
@@ -483,6 +488,48 @@ function Skeleton9({ data, theme }) {
         </footer>
 
       </div>{/* end s9-scroll */}
+
+      {/* ── Lightbox para galería ── */}
+      <AnimatePresence>
+        {lightboxIdx !== null && (
+          <motion.div
+            className="s9-lightbox"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            onClick={() => setLightboxIdx(null)}
+          >
+            <button className="s9-lightbox-close" onClick={() => setLightboxIdx(null)}>✕</button>
+            {lightboxIdx > 0 && (
+              <button
+                className="s9-lightbox-nav s9-lightbox-prev"
+                onClick={e => { e.stopPropagation(); setLightboxIdx(i => i - 1); }}
+              >‹</button>
+            )}
+            {lightboxIdx < displayPhotos.length - 1 && (
+              <button
+                className="s9-lightbox-nav s9-lightbox-next"
+                onClick={e => { e.stopPropagation(); setLightboxIdx(i => i + 1); }}
+              >›</button>
+            )}
+            <motion.img
+              key={lightboxIdx}
+              src={displayPhotos[lightboxIdx]}
+              alt={`Foto ${lightboxIdx + 1}`}
+              className="s9-lightbox-img"
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              onClick={e => e.stopPropagation()}
+            />
+            <p className="s9-lightbox-counter">
+              {lightboxIdx + 1} / {displayPhotos.length}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
