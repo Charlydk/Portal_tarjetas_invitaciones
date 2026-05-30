@@ -25,18 +25,25 @@ function Skeleton5({ data, theme }) {
     name2 = '',
     welcomePhrase = '',
     eventDate = '2025-11-15T22:00:00',
-    partyDateString = '15/11/2025',
-    ceremonyPlace = 'Parroquia',
-    partyPlace = 'Salón',
+
+    civilPlace = '', civilDate = '', civilTime = '',
+    civilMapUrl = '#', civilMapUnknown = false,
+
+    ceremonyPlace = 'Parroquia', ceremonyDate = '', ceremonyTime = '',
+    ceremonyMapUrl = '#', ceremonyMapUnknown = false,
+
+    partyPlace = 'Salón', partyDateString = '15/11/2025', partyTime = '',
+    eventVenue = '', partyMapUrl = '#', partyMapUnknown = false,
+
     alias = 'Alias.Bancario',
     bankCbu = '',
     giftMode = 'cbu',
     whatsappNumber = '',
     musicPlaylistUrl = '',
-    eventVenue = '',
     dressCodeDescription = 'Elegante',
     galleryPhotos = [],
 
+    showCivil = false,
     showCeremony = true,
     showParty = true,
     showCountdown = true,
@@ -53,15 +60,41 @@ function Skeleton5({ data, theme }) {
 
   const giftContent = giftMode === 'cofre'
     ? 'Cofre en el salón'
-    : (alias || bankCbu || 'Tu presencia es nuestro mejor regalo');
+    : [alias && `Alias: ${alias}`, bankCbu && `CBU: ${bankCbu}`].filter(Boolean).join('\n') || 'Tu presencia es el mejor regalo';
+
+  const line = (...parts) => parts.filter(Boolean).join('\n');
 
   const cards = [
-    showCountdown && { id: 'countdown', title: 'FALTAN', icon: '⏳' },
-    (showCeremony || showParty) && { id: 'when',     title: '¿CUÁNDO?',   icon: '📅', content: partyDateString },
-    (showCeremony || showParty) && { id: 'where',    title: '¿DÓNDE?',    icon: '📍', content: ceremonyPlace || eventVenue || partyPlace },
-    showDressCode               && { id: 'dresscode',title: 'DRESS CODE', icon: '👗', content: dressCodeDescription || 'Elegante' },
-    showGallery                 && { id: 'album',    title: 'FOTOS',      icon: '📸', content: 'Nuestros momentos' },
-    showGifts                   && { id: 'gifts',    title: 'REGALOS',    icon: '💍', content: giftContent },
+    showCountdown && {
+      id: 'countdown', title: 'FALTAN', icon: '⏳',
+    },
+    showCivil && {
+      id: 'civil', title: 'CIVIL', icon: '⚖️',
+      content: line(civilPlace, civilDate, civilTime),
+      mapUrl: !civilMapUnknown && civilMapUrl !== '#' ? civilMapUrl : null,
+    },
+    showCeremony && {
+      id: 'ceremony', title: 'CEREMONIA', icon: '💒',
+      content: line(ceremonyPlace, ceremonyDate, ceremonyTime),
+      mapUrl: !ceremonyMapUnknown && ceremonyMapUrl !== '#' ? ceremonyMapUrl : null,
+    },
+    showParty && {
+      id: 'party', title: 'RECEPCIÓN', icon: '🥂',
+      content: line(eventVenue || partyPlace, partyDateString, partyTime),
+      mapUrl: !partyMapUnknown && partyMapUrl !== '#' ? partyMapUrl : null,
+    },
+    showDressCode && {
+      id: 'dresscode', title: 'DRESS CODE', icon: '👗',
+      content: dressCodeDescription || 'Elegante',
+    },
+    showGallery && {
+      id: 'album', title: 'FOTOS', icon: '📸',
+      content: 'Nuestros momentos',
+    },
+    showGifts && {
+      id: 'gifts', title: 'REGALOS', icon: '💍',
+      content: giftContent,
+    },
   ].filter(Boolean);
 
   const dynamicStyles = {
@@ -144,7 +177,20 @@ function Skeleton5({ data, theme }) {
                       <div><span>{timeLeft.seconds}</span><p>S</p></div>
                     </div>
                   ) : (
-                    <p className="s5-card-text">{card.content}</p>
+                    <>
+                      <p className="s5-card-text">{card.content}</p>
+                      {card.mapUrl && (
+                        <a
+                          href={card.mapUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="s5-card-map-link"
+                          onClick={e => e.stopPropagation()}
+                        >
+                          Ver en mapa →
+                        </a>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

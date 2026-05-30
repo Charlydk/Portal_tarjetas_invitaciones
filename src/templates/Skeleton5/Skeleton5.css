@@ -169,12 +169,31 @@
 
 .s5-card-text {
   font-family: 'Playfair Display', serif;
-  font-size: 0.98rem;
+  font-size: 0.9rem;
   font-style: italic;
   margin: 0;
-  line-height: 1.45;
+  line-height: 1.5;
   color: #555;
   text-align: center;
+  white-space: pre-line;
+}
+
+.s5-card-map-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.45);
+  padding-bottom: 1px;
+}
+
+/* Last card spans both columns when count is odd */
+.s5-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 /* Countdown mini */
