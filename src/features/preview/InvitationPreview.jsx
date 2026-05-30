@@ -50,7 +50,7 @@ function InvitationPreview({ formData, themeId, activeStepId, isEditorMode = tru
         </TemplateWrapper>
       );
       return fullScreen
-        ? content
+        ? <div style={{ height: '100vh', overflow: 'hidden' }}>{content}</div>
         : <div className="preview-frame-container">{content}</div>;
     }
   }

@@ -13,6 +13,8 @@ const SAMPLE_PHOTOS = [
 function Skeleton5({ data, theme }) {
   const {
     name1 = 'Nombre',
+    name2 = '',
+    welcomePhrase = '',
     eventDate = '2025-11-15T22:00:00',
     partyDateString = '15/11/2025',
     ceremonyPlace = 'Parroquia',
@@ -96,8 +98,10 @@ function Skeleton5({ data, theme }) {
               scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
             }}
           ></motion.div>
-          <h1 className="s5-title">{name1}</h1>
-          <p className="s5-subtitle">¡FESTEJEMOS!</p>
+          <h1 className="s5-title">
+            {name1}{name2 ? ` & ${name2}` : ''}
+          </h1>
+          <p className="s5-subtitle">{welcomePhrase || 'Nos Casamos'}</p>
         </motion.header>
 
         <motion.div

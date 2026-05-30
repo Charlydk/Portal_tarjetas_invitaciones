@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import InvitationPreview from '../features/preview/InvitationPreview';
 import { invitationModels } from '../data/models';
@@ -351,7 +351,10 @@ function CTAModal({ templateName, themeId, onClose, onEdit }) {
 function PreviewPage() {
   const { themeId } = useParams();
   const navigate = useNavigate();
-  const [entered, setEntered] = useState(false);
+  const [searchParams] = useSearchParams();
+  const isEmbed = searchParams.get('embed') === 'true';
+
+  const [entered, setEntered] = useState(isEmbed);
   const [withMusic, setWithMusic] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
 
@@ -391,14 +394,14 @@ function PreviewPage() {
             transition={{ duration: 0.6 }}
             style={{ minHeight: '100vh' }}
           >
-            {/* Floating bar */}
+            {/* Floating bar — oculta en modo embed */}
             <div style={{
+              display: isEmbed ? 'none' : 'flex',
               position: 'fixed',
               top: 0, left: 0, right: 0,
               zIndex: 9999,
               background: 'rgba(10, 10, 10, 0.72)',
               backdropFilter: 'blur(8px)',
-              display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '10px 20px',

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import styles from './Tarjeta4.module.css';
 
 function useCountdown(targetDate) {
@@ -23,10 +22,10 @@ function useCountdown(targetDate) {
         return;
       }
       setTimeLeft({
-        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        days:    Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours:   Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
         minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((distance % (1000 * 60)) / 1000)
+        seconds: Math.floor((distance % (1000 * 60)) / 1000),
       });
     }, 1000);
     return () => clearInterval(interval);
@@ -52,19 +51,18 @@ function getSpotifyEmbedUrl(url) {
 }
 
 export default function Tarjeta4({ data }) {
-  const targetEventDate = data?.eventDate;
-  const timeLeft = useCountdown(targetEventDate);
+  const timeLeft = useCountdown(data?.eventDate);
 
   const whatsappMessage = `¡Hola! Confirmo mi asistencia al casamiento de ${data?.name1 || 'Zoe'} y ${data?.name2 || 'Lucas'}.`;
   const whatsappUrl = `https://wa.me/${data?.whatsappCountryCode || '54'}${data?.whatsappLocalNumber || '9381000000'}?text=${encodeURIComponent(whatsappMessage)}`;
 
   const galleryPhotos = (data?.galleryPhotos?.length > 0) ? data.galleryPhotos : SAMPLE_PHOTOS;
-  const isUsingDemo = !(data?.galleryPhotos?.length > 0);
+  const isUsingDemo  = !(data?.galleryPhotos?.length > 0);
   const spotifyEmbedUrl = getSpotifyEmbedUrl(data?.musicPlaylistUrl);
 
-  const civilMap = data?.civilMapUrl || "https://www.google.com/maps/search/?api=1&query=Registro+Civil";
-  const ceremonyMap = data?.ceremonyMapUrl || "https://www.google.com/maps/search/?api=1&query=Parroquia";
-  const partyMap = data?.partyMapUrl || "https://www.google.com/maps/search/?api=1&query=Salon+de+Fiesta";
+  const civilMap    = data?.civilMapUrl    || 'https://www.google.com/maps/search/?api=1&query=Registro+Civil';
+  const ceremonyMap = data?.ceremonyMapUrl || 'https://www.google.com/maps/search/?api=1&query=Parroquia';
+  const partyMap    = data?.partyMapUrl    || 'https://www.google.com/maps/search/?api=1&query=Salon+de+Fiesta';
 
   return (
     <div className={styles.tarjeta4Container}>
@@ -75,11 +73,12 @@ export default function Tarjeta4({ data }) {
           <video autoPlay loop muted playsInline className={styles.heroVideo}>
             <source src="/templates/tarjeta4/video/tomados_de_la_mano.mp4" type="video/mp4" />
           </video>
-          <div className={styles.overlay}></div>
+          <div className={styles.overlay} />
           <div className={styles.heroContent}>
             <h1 className={styles.titleName}>{data?.name1 || 'Zoe'} & {data?.name2 || 'Lucas'}</h1>
             <p className={styles.subtitle}>{data?.welcomePhrase || '¡Nos Casamos!'}</p>
-            <p style={{ fontFamily: "'Kalam', cursive", marginTop: '2rem', fontSize: '1.4rem', fontWeight: 300, color: 'rgba(255,255,255,0.9)' }}>
+            <div className={styles.heroDivider} />
+            <p className={styles.heroInvite}>
               {data?.invitePhrase || 'Con amor los invitamos a compartir este día tan especial.'}
             </p>
           </div>
@@ -92,13 +91,26 @@ export default function Tarjeta4({ data }) {
             <section className={styles.sectionBlock} id="section-civil">
               <img src="/templates/tarjeta4/img/check.gif" alt="Civil" className={styles.sectionImg} />
               <h2 className={styles.sectionTitle}>Ceremonia Civil</h2>
-              <div style={{ fontSize: '1.2rem', marginBottom: '20px' }}>
-                <p><strong>LUGAR:</strong> {data.civilPlace || 'Registro Civil'}</p>
-                <p><strong>UBICACIÓN:</strong> {data.civilAddress || 'Calle 123, Ciudad'}</p>
-                <p><strong>DIA:</strong> {data.civilDate || 'A confirmar'}</p>
-                <p><strong>HORARIO:</strong> {data.civilTime || 'A confirmar'}</p>
+              <div className={styles.sectionDivider} />
+              <div className={styles.infoBlock}>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Lugar</span>
+                  <span className={styles.infoValue}>{data.civilPlace || 'Registro Civil'}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Dirección</span>
+                  <span className={styles.infoValue}>{data.civilAddress || 'Calle 123, Ciudad'}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Fecha</span>
+                  <span className={styles.infoValue}>{data.civilDate || 'A confirmar'}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Horario</span>
+                  <span className={styles.infoValue}>{data.civilTime || 'A confirmar'}</span>
+                </div>
               </div>
-              <a href={civilMap} target="_blank" rel="noreferrer" className={styles.btnPink}>CÓMO LLEGAR</a>
+              <a href={civilMap} target="_blank" rel="noreferrer" className={styles.btnPrimary}>Cómo llegar</a>
             </section>
           )}
 
@@ -107,13 +119,26 @@ export default function Tarjeta4({ data }) {
             <section className={data?.showCivil ? styles.sectionBlockDark : styles.sectionBlock} id="section-ceremony">
               <img src="/templates/tarjeta4/img/iglesia.gif" alt="Iglesia" className={styles.sectionImg} />
               <h2 className={styles.sectionTitle}>Ceremonia Religiosa</h2>
-              <div style={{ fontSize: '1.2rem', marginBottom: '20px' }}>
-                <p><strong>PARROQUIA:</strong> {data.ceremonyPlace || 'Parroquia Central'}</p>
-                <p><strong>UBICACIÓN:</strong> {data.ceremonyAddress || 'Av. Principal'}</p>
-                <p><strong>DIA:</strong> {data.ceremonyDate || 'A confirmar'}</p>
-                <p><strong>HORARIO:</strong> {data.ceremonyTime || 'A confirmar'}</p>
+              <div className={styles.sectionDivider} />
+              <div className={styles.infoBlock}>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Parroquia</span>
+                  <span className={styles.infoValue}>{data.ceremonyPlace || 'Parroquia Central'}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Dirección</span>
+                  <span className={styles.infoValue}>{data.ceremonyAddress || 'Av. Principal'}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Fecha</span>
+                  <span className={styles.infoValue}>{data.ceremonyDate || 'A confirmar'}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Horario</span>
+                  <span className={styles.infoValue}>{data.ceremonyTime || 'A confirmar'}</span>
+                </div>
               </div>
-              <a href={ceremonyMap} target="_blank" rel="noreferrer" className={styles.btnPink}>CÓMO LLEGAR</a>
+              <a href={ceremonyMap} target="_blank" rel="noreferrer" className={styles.btnPrimary}>Cómo llegar</a>
             </section>
           )}
 
@@ -121,23 +146,37 @@ export default function Tarjeta4({ data }) {
           {data?.showParty && (
             <section className={data?.showCivil || data?.showCeremony ? styles.sectionBlock : styles.sectionBlockDark} id="section-party">
               <img src="/templates/tarjeta4/img/reciencasados.gif" alt="Fiesta" className={styles.sectionImg} />
-              <h2 className={styles.sectionTitle}>Fiesta</h2>
-              <div style={{ fontSize: '1.2rem', marginBottom: '20px' }}>
-                <p><strong>SALÓN:</strong> {data.partyPlace || 'Salón Las Nubes'}</p>
-                <p><strong>UBICACIÓN:</strong> {data.partyAddress || 'Yerba Buena'}</p>
-                <p><strong>DIA:</strong> {data.partyDateString || 'A confirmar'}</p>
-                <p><strong>HORARIO:</strong> {data.partyTime || '22:00 HS'}</p>
+              <h2 className={styles.sectionTitle}>Recepción</h2>
+              <div className={styles.sectionDivider} />
+              <div className={styles.infoBlock}>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Salón</span>
+                  <span className={styles.infoValue}>{data.partyPlace || data.eventVenue || 'Salón Las Nubes'}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Dirección</span>
+                  <span className={styles.infoValue}>{data.partyAddress || 'Yerba Buena'}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Fecha</span>
+                  <span className={styles.infoValue}>{data.partyDateString || 'A confirmar'}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Horario</span>
+                  <span className={styles.infoValue}>{data.partyTime || '22:00 hs'}</span>
+                </div>
               </div>
-              <a href={partyMap} target="_blank" rel="noreferrer" className={styles.btnPink}>VER UBICACIÓN</a>
+              <a href={partyMap} target="_blank" rel="noreferrer" className={styles.btnPrimary}>Ver ubicación</a>
             </section>
           )}
 
           {/* ── Countdown ── */}
           {data?.showCountdown && (
             <section className={styles.sectionBlockDark} id="section-countdown">
-              <h2 className={styles.sectionTitle} style={{ marginBottom: '1.5rem' }}>Falta muy poco...</h2>
+              <h2 className={styles.sectionTitle}>Falta muy poco...</h2>
+              <div className={styles.sectionDivider} />
               <div className={styles.countdownContainer}>
-                {[['days','DÍAS'],['hours','HS'],['minutes','MIN'],['seconds','SEG']].map(([key, label]) => (
+                {[['days','Días'],['hours','Horas'],['minutes','Min'],['seconds','Seg']].map(([key, label]) => (
                   <div key={key} className={styles.countdownBox}>
                     <p className={styles.cdValue}>{timeLeft[key]}</p>
                     <span className={styles.cdLabel}>{label}</span>
@@ -150,25 +189,26 @@ export default function Tarjeta4({ data }) {
           {/* ── Dress Code ── */}
           {data?.showDressCode && (
             <section className={styles.sectionBlock} id="section-dresscode">
-              <img src="/templates/tarjeta4/img/ropa_traje_vestido.jpg" alt="Dress Code" className={styles.sectionImg} />
+              <img src="/templates/tarjeta4/img/ropa_traje_vestido.jpg" alt="Dress Code" className={styles.dressCodeImg} />
               <h2 className={styles.sectionTitle}>Dress Code</h2>
-              <p style={{ fontSize: '1.5rem', marginBottom: '10px' }}>
+              <div className={styles.sectionDivider} />
+              <p className={styles.dressCodeText}>
                 Pedimos asistir con vestimenta <strong>{data.dressCodeDescription || 'Elegante'}</strong>.
               </p>
               {data.showDressCodeColorNote && (
-                <p style={{ fontSize: '1.2rem', marginTop: '10px', fontStyle: 'italic', color: '#ff4081' }}>
-                  🎨 {data.dressCodeColorNote || 'Reservamos el blanco para la novia'}
+                <p className={styles.dressCodeNote}>
+                  {data.dressCodeColorNote || 'Reservamos el blanco para la novia'}
                 </p>
               )}
             </section>
           )}
 
-          {/* ── Galería (Carrusel Pro) ── */}
+          {/* ── Galería ── */}
           {data?.showGallery && (
             <section className={styles.sectionBlockDark} id="section-gallery" style={{ padding: '4rem 0' }}>
-              <h2 className={styles.sectionTitle} style={{ marginBottom: '2rem', padding: '0 1.5rem' }}>Nosotros ♥</h2>
+              <h2 className={styles.sectionTitle} style={{ padding: '0 1.5rem', marginBottom: '2rem' }}>Nosotros ♥</h2>
               {isUsingDemo && (
-                <div style={{ margin: '0 1.5rem 2rem', background: 'rgba(255,255,255,0.05)', border: '1px dashed #FF69B4', borderRadius: '12px', padding: '10px', fontSize: '0.85rem', color: '#FF69B4', textAlign: 'center' }}>
+                <div className={styles.demoNote} style={{ margin: '0 1.5rem 2rem' }}>
                   📸 Modo demo — cargá tus fotos en el paso Galería.
                 </div>
               )}
@@ -179,9 +219,7 @@ export default function Tarjeta4({ data }) {
                   </div>
                 ))}
               </div>
-              <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', opacity: 0.5, fontStyle: 'italic', textAlign: 'center' }}>
-                Deslizá para ver más fotos
-              </p>
+              <p className={styles.carouselHint}>Deslizá para ver más fotos</p>
             </section>
           )}
 
@@ -190,45 +228,49 @@ export default function Tarjeta4({ data }) {
             <section className={styles.sectionBlock} id="section-gifts">
               <img src="/templates/tarjeta4/img/gifbox.gif" alt="Regalos" className={styles.sectionImg} />
               <h2 className={styles.sectionTitle}>Regalos</h2>
-              <p style={{ fontSize: '1.2rem', marginBottom: '1.5rem' }}>Tu presencia es nuestro mejor regalo. Si querés hacernos un presente:</p>
+              <div className={styles.sectionDivider} />
+              <p className={styles.giftIntro}>
+                Tu presencia es nuestro mejor regalo. Si querés hacernos un presente:
+              </p>
               <div className={styles.giftList}>
                 {(data.giftMode === 'cbu' || data.giftMode === 'both') && (
                   <div className={styles.giftData}>
-                    <h4 style={{ margin: '0 0 10px 0', color: '#FF69B4', fontSize: '1.3rem' }}>Transferencia</h4>
-                    {data.bankCbu && <p style={{ margin: '0 0 8px 0', fontSize: '1rem' }}><strong>CBU:</strong> {data.bankCbu}</p>}
-                    <p style={{ margin: '0', fontSize: '1.1rem' }}><strong>Alias:</strong> {data.alias || 'nombre.alias.mp'}</p>
+                    <h4 className={styles.giftTitle}>Transferencia</h4>
+                    {data.bankCbu && <p className={styles.giftDetail}><strong>CBU:</strong> {data.bankCbu}</p>}
+                    <p className={styles.giftDetail}><strong>Alias:</strong> {data.alias || 'nombre.alias.mp'}</p>
                   </div>
                 )}
                 {(data.giftMode === 'cofre' || data.giftMode === 'both') && (
                   <div className={styles.giftData}>
-                    <h4 style={{ margin: '0 0 10px 0', color: '#FF69B4', fontSize: '1.3rem' }}>Cofre de Sobres</h4>
-                    <p style={{ margin: '0' }}>Habrá un buzón para sobres en el salón.</p>
+                    <h4 className={styles.giftTitle}>Cofre de Sobres</h4>
+                    <p className={styles.giftDetail}>Habrá un buzón para sobres en el salón.</p>
                   </div>
                 )}
               </div>
             </section>
           )}
 
-          {/* ── Playlist Spotify ── */}
+          {/* ── Playlist ── */}
           {data?.showMusic && (
             <section className={styles.sectionBlockDark} id="section-music" style={{ paddingBottom: '5rem' }}>
-              <h2 className={styles.sectionTitle} style={{ marginBottom: '0.5rem' }}>🎵 Nuestra Playlist</h2>
-              <p style={{ fontSize: '1.1rem', marginBottom: '2rem' }}>¡Las canciones que nos definen!</p>
+              <h2 className={styles.sectionTitle}>Nuestra Playlist</h2>
+              <div className={styles.sectionDivider} />
+              <p className={styles.playlistIntro}>Las canciones que nos definen</p>
               {spotifyEmbedUrl ? (
                 <div style={{ padding: '0 10px' }}>
                   <iframe
                     src={spotifyEmbedUrl}
-                    width="100%" 
-                    height="500" /* Agrandado de 352 a 500 para llenar más espacio */
-                    frameBorder="0" 
+                    width="100%"
+                    height="500"
+                    frameBorder="0"
                     allowFullScreen
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy" 
+                    loading="lazy"
                     style={{ borderRadius: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
                   />
                 </div>
               ) : (
-                <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '15px', padding: '3rem', textAlign: 'center', color: '#888' }}>
+                <div className={styles.playlistEmpty}>
                   <p>🎧 Tu playlist aparecerá acá.</p>
                 </div>
               )}
@@ -240,14 +282,17 @@ export default function Tarjeta4({ data }) {
             <section className={styles.sectionBlock} id="section-rsvp">
               <img src="/templates/tarjeta4/img/sobre.gif" alt="RSVP" className={styles.sectionImg} />
               <h2 className={styles.sectionTitle}>Confirmación</h2>
-              <p style={{ fontSize: '1.3rem', marginBottom: '25px' }}>¿Nos acompañás?</p>
-              <a href={whatsappUrl} target="_blank" rel="noreferrer" className={`${styles.btnPink} ${styles.btnGreen}`}>CONFIRMAR ASISTENCIA</a>
+              <div className={styles.sectionDivider} />
+              <p className={styles.rsvpText}>¿Nos acompañás?</p>
+              <a href={whatsappUrl} target="_blank" rel="noreferrer" className={`${styles.btnPrimary} ${styles.btnGreen}`}>
+                Confirmar asistencia
+              </a>
             </section>
           )}
 
-          <footer className={styles.sectionBlockDark} style={{ backgroundColor: '#000', padding: '5rem 1.5rem' }}>
-            <h2 style={{ fontFamily: "'Great Vibes', cursive", fontSize: '4.5rem', color: 'white', marginBottom: '1rem' }}>¡Gracias!</h2>
-            <p style={{ fontSize: '1.6rem', color: '#FF69B4', fontFamily: "'Kalam', cursive" }}>{data?.name1 || 'Zoe'} & {data?.name2 || 'Lucas'}</p>
+          <footer className={styles.footer}>
+            <p className={styles.footerThanks}>¡Gracias!</p>
+            <p className={styles.footerNames}>{data?.name1 || 'Zoe'} & {data?.name2 || 'Lucas'}</p>
           </footer>
 
         </div>

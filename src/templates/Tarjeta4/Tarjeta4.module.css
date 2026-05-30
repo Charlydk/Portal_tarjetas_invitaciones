@@ -1,9 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;500&family=Kalam&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap');
 
+/* ── Variables ── */
 .tarjeta4Container {
-  font-family: 'DM Sans', sans-serif;
-  color: black;
-  background-color: #EEEEEE;
+  --t4-rose:       #A57B8B;
+  --t4-rose-dark:  #7D5068;
+  --t4-rose-light: #D4AABB;
+  --t4-gold:       #C4A97D;
+  --t4-dark:       #1C1510;
+  --t4-cream:      #FDF9F5;
+  --t4-text:       #2C2220;
+  --t4-muted:      #8A7070;
+
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--t4-text);
+  background-color: var(--t4-cream);
   height: 100%;
   position: relative;
   overflow: hidden;
@@ -17,10 +27,11 @@
   scroll-behavior: smooth;
 }
 
+/* ── HERO ── */
 .hero {
   position: relative;
-  height: 100%; /* Cambiado de 100vh a 100% para evitar saltos en layouts contenidos */
-  min-height: 100vh; 
+  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,121 +49,305 @@
 }
 
 .overlay {
-  position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 10, 8, 0.30) 0%,
+    rgba(28, 18, 12, 0.52) 50%,
+    rgba(20, 10, 8, 0.72) 100%
+  );
+  z-index: 1;
 }
 
 .heroContent {
-  position: relative; z-index: 10; padding: 2rem;
+  position: relative;
+  z-index: 10;
+  padding: 2rem;
 }
 
-.titleName { 
-  font-family: 'Great Vibes', cursive; 
-  font-size: clamp(3.5rem, 15vw, 5.5rem); 
-  text-shadow: 0 4px 10px rgba(0,0,0,0.5); 
-  margin-bottom: 0; 
+.titleName {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3.5rem, 15vw, 5.5rem);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  margin-bottom: 0.2rem;
   line-height: 1.1;
+  color: #fff;
 }
 
-.subtitle { 
-  font-family: 'Kalam', cursive; 
-  font-size: 2.2rem; 
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  margin: 0.3rem 0 0;
 }
 
-/* Main Wrapper */
+.heroDivider {
+  width: 70px;
+  height: 1px;
+  background: rgba(196, 169, 125, 0.65);
+  margin: 1.4rem auto;
+}
+
+.heroInvite {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 280px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* ── MAIN ── */
 .mainBackground {
   position: relative;
   z-index: 5;
-  background-color: #fff;
+  background-color: var(--t4-cream);
 }
 
-/* Sections */
+/* ── SECTIONS ── */
 .sectionBlock {
   position: relative;
-  padding: 5rem 1.5rem;
+  padding: 5rem 2rem;
   text-align: center;
-  background-color: #fff;
+  background-color: var(--t4-cream);
+  border-bottom: 1px solid rgba(165, 123, 139, 0.12);
 }
+
 .sectionBlockDark {
   position: relative;
-  padding: 5rem 1.5rem;
+  padding: 5rem 2rem;
   text-align: center;
-  background-color: #1a1a1a;
+  background-color: var(--t4-dark);
   color: white;
+  border-bottom: 1px solid rgba(196, 169, 125, 0.07);
 }
 
 .sectionTitle {
   font-family: 'Great Vibes', cursive;
-  font-size: 3.8rem;
-  color: #FF69B4;
-  margin-bottom: 2rem;
+  font-size: 3.5rem;
+  color: var(--t4-rose);
+  margin-bottom: 0;
   line-height: 1;
 }
 
-.sectionImg {
-  border-radius: 50%; width: 160px; height: 160px; object-fit: cover; margin: 0 auto 1.5rem;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+.sectionBlockDark .sectionTitle {
+  color: var(--t4-rose-light);
 }
 
-.btnPink {
-  background-color: #FF69B4; color: white; font-weight: bold; padding: 16px 40px; border-radius: 50px; text-decoration: none; display: inline-block; transition: all 0.3s; margin-top: 1.5rem; font-size: 1rem; box-shadow: 0 8px 20px rgba(255, 105, 180, 0.35); border: none; cursor: pointer;
+.sectionDivider {
+  width: 55px;
+  height: 1px;
+  background: var(--t4-gold);
+  margin: 1rem auto 2rem;
+  opacity: 0.65;
 }
-.btnPink:hover { background-color: #d14187; transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 105, 180, 0.45); }
+
+.sectionBlockDark .sectionDivider {
+  opacity: 0.4;
+}
+
+.sectionImg {
+  border-radius: 50%;
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 30px rgba(165, 123, 139, 0.18);
+  border: 2px solid rgba(196, 169, 125, 0.25);
+  display: block;
+}
+
+/* ── INFO BLOCK ── */
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0 auto 2rem;
+  max-width: 300px;
+  text-align: left;
+}
+
+.infoRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.infoLabel {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--t4-rose);
+  font-weight: 500;
+}
+
+.sectionBlockDark .infoLabel {
+  color: var(--t4-rose-light);
+}
+
+.infoValue {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: var(--t4-text);
+  line-height: 1.4;
+}
+
+.sectionBlockDark .infoValue {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* ── BUTTONS ── */
+.btnPrimary {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 13px 38px;
+  background: transparent;
+  color: var(--t4-rose-dark);
+  border: 1.5px solid var(--t4-rose);
+  border-radius: 50px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.btnPrimary:hover {
+  background: var(--t4-rose);
+  color: white;
+  box-shadow: 0 8px 20px rgba(165, 123, 139, 0.3);
+}
+
+.sectionBlockDark .btnPrimary {
+  color: var(--t4-rose-light);
+  border-color: rgba(212, 170, 187, 0.6);
+}
+
+.sectionBlockDark .btnPrimary:hover {
+  background: var(--t4-rose);
+  color: white;
+  border-color: var(--t4-rose);
+}
 
 .btnGreen {
-  background-color: #25D366;
+  background: #25D366 !important;
+  color: white !important;
+  border-color: #25D366 !important;
 }
-.btnGreen:hover { background-color: #128C7E; }
 
-/* Countdown */
+.btnGreen:hover {
+  background: #128C7E !important;
+  border-color: #128C7E !important;
+}
+
+/* ── COUNTDOWN ── */
 .countdownContainer {
-  display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 2rem;
 }
-.countdownBox {
-  background: rgba(255,255,255,0.08); 
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 18px; 
-  width: 75px; height: 85px; 
-  display: flex; flex-direction: column; justify-content: center; align-items: center; 
-  color: #fff; 
-  backdrop-filter: blur(5px);
-}
-.cdValue { font-size: 1.8rem; font-weight: bold; margin: 0; line-height: 1; color: #FF69B4; }
-.cdLabel { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #aaa; margin-top: 8px; }
 
-/* PHOTO CAROUSEL (NUEVO) */
+.countdownBox {
+  border: 1px solid rgba(196, 169, 125, 0.28);
+  border-radius: 12px;
+  width: 72px;
+  height: 84px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cdValue {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 300;
+  margin: 0;
+  line-height: 1;
+  color: var(--t4-rose-light);
+}
+
+.cdLabel {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 6px;
+}
+
+/* ── DRESS CODE ── */
+.dressCodeImg {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  filter: sepia(12%) brightness(0.97);
+}
+
+.dressCodeText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  color: var(--t4-text);
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+.dressCodeNote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--t4-rose);
+  margin-top: 12px;
+}
+
+/* ── GALLERY ── */
+.demoNote {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(212, 170, 187, 0.4);
+  border-radius: 10px;
+  padding: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  color: var(--t4-rose-light);
+  text-align: center;
+}
+
 .photoCarousel {
   display: flex;
-  overflow-x: auto !important; /* Forzamos scroll horizontal */
+  overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   gap: 15px;
-  padding: 0 1.5rem 2rem; /* Agregamos espacio para que la scrollbar no pise las fotos */
+  padding: 0 1.5rem 2rem;
 }
 
-/* Forzamos que se vea la scrollbar en PC (Webkit) */
-.photoCarousel::-webkit-scrollbar {
-  height: 8px; /* Un poco más gruesa */
-  display: block !important;
-}
-
-.photoCarousel::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.05);
-  border-radius: 10px;
-}
-
-.photoCarousel::-webkit-scrollbar-thumb {
-  background: #FF69B4; /* Rosa bien visible */
-  border-radius: 10px;
-}
+.photoCarousel::-webkit-scrollbar { height: 5px; display: block; }
+.photoCarousel::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 10px; }
+.photoCarousel::-webkit-scrollbar-thumb { background: var(--t4-rose); border-radius: 10px; }
 
 .carouselItem {
   flex: 0 0 85%;
   scroll-snap-align: center;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   height: 450px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
 }
 
 .carouselImg {
@@ -161,7 +356,25 @@
   object-fit: cover;
 }
 
-/* Gifts */
+.carouselHint {
+  margin-top: 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── GIFTS ── */
+.giftIntro {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--t4-muted);
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
 .giftList {
   display: flex;
   flex-direction: column;
@@ -171,14 +384,81 @@
 }
 
 .giftData {
-  background: #fdfdfd; 
-  border: 1px solid #eee;
-  border-radius: 20px; 
-  padding: 2rem; 
+  background: rgba(165, 123, 139, 0.06);
+  border: 1px solid rgba(165, 123, 139, 0.18);
+  border-radius: 16px;
+  padding: 2rem;
   width: 100%;
-  max-width: 320px;
-  color: #333; 
-  box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+  max-width: 300px;
+  color: var(--t4-text);
+  text-align: left;
+}
+
+.giftTitle {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2rem;
+  color: var(--t4-rose);
+  margin: 0 0 12px;
+  line-height: 1;
+}
+
+.giftDetail {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  margin: 6px 0;
+  color: var(--t4-text);
+  line-height: 1.5;
+}
+
+/* ── PLAYLIST ── */
+.playlistIntro {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 2rem;
+}
+
+.playlistEmpty {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 15px;
+  padding: 3rem;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── RSVP ── */
+.rsvpText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--t4-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* ── FOOTER ── */
+.footer {
+  background: #100E0B;
+  padding: 5rem 1.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(196, 169, 125, 0.1);
+}
+
+.footerThanks {
+  font-family: 'Great Vibes', cursive;
+  font-size: 4.5rem;
+  color: white;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.footerNames {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.5rem;
+  color: var(--t4-rose-light);
+  margin: 0;
 }
 
 @media (max-width: 400px) {

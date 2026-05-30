@@ -23,8 +23,8 @@
 /* ── LABEL ── */
 .s15-label {
   font-family: var(--s15-font-body);
-  font-size: 0.8rem;
-  letter-spacing: 0.3em;
+  font-size: 0.85rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--s15-gold-dark);
   text-align: center;
@@ -105,7 +105,7 @@
 }
 
 .s15-hero-invite {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-style: italic;
   color: var(--s15-sub);
   max-width: 300px;
@@ -148,8 +148,8 @@
 
 .s15-band-label {
   font-family: var(--s15-font-body);
-  font-size: 0.7rem;
-  letter-spacing: 0.35em;
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--s15-gold);
   display: block;
@@ -167,8 +167,8 @@
 
 .s15-band-date-full {
   font-family: var(--s15-font-body);
-  font-size: 0.8rem;
-  letter-spacing: 0.25em;
+  font-size: 0.88rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--s15-gold);
   margin-top: 6px;
@@ -191,7 +191,7 @@
 
 .s15-section-title {
   font-family: var(--s15-font-title);
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 400;
   color: var(--s15-dark);
   margin: 12px 0 16px;
@@ -206,15 +206,15 @@
 }
 
 .s15-addr {
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--s15-sub);
   margin: 4px 0;
   line-height: 1.6;
 }
 
 .s15-datetime {
-  font-size: 0.88rem;
-  letter-spacing: 0.14em;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--s15-dark);
   margin: 12px 0 0;
@@ -222,7 +222,7 @@
 }
 
 .s15-body-text {
-  font-size: 1rem;
+  font-size: 1.05rem;
   line-height: 1.8;
   color: var(--s15-sub);
   margin: 6px 0;
@@ -285,8 +285,8 @@
 }
 #skeleton15-template .timer-box p {
   font-family: var(--s15-font-body);
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--s15-gold-dark);
   margin: 10px 0 0;

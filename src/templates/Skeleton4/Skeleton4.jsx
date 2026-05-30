@@ -7,6 +7,7 @@ function Skeleton4({ data, theme }) {
   const {
     name1 = 'Nombre',
     name2 = '',
+    welcomePhrase = '',
     eventDate = '2025-11-15T22:00:00',
     eventVenue = 'Salón Eventos',
     ceremonyDate = '11/11/2025',
@@ -54,19 +55,32 @@ function Skeleton4({ data, theme }) {
       <div className="s4-container s4-scroll-container">
         <motion.header
           className="s4-header"
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
         >
+          {(welcomePhrase || name2) && (
+            <p className="s4-pretitle">{welcomePhrase || 'Nos Casamos'}</p>
+          )}
           <motion.h1
             className="s4-title"
-            initial={{ letterSpacing: "0px" }}
-            animate={{ letterSpacing: "4px" }}
-            transition={{ duration: 1.5, delay: 0.5 }}
+            initial={{ letterSpacing: '0px' }}
+            animate={{ letterSpacing: '5px' }}
+            transition={{ duration: 1.5, delay: 0.4 }}
           >
-            {name1} {name2 && `& ${name2}`}
+            {name1}
+            {name2 && (
+              <>
+                <br />
+                <span style={{ fontSize: '1.2rem', letterSpacing: '3px' }}>&</span>
+                <br />
+                {name2}
+              </>
+            )}
           </motion.h1>
-          <div className="s4-divider"></div>
+          <div className="s4-divider">
+            <span className="s4-diamond">◇</span>
+          </div>
           <p className="s4-date-header">{partyDateString}</p>
         </motion.header>
 

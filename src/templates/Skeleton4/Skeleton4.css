@@ -1,102 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
 #skeleton4-template {
     width: 100%;
     height: 100%;
-    background-color: #fff;
-    color: #000;
-    font-family: var(--font-body), sans-serif;
+    background: #F9F8F6;
+    color: #1A1A1A;
+    font-family: var(--font-body), 'Montserrat', sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 40px;
+    align-items: flex-start;
     box-sizing: border-box;
+}
+
+.s4-scroll-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.s4-scroll-container::-webkit-scrollbar {
+    display: none;
 }
 
 .s4-container {
     width: 100%;
     max-width: 400px;
     text-align: center;
-    border: 1px solid #eee;
-    padding: 60px 20px;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     scroll-behavior: smooth;
     box-sizing: border-box;
+    position: relative;
+    padding: 64px 44px 80px;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.s4-container::-webkit-scrollbar {
-    display: none;
+/* Double decorative frame */
+.s4-container::before {
+    content: '';
+    position: absolute;
+    inset: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.11);
+    pointer-events: none;
+    z-index: 0;
+}
+.s4-container::after {
+    content: '';
+    position: absolute;
+    inset: 24px;
+    border: 0.5px solid rgba(0, 0, 0, 0.06);
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.s4-container {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+/* ── HEADER ── */
+.s4-header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 8px;
+}
+
+.s4-pretitle {
+    font-family: var(--font-body), 'Montserrat', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: #999;
+    font-weight: 400;
+    margin: 0 0 28px;
 }
 
 .s4-title {
-    font-family: var(--font-title);
-    font-weight: 300;
-    font-size: 2.5rem;
+    font-family: var(--font-title), 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: 2.6rem;
     letter-spacing: 5px;
     text-transform: uppercase;
     margin: 0;
+    line-height: 1.2;
+    color: #1A1A1A;
 }
 
+/* ── DIVIDER ── */
 .s4-divider {
-    width: 40px;
-    height: 1px;
-    background: #000;
-    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 22px auto;
+    max-width: 180px;
+}
+.s4-divider::before,
+.s4-divider::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: #1A1A1A;
+    opacity: 0.2;
+}
+.s4-diamond {
+    font-size: 0.55rem;
+    opacity: 0.35;
+    line-height: 1;
 }
 
 .s4-date-header {
-    letter-spacing: 3px;
-    font-size: 0.9rem;
+    font-family: var(--font-body), 'Montserrat', sans-serif;
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 300;
+    margin: 0;
 }
 
+/* ── COUNTDOWN ── */
 .s4-countdown {
-    margin: 40px 0;
+    position: relative;
+    z-index: 1;
+    margin: 40px 0 48px;
+    padding: 24px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
+
 .s4-time {
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    color: #888;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.5rem;
+    letter-spacing: 0.18em;
+    color: #1A1A1A;
+    font-style: italic;
+}
+
+/* ── SECTIONS ── */
+.s4-main {
+    position: relative;
+    z-index: 1;
 }
 
 .s4-section {
-    margin-bottom: 50px;
+    margin-bottom: 44px;
+    padding-bottom: 44px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
+.s4-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
 .s4-section h3 {
-    font-size: 0.7rem;
-    letter-spacing: 4px;
-    color: #999;
-    margin-bottom: 15px;
+    font-family: var(--font-body), 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.42em;
+    color: #AAAAAA;
+    margin-bottom: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
 }
+
 .s4-section p {
     margin: 5px 0;
-    font-size: 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #1A1A1A;
+    line-height: 1.5;
 }
 
 .s4-link {
     display: inline-block;
-    margin-top: 10px;
-    font-size: 0.7rem;
-    letter-spacing: 2px;
+    margin-top: 14px;
+    font-family: var(--font-body), 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
     text-decoration: none;
-    color: #000;
-    border-bottom: 1px solid #000;
-    padding-bottom: 2px;
+    color: #1A1A1A;
+    text-transform: uppercase;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.35);
+    padding-bottom: 3px;
+    transition: opacity 0.2s;
+}
+.s4-link:hover {
+    opacity: 0.45;
+}
+
+/* ── FOOTER / RSVP ── */
+.s4-footer {
+    position: relative;
+    z-index: 1;
+    margin-top: 8px;
 }
 
 .s4-rsvp-btn {
     display: block;
-    background: #000;
-    color: #fff;
-    padding: 15px;
+    background: #1A1A1A;
+    color: #F9F8F6;
+    padding: 16px 28px;
     text-decoration: none;
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    margin-top: 30px;
+    font-family: var(--font-body), 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 40px;
+    transition: background 0.25s;
+}
+.s4-rsvp-btn:hover {
+    background: #333;
 }

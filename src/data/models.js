@@ -65,21 +65,21 @@ export const invitationModels = [
         assets: {
           headerVideo: '',
           headerImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000',
-          backgroundImage: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000',
+          backgroundImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000',
           ceremonyIcon: '💒',
           partyIcon: '🥂',
-          dressCodeIcon: '👔',
+          dressCodeIcon: '🤵',
           giftIcon: '💍',
           audio: SHARED_ASSETS.demoAudio
         },
         styles: {
           primaryColor: '#D4AF37',
-          secondaryColor: '#556B2F',
+          secondaryColor: '#F5ECD7',
           fontFamilyTitle: "'Great Vibes', cursive",
           fontFamilyBody: "'Montserrat', sans-serif",
-          headerOverlay: 'rgba(255,255,255,0.3)',
-          cardBackground: 'rgba(255,255,255,0.1)',
-          textColor: '#ffffff'
+          headerOverlay: 'rgba(10, 8, 4, 0.52)',
+          cardBackground: 'rgba(12, 9, 3, 0.90)',
+          textColor: '#F5ECD7'
         }
       },
       {
@@ -88,7 +88,7 @@ export const invitationModels = [
         assets: {
           headerVideo: '',
           headerImage: 'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1000',
-          backgroundImage: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1000',
+          backgroundImage: 'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1000',
           ceremonyIcon: '💐',
           partyIcon: '🥂',
           dressCodeIcon: '👗',
@@ -96,13 +96,13 @@ export const invitationModels = [
           audio: SHARED_ASSETS.demoAudio
         },
         styles: {
-          primaryColor: '#B76E79',
+          primaryColor: '#D4AABB',
           secondaryColor: '#F4C2C2',
           fontFamilyTitle: "'Playfair Display', serif",
           fontFamilyBody: "'Lato', sans-serif",
-          headerOverlay: 'rgba(0,0,0,0.35)',
-          cardBackground: 'rgba(255,255,255,0.15)',
-          textColor: '#ffffff'
+          headerOverlay: 'rgba(22, 6, 12, 0.44)',
+          cardBackground: 'rgba(22, 6, 12, 0.88)',
+          textColor: '#FAE8EE'
         }
       },
       {
@@ -120,12 +120,12 @@ export const invitationModels = [
         },
         styles: {
           primaryColor: '#C8A400',
-          secondaryColor: '#001F5B',
+          secondaryColor: '#E8D88A',
           fontFamilyTitle: "'Playfair Display', serif",
           fontFamilyBody: "'Lato', sans-serif",
-          headerOverlay: 'rgba(0,10,40,0.55)',
-          cardBackground: 'rgba(0,31,91,0.3)',
-          textColor: '#ffffff'
+          headerOverlay: 'rgba(0, 10, 40, 0.55)',
+          cardBackground: 'rgba(0, 12, 48, 0.92)',
+          textColor: '#EEF2FF'
         }
       },
       {
@@ -142,13 +142,13 @@ export const invitationModels = [
           audio: SHARED_ASSETS.demoAudio
         },
         styles: {
-          primaryColor: '#2E8B57',
-          secondaryColor: '#F0FFF0',
+          primaryColor: '#5CBA8A',
+          secondaryColor: '#C8F0DC',
           fontFamilyTitle: "'Great Vibes', cursive",
           fontFamilyBody: "'Montserrat', sans-serif",
-          headerOverlay: 'rgba(0,40,20,0.5)',
-          cardBackground: 'rgba(255,255,255,0.12)',
-          textColor: '#ffffff'
+          headerOverlay: 'rgba(0, 40, 20, 0.50)',
+          cardBackground: 'rgba(6, 28, 14, 0.92)',
+          textColor: '#E8F8EE'
         }
       },
       {
@@ -440,8 +440,8 @@ export const invitationModels = [
           audio: SHARED_ASSETS.demoAudio
         },
         styles: {
-          primaryColor: '#f39c12',
-          cardBackground: '#fdfcf0',
+          primaryColor: '#C9A96E',
+          cardBackground: '#FDF8F0',
         }
       }
     ]
