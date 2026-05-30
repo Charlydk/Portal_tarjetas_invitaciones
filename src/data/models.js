@@ -576,6 +576,7 @@ export const invitationModels = [
         id: 'floral-rosegold-boda',
         name: 'Floral Rose Gold',
         assets: {
+          heroImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1200',
           audio: SHARED_ASSETS.demoAudio,
           ceremonyIcon: '🌸', partyIcon: '🥂', dressCodeIcon: '👗', giftIcon: '💐',
         },
