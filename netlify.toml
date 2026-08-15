@@ -1,0 +1,45 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# ─── Open Graph por tarjeta ───────────────────────────────────────────────────
+# WhatsApp lee el HTML sin ejecutar JavaScript, así que la preview de un link no
+# puede armarla la SPA. Esta función reescribe los meta tags en el servidor.
+[[edge_functions]]
+  path = "/preview/*"
+  function = "og"
+
+# ─── SPA ──────────────────────────────────────────────────────────────────────
+# Sin esto, entrar directo a /preview/cenicienta-baile devuelve 404: Netlify
+# busca un archivo en esa ruta y no existe, porque el ruteo es del lado del
+# cliente. Es exactamente el caso de todo link compartido por WhatsApp, así que
+# esta regla no es opcional.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# ─── Caché ────────────────────────────────────────────────────────────────────
+# Los bundles llevan hash en el nombre: cambian de nombre al cambiar de
+# contenido, así que se pueden cachear para siempre.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Los assets de las alegorías NO llevan hash. Un día fresco y una semana
+# sirviendo la copia vieja mientras se revalida en segundo plano: el invitado
+# que vuelve a abrir la tarjeta no vuelve a bajar el video.
+[[headers]]
+  for = "/allegories/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
