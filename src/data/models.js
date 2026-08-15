@@ -1,5 +1,13 @@
 // src/data/models.js
 
+import { cinderella } from '../allegories/cinderella';
+import { rapunzel } from '../allegories/rapunzel';
+import { aurora } from '../allegories/aurora';
+import { bodaClasica } from '../allegories/bodaClasica';
+import { mariposas } from '../allegories/mariposas';
+import { auroraBoda } from '../allegories/auroraBoda';
+import { cenicientaBoda } from '../allegories/cenicientaBoda';
+
 const SHARED_ASSETS = {
   video1: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
   // Canon en Re — Kevin MacLeod (CC Attribution 3.0) — demo para todas las tarjetas
@@ -271,7 +279,7 @@ export const invitationModels = [
         name: 'Aniversario Clásico',
         assets: {
           headerVideo: '',
-          headerImage: 'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1000',
+          headerImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1000',
           backgroundImage: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=1000',
           ceremonyIcon: '❤️',
           partyIcon: '🥂',
@@ -394,7 +402,7 @@ export const invitationModels = [
             'https://images.unsplash.com/photo-1511795409834-ef04bbd61622',
             'https://images.unsplash.com/photo-1519225421980-715cb0215aed',
             'https://images.unsplash.com/photo-1469334031218-e382a71b716b',
-            'https://images.unsplash.com/photo-1522673607200-1648832cee98'
+            'https://images.unsplash.com/photo-1511285560929-80b456fea0bc'
           ],
           audio: SHARED_ASSETS.demoAudio
         },
@@ -660,7 +668,7 @@ export const invitationModels = [
           ceremonyImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200',
           partyImage:    'https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?q=80&w=1200',
           countdownBg:   'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
-          galleryBg:     'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
+          galleryBg:     'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
           rsvpImage:     'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=1200',
           audio: SHARED_ASSETS.demoAudio,
         },
@@ -675,7 +683,7 @@ export const invitationModels = [
         id: 'cine-champagne-boda',
         name: 'Champagne & Ivory',
         assets: {
-          heroImage:     'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
+          heroImage:     'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
           civilImage:    'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1200',
           ceremonyImage: 'https://images.unsplash.com/photo-1460472178825-e5240623afd5?q=80&w=1200',
           partyImage:    'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200',
@@ -699,7 +707,7 @@ export const invitationModels = [
           civilImage:    'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200',
           ceremonyImage: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1200',
           partyImage:    'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200',
-          countdownBg:   'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
+          countdownBg:   'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
           galleryBg:     'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
           rsvpImage:     'https://images.unsplash.com/photo-1460472178825-e5240623afd5?q=80&w=1200',
           audio: SHARED_ASSETS.demoAudio,
@@ -716,7 +724,7 @@ export const invitationModels = [
         name: 'Rose Dust',
         assets: {
           heroImage:     'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
-          civilImage:    'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
+          civilImage:    'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
           ceremonyImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200',
           partyImage:    'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1200',
           countdownBg:   'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200',
@@ -739,7 +747,7 @@ export const invitationModels = [
           civilImage:    'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200',
           ceremonyImage: 'https://images.unsplash.com/photo-1460472178825-e5240623afd5?q=80&w=1200',
           partyImage:    'https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?q=80&w=1200',
-          countdownBg:   'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
+          countdownBg:   'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
           galleryBg:     'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
           rsvpImage:     'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200',
           audio: SHARED_ASSETS.demoAudio,
@@ -789,7 +797,7 @@ export const invitationModels = [
           civilImage:    'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=900',
           ceremonyImage: 'https://images.unsplash.com/photo-1460472178825-e5240623afd5?q=80&w=900',
           partyImage:    'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=900',
-          rsvpImage:     'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=900',
+          rsvpImage:     'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=900',
           audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
@@ -806,7 +814,7 @@ export const invitationModels = [
         name: 'Floral Split',
         assets: {
           heroImage:     'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
-          civilImage:    'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=900',
+          civilImage:    'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=900',
           ceremonyImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=900',
           partyImage:    'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=900',
           rsvpImage:     'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=900',
@@ -836,7 +844,7 @@ export const invitationModels = [
         name: 'Ivory & Sand',
         assets: {
           heroImage:   'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200',
-          accentImage: 'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
+          accentImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
           audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
@@ -935,7 +943,7 @@ export const invitationModels = [
         name: 'Deluxe Vino & Gold',
         assets: {
           heroImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200',
-          gallery1:  'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=600',
+          gallery1:  'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600',
           gallery2:  'https://images.unsplash.com/photo-1460472178825-e5240623afd5?q=80&w=600',
           gallery3:  'https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?q=80&w=600',
           gallery4:  'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=600',
@@ -957,7 +965,7 @@ export const invitationModels = [
           gallery1:  'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=600',
           gallery2:  'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=600',
           gallery3:  'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600',
-          gallery4:  'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=600',
+          gallery4:  'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600',
           audio: SHARED_ASSETS.demoAudio,
         },
         styles: {
@@ -966,6 +974,123 @@ export const invitationModels = [
           fontFamilyTitle: "'Great Vibes', cursive",
           fontFamilyBody: "'Lato', sans-serif",
           textColor: '#B8A060',
+        }
+      }
+    ]
+  },
+  {
+    // Every allegory added here reuses AllegoryCard — no new React component.
+    // The design lives in src/allegories/.
+    id: 'allegories',
+    name: 'Alegorías',
+    skeletonComponent: 'AllegoryCard',
+    description: 'Diseños dirigidos por datos: la estructura es común y cada alegoría aporta color, tipografía, títulos y ornamentos.',
+    variants: [
+      {
+        id: 'cenicienta-baile',
+        name: 'Cenicienta — El Gran Baile',
+        allegory: cinderella,
+        assets: {
+          audio: cinderella.audio,
+        },
+        styles: {
+          primaryColor: cinderella.tokens.accent,
+          secondaryColor: cinderella.tokens.bg,
+          fontFamilyTitle: cinderella.tokens.fontTitle,
+          fontFamilyBody: cinderella.tokens.fontBody,
+          textColor: cinderella.tokens.ink,
+        }
+      },
+      {
+        id: 'rapunzel-luces',
+        name: 'Rapunzel — La Noche de las Luces',
+        allegory: rapunzel,
+        assets: {
+          audio: rapunzel.audio,
+        },
+        styles: {
+          primaryColor: rapunzel.tokens.accent,
+          secondaryColor: rapunzel.tokens.bg,
+          fontFamilyTitle: rapunzel.tokens.fontTitle,
+          fontFamilyBody: rapunzel.tokens.fontBody,
+          textColor: rapunzel.tokens.ink,
+        }
+      },
+      {
+        id: 'aurora-gotica',
+        name: 'Aurora Gótica',
+        allegory: aurora,
+        assets: {
+          audio: aurora.audio,
+        },
+        styles: {
+          primaryColor: aurora.tokens.accent,
+          secondaryColor: aurora.tokens.bg,
+          fontFamilyTitle: aurora.tokens.fontTitle,
+          fontFamilyBody: aurora.tokens.fontBody,
+          textColor: aurora.tokens.ink,
+        }
+      },
+      {
+        id: 'boda-caricatura',
+        name: 'Boda Caricatura',
+        allegory: bodaClasica,
+        assets: {
+          audio: bodaClasica.audio,
+        },
+        styles: {
+          primaryColor: bodaClasica.tokens.accent,
+          secondaryColor: bodaClasica.tokens.bg,
+          fontFamilyTitle: bodaClasica.tokens.fontTitle,
+          fontFamilyBody: bodaClasica.tokens.fontBody,
+          textColor: bodaClasica.tokens.ink,
+        }
+      },
+      {
+        id: 'mariposas-neon',
+        name: 'Mariposas',
+        allegory: mariposas,
+        assets: {
+          audio: mariposas.audio,
+        },
+        styles: {
+          primaryColor: mariposas.tokens.accent,
+          secondaryColor: mariposas.tokens.bg,
+          fontFamilyTitle: mariposas.tokens.fontTitle,
+          fontFamilyBody: mariposas.tokens.fontBody,
+          textColor: mariposas.tokens.ink,
+        }
+      },
+      {
+        // Wedding re-dressings of the allegories above. Same artwork and same
+        // ambience; only wording, sections and sample couple differ.
+        id: 'aurora-boda',
+        name: 'Bosque Encantado',
+        allegory: auroraBoda,
+        assets: {
+          audio: auroraBoda.audio,
+        },
+        styles: {
+          primaryColor: auroraBoda.tokens.accent,
+          secondaryColor: auroraBoda.tokens.bg,
+          fontFamilyTitle: auroraBoda.tokens.fontTitle,
+          fontFamilyBody: auroraBoda.tokens.fontBody,
+          textColor: auroraBoda.tokens.ink,
+        }
+      },
+      {
+        id: 'cenicienta-boda',
+        name: 'Boda de Cuento',
+        allegory: cenicientaBoda,
+        assets: {
+          audio: cenicientaBoda.audio,
+        },
+        styles: {
+          primaryColor: cenicientaBoda.tokens.accent,
+          secondaryColor: cenicientaBoda.tokens.bg,
+          fontFamilyTitle: cenicientaBoda.tokens.fontTitle,
+          fontFamilyBody: cenicientaBoda.tokens.fontBody,
+          textColor: cenicientaBoda.tokens.ink,
         }
       }
     ]
