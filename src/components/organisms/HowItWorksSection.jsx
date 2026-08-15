@@ -2,24 +2,27 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './HowItWorksSection.module.css';
 
+// Reframed to what actually happens. The old step 2 said "editá desde nuestro
+// panel interactivo", which promised self-service on a done-for-you business
+// and scared off exactly the clients who do not want to touch anything.
 const STEPS = [
   {
     number: '01',
     icon: '🔍',
     title: 'Elegí tu diseño',
-    description: 'Explorá nuestra galería y seleccioná la plantilla que mejor se adapte a tu evento.',
+    description: 'Abrí los modelos en tu celular y recorrelos completos, igual que los va a ver tu invitado.',
   },
   {
     number: '02',
-    icon: '✏️',
-    title: 'Personalizá',
-    description: 'Editá nombres, fechas, lugar y fotos en tiempo real desde nuestro panel interactivo.',
+    icon: '💬',
+    title: 'Contanos tu evento',
+    description: 'Nos escribís por WhatsApp con los datos, las fotos y lo que quieras cambiar. Del armado nos ocupamos nosotros.',
   },
   {
     number: '03',
-    icon: '🚀',
-    title: 'Compartí',
-    description: 'Recibí un enlace único para enviar a tus invitados por WhatsApp, email o redes.',
+    icon: '🔗',
+    title: 'Recibí tu link',
+    description: 'Te entregamos la invitación publicada y lista para compartir con todos tus invitados.',
   },
 ];
 
@@ -61,7 +64,7 @@ function HowItWorksSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        Sin instalaciones. Sin complicaciones.
+        Vos elegís y nos contás. Nosotros la armamos.
       </motion.p>
 
       <motion.div

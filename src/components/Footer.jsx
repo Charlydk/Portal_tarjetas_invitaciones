@@ -8,7 +8,7 @@ function Footer() {
     <footer id="contact" className="footer">
       <div className="footer-container">
         <p className="footer-text">
-          InvitaWeb © {currentYear} | Todos los derechos reservados.
+          FX Estudio · Invitaciones Web & Diseño © {currentYear}
         </p>
         <p className="footer-text">
           Desarrollado con ❤️ en Tucumán, Argentina.

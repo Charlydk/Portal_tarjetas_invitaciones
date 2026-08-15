@@ -187,7 +187,7 @@ export function InvitationFooter({ id, title }) {
     <motion.footer id={id} className="footer-skeleton1" {...fadeInUp}>
       <h2>¡Gracias!</h2>
       <h3>{title}</h3>
-      <p className="dev-credit">InvitaWeb © 2025</p>
+      <p className="dev-credit">FX Estudio</p>
     </motion.footer>
   );
 }

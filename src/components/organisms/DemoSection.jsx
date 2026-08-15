@@ -22,7 +22,7 @@ function DemoSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        Una experiencia interactiva completa
+        Mirala como la va a ver tu invitado
       </motion.h2>
       <motion.p
         className={styles.sectionSubtitle}
@@ -31,7 +31,7 @@ function DemoSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        Navegá por una de nuestras invitaciones de ejemplo y sentí la fluidez.
+        Recorré una invitación completa, de la portada hasta la confirmación.
       </motion.p>
 
       <motion.div
@@ -43,7 +43,9 @@ function DemoSection() {
       >
         <div className={styles.phoneNotch}></div>
         <div className={styles.phoneScreenContainer}>
-          <DemoEmbed variantId="tarjeta4-belen-agustin" />
+          {/* Was pointing at tarjeta4, a legacy design no longer offered. The
+              featured demo has to be something the visitor can actually buy. */}
+          <DemoEmbed variantId="cenicienta-baile" />
         </div>
       </motion.div>
     </section>

@@ -26,7 +26,7 @@ function Navbar() {
     <nav className={navClass}>
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          InvitaWeb
+          FX Estudio
         </Link>
         <ul className="nav-menu">
           <li className="nav-item">

@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './HeroSection.module.css';
+import { waLink, hasWhatsApp } from '../../lib/whatsapp';
+import { PLAZO_ENTREGA } from '../../data/homeData';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -20,33 +22,38 @@ function HeroSection() {
       {/* ── Columna izquierda ── */}
       <div className={styles.heroLeft}>
         <motion.p className={styles.eyebrow} {...fadeUp(0)}>
-          ✦ Invitaciones digitales para tus eventos
+          ✦ Invitaciones digitales hechas a medida
         </motion.p>
 
         <motion.h1 className={styles.heroTitle} {...fadeUp(0.15)}>
-          El día que soñaste merece la invitación perfecta
+          Una invitación hecha para tu evento, no una plantilla
         </motion.h1>
 
         <motion.p className={styles.heroSubtitle} {...fadeUp(0.28)}>
-          Interactivas, elegantes y listas para compartir en segundos. Sin imprimir, sin esperar.
+          Elegí el diseño que más te guste, contanos cómo es tu fiesta y te la
+          entregamos lista para compartir. Con video, música e ilustraciones propias.
         </motion.p>
 
         <motion.div className={styles.heroActions} {...fadeUp(0.4)}>
-          <a href="#templates" className={styles.btnMain}>Ver modelos</a>
-          <a
-            href="https://wa.me/5491100000000?text=Hola%2C%20me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20las%20invitaciones"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.btnOutline}
-          >
-            Hablar con un asesor
-          </a>
+          <a href="#templates" className={styles.btnMain}>Ver los diseños</a>
+          {hasWhatsApp && (
+            <a
+              href={waLink('¡Hola! Vi el portal y me interesan las invitaciones. ¿Me contás cómo es?')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.btnOutline}
+            >
+              Escribinos por WhatsApp
+            </a>
+          )}
         </motion.div>
 
         <motion.div className={styles.trustRow} {...fadeUp(0.52)}>
-          <span>✓ Sin contrato</span>
-          <span>✓ Entrega en 24 hs</span>
-          <span>✓ Soporte incluido</span>
+          {/* Entrega primero: es el dato más competitivo del set — el mercado
+              promete 3 días. */}
+          <span>✓ Entrega en {PLAZO_ENTREGA}</span>
+          <span>✓ Diseño a medida</span>
+          <span>✓ Se abre en cualquier celular</span>
         </motion.div>
       </div>
 
@@ -60,10 +67,13 @@ function HeroSection() {
         <div className={styles.phoneGlow} aria-hidden="true" />
         <div className={styles.phoneFrame}>
           <div className={styles.phoneNotch} />
+          {/* One of the real cards, not a stock photo of somebody else's
+              wedding. The hero should show what is actually being sold. */}
           <img
-            src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600"
-            alt="Vista previa de invitación"
+            src="/allegories/cenicienta/fondo.jpeg"
+            alt="Invitación Cenicienta — vista previa"
             className={styles.phoneScreen}
+            fetchPriority="high"
           />
         </div>
 

@@ -214,7 +214,7 @@ function Skeleton7({ data, theme }) {
       {/* ── FOOTER ── */}
       <motion.footer className="s7-footer" {...fadeUp}>
         <p className="s7-footer-names">{name1}{name2 && ` & ${name2}`}</p>
-        <p className="s7-footer-credit">InvitaWeb © 2025</p>
+        <p className="s7-footer-credit">FX Estudio</p>
       </motion.footer>
 
     </div>

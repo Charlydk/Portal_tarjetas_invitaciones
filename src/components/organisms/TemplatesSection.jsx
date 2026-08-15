@@ -34,7 +34,12 @@ function TemplatesSection() {
             onClick={() => navigate(`/preview/${template.variantId}`)}
           >
             <div className="card-preview-wrapper">
-              <TemplateThumbnail modelId={template.modelId} variantId={template.variantId} />
+              <TemplateThumbnail
+                modelId={template.modelId}
+                variantId={template.variantId}
+                image={template.previewImage}
+                alt={template.name}
+              />
             </div>
 
             <h3 className="card-name">{template.name}</h3>

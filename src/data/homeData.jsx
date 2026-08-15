@@ -1,82 +1,126 @@
 import React from 'react';
-import { FaClock, FaMapMarkedAlt, FaImages, FaGift, FaMusic, FaCheckCircle } from 'react-icons/fa';
+import { FaClock, FaMapMarkedAlt, FaImages, FaGift, FaMusic, FaCheckCircle, FaFilm, FaPalette } from 'react-icons/fa';
+
+// Precios y plazo. Se cambian sólo acá.
+//
+// Referencia de mercado relevada en agosto 2026 para invitaciones digitales en
+// Argentina: piso ~$25.000, premium ~$40.000 (Luno, Fiestly, Amo Invitar).
+const PRECIO_CLASICA = 25000;
+const PRECIO_PREMIUM = 40000;
+
+// 48 h es más rápido que la competencia, que promete 3 días. Si algún día deja
+// de cumplirse, hay que bajarlo del hero antes que prometer y fallar.
+export const PLAZO_ENTREGA = '48 horas';
+
+// "Desde" deja margen para las temáticas a medida, que son las que más trabajo
+// llevan y las que el cliente pide más seguido.
+const formatPrice = (valor) =>
+  valor === null ? 'Consultanos' : `Desde $${valor.toLocaleString('es-AR')}`;
 
 export const features = [
   {
+    icon: <FaFilm />,
+    title: 'Portada con video',
+    description: 'La invitación abre con un video que se reproduce solo. Es lo primero que ve tu invitado y lo que la distingue de una tarjeta común.'
+  },
+  {
+    icon: <FaPalette />,
+    title: 'Ilustraciones propias',
+    description: 'Cada sección lleva su medallón ilustrado a mano para tu evento. Nada de íconos genéricos.'
+  },
+  {
     icon: <FaCheckCircle />,
-    title: 'Confirmación de Asistencia',
-    description: 'Tus invitados confirman su presencia con un solo clic, facilitándote la organización.'
+    title: 'Confirmación de asistencia',
+    description: 'Tus invitados confirman con un toque y la confirmación te llega directo por WhatsApp.'
   },
   {
     icon: <FaClock />,
-    title: 'Cuenta Regresiva',
-    description: 'Un contador dinámico muestra cuánto falta para el gran día, generando expectativa.'
+    title: 'Cuenta regresiva',
+    description: 'Un contador en vivo muestra cuánto falta para el gran día y mantiene la expectativa.'
   },
   {
     icon: <FaImages />,
-    title: 'Galería de Fotos y Videos',
-    description: 'Comparte tus mejores momentos antes del evento y crea un álbum colaborativo después.'
+    title: 'Galería y álbum compartido',
+    description: 'Tus fotos antes del evento, y un álbum donde tus invitados suben las suyas después.'
   },
   {
     icon: <FaMapMarkedAlt />,
-    title: 'Mapa Interactivo',
-    description: 'Integración con Google Maps para que nadie se pierda cómo llegar a la ceremonia y a la fiesta.'
+    title: 'Cómo llegar',
+    description: 'Un botón por cada lugar que abre la ubicación exacta en Google Maps. Nadie se pierde.'
   },
   {
     icon: <FaGift />,
-    title: 'Lista de Regalos',
-    description: 'Informa a tus invitados sobre tu lista de regalos o datos bancarios de forma elegante.'
+    title: 'Datos para regalos',
+    description: 'Alias, CBU o cofre en el salón, presentados con la elegancia que merece el momento.'
   },
   {
     icon: <FaMusic />,
-    title: 'Sugerencia de Canciones',
-    description: 'Deja que tus invitados te sugieran canciones para que la pista de baile no pare nunca.'
+    title: 'Música',
+    description: 'La invitación suena con la canción que elijas, y tu invitado decide si quiere escucharla.'
   }
 ];
 
 export const faqData = [
   {
-    q: '¿Qué recibo exactamente cuando compro una invitación?',
-    a: 'Recibirás un enlace web único (ej: tunomb.re/boda-ana-y-juan) que podrás compartir fácilmente con todos tus invitados. La página será visible en cualquier dispositivo con acceso a internet.'
+    q: '¿Qué recibo exactamente?',
+    a: 'Un enlace web propio para tu evento que compartís por WhatsApp con todos tus invitados. Se abre en cualquier celular, sin instalar nada y sin imprimir nada.'
   },
   {
-    q: '¿Puedo modificar la invitación después de haberla comprado?',
-    a: 'Sí, permitimos cambios menores en textos y fechas sin costo adicional hasta 48 horas antes del evento. Cambios de diseño mayores pueden tener un costo extra.'
+    q: '¿Puedo pedir un diseño que no está en la galería?',
+    a: 'Sí, y es lo que más hacemos. Los modelos que ves son el punto de partida: nos decís qué querés cambiar —los colores, la tipografía, los textos, las imágenes, o sacar una sección entera— y armamos tu versión. Si tenés una temática en mente que no está, contanos y la creamos.'
+  },
+  {
+    q: '¿Tengo que cargar los datos yo?',
+    a: 'No. Nos pasás la información por WhatsApp como te resulte más cómodo y nosotros armamos la invitación. Si preferís cargarla vos, también podemos darte acceso para hacerlo.'
   },
   {
     q: '¿Cómo confirman la asistencia mis invitados?',
-    a: 'Tu invitación incluirá un formulario de confirmación de asistencia (RSVP). Cada vez que un invitado confirme, recibirás una notificación y los datos se añadirán a una lista de invitados que te compartiremos.'
+    a: 'La invitación incluye un botón de confirmación que abre un WhatsApp hacia tu número con el mensaje ya escrito. Vos recibís las confirmaciones directamente en tu chat.'
   },
   {
-    q: '¿Las invitaciones funcionan en cualquier celular?',
-    a: '¡Absolutamente! Nuestras invitaciones están diseñadas para ser 100% compatibles con todos los smartphones, tablets y computadoras modernas, sin necesidad de instalar ninguna aplicación.'
+    q: '¿Cuánto tarda?',
+    a: `La entregamos en ${PLAZO_ENTREGA} desde que tenemos todos los datos de tu evento. Si tu fecha está muy cerca, avisanos y vemos cómo acomodarnos.`
+  },
+  {
+    q: '¿Puedo cambiar algo después de que esté publicada?',
+    a: 'Sí. Los cambios de textos, fechas y horarios no tienen costo. Un cambio de diseño mayor lo conversamos.'
+  },
+  {
+    q: '¿Funciona en cualquier celular?',
+    a: 'Sí. Se abre en cualquier celular, tablet o computadora con internet, sin instalar ninguna aplicación.'
   }
 ];
 
 export const pricingData = [
   {
-    plan: 'Hacelo vos',
-    price: 'Desde $10.000',
-    description: 'Elegí módulos, personalizá y obtené tu invitación en minutos',
+    plan: 'Clásica',
+    price: formatPrice(PRECIO_CLASICA),
+    description: 'Tu diseño elegido, adaptado a tu evento con tus datos, tus fotos y tus textos.',
     features: [
-      'Activación inmediata',
-      '100% online'
+      `Entrega en ${PLAZO_ENTREGA}`,
+      'Diseño adaptado a tu evento',
+      'Portada con video y música',
+      'Confirmación por WhatsApp',
+      'Galería, mapas y datos para regalos',
+      'Cambios de textos sin costo'
     ],
     popular: false,
-    ctaText: 'Crear mi invitación',
+    ctaText: 'Quiero esta',
     ctaUrl: '#templates'
   },
   {
-    plan: 'Te ayudamos',
-    price: 'A Medida',
-    description: 'Si querés algo más personalizado o no sabés por dónde empezar, te acompañamos',
+    plan: 'Premium',
+    price: formatPrice(PRECIO_PREMIUM),
+    description: 'Todo lo de la Clásica, más ilustraciones propias y las animaciones que hacen que se sienta viva.',
     features: [
-      'Diseño más personalizado',
-      'Acompañamiento constante',
-      'Ajustes según necesidad'
+      'Todo lo de la Clásica',
+      'Ilustraciones hechas para tu evento',
+      'Animaciones y ambientación propia',
+      'Temática a medida si la tenés en mente',
+      'Álbum compartido para tus invitados'
     ],
     popular: true,
-    ctaText: 'Contactar por WhatsApp',
+    ctaText: 'Hablemos',
     ctaUrl: '#contact'
   },
 ];

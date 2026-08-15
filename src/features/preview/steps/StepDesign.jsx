@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { waLink } from '../../../lib/whatsapp';
 import { invitationSegments } from '../../../data/segments';
 
 export function StepDesign({ formData, handleChange }) {
@@ -65,7 +66,7 @@ export function StepDesign({ formData, handleChange }) {
                   <small style={{ color: '#666', display: 'block', marginBottom: '10px', flex: 1, lineHeight: '1.2' }}>{template.description}</small>
                   
                   <a 
-                    href={`https://wa.me/1234567890?text=Hola,%20me%20interesa%20la%20plantilla%20${encodeURIComponent(template.name)}`}
+                    href={waLink(`¡Hola! Me interesa la plantilla ${template.name}`)}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './PricingSection.module.css';
+import { waLink, hasWhatsApp } from '../../lib/whatsapp';
 
 function PricingSection({ pricingData }) {
   const [activeModal, setActiveModal] = useState(null);
@@ -35,35 +36,46 @@ function PricingSection({ pricingData }) {
         ))}
       </div>
 
-      {activeModal === 'Hacelo vos' && (
+      {activeModal === 'Clásica' && (
         <div onClick={closeModal} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 10000, padding: '20px' }}>
           <div onClick={e => e.stopPropagation()} style={{ background: 'white', padding: '40px', borderRadius: '25px', maxWidth: '500px', width: '100%', textAlign: 'center', position: 'relative', animation: 'fadeIn 0.3s' }}>
             <button onClick={closeModal} style={{ position: 'absolute', top: '20px', right: '20px', background: '#f5f5f5', border: 'none', borderRadius: '50%', width: '35px', height: '35px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', transition: 'background 0.2s' }} onMouseEnter={e => e.currentTarget.style.background = '#e5e5e5'} onMouseLeave={e => e.currentTarget.style.background = '#f5f5f5'}>✖</button>
-            <h3 style={{ fontSize: '2.5rem', color: 'var(--color-primary)', marginBottom: '15px', fontFamily: 'var(--font-title)' }}>Paso a Paso</h3>
+            <h3 style={{ fontSize: '2.5rem', color: 'var(--color-primary)', marginBottom: '15px', fontFamily: 'var(--font-title)' }}>Cómo seguimos</h3>
             <p style={{ fontSize: '1.25rem', color: 'var(--color-text)', marginBottom: '30px', lineHeight: '1.6', opacity: 0.9 }}>
-              Deslizá hacia la sección de diseños, <strong>elegí la tarjeta que más te guste</strong> y luego presioná en el botón <strong>"Edita este diseño"</strong> para comenzar a cargar tus datos al instante.
+              Mirá los diseños y quedate con el que más te guste. Después nos escribís
+              por WhatsApp contándonos cómo es tu evento y <strong>nosotros armamos tu invitación</strong>.
             </p>
             <a href="#templates" onClick={closeModal} className="btn-primary" style={{ textDecoration: 'none', display: 'inline-block', padding: '15px 35px' }}>
-              Ir a los diseños
+              Ver los diseños
             </a>
           </div>
         </div>
       )}
 
-      {activeModal === 'Te ayudamos' && (
+      {activeModal === 'Premium' && (
         <div onClick={closeModal} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 10000, padding: '20px' }}>
           <div onClick={e => e.stopPropagation()} style={{ background: 'white', padding: '40px', borderRadius: '25px', maxWidth: '500px', width: '100%', textAlign: 'center', position: 'relative', animation: 'fadeIn 0.3s' }}>
             <button onClick={closeModal} style={{ position: 'absolute', top: '20px', right: '20px', background: '#f5f5f5', border: 'none', borderRadius: '50%', width: '35px', height: '35px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', transition: 'background 0.2s' }} onMouseEnter={e => e.currentTarget.style.background = '#e5e5e5'} onMouseLeave={e => e.currentTarget.style.background = '#f5f5f5'}>✖</button>
-            <h3 style={{ fontSize: '2.5rem', color: 'var(--color-primary)', marginBottom: '15px', fontFamily: 'var(--font-title)' }}>Atención Personalizada</h3>
+            <h3 style={{ fontSize: '2.5rem', color: 'var(--color-primary)', marginBottom: '15px', fontFamily: 'var(--font-title)' }}>Hablemos de tu evento</h3>
             <p style={{ fontSize: '1.25rem', color: 'var(--color-text)', marginBottom: '30px', lineHeight: '1.6', opacity: 0.9 }}>
-              Podés elegir el diseño que más te guste primero, o si preferís, hablarnos ahora mismo para que un asesor te guíe paso a paso.
+              Contanos qué temática tenés en mente y armamos algo único para vos.
+              Si todavía no sabés por dónde empezar, mirá primero los diseños y
+              después charlamos.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              {hasWhatsApp && (
+                <a
+                  href={waLink('¡Hola! Me interesa una invitación Premium. ¿Me contás cómo es?')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary"
+                  style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', padding: '15px 35px' }}
+                >
+                  💬 Escribinos por WhatsApp
+                </a>
+              )}
               <a href="#templates" onClick={closeModal} style={{ textDecoration: 'none', display: 'block', padding: '15px 35px', borderRadius: '50px', border: '2px solid var(--color-primary)', color: 'var(--color-primary)', fontWeight: 'bold', fontSize: '1.1rem', transition: 'all 0.2s' }} onMouseEnter={e => {e.currentTarget.style.background = 'var(--color-primary)'; e.currentTarget.style.color = 'white';}} onMouseLeave={e => {e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-primary)';}}>
                 Ver los diseños primero
-              </a>
-              <a href="https://wa.me/1234567890?text=Hola,%20quisiera%20asesoramiento%20sobre%20las%20invitaciones" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', padding: '15px 35px' }}>
-                💬 Hablar con un asesor
               </a>
             </div>
           </div>
