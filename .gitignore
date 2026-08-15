@@ -43,3 +43,9 @@ dist-ssr
 # ----------------------------------------------------------------
 .DS_Store
 Thumbs.db
+# Carpetas de trabajo temporal (no son parte del producto)
+# ----------------------------------------------------------------
+Temporal/
+ejemplos/
+.temp_tarjeta4/
+.atl/.skill-registry.cache.json
