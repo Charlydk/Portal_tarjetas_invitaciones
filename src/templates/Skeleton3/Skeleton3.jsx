@@ -7,7 +7,7 @@ const SAMPLE_PHOTOS = [
   'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&q=80',
   'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&q=80',
   'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80',
-  'https://images.unsplash.com/photo-1522673607200-1648832cee98?w=800&q=80',
+  'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80',
 ];
 
 function Skeleton3({ data, theme }) {

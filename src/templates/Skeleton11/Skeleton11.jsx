@@ -9,7 +9,7 @@ const DEFAULT_IMAGES = {
   ceremonyImage: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1200',
   partyImage:    'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200',
   countdownBg:   'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200',
-  galleryBg:     'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1200',
+  galleryBg:     'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
   rsvpImage:     'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=1200',
 };
 
@@ -17,7 +17,7 @@ const SAMPLE_PHOTOS = [
   'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=500',
   'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=500',
   'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=500',
-  'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=500',
+  'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=500',
 ];
 
 const fadeUp = {
