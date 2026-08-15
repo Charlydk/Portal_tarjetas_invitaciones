@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import InvitationPreview from '../features/preview/InvitationPreview';
+import LoadingVeil from '../features/invitation/LoadingVeil';
+import { usePreload } from '../features/invitation/usePreload';
+import { allegoryImages, resolveAllegory } from '../allegories';
 import { invitationModels } from '../data/models';
 import { invitationSegments } from '../data/segments';
 
@@ -52,11 +55,12 @@ const DEMO_DATA = {
   whatsappNumber: '5491100000000',
   musicPlaylistUrl: '',
   dressCodeDescription: 'Formal · Tonos neutros y pasteles',
+  // Local: remote photos loading mid-scroll were a visible source of stutter.
   galleryPhotos: [
-    'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600',
-    'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=600',
-    'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=600',
-    'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=600',
+    '/allegories/_muestra/foto1.webp',
+    '/allegories/_muestra/foto2.webp',
+    '/allegories/_muestra/foto3.webp',
+    '/allegories/_muestra/foto4.webp',
   ],
 
   showCivil: false,
@@ -71,8 +75,42 @@ const DEMO_DATA = {
   askDiets: false,
 };
 
+// The gate is the first thing a guest sees, so it has to wear the same costume
+// as the card behind it. Allegory-backed variants theme it; every other variant
+// keeps the original gold-on-black look untouched.
+const DEFAULT_GATE = {
+  accent: '#C9A96E',
+  bg: 'linear-gradient(160deg, #0e0b07 0%, #1c1508 55%, #0e0b07 100%)',
+  // `bg` may be a gradient, so text sitting on the accent needs its own token.
+  accentInk: '#0e0b07',
+  ink: '#FAF7F2',
+  fontTitle: "'Playfair Display', 'Georgia', serif",
+  fontBody: "'EB Garamond', 'Garamond', serif",
+};
+
+function gateThemeFor(variant) {
+  const t = variant?.allegory?.tokens;
+  if (!t) return DEFAULT_GATE;
+  return {
+    accent: t.accent,
+    bg: t.bg,
+    accentInk: t.accentInk,
+    ink: t.ink,
+    fontTitle: t.fontTitle,
+    fontBody: t.fontBody,
+    bgImage: t.backgroundImage,
+    bgVideo: t.backgroundVideo,
+    scrim: t.scrim,
+  };
+}
+
+/** Adds alpha to a hex token so the gate can dim its own ink without a second token. */
+function fade(color, alpha) {
+  return `color-mix(in srgb, ${color} ${Math.round(alpha * 100)}%, transparent)`;
+}
+
 // ── Pantalla de bienvenida ────────────────────────────────────────────────────
-function WelcomeScreen({ name1, name2, hasAudio, onEnter }) {
+function WelcomeScreen({ name1, name2, hasAudio, onEnter, theme = DEFAULT_GATE }) {
   return (
     <motion.div
       key="welcome"
@@ -83,7 +121,9 @@ function WelcomeScreen({ name1, name2, hasAudio, onEnter }) {
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'linear-gradient(160deg, #0e0b07 0%, #1c1508 55%, #0e0b07 100%)',
+        background: theme.bgImage
+          ? `${theme.scrim}, url("${theme.bgImage}") center / cover no-repeat`
+          : theme.bg,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -93,51 +133,70 @@ function WelcomeScreen({ name1, name2, hasAudio, onEnter }) {
         zIndex: 10,
       }}
     >
+      {theme.bgVideo && (
+        <>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster={theme.bgImage || undefined}
+            style={{
+              position: 'absolute', inset: 0, zIndex: 0,
+              width: '100%', height: '100%', objectFit: 'cover',
+            }}
+          >
+            <source src={theme.bgVideo} type="video/mp4" />
+          </video>
+          <div style={{ position: 'absolute', inset: 0, zIndex: 0, background: theme.scrim }} />
+        </>
+      )}
+
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.9, ease: 'easeOut' }}
-        style={{ maxWidth: '360px', width: '100%' }}
+        style={{ maxWidth: '360px', width: '100%', position: 'relative', zIndex: 1 }}
       >
         <p style={{
-          color: '#C9A96E',
+          color: theme.accent,
           letterSpacing: '0.32em',
           fontSize: '0.68rem',
           textTransform: 'uppercase',
-          fontFamily: "'EB Garamond', 'Garamond', serif",
+          fontFamily: theme.fontBody,
           margin: '0 0 28px',
         }}>
           Bienvenido/a
         </p>
 
         <h1 style={{
-          fontFamily: "'Playfair Display', 'Georgia', serif",
+          fontFamily: theme.fontTitle,
           fontWeight: 400,
-          fontStyle: 'italic',
           fontSize: 'clamp(2.4rem, 9vw, 4.2rem)',
-          color: '#FAF7F2',
+          color: theme.ink,
           lineHeight: 1.1,
           margin: '0 0 6px',
+          textShadow: '0 4px 40px rgba(0,0,0,0.55)',
         }}>
           {name1}
         </h1>
         {name2 && (
           <>
             <p style={{
-              fontFamily: "'Playfair Display', serif",
-              fontStyle: 'italic',
+              fontFamily: theme.fontTitle,
               fontSize: 'clamp(1.6rem, 5vw, 2.4rem)',
-              color: '#C9A96E',
+              color: theme.accent,
               margin: '4px 0',
             }}>&</p>
             <h1 style={{
-              fontFamily: "'Playfair Display', 'Georgia', serif",
+              fontFamily: theme.fontTitle,
               fontWeight: 400,
-              fontStyle: 'italic',
               fontSize: 'clamp(2.4rem, 9vw, 4.2rem)',
-              color: '#FAF7F2',
+              color: theme.ink,
               lineHeight: 1.1,
               margin: '0 0 32px',
+              textShadow: '0 4px 40px rgba(0,0,0,0.55)',
             }}>
               {name2}
             </h1>
@@ -145,17 +204,17 @@ function WelcomeScreen({ name1, name2, hasAudio, onEnter }) {
         )}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto 32px', maxWidth: '220px' }}>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(201,169,110,0.4)' }} />
-          <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#C9A96E' }} />
-          <div style={{ flex: 1, height: '1px', background: 'rgba(201,169,110,0.4)' }} />
+          <div style={{ flex: 1, height: '1px', background: fade(theme.accent, 0.4) }} />
+          <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: theme.accent }} />
+          <div style={{ flex: 1, height: '1px', background: fade(theme.accent, 0.4) }} />
         </div>
 
         {hasAudio ? (
           <>
             <p style={{
-              color: 'rgba(250,247,242,0.6)',
+              color: fade(theme.ink, 0.75),
               fontSize: '1rem',
-              fontFamily: "'EB Garamond', 'Garamond', serif",
+              fontFamily: theme.fontBody,
               lineHeight: 1.65,
               margin: '0 0 32px',
             }}>
@@ -165,9 +224,9 @@ function WelcomeScreen({ name1, name2, hasAudio, onEnter }) {
               <button
                 onClick={() => onEnter(true)}
                 style={{
-                  background: '#C9A96E', border: 'none', color: '#0e0b07',
+                  background: theme.accent, border: 'none', color: theme.accentInk,
                   padding: '14px 32px', borderRadius: '4px',
-                  fontFamily: "'EB Garamond', serif", fontSize: '0.85rem',
+                  fontFamily: theme.fontBody, fontSize: '0.85rem',
                   letterSpacing: '0.2em', textTransform: 'uppercase',
                   cursor: 'pointer', fontWeight: 600,
                 }}
@@ -178,10 +237,10 @@ function WelcomeScreen({ name1, name2, hasAudio, onEnter }) {
                 onClick={() => onEnter(false)}
                 style={{
                   background: 'transparent',
-                  border: '1px solid rgba(250,247,242,0.25)',
-                  color: 'rgba(250,247,242,0.55)',
+                  border: `1px solid ${fade(theme.ink, 0.3)}`,
+                  color: fade(theme.ink, 0.7),
                   padding: '13px 32px', borderRadius: '4px',
-                  fontFamily: "'EB Garamond', serif", fontSize: '0.85rem',
+                  fontFamily: theme.fontBody, fontSize: '0.85rem',
                   letterSpacing: '0.2em', textTransform: 'uppercase',
                   cursor: 'pointer',
                 }}
@@ -193,9 +252,9 @@ function WelcomeScreen({ name1, name2, hasAudio, onEnter }) {
         ) : (
           <>
             <p style={{
-              color: 'rgba(250,247,242,0.55)',
+              color: fade(theme.ink, 0.7),
               fontSize: '1rem',
-              fontFamily: "'EB Garamond', serif",
+              fontFamily: theme.fontBody,
               lineHeight: 1.65,
               margin: '0 0 32px',
             }}>
@@ -204,9 +263,9 @@ function WelcomeScreen({ name1, name2, hasAudio, onEnter }) {
             <button
               onClick={() => onEnter(false)}
               style={{
-                background: '#C9A96E', border: 'none', color: '#0e0b07',
+                background: theme.accent, border: 'none', color: theme.accentInk,
                 padding: '14px 40px', borderRadius: '4px',
-                fontFamily: "'EB Garamond', serif", fontSize: '0.85rem',
+                fontFamily: theme.fontBody, fontSize: '0.85rem',
                 letterSpacing: '0.2em', textTransform: 'uppercase',
                 cursor: 'pointer', fontWeight: 600,
               }}
@@ -221,7 +280,7 @@ function WelcomeScreen({ name1, name2, hasAudio, onEnter }) {
 }
 
 // ── Modal de CTA ──────────────────────────────────────────────────────────────
-function CTAModal({ templateName, themeId, onClose, onEdit }) {
+function CTAModal({ templateName, onClose, onEdit }) {
   const waText = encodeURIComponent(
     `Hola! Vi la tarjeta "${templateName}" en el portal y me interesa. ¿Pueden ayudarme?`
   );
@@ -355,6 +414,7 @@ function PreviewPage() {
   const isEmbed = searchParams.get('embed') === 'true';
 
   const [entered, setEntered] = useState(isEmbed);
+  const [waiting, setWaiting] = useState(false);
   const [withMusic, setWithMusic] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
 
@@ -368,23 +428,74 @@ function PreviewPage() {
     .find(t => t.variantId === themeId);
   const templateName = segmentTemplate?.name || 'esta tarjeta';
 
-  const handleEnter = (music) => {
-    setWithMusic(music);
-    setEntered(true);
+  // An allegory's own sample content wins over the generic wedding couple, so a
+  // quinceañera design is previewed as a quinceañera.
+  // `isDemo` lets the card show buttons whose destination only exists on a real
+  // client's card (maps, shared album) instead of hiding the feature entirely.
+  const formData = {
+    ...DEMO_DATA,
+    ...(variant?.allegory?.demo || {}),
+    variantId: themeId,
+    isDemo: true,
   };
 
-  const formData = { ...DEMO_DATA, variantId: themeId };
+  const allegory = useMemo(
+    () => (variant?.allegory ? resolveAllegory(variant.allegory) : null),
+    [variant]
+  );
+
+  // Warms images and video behind the welcome screen. The guest reading their
+  // name is free time; spending it here is why the card scrolls clean later.
+  const preloadImages = useMemo(
+    () => (allegory ? [...allegoryImages(allegory), ...(formData.galleryPhotos || [])] : []),
+    [allegory, formData.galleryPhotos]
+  );
+  const { ready } = usePreload({
+    images: preloadImages,
+    video: allegory?.tokens?.backgroundVideo || null,
+    // Only once the guest has asked for music — nobody should pay for a track
+    // they chose not to hear.
+    audio: withMusic ? variant?.assets?.audio || null : null,
+  });
+
+  const handleEnter = (music) => {
+    setWithMusic(music);
+    // The video is the thing that sets these cards apart, so it is worth a
+    // short wait — but only a short one, and never on a blank screen.
+    if (ready) setEntered(true);
+    else setWaiting(true);
+  };
+
+  const enterAnyway = useCallback(() => {
+    setWaiting(false);
+    setEntered(true);
+  }, []);
+
+  // Assets finished while the guest was on the wait screen.
+  useEffect(() => {
+    if (waiting && ready) enterAnyway();
+  }, [waiting, ready, enterAnyway]);
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       <AnimatePresence mode="wait">
-        {!entered ? (
+        {waiting ? (
+          <LoadingVeil
+            key="loading"
+            theme={gateThemeFor(variant)}
+            allegory={allegory}
+            slowAfter={5000}
+            giveUpAfter={10000}
+            onGiveUp={enterAnyway}
+          />
+        ) : !entered ? (
           <WelcomeScreen
             key="welcome"
-            name1={DEMO_DATA.name1}
-            name2={DEMO_DATA.name2}
+            name1={formData.name1}
+            name2={formData.name2}
             hasAudio={hasAudio}
             onEnter={handleEnter}
+            theme={gateThemeFor(variant)}
           />
         ) : (
           <motion.div

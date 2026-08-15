@@ -11,6 +11,15 @@
     position: relative;
 }
 
+/* Guest view: the card must flow past the viewport. The clipping above is only
+   meant for the framed preview inside the editor. */
+.template-wrapper--flow,
+.template-wrapper--flow .template-content {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+}
+
 /* --- MODAL --- */
 .modal-overlay {
     position: absolute;

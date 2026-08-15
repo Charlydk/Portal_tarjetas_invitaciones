@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './TemplateWrapper.css';
 
-function TemplateWrapper({ children, themeConfig, isEditorMode = false, audioEnabled = false }) {
+function TemplateWrapper({ children, themeConfig, isEditorMode = false, audioEnabled = false, fullScreen = false }) {
   const [isPlaying, setIsPlaying]     = useState(false);
   const [isLoading, setIsLoading]     = useState(false);
   const [pendingPlay, setPendingPlay] = useState(false);
@@ -61,7 +61,7 @@ function TemplateWrapper({ children, themeConfig, isEditorMode = false, audioEna
   };
 
   return (
-    <div className="template-wrapper">
+    <div className={`template-wrapper${fullScreen ? ' template-wrapper--flow' : ''}`}>
       {themeConfig?.assets?.audio && (
         <audio ref={audioRef} loop preload="none" key={themeConfig.assets.audio}>
           <source src={themeConfig.assets.audio} type="audio/mpeg" />

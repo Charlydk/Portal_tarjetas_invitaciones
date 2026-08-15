@@ -4,7 +4,7 @@ const MAX_PHOTOS = 4;
 const SAMPLE_PHOTOS = [
   'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=400&q=80',
   'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80',
-  'https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400&q=80',
+  'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80',
   'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&q=80',
 ];
 

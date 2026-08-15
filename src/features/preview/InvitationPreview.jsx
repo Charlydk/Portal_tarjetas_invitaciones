@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import './InvitationPreview.css';
 import TemplateWrapper from './TemplateWrapper';
 import { invitationModels } from '../../data/models';
@@ -45,13 +45,26 @@ function InvitationPreview({ formData, themeId, activeStepId, isEditorMode = tru
     const SkeletonComponent = SKELETON_MAP[selectedModel.skeletonComponent];
     if (SkeletonComponent) {
       const content = (
-        <TemplateWrapper themeConfig={selectedVariant} isEditorMode={isEditorMode} audioEnabled={audioEnabled}>
-          <SkeletonComponent data={formData} theme={selectedVariant} />
+        <TemplateWrapper
+          themeConfig={selectedVariant}
+          isEditorMode={isEditorMode}
+          audioEnabled={audioEnabled}
+          fullScreen={fullScreen}
+        >
+          {/* Templates are code-split, so the chunk arrives on demand. The
+              fallback is deliberately blank: in the guest view the welcome
+              gate is still covering the screen, and in the editor a flashing
+              placeholder between keystrokes would be worse than nothing. */}
+          <Suspense fallback={null}>
+            <SkeletonComponent data={formData} theme={selectedVariant} />
+          </Suspense>
         </TemplateWrapper>
       );
+      // Full screen is the guest's view: the card has to flow and scroll.
+      // Clamping it to 100vh with overflow:hidden showed only the hero.
       return fullScreen
-        ? <div style={{ height: '100vh', overflow: 'hidden' }}>{content}</div>
-        : <div className="preview-frame-container">{content}</div>;
+        ? <div style={{ minHeight: '100vh' }}>{content}</div>
+        : <div className="preview-frame-container inv-frame">{content}</div>;
     }
   }
 
