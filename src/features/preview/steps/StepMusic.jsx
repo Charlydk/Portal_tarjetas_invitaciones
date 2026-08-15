@@ -5,7 +5,9 @@ function getSpotifyEmbedUrl(url) {
   try {
     const match = url.match(/spotify\.com\/(playlist|album|track|artist)\/([a-zA-Z0-9]+)/);
     if (match) return `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
-  } catch (e) {}
+  } catch {
+    // A malformed URL just means no embed — the field stays usable either way.
+  }
   return null;
 }
 

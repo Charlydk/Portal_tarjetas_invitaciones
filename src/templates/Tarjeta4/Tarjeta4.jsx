@@ -37,7 +37,7 @@ function useCountdown(targetDate) {
 const SAMPLE_PHOTOS = [
   'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
   'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&q=80',
-  'https://images.unsplash.com/photo-1522673607200-1648832cee98?w=800&q=80',
+  'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80',
   'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=800&q=80',
 ];
 
@@ -46,7 +46,9 @@ function getSpotifyEmbedUrl(url) {
   try {
     const match = url.match(/spotify\.com\/(playlist|album|track|artist)\/([a-zA-Z0-9]+)/);
     if (match) return `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
-  } catch (e) {}
+  } catch {
+    // A malformed URL just means no embed — the field stays usable either way.
+  }
   return null;
 }
 
