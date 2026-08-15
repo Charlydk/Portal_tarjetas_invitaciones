@@ -7,79 +7,156 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm run dev       # dev server (Vite, port 5173)
 npm run build     # production build
-npm run lint      # ESLint
+npm run lint      # ESLint (flat config, eslint.config.js)
 npm run preview   # serve the production build locally
 ```
 
-Playwright is installed but no test files exist yet. When tests are added they go in `tests/` and run via `npx playwright test`.
+There is no test suite. `@playwright/test` is a devDependency but there is no Playwright config and no `tests/` directory — adding tests means adding both.
 
 ## Architecture Overview
 
-### Routes
+React 19 + Vite SPA. No TypeScript, no state library, no backend of its own: the only server-side dependency is Supabase (lead capture) and the conversion path ends in a WhatsApp deep link.
 
-Two routes defined in `src/App.jsx`:
-- `/` → `HomePage` (marketing landing)
-- `/demo/:templateId` → `DemoPage` (invitation editor + live preview)
+### Routes (`src/App.jsx`)
 
-### Data Layer — Three Files, Three Purposes
+- `/` → `HomePage` — marketing landing, wrapped in `MainLayout` (Navbar + Footer)
+- `/demo/:templateId` → `DemoPage` — wizard editor + live preview, also inside `MainLayout`
+- `/preview/:themeId` → `PreviewPage` — full-screen showcase of a variant with demo data, **outside** `MainLayout` (no navbar/footer)
 
-**`src/data/templates.js`** — marketing catalog. Maps URL slugs to `themeId`. Used by HomePage and to bootstrap the editor when navigating from the catalog.
+`PreviewPage` is the public-facing sales path: welcome screen (offers music if the variant has audio) → full template with a floating "¡Quiero esta tarjeta!" bar → CTA modal that either sends the user to WhatsApp or to `/demo/:themeId`. It accepts `?embed=true` to hide the floating bar and skip the welcome screen (used by `DemoEmbed` on the landing).
 
-**`src/data/models.js`** — technical registry. Defines `invitationModels[]`, a tree of Models → Variants. Each model has a `skeletonComponent` name (string key) and each variant has `assets` (images, audio, icons) and `styles` (colors, fonts).
+Note that the landing's `TemplatesSection` navigates to `/preview/:variantId`, **not** to `/demo/:slug`. `src/data/templates.js` slugs are what `/demo/:templateId` resolves against.
 
-**`src/data/segments.js`** — UI grouping for the wizard's design picker. Groups templates by event type (Bodas, 15 Años, etc.). Each entry references a `modelId` + `variantId` pair from `models.js`.
+### Data Layer — Four Files, Four Purposes
 
-**`src/data/pricing.js`** — single source of truth for module pricing. Edit `BASE_PRICE` and `MODULE_PRICES` here to update the real-time quote everywhere.
+**`src/data/models.js`** — technical registry and the real source of truth. `invitationModels[]` is a tree of Models → Variants. Each model has a `skeletonComponent` **string key**; each variant has `assets` (images, audio, icons) and `styles` (colors, fonts). A variant id is globally unique and is what the app calls a `themeId`/`variantId`.
+
+**`src/data/templates.js`** — marketing catalog. Maps URL slugs to `themeId`. Used by `DemoPage` to bootstrap the editor from a `/demo/:slug` URL.
+
+**`src/data/segments.js`** — UI grouping for the landing and the wizard's design picker. Groups templates by event type (Bodas, 15 Años, …); each entry references a `modelId` + `variantId` pair from `models.js`.
+
+**`src/data/pricing.js`** — single source of truth for pricing: `BASE_PRICE`, `MODULE_PRICES`, `INCLUDED_MODULES`, plus `MODULE_LABELS`/`MODULE_ORDER` that drive `StepModules`' UI.
+
+⚠️ `src/lib/invitationService.js` hardcodes the module list *and* the `+$2.500` amounts in `getSelectedModulesList()` for the WhatsApp message. Changing prices or modules means editing `pricing.js` **and** that function.
 
 ### The Editor System (`src/features/preview/`)
 
 `DemoPage.jsx` owns all state:
-- `formData` — flat object with all invitation fields; auto-saved to localStorage under key `portal_draft_invitation`
-- `currentStep` — current wizard step index, elevated here for scroll sync
+- `formData` — one flat object with every invitation field; auto-saved to localStorage under `portal_draft_invitation`.
+- `currentStep` — elevated here so the preview can scroll-sync.
+
+Because drafts are persisted forever, the `useState` initializer contains a **migration block**: every new `formData` field needs a `if (parsed.x === undefined) parsed.x = default` line there, or returning users get `undefined` where the templates expect a value.
 
 `ControlPanel.jsx` drives the wizard:
-- `STEP_REGISTRY` — ordered array of step definitions with a `condition(formData)` predicate. Steps only appear when their condition is true. The active steps list recalculates with `useMemo` on every `formData` change.
-- `STEP_CONDITIONS` in `DemoPage.jsx` is an intentional mirror of `STEP_REGISTRY` used only to derive `activeStepId` for scroll sync (keep both in sync when adding steps).
+- `STEP_REGISTRY` — ordered step definitions, each with a `condition(formData)` predicate. Steps appear only when their condition is true; the active list recomputes with `useMemo` on every `formData` change.
+- `STEP_CONDITIONS` in `DemoPage.jsx` is an intentional **mirror** of `STEP_REGISTRY`, used only to derive `activeStepId` for scroll sync. Adding or reordering a step means editing both.
+- The finish button calls `submitInvitationLead` and then shows the WhatsApp modal; a Supabase failure is non-blocking (the modal still offers the WhatsApp link).
 
-`InvitationPreview.jsx` renders the live preview:
-- Resolves `modelId` + `variantId` from `formData` → looks up variant in `invitationModels` → renders the skeleton component via `SKELETON_MAP` (string name → React component).
-- Scroll sync: `STEP_SECTION_MAP` maps step IDs to DOM `id` attributes (`section-hero`, `section-civil`, etc.). Template sections must use these IDs for sync to work.
+`InvitationPreview.jsx` resolves and renders:
+- Prefers `formData.modelId` + `formData.variantId`; falls back to the `themeId` prop; falls back again to a generic card if neither resolves.
+- Looks the component up in `SKELETON_MAP` from `src/lib/skeletonMap.js` (string name → React component).
+- `fullScreen` (used by `PreviewPage`) vs. framed (`preview-frame-container`, used by the editor).
 
-`TemplateWrapper.jsx` wraps every rendered template with the audio consent modal and music toggle button. In `isEditorMode={true}` (used in preview), the modal never shows and audio doesn't play.
+`TemplateWrapper.jsx` wraps every rendered template: `<audio>` element, loading overlay, and the floating music toggle. With `isEditorMode={true}` (the editor preview) audio never plays and only a 🎵 badge shows. Audio uses a deliberate **two-phase play pattern** (`setIsLoading` → `setPendingPlay` → `play()` in the next effect) so the spinner paints before buffering starts; `preload="none"` keeps unopened cards from downloading audio. Don't collapse that back into a direct `play()` call.
 
-### Templates (`src/templates/`)
+### Scroll Sync — the section-id contract
 
-Each template (Skeleton1–6, Tarjeta4) is a self-contained component receiving:
+`STEP_SECTION_MAP` in `InvitationPreview.jsx` maps step ids to DOM ids:
+
+```
+protagonists → section-hero      venue   → section-civil    extras → section-dresscode
+gallery      → section-gallery   music   → section-music    gifts  → section-gifts
+confirm      → section-rsvp
+```
+
+⚠️ Most legacy skeletons do **not** honor this. Only `Tarjeta4` implements the full set; `Skeleton15` implements most of it; `Skeleton7`–`Skeleton14` use `section-protagonists` / `section-venue` / `section-confirm` (step ids, not section ids), so scroll sync silently no-ops for those steps; `Skeleton2`–`Skeleton6` have no section ids at all. `AllegoryCard` honors the contract — its first rendered event section takes `section-civil`, since the "venue" step points there.
+
+### Allegories — the data-driven renderer (`src/allegories/`, `src/features/invitation/`)
+
+The current way to add a design. An **allegory** is a data file describing a costume — palette, type, wording, artwork, section order — rendered by one shared component. Adding a design costs a `.js` file and an asset folder; it never costs React or CSS.
+
+- `src/allegories/index.js` — `resolveAllegory()` merges an allegory over `DEFAULT_TOKENS` / `DEFAULT_TITLES` / `DEFAULT_COPY`, so a half-written allegory still renders a complete card. `tokensToCssVars()` turns tokens into the `--inv-*` custom properties the stylesheet reads.
+- `src/features/invitation/invitation.css` — the design system: type scale, spacing rhythm, section shell. **No rule hardcodes a color or a font.**
+- `src/features/invitation/Sections.jsx` — the ten sections, written once. `EventSection` serves civil, religious and party alike (these used to be three near-identical copies in `CommonBoxes.jsx` differing only in a hardcoded `<h2>`).
+- `src/features/invitation/AllegoryCard.jsx` — the renderer. Registered in `SKELETON_MAP` as `'AllegoryCard'`; every allegory shares that single entry.
+
+Existing allegories: `cinderella`, `rapunzel`, `aurora`, `bodaClasica`, `mariposas` — all built from delivered client cards.
+
+**Adding one:** write `src/allegories/<name>.js`, drop its assets in `public/allegories/<slug>/`, import it in `models.js` as a variant of the `allegories` model with `allegory: <name>`, then add entries to `segments.js` and `templates.js`. An allegory owns **all** its assets (`icons`, `backgroundImage`, `backgroundVideo`, `audio`), so moving a design means moving one file plus one folder.
+
+**Per-client variation** — the actual business. Client requests map to fields, not code:
+
+| Request | Field |
+|---|---|
+| "cambiale el color" | `tokens.accent`, `tokens.bg` |
+| "con esta letra" | `tokens.fontTitle` |
+| "estos textos" | `titles`, `copy` |
+| "sacá el carrusel de fotos" | remove `'gallery'` from `sections` |
+
+```js
+export const sofiaQuince = {
+  ...cinderella,
+  id: 'sofia-quince',
+  tokens: { ...cinderella.tokens, accent: '#E8B4C8' },
+  sections: cinderella.sections.filter(s => s !== 'gallery'),
+};
+```
+
+**Medallion artwork** is what separates a commissioned card from a template. `icons` takes image paths; emoji are only a fallback. The delivered art is square with its background baked in, so `.inv-medallion--art` crops to a circle with `object-fit: cover` — `contain` would show square edges over the card.
+
+**Video headers** are a first-class token (`backgroundVideo` + `heroVeil`). `muted` + `playsInline` are mandatory or iOS refuses to autoplay; `poster` prevents a black rectangle while buffering; `prefers-reduced-motion` hides the video and leaves the poster.
+
+**Asset budget.** Optimize before committing — medallions are displayed at ~156px, so 1024px sources waste ~40× the pixels:
+```bash
+ffmpeg -i in.webp -vf "scale=400:400:flags=lanczos" -quality 82 out.webp
+ffmpeg -i in.mp4 -vf "crop=W:H:X:Y,scale=1280:-2:flags=lanczos" -c:v libx264 -crf 30 \
+  -preset slow -pix_fmt yuv420p -an -movflags +faststart out.mp4   # run cropdetect first; -an always
+ffmpeg -i in.mp3 -codec:a libmp3lame -b:a 96k out.mp3
+```
+Audio uses `preload="none"`, so it only downloads when a guest opts into music and does not count toward default page weight.
+
+### Legacy templates (`src/templates/`)
+
+Skeleton1–15 and Tarjeta4 predate the allegory system and are being replaced by it. Do not add new ones; add an allegory instead.
+
+
+`Skeleton1`–`Skeleton15` plus `Tarjeta4`, each a self-contained folder with `X.jsx` + `X.css`, receiving:
 - `data` — the full `formData` object
-- `theme` — the resolved variant object `{ assets, styles }`
+- `theme` — the resolved variant `{ assets, styles }`
 
-Shared atomic pieces live in `src/components/invitation-pieces/` (HeroHeader, CountdownBox, CommonBoxes). Import from there instead of duplicating across templates.
+Shared atomic pieces live in `src/components/invitation-pieces/` (`HeroHeader`, `CountdownBox`, `Decoratives`, and the `CommonBoxes` set: `CeremonyBox`, `CivilBox`, `PartyBox`, `DressCodeBox`, `GiftsBox`, `GalleryBox`, `RSVPBox`, `MusicBox`, `InvitationFooter`). Import from there instead of duplicating. Animation is `framer-motion` throughout; newer templates (9, 15) also pull `FallingPetals` / `ParticlesBackground` from `src/components/`.
+
+Templates must render safely with empty `formData` fields — `PreviewPage` feeds them `DEMO_DATA`, and the editor feeds partially-filled drafts. Several templates fall back to local `SAMPLE_PHOTOS` when the gallery is empty.
 
 ### Adding a New Template
 
 1. Add a model entry to `src/data/models.js` with `id`, `skeletonComponent`, and `variants`.
-2. Create `src/templates/YourSkeleton/YourSkeleton.jsx` and its CSS.
-3. Register it in `SKELETON_MAP` in `src/features/preview/InvitationPreview.jsx`.
-4. Add section IDs (`id="section-hero"`, `id="section-civil"`, etc.) to template sections for scroll sync.
-5. Add entries to `src/data/templates.js` (catalog) and `src/data/segments.js` (wizard picker).
+2. Create `src/templates/YourSkeleton/YourSkeleton.{jsx,css}`.
+3. Register it in `SKELETON_MAP` in `src/lib/skeletonMap.js`.
+4. Add the section ids from the scroll-sync contract above to the template's sections.
+5. Add entries to `src/data/templates.js` (catalog slug) and `src/data/segments.js` (landing + wizard picker).
 
-**Fastest way to add a new style:** Add a variant object to an existing model in `models.js`, then add the corresponding entries to `segments.js` and `templates.js`. Zero new React code needed.
+**Fastest way to add a new style:** add a variant object to an existing model in `models.js`, then add the matching entries to `segments.js` and `templates.js`. Zero new React code.
 
 ### Supabase Integration
 
 **Project:** `ahorcado-db` (`cifhzukobpkvlqsyqrka.supabase.co`) — Table: `invitation_leads`
 
-**Files:**
-- `src/lib/supabase.js` — Supabase client (reads `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`)
-- `src/lib/invitationService.js` — `submitInvitationLead(formData, totalPrice)` and `buildWhatsAppMessage(formData, totalPrice)`
+- `src/lib/supabase.js` — client (reads `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`)
+- `src/lib/invitationService.js` — `submitInvitationLead(formData, totalPrice)` inserts the lead (whole `formData` goes into a `form_data` column); `buildWhatsAppMessage(formData, totalPrice)` builds the prefilled message.
 
-**Flow:** When the user clicks "¡Todo Listo!", `ControlPanel` calls `submitInvitationLead` (fire-and-forget), then displays the final modal with a pre-filled WhatsApp link to the business number. The lead is saved to Supabase for admin review via Studio.
+**RLS:** anon can INSERT only. Reading leads requires the service role (Supabase Studio).
 
-**Config (`.env.local`):**
+**`.env.local`:**
 ```
 VITE_SUPABASE_URL=...
 VITE_SUPABASE_ANON_KEY=...
-VITE_BUSINESS_WHATSAPP=5491100000000  # update with real number
+VITE_BUSINESS_WHATSAPP=5491100000000   # business number; falls back to this placeholder
 ```
 
-**RLS policy:** anon users can INSERT only. Read access requires service role (Supabase Studio).
+### Conventions
+
+- UI copy, comments and commit messages in this repo are Spanish (rioplatense); code identifiers are English. Follow what's already in the file you're editing.
+- `design-system/portal-invitaciones/MASTER.md` holds the landing's design tokens (palette, typography, spacing). Page-specific files under `pages/` override it.
+- `openspec/changes/` holds spec-driven change artifacts for larger features.
+- ESLint treats unused vars as errors except identifiers matching `^[A-Z_]`.
