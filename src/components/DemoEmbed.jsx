@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SKELETON_MAP } from '../lib/skeletonMap';
 import { invitationModels } from '../data/models';
@@ -38,10 +38,10 @@ const DEMO_DATA = {
   musicPlaylistUrl: 'https://open.spotify.com',
   dressCodeDescription: 'Formal · Tonos neutros y pasteles',
   galleryPhotos: [
-    'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=400',
-    'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=400',
-    'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=400',
-    'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=400',
+    '/allegories/_muestra/foto1.webp',
+    '/allegories/_muestra/foto2.webp',
+    '/allegories/_muestra/foto3.webp',
+    '/allegories/_muestra/foto4.webp',
   ],
   showCivil: false, showCeremony: true, showParty: true,
   showCountdown: true, showDressCode: true, showGifts: true,
@@ -92,7 +92,7 @@ function DemoEmbed({ variantId = 'tarjeta4-belen-agustin' }) {
   if (!SkeletonComponent || !variant) return null;
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+    <div className="inv-frame" style={{ position: 'relative', width: '100%', height: '100%' }}>
 
       {/* Template scrollable sin interacción real */}
       <div
@@ -106,7 +106,9 @@ function DemoEmbed({ variantId = 'tarjeta4-belen-agustin' }) {
         }}
       >
         <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-        <SkeletonComponent data={DEMO_DATA} theme={variant} />
+        <Suspense fallback={null}>
+          <SkeletonComponent data={DEMO_DATA} theme={variant} />
+        </Suspense>
       </div>
 
       {/* Toast informativo */}

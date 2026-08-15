@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { Suspense, useRef, useState, useEffect } from 'react';
 import { SKELETON_MAP } from '../lib/skeletonMap';
 import { invitationModels } from '../data/models';
 
@@ -37,18 +37,27 @@ const DEMO = {
   whatsappNumber: '5491100000000',
   musicPlaylistUrl: '',
   dressCodeDescription: 'Formal · Tonos neutros y pasteles',
+  // Local: a grid of thumbnails used to fire four remote image requests each.
   galleryPhotos: [
-    'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400',
-    'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=400',
-    'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=400',
-    'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=400',
+    '/allegories/_muestra/foto1.webp',
+    '/allegories/_muestra/foto2.webp',
+    '/allegories/_muestra/foto3.webp',
+    '/allegories/_muestra/foto4.webp',
   ],
   showCivil: false, showCeremony: true, showParty: true,
   showCountdown: true, showDressCode: true, showGifts: true,
   showGallery: true, showRSVP: true, showMusic: false, askDiets: false,
 };
 
-function TemplateThumbnail({ modelId, variantId }) {
+/**
+ * Preview tile for a design in the catalogue.
+ *
+ * Prefers a still (`image`). Falling back to a live render means mounting a
+ * whole invitation per tile — countdown intervals, scroll observers and all —
+ * and a segment like Bodas holds twenty-two of them. Any design meant to be
+ * sold should ship a still.
+ */
+function TemplateThumbnail({ modelId, variantId, image, alt }) {
   const wrapperRef = useRef(null);
   const [scale, setScale] = useState(null);
   const [visible, setVisible] = useState(false);
@@ -82,6 +91,25 @@ function TemplateThumbnail({ modelId, variantId }) {
 
   const ready = visible && scale !== null && SkeletonComponent && variant;
 
+  if (image) {
+    return (
+      <img
+        src={image}
+        alt={alt || ''}
+        loading="lazy"
+        decoding="async"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          background: '#f5f0ea',
+        }}
+      />
+    );
+  }
+
   return (
     <div
       ref={wrapperRef}
@@ -100,7 +128,11 @@ function TemplateThumbnail({ modelId, variantId }) {
             userSelect: 'none',
           }}
         >
-          <SkeletonComponent data={DEMO} theme={variant} />
+          {/* Templates are code-split; without a boundary here a tile loading
+              its chunk would suspend the whole page. */}
+          <Suspense fallback={null}>
+            <SkeletonComponent data={DEMO} theme={variant} />
+          </Suspense>
         </div>
       )}
     </div>
