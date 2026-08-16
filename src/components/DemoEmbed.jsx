@@ -75,6 +75,10 @@ function DemoEmbed({ variantId = 'tarjeta4-belen-agustin' }) {
   const variant = model?.variants.find(v => v.id === variantId);
   const SkeletonComponent = model ? SKELETON_MAP[model.skeletonComponent] : null;
 
+  // El contenido de muestra de la alegoría gana sobre la pareja genérica: sin
+  // esto, una tarjeta de 15 años se mostraba con "Nos Casamos".
+  const data = { ...DEMO_DATA, ...(variant?.allegory?.demo || {}), isDemo: true };
+
   const showToast = ({ icon, msg }) => {
     clearTimeout(toastTimer.current);
     setToast({ icon, msg });
@@ -107,7 +111,7 @@ function DemoEmbed({ variantId = 'tarjeta4-belen-agustin' }) {
       >
         <style>{`div::-webkit-scrollbar { display: none; }`}</style>
         <Suspense fallback={null}>
-          <SkeletonComponent data={DEMO_DATA} theme={variant} />
+          <SkeletonComponent data={data} theme={variant} />
         </Suspense>
       </div>
 

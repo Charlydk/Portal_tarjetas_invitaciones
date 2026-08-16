@@ -18,17 +18,27 @@
    frame. Without it they escape and paint over the entire page. */
 .inv-frame {
   transform: translateZ(0);
+  /* Convierte al marco en contenedor de consulta, para que la escala
+     tipográfica de adentro mida el ANCHO DEL MARCO y no el de la ventana. */
+  container-type: inline-size;
 }
 
 .inv {
-  --inv-step-0: clamp(1rem, 0.95rem + 0.25vw, 1.075rem);
-  --inv-step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
-  --inv-step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.1rem);
-  --inv-step-3: clamp(2.1rem, 1.6rem + 2.4vw, 3.4rem);
-  --inv-step-hero: clamp(2.6rem, 1.7rem + 4.6vw, 5rem);
+  /* Unidad de referencia de toda la escala.
+     A pantalla completa es el ancho de la ventana; dentro de un marco pasa a
+     ser el ancho del marco. Sin esto, una tarjeta metida en un teléfono de
+     300px sobre un monitor ancho calculaba sus títulos contra la ventana
+     entera y salían enormes. */
+  --inv-vw: 1vw;
 
-  --inv-space-section: clamp(56px, 11vw, 104px);
-  --inv-space-gutter: clamp(20px, 5vw, 32px);
+  --inv-step-0: clamp(1rem, calc(0.95rem + 0.25 * var(--inv-vw)), 1.075rem);
+  --inv-step-1: clamp(1.15rem, calc(1.05rem + 0.5 * var(--inv-vw)), 1.4rem);
+  --inv-step-2: clamp(1.5rem, calc(1.25rem + 1.2 * var(--inv-vw)), 2.1rem);
+  --inv-step-3: clamp(2.1rem, calc(1.6rem + 2.4 * var(--inv-vw)), 3.4rem);
+  --inv-step-hero: clamp(2.6rem, calc(1.7rem + 4.6 * var(--inv-vw)), 5rem);
+
+  --inv-space-section: clamp(56px, calc(11 * var(--inv-vw)), 104px);
+  --inv-space-gutter: clamp(20px, calc(5 * var(--inv-vw)), 32px);
 
   position: relative;
   isolation: isolate;
@@ -70,6 +80,12 @@
   z-index: -1;
   background: var(--inv-scrim);
   transform: translateZ(0);
+}
+
+/* Dentro de un marco, la escala mide contra el marco. Va después de `.inv`
+   para poder sobrescribir la variable. */
+.inv-frame .inv {
+  --inv-vw: 1cqi;
 }
 
 /* ─── Ambience (premium tier) ───────────────────────────────────────────────
@@ -156,7 +172,7 @@
 }
 
 .inv-section--tight {
-  padding-block: clamp(36px, 7vw, 64px);
+  padding-block: clamp(36px, calc(7 * var(--inv-vw)), 64px);
 }
 
 /* Headings sit on the page scrim and a soft text shadow — never on an opaque
@@ -216,19 +232,19 @@
 .inv-ornament::after {
   content: '';
   height: 1px;
-  width: clamp(32px, 12vw, 72px);
+  width: clamp(32px, calc(12 * var(--inv-vw)), 72px);
   background: linear-gradient(90deg, transparent, currentColor, transparent);
   opacity: 0.55;
 }
 
 .inv-medallion {
-  width: clamp(84px, 22vw, 116px);
-  height: clamp(84px, 22vw, 116px);
+  width: clamp(84px, calc(22 * var(--inv-vw)), 116px);
+  height: clamp(84px, calc(22 * var(--inv-vw)), 116px);
   margin: 0 auto 24px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: clamp(2rem, 7vw, 2.8rem);
+  font-size: clamp(2rem, calc(7 * var(--inv-vw)), 2.8rem);
   background: var(--inv-surface);
   border: 1px solid color-mix(in srgb, var(--inv-accent) 45%, transparent);
   box-shadow: 0 0 42px color-mix(in srgb, var(--inv-accent) 22%, transparent);
@@ -239,8 +255,8 @@
    so it is cropped to a circle rather than fitted — `contain` would show the
    square edges over the card. */
 .inv-medallion--art {
-  width: clamp(104px, 30vw, 156px);
-  height: clamp(104px, 30vw, 156px);
+  width: clamp(104px, calc(30 * var(--inv-vw)), 156px);
+  height: clamp(104px, calc(30 * var(--inv-vw)), 156px);
   background: none;
   border: none;
   overflow: hidden;
@@ -412,7 +428,7 @@
 .inv-countdown {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(6px, 2vw, 14px);
+  gap: clamp(6px, calc(2 * var(--inv-vw)), 14px);
   max-width: 440px;
   margin: 0 auto 24px;
 }
@@ -421,13 +437,13 @@
   background: var(--inv-surface);
   border: 1px solid color-mix(in srgb, var(--inv-accent) 28%, transparent);
   border-radius: var(--inv-radius);
-  padding: clamp(10px, 3vw, 18px) 4px;
+  padding: clamp(10px, calc(3 * var(--inv-vw)), 18px) 4px;
 }
 
 .inv-countdown__num {
   display: block;
   font-family: var(--inv-font-title);
-  font-size: clamp(1.5rem, 6vw, 2.4rem);
+  font-size: clamp(1.5rem, calc(6 * var(--inv-vw)), 2.4rem);
   line-height: 1;
   color: var(--inv-ink); /* full-strength ink: gold-on-translucent was unreadable */
   font-variant-numeric: tabular-nums;
@@ -437,7 +453,7 @@
   display: block;
   margin: 6px 0 0;
   font-family: var(--inv-font-body);
-  font-size: clamp(0.6rem, 2.2vw, 0.7rem);
+  font-size: clamp(0.6rem, calc(2.2 * var(--inv-vw)), 0.7rem);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--inv-ink-muted);
@@ -458,7 +474,7 @@
   background: var(--inv-surface);
   border: 1px solid color-mix(in srgb, var(--inv-accent) 20%, transparent);
   border-radius: var(--inv-radius);
-  padding: clamp(24px, 6vw, 36px);
+  padding: clamp(24px, calc(6 * var(--inv-vw)), 36px);
   /* No backdrop-filter here on purpose: blurring what is behind a box forces a
      re-blur on every scroll frame, and that reads as flicker. At 2px it was
      costing a repaint for an effect nobody could see. */
