@@ -1,0 +1,121 @@
+/* FX Estudio — logotipo tipográfico.
+   Todo se dimensiona en em, así que el tamaño se controla desde afuera con un
+   solo font-size y el conjunto crece proporcionado. */
+
+.fx-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42em;
+  font-family: 'Cinzel', 'Cormorant Garamond', serif;
+  line-height: 1;
+  white-space: nowrap;
+  color: inherit;
+}
+
+/* El monograma va dentro de un recuadro, igual que en el favicon: suelto, dos
+   letras doradas se confundían con el resto del texto. El marco lo convierte en
+   marca — se lee como un sello, no como una palabra. */
+.fx-logo__mark {
+  display: grid;
+  place-items: center;
+  width: 2.05em;
+  height: 2.05em;
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 1.02em;
+  letter-spacing: 0.04em;
+  /* Sello relleno OSCURO con las letras doradas.
+     El dorado sobre crema no separaba: 2,16:1 contra el fondo del header, o sea
+     que el sello se fundía con la barra. La regla es que el sello sea siempre
+     lo contrario de su fondo — oscuro sobre claro, dorado sobre oscuro. */
+  color: var(--color-secondary);
+  background: #241E12;
+  border: none;
+  border-radius: 0.42em;
+  /* El texto ya no arrastra al recuadro cuando la línea crece. */
+  line-height: 1;
+}
+
+/* Filete fino entre monograma y nombre. Da aire de papelería y separa sin
+   necesidad de un punto ni de un guion. */
+.fx-logo__rule {
+  width: 1px;
+  height: 1.15em;
+  background: currentColor;
+  opacity: 0.28;
+}
+
+.fx-logo__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22em;
+}
+
+.fx-logo__name {
+  font-weight: 400;
+  font-size: 0.95em;
+  /* El espaciado amplio es lo que separa un logotipo de una palabra suelta. */
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.fx-logo__tagline {
+  font-family: 'Lato', system-ui, sans-serif;
+  /* Un punto más grande y con más peso: a 0.42em y en regular quedaba en el
+     límite de lo legible. */
+  font-size: 0.47em;
+  font-weight: 500;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  /* Estaba en 0.62. Bajar la opacidad de un texto ya chico es restarle
+     contraste justo donde más falta hace: cuanto más chica la letra, más
+     contraste necesita, no menos. */
+  opacity: 0.85;
+}
+
+/* Sobre fondo oscuro el sello se invierte: dorado macizo con letras oscuras.
+   Un sello oscuro sobre el hero desaparecería igual que el dorado sobre crema. */
+.navbar--hero .fx-logo__mark,
+.fx-logo--light .fx-logo__mark {
+  color: #241E12;
+  background: var(--color-secondary);
+}
+
+/* Crema en vez de blanco puro. Al lado del dorado, el blanco clínico se ve
+   frío y ajeno; el crema pertenece a la misma familia y se lee igual de bien. */
+.navbar--hero .fx-logo__name,
+.fx-logo--light .fx-logo__name {
+  color: #F5EFE3;
+}
+
+.navbar--hero .fx-logo__tagline,
+.fx-logo--light .fx-logo__tagline {
+  color: #EFE6D6;
+  opacity: 0.88;
+}
+
+/* Sobre el hero el fondo cambia según la zona del degradado, así que el texto
+   necesita su propia base. */
+.navbar--hero .fx-logo__name,
+.navbar--hero .fx-logo__tagline {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 560px) {
+  /* En pantalla angosta la bajada compite con el menú y se cae. */
+  .fx-logo__tagline {
+    display: none;
+  }
+}

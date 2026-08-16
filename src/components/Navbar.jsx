@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Logo from './Logo';
 import './Navbar.css';
 
 function Navbar() {
@@ -25,8 +26,8 @@ function Navbar() {
   return (
     <nav className={navClass}>
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          FX Estudio
+        <Link to="/" className="navbar-logo" aria-label="FX Estudio — inicio">
+          <Logo tagline />
         </Link>
         <ul className="nav-menu">
           <li className="nav-item">
