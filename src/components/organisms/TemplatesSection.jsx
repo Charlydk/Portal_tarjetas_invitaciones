@@ -66,9 +66,9 @@ function TemplatesSection() {
         .ts-filter-btn {
           padding: 10px 22px;
           border-radius: 50px;
-          border: 1.5px solid #e5e7eb;
-          background: white;
-          color: #6b7280;
+          border: 1.5px solid var(--color-border);
+          background: var(--color-background);
+          color: var(--color-text-muted);
           cursor: pointer;
           font-weight: 600;
           font-size: 0.85rem;
@@ -76,14 +76,14 @@ function TemplatesSection() {
           transition: all 0.2s ease;
         }
         .ts-filter-btn:hover {
-          border-color: #db2777;
-          color: #db2777;
+          border-color: var(--color-primary);
+          color: var(--color-primary);
         }
         .ts-filter-btn--active {
-          background: #db2777;
-          border-color: #db2777;
+          background: var(--color-primary);
+          border-color: var(--color-primary);
           color: white;
-          box-shadow: 0 4px 14px rgba(219,39,119,0.28);
+          box-shadow: 0 4px 14px rgba(169,130,68,0.30);
         }
         .template-grid {
           display: grid;
@@ -109,7 +109,7 @@ function TemplatesSection() {
           position: relative;
           box-shadow: 0 12px 28px rgba(0,0,0,0.14);
           transition: transform 0.28s ease, box-shadow 0.28s ease;
-          background: #f0f0f0;
+          background: var(--color-surface);
         }
         .template-card-item:hover .card-preview-wrapper {
           transform: translateY(-8px);
@@ -119,14 +119,14 @@ function TemplatesSection() {
           margin: 14px 0 10px;
           font-size: 0.9rem;
           font-weight: 700;
-          color: #1f2937;
+          color: var(--color-text);
           font-family: 'Montserrat', sans-serif;
           text-align: center;
         }
         .card-btn {
           background: transparent;
-          border: 1.5px solid #db2777;
-          color: #db2777;
+          border: 1.5px solid var(--color-primary);
+          color: var(--color-primary);
           padding: 8px 22px;
           border-radius: 50px;
           font-size: 0.8rem;
@@ -137,7 +137,7 @@ function TemplatesSection() {
           margin-bottom: 8px;
         }
         .card-btn:hover {
-          background: #db2777;
+          background: var(--color-primary);
           color: white;
         }
         @media (max-width: 768px) {

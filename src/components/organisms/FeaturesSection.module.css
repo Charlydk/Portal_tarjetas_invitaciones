@@ -46,7 +46,7 @@
 .featureCard:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(219,39,119,0.25);
+  border-color: rgba(169,130,68,0.25);
 }
 
 .featureIcon {

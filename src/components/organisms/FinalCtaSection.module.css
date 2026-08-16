@@ -13,7 +13,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(219,39,119,0.18) 0%, transparent 65%);
+  background: radial-gradient(ellipse at center, rgba(169,130,68,0.18) 0%, transparent 65%);
   pointer-events: none;
 }
 

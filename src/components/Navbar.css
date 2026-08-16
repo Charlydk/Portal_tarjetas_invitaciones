@@ -1,6 +1,8 @@
 .navbar {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
+  /* Crema translucido, no blanco: sobre un fondo crema el blanco puro se lee
+     como una banda gris pegada arriba. */
+  background: rgba(253, 251, 246, 0.92);
+  backdrop-filter: blur(10px);
   height: 72px;
   display: flex;
   justify-content: center;
@@ -14,7 +16,10 @@
 
 /* Sobre el hero oscuro: transparente con texto blanco */
 .navbar--hero {
-  background: rgba(26, 10, 46, 0.35);
+  /* Sube de 0.34 a 0.52: el degradado del hero va de casi negro a dorado, así
+     que con un velo tan liviano el texto blanco quedaba sobre zonas claras y se
+     lavaba. Esto le garantiza una base oscura en todo el ancho. */
+  background: rgba(20, 17, 11, 0.52);
   border-bottom-color: rgba(255,255,255,0.08);
   box-shadow: none;
 }
@@ -43,11 +48,12 @@
 }
 
 .navbar-logo {
-  color: var(--color-primary);
-  font-family: var(--font-title);
+  /* El logotipo trae su propia tipografía y color; acá sólo se define el
+     tamaño, porque el componente se dimensiona todo en em. */
+  color: var(--color-text);
   cursor: pointer;
   text-decoration: none;
-  font-size: 2rem;
+  font-size: 1.28rem;
   display: flex;
   align-items: center;
   transition: opacity 0.2s;

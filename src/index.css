@@ -1,14 +1,19 @@
 :root {
-  /* Colors */
-  --color-primary: #DB2777;
-  --color-primary-light: #FCE7F3;
-  --color-secondary: #F472B6;
-  --color-cta: #DB2777;
-  --color-background: #FFFFFF;
-  --color-surface: #F9FAFB;
-  --color-text: #1F2937;
-  --color-text-muted: #6B7280;
-  --color-border: #E5E7EB;
+  /* Colors
+     Dorado antiguo sobre crema. El fucsia anterior (#DB2777) no aparecía en
+     ninguna de las siete tarjetas, mientras que cinco de siete usan dorado:
+     la vidriera contradecía al producto. El fondo crema en vez de blanco puro
+     lee como papelería fina, y al ser neutro deja que cada miniatura del
+     catálogo muestre su propio color en vez de competir con el del portal. */
+  --color-primary: #A98244;      /* dorado oscurecido: legible como texto */
+  --color-primary-light: #F3E9D7;
+  --color-secondary: #C9A96E;    /* el dorado antiguo de Aurora y Cenicienta */
+  --color-cta: #A98244;
+  --color-background: #FDFBF6;   /* crema */
+  --color-surface: #F6F1E7;
+  --color-text: #2A2620;
+  --color-text-muted: #6E665A;
+  --color-border: #E6DECF;
 
   /* Spacing */
   --space-xs: 4px;
@@ -112,13 +117,13 @@ a:hover {
   font-family: var(--font-body);
   display: inline-block;
   text-align: center;
-  box-shadow: 0 4px 16px rgba(219,39,119,0.3);
+  box-shadow: 0 4px 16px rgba(169,130,68,0.3);
 }
 .btn-primary:hover {
   opacity: 0.9;
   transform: translateY(-2px);
   color: white;
-  box-shadow: 0 6px 20px rgba(219,39,119,0.4);
+  box-shadow: 0 6px 20px rgba(169,130,68,0.4);
 }
 
 /* Secondary Button */
@@ -170,7 +175,7 @@ a:hover {
 .input:focus {
   border-color: var(--color-primary);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.2);
+  box-shadow: 0 0 0 3px rgba(169, 130, 68, 0.22);
 }
 
 /* Utilities */
