@@ -79,7 +79,7 @@ export const rapunzel = {
 
   titles: {
     story: 'Siempre miré las luces desde mi torre…',
-    ceremony: 'La Ceremonia',
+    ceremony: 'Misa de Acción de Gracias',
     party: 'La Noche de las Luces',
     countdown: 'Faltan para que suban las luces',
     rsvp: '¿Vendrás a ver las luces?',

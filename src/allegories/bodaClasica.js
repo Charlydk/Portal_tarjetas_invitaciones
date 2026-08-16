@@ -87,15 +87,15 @@ export const bodaClasica = {
   },
 
   titles: {
-    story: 'Nuestra historia',
+    story: 'Cómo empezó todo',
     civil: 'Ceremonia Civil',
     ceremony: 'Ceremonia Religiosa',
     party: 'La Fiesta',
-    countdown: 'Falta muy poco',
-    rsvp: 'Confirmá tu asistencia',
-    dresscode: 'Dress Code',
-    gifts: 'Regalos',
-    gallery: 'Un momento único',
+    countdown: 'Falta muy poco para el sí',
+    rsvp: '¿Nos acompañás?',
+    dresscode: 'Cómo vestirse',
+    gifts: 'Un detalle para los novios',
+    gallery: 'Nosotros',
     closing: '¡Gracias!',
   },
 

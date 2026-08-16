@@ -1,4 +1,4 @@
-import { aurora } from './aurora';
+import { aurora } from './aurora.js';
 
 // Aurora Gótica, dressed as a wedding.
 //
@@ -37,8 +37,8 @@ export const auroraBoda = {
     party: 'La Celebración',
     countdown: 'Falta muy poco',
     rsvp: '¿Nos acompañás?',
-    dresscode: 'Vestimenta',
-    gifts: 'Un detalle',
+    dresscode: 'Vestimenta para la noche',
+    gifts: 'Un detalle para los novios',
     gallery: 'Nuestros momentos',
   },
 

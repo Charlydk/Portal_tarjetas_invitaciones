@@ -1,4 +1,4 @@
-import { cinderella } from './cinderella';
+import { cinderella } from './cinderella.js';
 
 // Cenicienta, dressed as a wedding.
 //
@@ -35,10 +35,10 @@ export const cenicientaBoda = {
     civil: 'Ceremonia Civil',
     ceremony: 'La Ceremonia',
     // Kept from the quinceañera: they belong to the palace, not to the age.
-    party: 'El Gran Baile',
-    countdown: 'Antes de que den las doce…',
-    rsvp: '¿Nos acompañás al Baile?',
-    dresscode: 'Vestimenta para el Gran Baile',
+    party: 'El Baile de los Novios',
+    countdown: 'Hasta que empiece el cuento',
+    rsvp: '¿Nos acompañás?',
+    dresscode: 'Vestimenta de gala',
     gifts: 'Un detalle para los novios',
     gallery: 'Nuestros momentos',
   },

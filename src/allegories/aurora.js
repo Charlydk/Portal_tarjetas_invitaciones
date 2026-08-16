@@ -74,7 +74,7 @@ export const aurora = {
     countdown: 'Antes de que caiga el hechizo…',
     rsvp: '¿Vendrás a mi sueño?',
     dresscode: 'Vestimenta para la noche',
-    gallery: 'Un momento único',
+    gallery: 'Mis momentos',
     closing: '¡Gracias!',
   },
 
@@ -83,6 +83,8 @@ export const aurora = {
     countdownPassed: '¡El hechizo se rompió — llegó la noche!',
     rsvpBody: 'El bosque guarda un lugar para vos. Confirmá tu asistencia.',
     rsvpCta: 'Confirmar asistencia',
+    giftsBody:
+      'Tu presencia es el mejor regalo en este día tan especial. Si querés acompañarme con un detalle, lo voy a recibir con mucho cariño.',
     rsvpWhatsapp: '¡Hola! Confirmo mi asistencia 🌹',
     galleryTagline: 'Lo que el bosque recuerda',
     loading: 'El bosque está despertando…',

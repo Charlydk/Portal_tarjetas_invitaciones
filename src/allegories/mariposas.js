@@ -78,13 +78,13 @@ export const mariposas = {
 
   titles: {
     story: 'Mi metamorfosis',
-    ceremony: 'Ceremonia Religiosa',
-    party: 'La Fiesta',
+    ceremony: 'Misa de Acción de Gracias',
+    party: 'Mi Gran Noche',
     countdown: 'Falta muy poco para volar',
     rsvp: '¿Volás conmigo?',
-    dresscode: 'Dress Code',
-    gifts: 'Regalos',
-    gallery: 'Un momento único',
+    dresscode: 'Cómo vestirte',
+    gifts: 'Un detalle para mí',
+    gallery: 'Mis momentos',
     closing: '¡Gracias!',
   },
 
