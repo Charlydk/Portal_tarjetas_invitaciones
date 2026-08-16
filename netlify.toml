@@ -12,6 +12,23 @@
   path = "/preview/*"
   function = "og"
 
+# ─── Assets que no existen deben dar 404, no la app ──────────────────────────
+# La regla de SPA de abajo atrapa CUALQUIER ruta, incluidos los archivos que no
+# existen: pedir /assets/HomePage-viejo.js devolvia index.html con status 200 y
+# content-type text/html. El navegador entonces falla al interpretarlo como
+# modulo y tira un error de MIME confuso, en vez de un 404 limpio.
+# Pasa de verdad: un visitante con la pagina abierta de antes de un deploy pide
+# un chunk que ya no existe.
+[[redirects]]
+  from = "/assets/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/allegories/*"
+  to = "/index.html"
+  status = 404
+
 # ─── SPA ──────────────────────────────────────────────────────────────────────
 # Sin esto, entrar directo a /preview/cenicienta-baile devuelve 404: Netlify
 # busca un archivo en esa ruta y no existe, porque el ruteo es del lado del
