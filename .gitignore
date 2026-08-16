@@ -49,3 +49,7 @@ Temporal/
 ejemplos/
 .temp_tarjeta4/
 .atl/.skill-registry.cache.json
+
+# Archivos fuente de marca: se guardan localmente, no se publican ni viajan
+# al repo (pesan y llevan marca de agua).
+brand-fuentes/
