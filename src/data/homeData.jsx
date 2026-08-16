@@ -25,8 +25,8 @@ export const features = [
   },
   {
     icon: <FaPalette />,
-    title: 'Ilustraciones propias',
-    description: 'Cada sección lleva su medallón ilustrado a mano para tu evento. Nada de íconos genéricos.'
+    title: 'Ilustraciones personalizadas',
+    description: 'Cada sección lleva su medallón diseñado a medida para tu evento. Nada de íconos genéricos.'
   },
   {
     icon: <FaCheckCircle />,
@@ -63,7 +63,7 @@ export const features = [
 export const faqData = [
   {
     q: '¿Qué recibo exactamente?',
-    a: 'Un enlace web propio para tu evento que compartís por WhatsApp con todos tus invitados. Se abre en cualquier celular, sin instalar nada y sin imprimir nada.'
+    a: 'Un enlace web propio para tu evento que compartís por WhatsApp con todos tus invitados. Se abre en cualquier dispositivo —celular, tablet o computadora— sin instalar nada y sin imprimir nada.'
   },
   {
     q: '¿Puedo pedir un diseño que no está en la galería?',
@@ -99,7 +99,8 @@ export const pricingData = [
     features: [
       `Entrega en ${PLAZO_ENTREGA}`,
       'Diseño adaptado a tu evento',
-      'Portada con video y música',
+      'Temática a medida si la tenés en mente',
+      'Música de fondo',
       'Confirmación por WhatsApp',
       'Galería, mapas y datos para regalos',
       'Cambios de textos sin costo'
@@ -111,12 +112,13 @@ export const pricingData = [
   {
     plan: 'Premium',
     price: formatPrice(PRECIO_PREMIUM),
-    description: 'Todo lo de la Clásica, más ilustraciones propias y las animaciones que hacen que se sienta viva.',
+    description: 'Todo lo de la Clásica, más la portada con video, ilustraciones personalizadas y las animaciones que la hacen sentir viva.',
     features: [
       'Todo lo de la Clásica',
-      'Ilustraciones hechas para tu evento',
+      'Portada con video',
+      'Ilustraciones personalizadas',
       'Animaciones y ambientación propia',
-      'Temática a medida si la tenés en mente',
+      'Playlist de Spotify para tus invitados',
       'Álbum compartido para tus invitados'
     ],
     popular: true,

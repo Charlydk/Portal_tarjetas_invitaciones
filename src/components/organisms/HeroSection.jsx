@@ -26,12 +26,13 @@ function HeroSection() {
         </motion.p>
 
         <motion.h1 className={styles.heroTitle} {...fadeUp(0.15)}>
-          Una invitación hecha para tu evento, no una plantilla
+          Que tu invitación cuente tu historia
         </motion.h1>
 
         <motion.p className={styles.heroSubtitle} {...fadeUp(0.28)}>
-          Elegí el diseño que más te guste, contanos cómo es tu fiesta y te la
-          entregamos lista para compartir. Con video, música e ilustraciones propias.
+          Elegí el diseño que te enamore, contanos cómo soñaste tu día y te lo
+          entregamos hecho invitación. Con música, video e ilustraciones pensadas
+          para vos.
         </motion.p>
 
         <motion.div className={styles.heroActions} {...fadeUp(0.4)}>
