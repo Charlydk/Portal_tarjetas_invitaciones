@@ -414,7 +414,20 @@ export function ClosingSection({ data, allegory }) {
       <Ornament />
       <motion.h2 variants={titleIn} className="inv-title">{allegory.titles.closing}</motion.h2>
       {names && <motion.p variants={item} className="inv-body">{names}</motion.p>}
-      <motion.p variants={item} className="inv-closing__credit">FX Estudio</motion.p>
+      {/* La firma es la única puerta de vuelta al portal. Cada tarjeta la abren
+          decenas de invitados y algunos se casan el año que viene: como texto
+          plano los obligaba a memorizar el nombre y buscarlo después, que es
+          exactamente lo que nadie hace. Se abre en otra pestaña para no
+          arrancar al invitado de la invitación que está leyendo. */}
+      <motion.a
+        variants={item}
+        className="inv-closing__credit"
+        href="https://fxestudio.com.ar"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        FX Estudio
+      </motion.a>
     </motion.footer>
   );
 }
