@@ -551,6 +551,17 @@
   color: var(--inv-ink-muted);
   opacity: 0.6;
   margin-top: 32px;
+  /* Es un enlace, pero no tiene que parecerlo: subrayado y azul del navegador
+     romperían el cierre de la tarjeta. `inline-block` porque el margen
+     superior no aplica sobre un elemento en línea. */
+  display: inline-block;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.inv-closing__credit:hover,
+.inv-closing__credit:focus-visible {
+  opacity: 0.95;
 }
 
 @media (prefers-reduced-motion: reduce) {
