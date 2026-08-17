@@ -336,7 +336,16 @@ export function GiftsSection({ data, allegory }) {
 
 export function GallerySection({ data, allegory }) {
   const [lightbox, setLightbox] = useState(null);
-  const photos = data.galleryPhotos?.length ? data.galleryPhotos : SAMPLE_PHOTOS;
+
+  // Las fotos de muestra son para la vidriera: una muestra del catálogo con la
+  // galería vacía se vería rota. En la tarjeta entregada de un cliente serían
+  // fotos de desconocidos en el casamiento de otro, así que si no cargó
+  // ninguna, la sección directamente no va.
+  const photos = data.galleryPhotos?.length
+    ? data.galleryPhotos
+    : (data.isDemo ? SAMPLE_PHOTOS : []);
+
+  if (!photos.length) return null;
 
   return (
     <Section id="section-gallery" title={allegory.titles.gallery} icon={allegory.icons?.gallery}>

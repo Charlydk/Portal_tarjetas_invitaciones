@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import AdminGate from '../features/admin/AdminGate';
 import { fetchInvitation, saveInvitation } from '../lib/adminService';
 import { createInvitationData } from '../data/invitationDefaults';
-import { invitationModels } from '../data/models';
+import { invitationSegments } from '../data/segments';
 
 import { StepModules } from '../features/preview/steps/StepModules';
 import { StepProtagonists } from '../features/preview/steps/StepProtagonists';
@@ -42,6 +42,21 @@ const SECCIONES = [
   { titulo: 'Regalos',            Componente: StepGifts,        ver: (d) => d.showGifts },
 ];
 
+/**
+ * Deja el texto en condiciones de vivir en una URL.
+ *
+ * Se aplica mientras se escribe, no al guardar: una dirección con mayúsculas o
+ * un acento no falla al cargarla, falla más tarde, cuando alguien comparte el
+ * link y a otro no le abre. Mejor que el campo no permita escribirla.
+ */
+function limpiarSlug(texto) {
+  return texto
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9-]+/g, '-')
+    .replace(/-{2,}/g, '-');
+}
+
 /** De "Valentina & Maximiliano" a "valentina-y-maximiliano". */
 function sugerirSlug(formData) {
   const nombres = [formData.name1, formData.name2].filter(Boolean).join(' y ');
@@ -54,9 +69,24 @@ function sugerirSlug(formData) {
     .replace(/^-+|-+$/g, '');
 }
 
-const TODAS_LAS_VARIANTES = invitationModels.flatMap((m) =>
-  m.variants.map((v) => ({ modelId: m.id, variantId: v.id, nombre: v.name }))
-);
+/**
+ * Los diseños que se ofrecen, agrupados como en el catálogo.
+ *
+ * Sale de `segments.js` y no de `models.js` a propósito: `models.js` es el
+ * registro técnico y tiene todo lo que alguna vez existió, incluidas variantes
+ * viejas que ya no se venden. Elegir una de esas al cargar una tarjeta sería
+ * venderle a un cliente algo que no está en el catálogo.
+ */
+const DISENOS_POR_SEGMENTO = invitationSegments.map((segmento) => ({
+  nombre: segmento.name,
+  opciones: segmento.templates.map((t) => ({
+    modelId: t.modelId,
+    variantId: t.variantId,
+    nombre: t.name,
+  })),
+}));
+
+const DISENOS = DISENOS_POR_SEGMENTO.flatMap((s) => s.opciones);
 
 function Formulario() {
   const { id } = useParams();
@@ -111,8 +141,7 @@ function Formulario() {
 
   const listaParaGuardar = slug.trim() && formData.variantId;
 
-  async function guardar(e) {
-    e.preventDefault();
+  async function guardar() {
     setGuardando(true);
     setError('');
     try {
@@ -142,7 +171,12 @@ function Formulario() {
 
   return (
     <main className="admin">
-      <form className="admin-form" onSubmit={guardar}>
+      {/* No es un <form> a propósito. Los pasos que se reusan traen botones sin
+          `type`, y dentro de un formulario el navegador los toma como "enviar":
+          quitar una foto recargaba la página. Podría declararse el tipo en cada
+          uno, pero cualquier botón que se agregue mañana a un paso volvería a
+          caer en la misma trampa. Sin formulario, la trampa no existe. */}
+      <div className="admin-form">
         <header className="admin-cabecera">
           <div>
             <p className="admin-login__marca">FX Estudio</p>
@@ -163,7 +197,7 @@ function Formulario() {
               <select
                 value={formData.variantId || ''}
                 onChange={(e) => {
-                  const elegida = TODAS_LAS_VARIANTES.find((v) => v.variantId === e.target.value);
+                  const elegida = DISENOS.find((v) => v.variantId === e.target.value);
                   setFormData((prev) => ({
                     ...prev,
                     modelId: elegida?.modelId || null,
@@ -173,8 +207,12 @@ function Formulario() {
                 required
               >
                 <option value="">Elegir…</option>
-                {TODAS_LAS_VARIANTES.map((v) => (
-                  <option key={v.variantId} value={v.variantId}>{v.nombre}</option>
+                {DISENOS_POR_SEGMENTO.map((segmento) => (
+                  <optgroup key={segmento.nombre} label={segmento.nombre}>
+                    {segmento.opciones.map((v) => (
+                      <option key={v.variantId} value={v.variantId}>{v.nombre}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
             </label>
@@ -185,7 +223,7 @@ function Formulario() {
                 <span className="admin-slug__prefijo">/i/</span>
                 <input
                   value={slug}
-                  onChange={(e) => setSlug(e.target.value)}
+                  onChange={(e) => setSlug(limpiarSlug(e.target.value))}
                   placeholder="valentina-y-maxi"
                   required
                 />
@@ -231,7 +269,12 @@ function Formulario() {
           <section className="admin-seccion" key={titulo}>
             <h2 className="admin-seccion__titulo">{titulo}</h2>
             <div className="admin-seccion__cuerpo">
-              <Componente formData={formData} handleChange={handleChange} setFormData={setFormData} totalPrice={0} />
+              <Componente
+                formData={formData}
+                handleChange={handleChange}
+                setFormData={setFormData}
+                mostrarPrecio={false}
+              />
             </div>
           </section>
         ))}
@@ -239,7 +282,8 @@ function Formulario() {
         <div className="admin-form__pie">
           <button
             className="admin-boton admin-boton--principal"
-            type="submit"
+            type="button"
+            onClick={guardar}
             disabled={guardando || !listaParaGuardar}
           >
             {guardando ? 'Guardando…' : 'Guardar tarjeta'}
@@ -248,7 +292,7 @@ function Formulario() {
             <p className="admin-nota">Falta elegir el diseño y la dirección.</p>
           )}
         </div>
-      </form>
+      </div>
     </main>
   );
 }

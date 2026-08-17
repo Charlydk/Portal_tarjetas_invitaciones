@@ -115,4 +115,10 @@ $$;
 -- por default privileges sobre cada función nueva de `public`, y esos son grants
 -- propios, no heredados de PUBLIC. Hay que nombrarlos.
 revoke all on function public.get_invitation_by_token(uuid) from public, anon, authenticated;
-grant execute on function public.get_invitation_by_token(uuid) to anon;
+
+-- `authenticated` también, y no es un descuido: quien carga la tarjeta abre el
+-- link de revisión desde el mismo navegador donde tiene la sesión del panel
+-- abierta. Sin este permiso, el link le falla justo a la persona que lo está
+-- por mandar, y funciona para todos los demás — de los errores más difíciles
+-- de entender. La función igual exige el token: no abre nada de más.
+grant execute on function public.get_invitation_by_token(uuid) to anon, authenticated;

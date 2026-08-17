@@ -27,11 +27,15 @@
   border-bottom: 1px solid rgba(245, 239, 227, 0.12);
 }
 
+/* Sin la serif de las tarjetas. Queda hermosa en una invitación y floja acá:
+   una serif fina en cuerpo grande sobre fondo oscuro se lee lavada, y esto es
+   una herramienta de trabajo que se mira apurado, no una pieza para admirar. */
 .admin-titulo {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 4vw, 1.9rem);
+  letter-spacing: -0.01em;
   margin: 4px 0 0;
+  color: #F5EFE3;
 }
 
 .admin-login__marca {
@@ -55,10 +59,10 @@
 }
 
 .admin-login__titulo {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: 2rem;
+  font-weight: 600;
+  font-size: 1.6rem;
   margin: 0 0 8px;
+  color: #F5EFE3;
 }
 
 .admin-campo {
@@ -157,10 +161,10 @@
 }
 
 .admin-fila__cliente {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: 1.35rem;
-  margin: 0 0 6px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+  color: #F5EFE3;
 }
 
 .admin-fila__meta {
@@ -170,7 +174,7 @@
   gap: 10px;
   margin: 0;
   font-size: 0.76rem;
-  opacity: 0.62;
+  color: rgba(245, 239, 227, 0.72);
 }
 
 .admin-fila__slug,
@@ -252,11 +256,12 @@ a.admin-boton {
 }
 
 .admin-seccion__titulo {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: 1.3rem;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   margin: 0 0 10px;
-  color: rgba(245, 239, 227, 0.9);
+  color: #C9A96E;
 }
 
 .admin-seccion__cuerpo,

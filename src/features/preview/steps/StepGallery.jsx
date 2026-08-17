@@ -75,7 +75,7 @@ export function StepGallery({ formData, setFormData }) {
             <div key={i} className={`gallery-slot ${isOwn ? 'owned' : 'sample'}`}>
               <img src={src} alt={`Foto ${i + 1}`} />
               {isOwn && (
-                <button className="gallery-remove-btn" onClick={() => handleRemove(i)} title="Quitar foto">✕</button>
+                <button type="button" className="gallery-remove-btn" onClick={() => handleRemove(i)} title="Quitar foto">✕</button>
               )}
               {!isOwn && <div className="gallery-sample-badge">Demo</div>}
             </div>
@@ -87,7 +87,7 @@ export function StepGallery({ formData, setFormData }) {
       <div style={{ display: 'flex', gap: '12px', marginTop: '16px', flexWrap: 'wrap' }}>
         {photos.length < MAX_PHOTOS && (
           <>
-            <button className="btn-wizard next" onClick={() => inputRef.current?.click()}>
+            <button type="button" className="btn-wizard next" onClick={() => inputRef.current?.click()}>
               📁 Cargar fotos ({photos.length}/{MAX_PHOTOS})
             </button>
             <input
@@ -101,7 +101,7 @@ export function StepGallery({ formData, setFormData }) {
           </>
         )}
         {photos.length > 0 && (
-          <button className="btn-wizard prev" onClick={handleUseSamples}>
+          <button type="button" className="btn-wizard prev" onClick={handleUseSamples}>
             🖼️ Usar fotos de ejemplo
           </button>
         )}

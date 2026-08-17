@@ -1,7 +1,7 @@
 import React from 'react';
 import { MODULE_LABELS, MODULE_PRICES, INCLUDED_MODULES, MODULE_ORDER } from '../../../data/pricing';
 
-export function StepModules({ formData, handleChange, totalPrice }) {
+export function StepModules({ formData, handleChange, totalPrice, mostrarPrecio = true }) {
   return (
     <div className="panel-section">
       <h3>🧩 Módulos de tu Invitación</h3>
@@ -38,10 +38,16 @@ export function StepModules({ formData, handleChange, totalPrice }) {
         })}
       </div>
 
-      <div className="price-summary">
-        <span>💰 Precio estimado:</span>
-        <strong>${totalPrice?.toLocaleString('es-AR')}</strong>
-      </div>
+      {/* En el panel interno no hay nada que cotizar: el precio ya se acordó
+          por WhatsApp y lo que se está haciendo es transcribir una tarjeta
+          vendida. Mostrar "$0" ahí no es un detalle feo, es información falsa
+          en la pantalla donde se carga lo que el cliente pagó. */}
+      {mostrarPrecio && (
+        <div className="price-summary">
+          <span>💰 Precio estimado:</span>
+          <strong>${totalPrice?.toLocaleString('es-AR')}</strong>
+        </div>
+      )}
     </div>
   );
 }
