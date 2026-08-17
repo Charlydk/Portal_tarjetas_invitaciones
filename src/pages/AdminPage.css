@@ -1,0 +1,231 @@
+/* El panel del equipo.
+   Deliberadamente sobrio: es una herramienta de trabajo, no una pieza de venta.
+   Lo que tiene que hacer bien es que se lea el estado de una tarjeta de un
+   vistazo y que copiar un link sea un solo clic. */
+
+.admin {
+  min-height: 100vh;
+  background: #14110B;
+  color: #F5EFE3;
+  font-family: 'Lato', system-ui, sans-serif;
+  padding: 32px 20px 64px;
+}
+
+.admin-vacio {
+  min-height: 100vh;
+  background: #14110B;
+}
+
+.admin-cabecera {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(245, 239, 227, 0.12);
+}
+
+.admin-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  margin: 4px 0 0;
+}
+
+.admin-login__marca {
+  font-family: 'Cinzel', serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #C9A96E;
+  margin: 0;
+}
+
+/* ── Entrar ─────────────────────────────────────────────────────────────── */
+
+.admin-login {
+  max-width: 340px;
+  margin: 12vh auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+
+.admin-login__titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 2rem;
+  margin: 0 0 8px;
+}
+
+.admin-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.admin-campo span {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.admin-campo input {
+  background: rgba(245, 239, 227, 0.06);
+  border: 1px solid rgba(245, 239, 227, 0.18);
+  border-radius: 6px;
+  padding: 11px 13px;
+  color: inherit;
+  font: inherit;
+}
+
+.admin-campo input:focus-visible {
+  outline: none;
+  border-color: #C9A96E;
+}
+
+/* ── Botones ────────────────────────────────────────────────────────────── */
+
+.admin-boton {
+  background: transparent;
+  border: 1px solid rgba(245, 239, 227, 0.24);
+  color: rgba(245, 239, 227, 0.86);
+  border-radius: 6px;
+  padding: 9px 16px;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  white-space: nowrap;
+}
+
+.admin-boton:hover {
+  border-color: rgba(245, 239, 227, 0.5);
+}
+
+.admin-boton--principal {
+  background: #C9A96E;
+  border-color: #C9A96E;
+  color: #14110B;
+  font-weight: 600;
+}
+
+.admin-boton--principal:hover {
+  background: #D8BC85;
+}
+
+.admin-boton--chico {
+  padding: 6px 11px;
+  font-size: 0.74rem;
+}
+
+.admin-boton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ── La lista ───────────────────────────────────────────────────────────── */
+
+.admin-lista {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: rgba(245, 239, 227, 0.045);
+  border: 1px solid rgba(245, 239, 227, 0.1);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
+.admin-fila__datos {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.admin-fila__cliente {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 1.35rem;
+  margin: 0 0 6px;
+}
+
+.admin-fila__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 0.76rem;
+  opacity: 0.62;
+}
+
+.admin-fila__slug,
+.admin-fila__diseno {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+
+.admin-estado {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 50px;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+  opacity: 1;
+}
+
+.is-borrador  { color: #C9A96E; }
+.is-revision  { color: #7FA9C9; }
+.is-publicada { color: #86C08A; }
+.is-archivada { color: rgba(245, 239, 227, 0.45); }
+
+.admin-fila__links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-link__abrir {
+  color: rgba(245, 239, 227, 0.45);
+  font-size: 0.72rem;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.admin-link__abrir:hover {
+  border-bottom-color: currentColor;
+}
+
+/* ── Mensajes ───────────────────────────────────────────────────────────── */
+
+.admin-error,
+.admin-nota {
+  max-width: 900px;
+  margin: 0 auto 18px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.admin-error { color: #E0908A; }
+.admin-nota  { opacity: 0.6; }

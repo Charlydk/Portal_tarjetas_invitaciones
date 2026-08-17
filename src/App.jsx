@@ -10,6 +10,7 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const DemoPage = lazy(() => import('./pages/DemoPage'));
 const PreviewPage = lazy(() => import('./pages/PreviewPage'));
 const InvitationPage = lazy(() => import('./pages/InvitationPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
 
 function MainLayout() {
   return (
@@ -36,6 +37,11 @@ function App() {
         <Route path="/i/:slug" element={<InvitationPage />} />
         {/* Lo que abre el cliente para ver su tarjeta antes de publicarla. */}
         <Route path="/borrador/:token" element={<InvitationPage modoBorrador />} />
+
+        {/* El panel del equipo. Fuera de MainLayout: es una herramienta de
+            trabajo, no una página del sitio. Quién puede entrar lo decide la
+            base, no esta ruta. */}
+        <Route path="/admin" element={<AdminPage />} />
 
         <Route path="/preview/:themeId" element={<PreviewPage />} />
         <Route element={<MainLayout />}>
