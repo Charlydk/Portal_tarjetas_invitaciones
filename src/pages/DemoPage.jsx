@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import ControlPanel from '../features/preview/ControlPanel';
 import InvitationPreview from '../features/preview/InvitationPreview';
+import GuestCard from '../features/invitation/GuestCard';
 import { templates } from '../data/templates';
 import { invitationModels } from '../data/models';
 import './DemoPage.css';
@@ -40,6 +41,9 @@ function DemoPage() {
 
   // Estado para el FAB móvil
   const [activeTab, setActiveTab] = useState('edit');
+
+  // Vista del invitado a pantalla completa, con los datos cargados.
+  const [vistaInvitado, setVistaInvitado] = useState(false);
 
   // Paso actual (elevado para el scroll sync)
   const [currentStep, setCurrentStep] = useState(1);
@@ -149,6 +153,12 @@ function DemoPage() {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(formData));
   }, [formData]);
 
+  // La variante que se esta editando, para la vista del invitado.
+  const variantePreview = useMemo(() => {
+    const id = formData.variantId || currentTemplate?.themeId || currentTemplate?.theme;
+    return invitationModels.flatMap(m => m.variants).find(v => v.id === id) || null;
+  }, [formData.variantId, currentTemplate]);
+
   // Calcular el ID del paso activo (para scroll sync)
   const activeStepId = useMemo(() => {
     const active = STEP_CONDITIONS.filter(s => s.show(formData));
@@ -183,7 +193,31 @@ function DemoPage() {
           themeId={currentTemplate.themeId || currentTemplate.theme}
           activeStepId={activeStepId}
         />
+
+        {/* El preview enmarcado sirve para editar, pero no muestra cómo se va a
+            sentir la tarjeta: le falta la pantalla de bienvenida, la música y la
+            pantalla completa. Esto abre exactamente lo que va a ver un invitado,
+            con los datos que el cliente acaba de cargar. */}
+        {variantePreview && (
+          <button className="btn-vista-invitado" onClick={() => setVistaInvitado(true)}>
+            👀 Ver como lo verán mis invitados
+          </button>
+        )}
       </div>
+
+      {/* ── VISTA DEL INVITADO, A PANTALLA COMPLETA ── */}
+      {vistaInvitado && variantePreview && (
+        <div className="vista-invitado-overlay">
+          <button
+            className="btn-cerrar-vista"
+            onClick={() => setVistaInvitado(false)}
+            aria-label="Volver a editar"
+          >
+            ✕ Volver a editar
+          </button>
+          <GuestCard variant={variantePreview} formData={formData} />
+        </div>
+      )}
 
       {/* ── FAB MÓVIL — reemplaza los tabs pegajosos ── */}
       <button
