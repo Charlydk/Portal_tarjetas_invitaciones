@@ -98,10 +98,10 @@ values (
     'dressCodeColorNote',   '',
     'musicPlaylistUrl',     'https://open.spotify.com/...',
 
-    -- Rutas de archivos, NO fotos pegadas. Ver la nota del final.
+    -- URLs de Storage, NO fotos pegadas. Ver la nota del final.
     'galleryPhotos',    jsonb_build_array(
-                          '/clientes/valentina-y-maxi/1.webp',
-                          '/clientes/valentina-y-maxi/2.webp'
+                          'https://mxzoofpyrqananmqzhbk.supabase.co/storage/v1/object/public/tarjetas/valentina-y-maxi/1.webp',
+                          'https://mxzoofpyrqananmqzhbk.supabase.co/storage/v1/object/public/tarjetas/valentina-y-maxi/2.webp'
                         ),
 
     -- Qué secciones se ven. Es lo que el cliente pagó.
@@ -166,10 +166,22 @@ order by created_at desc;
 -- invitado abre el link. No se cachea aparte, no se puede cargar de a poco, y
 -- ocupa un tercio más que la imagen original.
 --
--- Por eso las fotos del cliente van como archivos, igual que el resto de los
--- assets: se optimizan, se guardan en public/clientes/<slug>/ y en el JSON van
--- las rutas. Ahí sí las cachea Netlify y el invitado que vuelve no las baja
--- de nuevo.
+-- Por eso las fotos del cliente van como archivos y en el JSON van sus URLs.
 --
---   ffmpeg -i original.jpg -vf "scale=1000:-2:flags=lanczos" -quality 82 1.webp
+-- Y van a Supabase Storage, NO a public/ del repo. Esa carpeta se publica con
+-- el sitio, así que cada cliente con galería obligaría a commitear y
+-- redeployar: justo lo que dejamos atrás al convertir la tarjeta en una fila.
+-- En Storage se sube el archivo y ya está disponible, sin tocar el código.
+--
+-- El paso a paso, antes de correr el insert:
+--
+--   1. Optimizar cada foto:
+--        ffmpeg -i original.jpg -vf "scale=1000:-2:flags=lanczos" -quality 82 1.webp
+--   2. Panel de Supabase → Storage → bucket `tarjetas` → carpeta con el slug de
+--      la tarjeta → subir los archivos.
+--   3. Copiar la URL pública de cada una y pegarla en `galleryPhotos`. Tienen
+--      esta forma:
+--        https://<proyecto>.supabase.co/storage/v1/object/public/tarjetas/<slug>/1.webp
+--
+-- Una carpeta por tarjeta, para que dar de baja una sea borrar una carpeta.
 -- ─────────────────────────────────────────────────────────────────────────────
