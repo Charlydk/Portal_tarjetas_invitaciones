@@ -217,6 +217,116 @@
   border-bottom-color: currentColor;
 }
 
+.admin-cabecera__acciones {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-fila__acciones {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Los links del panel son botones: que uno sea <a> es un detalle del ruteo,
+   no algo que el ojo tenga que notar. */
+a.admin-boton {
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* ── El formulario ──────────────────────────────────────────────────────── */
+/* La página es oscura, pero los pasos que se reusan del asistente vienen
+   diseñados en claro. En vez de pelearles el estilo, se los deja sobre
+   tarjetas blancas: se ven igual que en el editor, que además es la pantalla
+   que el equipo ya conoce. */
+
+.admin-form {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.admin-seccion {
+  margin-bottom: 20px;
+}
+
+.admin-seccion__titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  margin: 0 0 10px;
+  color: rgba(245, 239, 227, 0.9);
+}
+
+.admin-seccion__cuerpo,
+.admin-grilla {
+  background: #fcfcfc;
+  color: #2c3e50;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.admin-grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.admin-form .admin-campo span {
+  color: #555;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.admin-form .admin-campo input,
+.admin-form .admin-campo select {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #2c3e50;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.admin-form .admin-campo input:focus-visible,
+.admin-form .admin-campo select:focus-visible {
+  outline: none;
+  border-color: #C9A96E;
+}
+
+.admin-slug {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-slug__prefijo {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.admin-form .admin-slug .admin-boton {
+  color: #555;
+  border-color: #ccc;
+  flex-shrink: 0;
+}
+
+.admin-form__pie {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 0 40px;
+}
+
+.admin-form__pie .admin-nota {
+  margin: 0;
+  text-align: left;
+}
+
 /* ── Mensajes ───────────────────────────────────────────────────────────── */
 
 .admin-error,

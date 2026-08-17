@@ -11,6 +11,7 @@ const DemoPage = lazy(() => import('./pages/DemoPage'));
 const PreviewPage = lazy(() => import('./pages/PreviewPage'));
 const InvitationPage = lazy(() => import('./pages/InvitationPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
+const AdminCardPage = lazy(() => import('./pages/AdminCardPage'));
 
 function MainLayout() {
   return (
@@ -42,6 +43,10 @@ function App() {
             trabajo, no una página del sitio. Quién puede entrar lo decide la
             base, no esta ruta. */}
         <Route path="/admin" element={<AdminPage />} />
+        {/* `nueva` va antes que `:id` por claridad; React Router prioriza la
+            ruta literal igual, pero el orden lo hace evidente al leer. */}
+        <Route path="/admin/nueva" element={<AdminCardPage />} />
+        <Route path="/admin/:id" element={<AdminCardPage />} />
 
         <Route path="/preview/:themeId" element={<PreviewPage />} />
         <Route element={<MainLayout />}>

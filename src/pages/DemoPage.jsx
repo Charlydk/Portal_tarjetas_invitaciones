@@ -5,6 +5,7 @@ import InvitationPreview from '../features/preview/InvitationPreview';
 import GuestCard from '../features/invitation/GuestCard';
 import { templates } from '../data/templates';
 import { invitationModels } from '../data/models';
+import { createInvitationData } from '../data/invitationDefaults';
 import './DemoPage.css';
 
 const DRAFT_KEY = 'portal_draft_invitation';
@@ -78,74 +79,14 @@ function DemoPage() {
       }
     }
 
-    return {
+    // Con la pareja de ejemplo: el cliente tiene que ver algo vivo desde el
+    // primer segundo. La lista de campos vive en src/data/invitationDefaults.js
+    // porque el panel también la necesita, pero en blanco.
+    return createInvitationData({
       modelId: initialModelId,
       variantId: initialVariantId,
-
-      // Protagonistas
-      name1: 'Zoe',
-      name2: 'Lucas',
-      welcomePhrase: '¡Estás invitado!',
-      invitePhrase: 'Con cariño te invitamos a compartir este día tan especial',
-      eventDate: new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().slice(0, 16), // Hoy + 30 días
-
-      // Civil (Vacíos por defecto para que el usuario cargue)
-      civilDate: '',
-      civilTime: '',
-      civilPlace: '',
-      civilAddress: '',
-      civilMapUrl: '',
-      civilMapUnknown: false,
-
-      // Ceremonia
-      ceremonyDate: '',
-      ceremonyTime: '',
-      ceremonyPlace: '',
-      ceremonyAddress: '',
-      ceremonyMapUrl: '',
-      ceremonyMapUnknown: false,
-
-      // Fiesta
-      partyDateString: '',
-      partyTime: '',
-      partyPlace: '',
-      partyAddress: '',
-      partyMapUrl: '',
-      partyMapUnknown: false,
-      eventVenue: '',
-
-      // Regalos
-      giftMode: 'cbu',
-      bankCbu: '',
-      alias: 'zoe.lucas.boda',
-
-      // WhatsApp RSVP
-      whatsappNumber: '5493810000000',
-      whatsappCountryCode: '54',
-      whatsappLocalNumber: '3810000000',
-
-      // Dress Code
-      dressCodeDescription: 'Elegante',
-      dressCodeColorNote: '',
-
-      // Galería
-      galleryPhotos: [],
-
-      // Playlist
-      musicPlaylistUrl: '',
-
-      // ── Módulos (todos activos por defecto) ──────────────────────────────
-      showCivil:     true,
-      showCeremony:  true,
-      showParty:     true,
-      showCountdown: true,
-      showDressCode: true,
-      showGifts:     true,
-      showGallery:   true,
-      showMusic:     true,
-      showRSVP:      true,
-      askDiets:      true,
-    };
+      sample: true,
+    });
   });
 
   // Auto-save

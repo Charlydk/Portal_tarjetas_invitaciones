@@ -45,6 +45,90 @@ export async function listInvitations() {
   return data || [];
 }
 
+export async function fetchInvitation(id) {
+  const { data, error } = await supabase
+    .from('invitations')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
+}
+
+const BUCKET = 'tarjetas';
+
+/**
+ * Las fotos entran al formulario como texto: el selector las achica en el
+ * navegador y las deja pegadas adentro del propio formulario, que es lo
+ * correcto para un borrador que todavía no existe.
+ *
+ * Pero adentro de la tarjeta entregada ese texto sería veneno: viaja en la
+ * misma consulta que trae los datos, antes de que se dibuje nada, cada vez que
+ * un invitado abre el link. Así que al guardar se convierten en archivos.
+ *
+ * Las que ya son URL pasan de largo: guardar dos veces no vuelve a subir nada.
+ */
+async function subirFotos(slug, photos = []) {
+  const urls = [];
+
+  for (const [i, foto] of photos.entries()) {
+    if (!foto) continue;
+    if (!foto.startsWith('data:')) {
+      urls.push(foto);
+      continue;
+    }
+
+    const blob = await (await fetch(foto)).blob();
+    // El nombre lleva la marca de tiempo para que reemplazar una foto no quede
+    // tapado por la copia vieja que el navegador del invitado ya tenía.
+    const path = `${slug}/${Date.now()}-${i}.jpg`;
+
+    const { error } = await supabase.storage
+      .from(BUCKET)
+      .upload(path, blob, { contentType: blob.type || 'image/jpeg', upsert: true });
+    if (error) throw error;
+
+    urls.push(supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl);
+  }
+
+  return urls;
+}
+
+/**
+ * Guarda una tarjeta, nueva o corregida.
+ *
+ * `id` ausente significa nueva. Es la única diferencia: los datos que se envían
+ * son los mismos, así que corregir una tarjeta cargada mal no es un camino
+ * aparte que pueda quedar desactualizado.
+ */
+export async function saveInvitation({ id, slug, clientName, clientWhatsapp, status, expiresAt, publishedAt, formData }) {
+  const galleryPhotos = await subirFotos(slug, formData.galleryPhotos);
+  const data = { ...formData, galleryPhotos };
+
+  const fila = {
+    slug,
+    model_id: formData.modelId,
+    variant_id: formData.variantId,
+    client_name: clientName || null,
+    client_whatsapp: clientWhatsapp || null,
+    status,
+    expires_at: expiresAt || null,
+    data,
+  };
+
+  // Se sella una sola vez: es la fecha en que la tarjeta salió, no la última
+  // vez que alguien guardó una corrección.
+  if (status === 'publicada' && !publishedAt) fila.published_at = new Date().toISOString();
+
+  const consulta = id
+    ? supabase.from('invitations').update(fila).eq('id', id)
+    : supabase.from('invitations').insert(fila);
+
+  const { error } = await consulta;
+  if (error) throw error;
+}
+
 /**
  * Publicar y dar de baja son el mismo movimiento en direcciones opuestas, así
  * que es una sola función: la que llama decide el destino.
