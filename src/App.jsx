@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 const HomePage = lazy(() => import('./pages/HomePage'));
 const DemoPage = lazy(() => import('./pages/DemoPage'));
 const PreviewPage = lazy(() => import('./pages/PreviewPage'));
+const InvitationPage = lazy(() => import('./pages/InvitationPage'));
 
 function MainLayout() {
   return (
@@ -29,6 +30,13 @@ function App() {
   return (
     <Suspense fallback={<RouteFallback />}>
       <Routes>
+        {/* La tarjeta entregada de un cliente: una fila en la base, no un
+            deploy aparte. Fuera de MainLayout, como la muestra: un invitado no
+            tiene que ver la barra ni el pie del portal. */}
+        <Route path="/i/:slug" element={<InvitationPage />} />
+        {/* Lo que abre el cliente para ver su tarjeta antes de publicarla. */}
+        <Route path="/borrador/:token" element={<InvitationPage modoBorrador />} />
+
         <Route path="/preview/:themeId" element={<PreviewPage />} />
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
