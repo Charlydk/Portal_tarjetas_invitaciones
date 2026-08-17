@@ -8,8 +8,17 @@ import { invitationSegments } from '../../src/data/segments.js';
 // SPA cannot fix this from the client — the tags have to be right in the
 // response body. This rewrites them at the edge.
 //
-// The catalogue is imported straight from src/data/segments.js, so there is no
-// second copy of the design list to keep in sync.
+// Two routes, two sources:
+//
+//   /preview/:variantId  a catalogue showcase — the design's own name and shot,
+//                        read from src/data/segments.js so there is no second
+//                        copy of the design list to keep in sync.
+//   /i/:slug             a delivered card — the couple's names, read from the
+//                        invitations table.
+//
+// The second one is the one that carries the business. A client forwards their
+// card to a hundred guests, and the preview card is what all hundred see first:
+// it has to say "Valentina & Maximiliano", not the name of the studio.
 
 const SITE = 'https://fxestudio.com.ar';
 const FALLBACK_IMAGE = '/allegories/cenicienta/fondo.jpeg';
@@ -27,6 +36,77 @@ const setMeta = (html, attr, name, value) => {
   return html.replace(pattern, `$1${escapeAttr(value)}$2`);
 };
 
+const findTemplate = (variantId) =>
+  invitationSegments
+    .flatMap((segment) => segment.templates)
+    .find((t) => t.variantId === variantId);
+
+/** Reads config at the edge. Netlify exposes its own global; Deno's is the fallback. */
+const env = (name) =>
+  globalThis.Netlify?.env?.get(name) || globalThis.Deno?.env?.get(name) || '';
+
+/** A catalogue showcase. Returns null for a design that is not in the catalogue. */
+function showcaseMeta(variantId) {
+  const template = findTemplate(variantId);
+  if (!template) return null;
+
+  return {
+    title: `${template.name} — FX Estudio`,
+    description: template.description || 'Invitación digital hecha a medida.',
+    image: SITE + (template.previewImage || FALLBACK_IMAGE),
+    url: `${SITE}/preview/${variantId}`,
+  };
+}
+
+/**
+ * A delivered card. Returns null whenever the preview cannot be personalised —
+ * a missing slug, an unpublished or expired card, a request that failed — and
+ * the site-wide preview stands in. A generic preview is a small disappointment;
+ * a broken page while WhatsApp waits for the HTML is a lost invitation.
+ *
+ * The anon key only ever sees published, unexpired rows: the same policy that
+ * protects /i/:slug protects this. A draft link previews as the portal, which
+ * is what we want — names should not leak before the client publishes.
+ */
+async function invitationMeta(slug) {
+  const base = env('VITE_SUPABASE_URL');
+  const key = env('VITE_SUPABASE_ANON_KEY');
+  if (!base || !key) return null;
+
+  let row;
+  try {
+    const res = await fetch(
+      `${base}/rest/v1/invitations?slug=eq.${encodeURIComponent(slug)}&select=variant_id,data`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` } }
+    );
+    if (!res.ok) return null;
+    [row] = await res.json();
+  } catch {
+    return null;
+  }
+  if (!row) return null;
+
+  const data = row.data || {};
+  const names = [data.name1, data.name2].filter(Boolean).join(' & ');
+  if (!names) return null;
+
+  // "Nos Casamos · 14 de Noviembre de 2026" — the two things a guest needs
+  // before deciding to open the link.
+  const description =
+    [data.welcomePhrase, data.partyDateString].filter(Boolean).join(' · ') ||
+    data.invitePhrase ||
+    'Te esperamos para celebrar con nosotros.';
+
+  const template = findTemplate(row.variant_id);
+
+  return {
+    title: names,
+    description,
+    image: SITE + (template?.previewImage || FALLBACK_IMAGE),
+    url: `${SITE}/i/${slug}`,
+  };
+}
+
 export default async (request, context) => {
   const response = await context.next();
 
@@ -35,18 +115,13 @@ export default async (request, context) => {
     return response;
   }
 
-  const variantId = new URL(request.url).pathname.split('/').filter(Boolean)[1];
-  const template = invitationSegments
-    .flatMap((segment) => segment.templates)
-    .find((t) => t.variantId === variantId);
+  const [section, param] = new URL(request.url).pathname.split('/').filter(Boolean);
+  const meta = section === 'i' ? await invitationMeta(param) : showcaseMeta(param);
 
-  // A design that is not in the catalogue keeps the site-wide preview.
-  if (!template) return response;
+  // Nothing to personalise: the site-wide preview from index.html stands.
+  if (!meta) return response;
 
-  const title = `${template.name} — FX Estudio`;
-  const description = template.description || 'Invitación digital hecha a medida.';
-  const image = SITE + (template.previewImage || FALLBACK_IMAGE);
-  const url = `${SITE}/preview/${variantId}`;
+  const { title, description, image, url } = meta;
 
   let html = await response.text();
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeAttr(title)}</title>`);
@@ -62,4 +137,4 @@ export default async (request, context) => {
   });
 };
 
-export const config = { path: '/preview/*' };
+export const config = { path: ['/preview/*', '/i/*'] };
