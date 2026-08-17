@@ -12,6 +12,12 @@
   path = "/preview/*"
   function = "og"
 
+# La tarjeta entregada de un cliente. Es la que más importa: el cliente reenvía
+# su link a todos sus invitados, y la preview es lo primero que ven.
+[[edge_functions]]
+  path = "/i/*"
+  function = "og"
+
 # ─── Assets que no existen deben dar 404, no la app ──────────────────────────
 # La regla de SPA de abajo atrapa CUALQUIER ruta, incluidos los archivos que no
 # existen: pedir /assets/HomePage-viejo.js devolvia index.html con status 200 y
