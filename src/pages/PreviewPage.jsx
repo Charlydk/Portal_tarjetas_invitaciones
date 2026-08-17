@@ -1,10 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import InvitationPreview from '../features/preview/InvitationPreview';
-import LoadingVeil from '../features/invitation/LoadingVeil';
-import { usePreload } from '../features/invitation/usePreload';
-import { allegoryImages, resolveAllegory } from '../allegories';
+import GuestCard from '../features/invitation/GuestCard';
 import { invitationModels } from '../data/models';
 import { invitationSegments } from '../data/segments';
 
@@ -74,210 +71,6 @@ const DEMO_DATA = {
   showMusic: false,
   askDiets: false,
 };
-
-// The gate is the first thing a guest sees, so it has to wear the same costume
-// as the card behind it. Allegory-backed variants theme it; every other variant
-// keeps the original gold-on-black look untouched.
-const DEFAULT_GATE = {
-  accent: '#C9A96E',
-  bg: 'linear-gradient(160deg, #0e0b07 0%, #1c1508 55%, #0e0b07 100%)',
-  // `bg` may be a gradient, so text sitting on the accent needs its own token.
-  accentInk: '#0e0b07',
-  ink: '#FAF7F2',
-  fontTitle: "'Playfair Display', 'Georgia', serif",
-  fontBody: "'EB Garamond', 'Garamond', serif",
-};
-
-function gateThemeFor(variant) {
-  const t = variant?.allegory?.tokens;
-  if (!t) return DEFAULT_GATE;
-  return {
-    accent: t.accent,
-    bg: t.bg,
-    accentInk: t.accentInk,
-    ink: t.ink,
-    fontTitle: t.fontTitle,
-    fontBody: t.fontBody,
-    bgImage: t.backgroundImage,
-    bgVideo: t.backgroundVideo,
-    scrim: t.scrim,
-  };
-}
-
-/** Adds alpha to a hex token so the gate can dim its own ink without a second token. */
-function fade(color, alpha) {
-  return `color-mix(in srgb, ${color} ${Math.round(alpha * 100)}%, transparent)`;
-}
-
-// ── Pantalla de bienvenida ────────────────────────────────────────────────────
-function WelcomeScreen({ name1, name2, hasAudio, onEnter, theme = DEFAULT_GATE }) {
-  return (
-    <motion.div
-      key="welcome"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.55 }}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        background: theme.bgImage
-          ? `${theme.scrim}, url("${theme.bgImage}") center / cover no-repeat`
-          : theme.bg,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        padding: '40px 32px',
-        zIndex: 10,
-      }}
-    >
-      {theme.bgVideo && (
-        <>
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster={theme.bgImage || undefined}
-            style={{
-              position: 'absolute', inset: 0, zIndex: 0,
-              width: '100%', height: '100%', objectFit: 'cover',
-            }}
-          >
-            <source src={theme.bgVideo} type="video/mp4" />
-          </video>
-          <div style={{ position: 'absolute', inset: 0, zIndex: 0, background: theme.scrim }} />
-        </>
-      )}
-
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25, duration: 0.9, ease: 'easeOut' }}
-        style={{ maxWidth: '360px', width: '100%', position: 'relative', zIndex: 1 }}
-      >
-        <p style={{
-          color: theme.accent,
-          letterSpacing: '0.32em',
-          fontSize: '0.68rem',
-          textTransform: 'uppercase',
-          fontFamily: theme.fontBody,
-          margin: '0 0 28px',
-        }}>
-          Bienvenido/a
-        </p>
-
-        <h1 style={{
-          fontFamily: theme.fontTitle,
-          fontWeight: 400,
-          fontSize: 'clamp(2.4rem, 9vw, 4.2rem)',
-          color: theme.ink,
-          lineHeight: 1.1,
-          margin: '0 0 6px',
-          textShadow: '0 4px 40px rgba(0,0,0,0.55)',
-        }}>
-          {name1}
-        </h1>
-        {name2 && (
-          <>
-            <p style={{
-              fontFamily: theme.fontTitle,
-              fontSize: 'clamp(1.6rem, 5vw, 2.4rem)',
-              color: theme.accent,
-              margin: '4px 0',
-            }}>&</p>
-            <h1 style={{
-              fontFamily: theme.fontTitle,
-              fontWeight: 400,
-              fontSize: 'clamp(2.4rem, 9vw, 4.2rem)',
-              color: theme.ink,
-              lineHeight: 1.1,
-              margin: '0 0 32px',
-              textShadow: '0 4px 40px rgba(0,0,0,0.55)',
-            }}>
-              {name2}
-            </h1>
-          </>
-        )}
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto 32px', maxWidth: '220px' }}>
-          <div style={{ flex: 1, height: '1px', background: fade(theme.accent, 0.4) }} />
-          <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: theme.accent }} />
-          <div style={{ flex: 1, height: '1px', background: fade(theme.accent, 0.4) }} />
-        </div>
-
-        {hasAudio ? (
-          <>
-            <p style={{
-              color: fade(theme.ink, 0.75),
-              fontSize: '1rem',
-              fontFamily: theme.fontBody,
-              lineHeight: 1.65,
-              margin: '0 0 32px',
-            }}>
-              Esta invitación tiene música.<br />¿Querés escucharla?
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <button
-                onClick={() => onEnter(true)}
-                style={{
-                  background: theme.accent, border: 'none', color: theme.accentInk,
-                  padding: '14px 32px', borderRadius: '4px',
-                  fontFamily: theme.fontBody, fontSize: '0.85rem',
-                  letterSpacing: '0.2em', textTransform: 'uppercase',
-                  cursor: 'pointer', fontWeight: 600,
-                }}
-              >
-                ♪ Sí, con música
-              </button>
-              <button
-                onClick={() => onEnter(false)}
-                style={{
-                  background: 'transparent',
-                  border: `1px solid ${fade(theme.ink, 0.3)}`,
-                  color: fade(theme.ink, 0.7),
-                  padding: '13px 32px', borderRadius: '4px',
-                  fontFamily: theme.fontBody, fontSize: '0.85rem',
-                  letterSpacing: '0.2em', textTransform: 'uppercase',
-                  cursor: 'pointer',
-                }}
-              >
-                Entrar sin música
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <p style={{
-              color: fade(theme.ink, 0.7),
-              fontSize: '1rem',
-              fontFamily: theme.fontBody,
-              lineHeight: 1.65,
-              margin: '0 0 32px',
-            }}>
-              Te invitamos a descubrir esta experiencia
-            </p>
-            <button
-              onClick={() => onEnter(false)}
-              style={{
-                background: theme.accent, border: 'none', color: theme.accentInk,
-                padding: '14px 40px', borderRadius: '4px',
-                fontFamily: theme.fontBody, fontSize: '0.85rem',
-                letterSpacing: '0.2em', textTransform: 'uppercase',
-                cursor: 'pointer', fontWeight: 600,
-              }}
-            >
-              Ver invitación
-            </button>
-          </>
-        )}
-      </motion.div>
-    </motion.div>
-  );
-}
 
 // ── Modal de CTA ──────────────────────────────────────────────────────────────
 function CTAModal({ templateName, onClose, onEdit }) {
@@ -412,26 +205,21 @@ function PreviewPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const isEmbed = searchParams.get('embed') === 'true';
-
-  const [entered, setEntered] = useState(isEmbed);
-  const [waiting, setWaiting] = useState(false);
-  const [withMusic, setWithMusic] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
 
   const variant = invitationModels
     .flatMap(m => m.variants)
     .find(v => v.id === themeId);
-  const hasAudio = Boolean(variant?.assets?.audio);
 
   const segmentTemplate = invitationSegments
     .flatMap(s => s.templates)
     .find(t => t.variantId === themeId);
   const templateName = segmentTemplate?.name || 'esta tarjeta';
 
-  // An allegory's own sample content wins over the generic wedding couple, so a
-  // quinceañera design is previewed as a quinceañera.
-  // `isDemo` lets the card show buttons whose destination only exists on a real
-  // client's card (maps, shared album) instead of hiding the feature entirely.
+  // El contenido de muestra de la alegoría gana sobre la pareja genérica, así
+  // que un diseño de 15 años se previsualiza como uno de 15 años.
+  // `isDemo` hace que se vean los botones cuyo destino sólo existe en la tarjeta
+  // real de un cliente (mapas, álbum compartido) en vez de esconder la función.
   const formData = {
     ...DEMO_DATA,
     ...(variant?.allegory?.demo || {}),
@@ -439,156 +227,86 @@ function PreviewPage() {
     isDemo: true,
   };
 
-  const allegory = useMemo(
-    () => (variant?.allegory ? resolveAllegory(variant.allegory) : null),
-    [variant]
+  // Barra de venta: es lo único que distingue la muestra de una tarjeta
+  // entregada. Se oculta en modo embed, donde la muestra va dentro del landing.
+  const barraVenta = (
+    <div style={{
+      display: isEmbed ? 'none' : 'flex',
+      position: 'fixed',
+      top: 0, left: 0, right: 0,
+      zIndex: 9999,
+      background: 'rgba(10, 10, 10, 0.72)',
+      backdropFilter: 'blur(8px)',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '10px 20px',
+      gap: '12px',
+    }}>
+      <button
+        onClick={() => navigate(-1)}
+        style={{
+          background: 'transparent',
+          border: '1px solid rgba(255,255,255,0.28)',
+          color: 'white',
+          padding: '8px 18px',
+          borderRadius: '50px',
+          cursor: 'pointer',
+          fontSize: '0.82rem',
+          letterSpacing: '0.05em',
+          fontFamily: 'inherit',
+          flexShrink: 0,
+        }}
+      >
+        ← Volver
+      </button>
+
+      <span style={{
+        color: 'rgba(255,255,255,0.38)',
+        fontSize: '0.65rem',
+        letterSpacing: '0.18em',
+        textTransform: 'uppercase',
+        fontFamily: 'inherit',
+        whiteSpace: 'nowrap',
+      }}>
+        Muestra
+      </span>
+
+      <button
+        onClick={() => setShowCTA(true)}
+        style={{
+          background: '#C9A96E',
+          border: 'none',
+          color: '#1E1A14',
+          padding: '9px 20px',
+          borderRadius: '50px',
+          cursor: 'pointer',
+          fontSize: '0.82rem',
+          fontWeight: '700',
+          letterSpacing: '0.04em',
+          fontFamily: 'inherit',
+          flexShrink: 0,
+          boxShadow: '0 4px 14px rgba(201,169,110,0.4)',
+        }}
+      >
+        ¡Quiero esta tarjeta!
+      </button>
+    </div>
   );
-
-  // Warms images and video behind the welcome screen. The guest reading their
-  // name is free time; spending it here is why the card scrolls clean later.
-  const preloadImages = useMemo(
-    () => (allegory ? [...allegoryImages(allegory), ...(formData.galleryPhotos || [])] : []),
-    [allegory, formData.galleryPhotos]
-  );
-  const { ready } = usePreload({
-    images: preloadImages,
-    video: allegory?.tokens?.backgroundVideo || null,
-    // Only once the guest has asked for music — nobody should pay for a track
-    // they chose not to hear.
-    audio: withMusic ? variant?.assets?.audio || null : null,
-  });
-
-  const handleEnter = (music) => {
-    setWithMusic(music);
-    // The video is the thing that sets these cards apart, so it is worth a
-    // short wait — but only a short one, and never on a blank screen.
-    if (ready) setEntered(true);
-    else setWaiting(true);
-  };
-
-  const enterAnyway = useCallback(() => {
-    setWaiting(false);
-    setEntered(true);
-  }, []);
-
-  // Assets finished while the guest was on the wait screen.
-  useEffect(() => {
-    if (waiting && ready) enterAnyway();
-  }, [waiting, ready, enterAnyway]);
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <AnimatePresence mode="wait">
-        {waiting ? (
-          <LoadingVeil
-            key="loading"
-            theme={gateThemeFor(variant)}
-            allegory={allegory}
-            slowAfter={5000}
-            giveUpAfter={10000}
-            onGiveUp={enterAnyway}
-          />
-        ) : !entered ? (
-          <WelcomeScreen
-            key="welcome"
-            name1={formData.name1}
-            name2={formData.name2}
-            hasAudio={hasAudio}
-            onEnter={handleEnter}
-            theme={gateThemeFor(variant)}
-          />
-        ) : (
-          <motion.div
-            key="invitation"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            style={{ minHeight: '100vh' }}
-          >
-            {/* Floating bar — oculta en modo embed */}
-            <div style={{
-              display: isEmbed ? 'none' : 'flex',
-              position: 'fixed',
-              top: 0, left: 0, right: 0,
-              zIndex: 9999,
-              background: 'rgba(10, 10, 10, 0.72)',
-              backdropFilter: 'blur(8px)',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '10px 20px',
-              gap: '12px',
-            }}>
-              <button
-                onClick={() => navigate(-1)}
-                style={{
-                  background: 'transparent',
-                  border: '1px solid rgba(255,255,255,0.28)',
-                  color: 'white',
-                  padding: '8px 18px',
-                  borderRadius: '50px',
-                  cursor: 'pointer',
-                  fontSize: '0.82rem',
-                  letterSpacing: '0.05em',
-                  fontFamily: 'inherit',
-                  flexShrink: 0,
-                }}
-              >
-                ← Volver
-              </button>
+      <GuestCard
+        variant={variant}
+        formData={formData}
+        skipGate={isEmbed}
+        topBar={barraVenta}
+      />
 
-              <span style={{
-                color: 'rgba(255,255,255,0.38)',
-                fontSize: '0.65rem',
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                fontFamily: 'inherit',
-                whiteSpace: 'nowrap',
-              }}>
-                Muestra
-              </span>
-
-              <button
-                onClick={() => setShowCTA(true)}
-                style={{
-                  background: '#C9A96E',
-                  border: 'none',
-                  color: '#1E1A14',
-                  padding: '9px 20px',
-                  borderRadius: '50px',
-                  cursor: 'pointer',
-                  fontSize: '0.82rem',
-                  fontWeight: '700',
-                  letterSpacing: '0.04em',
-                  fontFamily: 'inherit',
-                  flexShrink: 0,
-                  boxShadow: '0 4px 14px rgba(201,169,110,0.4)',
-                }}
-              >
-                ¡Quiero esta tarjeta!
-              </button>
-            </div>
-
-            {/* Template */}
-            <div style={{ paddingTop: '48px', minHeight: '100vh' }}>
-              <InvitationPreview
-                formData={formData}
-                themeId={themeId}
-                isEditorMode={false}
-                fullScreen
-                audioEnabled={withMusic}
-              />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* CTA Modal */}
       <AnimatePresence>
         {showCTA && (
           <CTAModal
             key="cta-modal"
             templateName={templateName}
-            themeId={themeId}
             onClose={() => setShowCTA(false)}
             onEdit={() => {
               setShowCTA(false);

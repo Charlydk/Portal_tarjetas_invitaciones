@@ -114,3 +114,58 @@
     transform: scale(0.95);
   }
 }
+/* ─── Vista del invitado ──────────────────────────────────────────────────── */
+
+.btn-vista-invitado {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(36, 30, 18, 0.28);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-vista-invitado:hover {
+  transform: translateX(-50%) translateY(-2px);
+  filter: brightness(1.07);
+}
+
+.vista-invitado-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow-y: auto;
+  background: #000;
+}
+
+/* Por encima de la barra de la tarjeta, que usa z-index 9999. */
+.btn-cerrar-vista {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 10001;
+  min-height: 40px;
+  padding: 9px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 999px;
+  background: rgba(12, 10, 7, 0.72);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+}

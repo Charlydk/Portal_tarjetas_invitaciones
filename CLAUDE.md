@@ -140,12 +140,21 @@ Templates must render safely with empty `formData` fields — `PreviewPage` feed
 
 ### Supabase Integration
 
-**Project:** `ahorcado-db` (`cifhzukobpkvlqsyqrka.supabase.co`) — Table: `invitation_leads`
+**Project:** `mxzoofpyrqananmqzhbk.supabase.co`. The schema lives in `supabase/migrations/` — apply it with the SQL Editor or the MCP server; both files are idempotent. (An older project, `cifhzukobpkvlqsyqrka`, held the leads before the account move; it is no longer used.)
 
-- `src/lib/supabase.js` — client (reads `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`)
-- `src/lib/invitationService.js` — `submitInvitationLead(formData, totalPrice)` inserts the lead (whole `formData` goes into a `form_data` column); `buildWhatsAppMessage(formData, totalPrice)` builds the prefilled message.
+Two tables, two directions:
 
-**RLS:** anon can INSERT only. Reading leads requires the service role (Supabase Studio).
+- `invitation_leads` (`002`) — write-only mailbox. `src/lib/invitationService.js` → `submitInvitationLead(formData, totalPrice)` inserts the lead (whole `formData` goes into a `form_data` column); `buildWhatsAppMessage(formData, totalPrice)` builds the prefilled message.
+- `invitations` (`001`) — one delivered card per row, read by `src/lib/invitationsService.js` for `/i/:slug` and `/borrador/:token`. Note the plural: `invitationService` (singular) writes leads, `invitationsService` (plural) reads cards.
+
+`src/lib/supabase.js` — client (reads `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`).
+
+**RLS + column grants — two layers, and both are load-bearing.** RLS picks which *rows* anon sees; the column grants pick which *fields*. Without the second layer a guest could read any published card's `edit_token` and the client's phone number.
+
+- `invitation_leads`: anon may INSERT and nothing else — no SELECT policy at all. That is why `submitInvitationLead` has no `.select()`: reading back the inserted row would need SELECT privilege. Leads are read with the service role (Supabase Studio).
+- `invitations`: anon SELECTs only `status = 'publicada'` rows that have not expired, and only five columns. Drafts come out through `get_invitation_by_token()` (`security definer`) — a policy comparing against a browser-supplied token would let the table be enumerated.
+
+⚠️ When granting to anon, **revoke from `authenticated` by name too**. Supabase's default privileges give `authenticated` full access to every new table *and function* in `public`, and those are its own grants — `revoke ... from public` does not touch them.
 
 **`.env.local`:**
 ```

@@ -26,7 +26,7 @@ const SAMPLE_PHOTOS = [
   'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800',
   'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=800',
   'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=800',
-  'https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=800',
+  'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800',
 ];
 
 const fadeUp = {
@@ -146,6 +146,22 @@ function WatercolorBackground({ side = 'left', delay = 0 }) {
         <circle cx="160" cy="180" r="4" fill="#F0C5D0" opacity="0.75"/>
       </svg>
     </motion.div>
+  );
+}
+
+const HEART_WAVE = "M0,22 C60,4 120,40 180,22 C220,10 260,34 300,22";
+
+function HeartPathDivider() {
+  return (
+    <div className="s9-heart-path">
+      <svg viewBox="0 0 300 44" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d={HEART_WAVE} stroke="#C4819B" strokeWidth="1.2" strokeDasharray="4 7" fill="none" opacity="0.4" />
+        <text fontSize="11" fill="#C4819B" opacity="0.85" dominantBaseline="middle">
+          ♥
+          <animateMotion dur="4s" repeatCount="indefinite" path={HEART_WAVE} />
+        </text>
+      </svg>
+    </div>
   );
 }
 
@@ -373,6 +389,8 @@ function Skeleton9({ data, theme }) {
             </motion.section>
           )}
 
+          {showCivil && showCeremony && <HeartPathDivider />}
+
           {showCeremony && (
             <motion.section id="section-venue" className="s9-section s9-event-block" {...fadeUp}>
               <WatercolorBackground side="left" /><WatercolorBackground side="right" delay={0.2} />
@@ -388,6 +406,8 @@ function Skeleton9({ data, theme }) {
               </div>
             </motion.section>
           )}
+
+          {(showCeremony || showCivil) && showParty && <HeartPathDivider />}
 
           {showParty && (
             <motion.section

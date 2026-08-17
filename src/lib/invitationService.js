@@ -25,23 +25,25 @@ function getSelectedModulesList(formData) {
 export async function submitInvitationLead(formData, totalPrice) {
   const protagonistNames = [formData.name1, formData.name2].filter(Boolean).join(' & ')
 
-  const { data, error } = await supabase
+  // Sin `.select()`: leer la fila recién insertada exigiría permiso de lectura
+  // sobre la tabla, y los leads son un buzón — el navegador deja la carta y no
+  // abre ninguna. Nadie usa el id que devolvía.
+  const { error } = await supabase
     .from('invitation_leads')
     .insert({
       whatsapp_number: formData.whatsappNumber,
       model_id: formData.modelId,
       variant_id: formData.variantId,
       template_name: getTemplateName(formData.modelId, formData.variantId),
-      event_date: formData.eventDate,
+      // Un campo de fecha vacío llega como '' y Postgres lo rechaza. El lead
+      // sin fecha vale igual: la fecha se termina de acordar por WhatsApp.
+      event_date: formData.eventDate || null,
       protagonist_names: protagonistNames,
       total_price: totalPrice,
       form_data: formData,
     })
-    .select('id')
-    .single()
 
   if (error) throw error
-  return data
 }
 
 export function buildWhatsAppMessage(formData, totalPrice) {
