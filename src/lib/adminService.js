@@ -87,7 +87,14 @@ async function subirFotos(slug, photos = []) {
     const { error } = await supabase.storage
       .from(BUCKET)
       .upload(path, blob, { contentType: blob.type || 'image/jpeg', upsert: true });
-    if (error) throw error;
+
+    // Se dice QUÉ foto y POR QUÉ. Un "no pudimos guardar" a secas obliga a
+    // adivinar entre la subida y la fila, que fallan por motivos distintos y
+    // se arreglan de maneras distintas.
+    if (error) {
+      console.error('Falló la subida de una foto', { path, tipo: blob.type, peso: blob.size, error });
+      throw new Error(`No pudimos subir la foto ${i + 1} (${Math.round(blob.size / 1024)} KB, ${blob.type || 'sin tipo'}): ${error.message}`);
+    }
 
     urls.push(supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl);
   }
@@ -126,7 +133,10 @@ export async function saveInvitation({ id, slug, clientName, clientWhatsapp, sta
     : supabase.from('invitations').insert(fila);
 
   const { error } = await consulta;
-  if (error) throw error;
+  if (error) {
+    console.error('Falló el guardado de la tarjeta', { fila: { ...fila, data: '…' }, error });
+    throw error;
+  }
 }
 
 /**

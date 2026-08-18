@@ -21,7 +21,7 @@ const STEP_REGISTRY = [
   { id: 'modules', name: 'Módulos', condition: () => true, render: (p) => <StepModules {...p} /> },
   { id: 'protagonists', name: 'Protagonistas', condition: () => true, render: (p) => <StepProtagonists {...p} /> },
   { id: 'venue', name: 'Lugar y Fechas', condition: (d) => d.showCeremony || d.showParty || d.showCivil, render: (p) => <StepVenue {...p} /> },
-  { id: 'extras', name: 'Extras', condition: (d) => d.showDressCode || d.askDiets, render: (p) => <StepExtras {...p} /> },
+  { id: 'extras', name: 'Extras', condition: (d) => d.showDressCode, render: (p) => <StepExtras {...p} /> },
   { id: 'gallery', name: 'Galería', condition: (d) => d.showGallery, render: (p) => <StepGallery {...p} /> },
   { id: 'music', name: 'Playlist', condition: (d) => d.showMusic, render: (p) => <StepMusic {...p} /> },
   { id: 'gifts', name: 'Regalos', condition: (d) => d.showGifts, render: (p) => <StepGifts {...p} /> },

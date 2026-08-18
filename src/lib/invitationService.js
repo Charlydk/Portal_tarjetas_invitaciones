@@ -18,7 +18,6 @@ function getSelectedModulesList(formData) {
   if (formData.showDressCode) lines.push('• Dress Code (+$2.500)')
   if (formData.showGallery)   lines.push('• Galería de Fotos (+$2.500)')
   if (formData.showMusic)     lines.push('• Playlist (+$2.500)')
-  if (formData.askDiets)      lines.push('• Consulta Dietaria (+$2.500)')
   return lines.join('\n')
 }
 

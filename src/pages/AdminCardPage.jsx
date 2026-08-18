@@ -36,7 +36,7 @@ const SECCIONES = [
   { titulo: 'Qué incluye',        Componente: StepModules,      siempre: true },
   { titulo: 'Protagonistas',      Componente: StepProtagonists, siempre: true },
   { titulo: 'Lugar y fechas',     Componente: StepVenue,        ver: (d) => d.showCivil || d.showCeremony || d.showParty },
-  { titulo: 'Extras',             Componente: StepExtras,       ver: (d) => d.showDressCode || d.askDiets },
+  { titulo: 'Extras',             Componente: StepExtras,       ver: (d) => d.showDressCode },
   { titulo: 'Galería',            Componente: StepGallery,      ver: (d) => d.showGallery },
   { titulo: 'Playlist',           Componente: StepMusic,        ver: (d) => d.showMusic },
   { titulo: 'Regalos',            Componente: StepGifts,        ver: (d) => d.showGifts },
@@ -157,12 +157,14 @@ function Formulario() {
       });
       navigate('/admin');
     } catch (err) {
-      // El caso frecuente y el único que la persona puede resolver sola.
-      setError(
-        err?.code === '23505'
-          ? 'Ya existe una tarjeta con esa dirección. Cambiá el slug.'
-          : 'No pudimos guardar. Revisá los datos y probá de nuevo.'
-      );
+      // Un "no pudimos guardar" a secas deja a quien lo usa sin nada que
+      // hacer salvo volver a intentar. El motivo real se muestra tal cual:
+      // esta pantalla la usan dos personas que nos podemos contar el error.
+      if (err?.code === '23505') {
+        setError('Ya existe una tarjeta con esa dirección. Cambiá el slug.');
+      } else {
+        setError(`No pudimos guardar: ${err?.message || 'error desconocido'}`);
+      }
       setGuardando(false);
     }
   }

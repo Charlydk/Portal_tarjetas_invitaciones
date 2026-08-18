@@ -17,7 +17,7 @@ const STEP_CONDITIONS = [
   { id: 'modules',      show: () => true },
   { id: 'protagonists', show: () => true },
   { id: 'venue',        show: (d) => d.showCeremony || d.showParty || d.showCivil },
-  { id: 'extras',       show: (d) => d.showDressCode || d.askDiets },
+  { id: 'extras',       show: (d) => d.showDressCode },
   { id: 'gallery',      show: (d) => d.showGallery },
   { id: 'music',        show: (d) => d.showMusic },
   { id: 'gifts',        show: (d) => d.showGifts },
@@ -64,7 +64,6 @@ function DemoPage() {
         if (!parsed.whatsappCountryCode) parsed.whatsappCountryCode = '54';
         if (!parsed.whatsappLocalNumber) parsed.whatsappLocalNumber = parsed.whatsappNumber?.replace(/^54/, '') || '';
         if (parsed.giftMode === undefined)         parsed.giftMode = 'cbu';
-        if (parsed.askDiets === undefined)         parsed.askDiets = true;
         if (parsed.showCountdown === undefined)    parsed.showCountdown = true;
         if (parsed.showDressCode === undefined)    parsed.showDressCode = true;
         if (parsed.showGallery === undefined)      parsed.showGallery = true;

@@ -31,6 +31,13 @@ revoke all on public.admin_emails from anon, authenticated;
  * `security definer` porque tiene que leer la lista, y la lista no la puede
  * leer nadie. Devuelve un booleano sobre quien pregunta y nada más: no hay
  * forma de usarla para averiguar quiénes son los demás.
+ *
+ * Pregunta de dos maneras a propósito. Las políticas no las evalúa un solo
+ * servicio: las tablas pasan por PostgREST y los archivos por Storage, que son
+ * procesos distintos y no exponen los mismos datos del token. Buscar sólo por
+ * correo hacía que la lista de tarjetas funcionara y la subida de fotos fuera
+ * rechazada, que es un síntoma desconcertante. Con el identificador del usuario
+ * como segundo camino, la respuesta no depende de por dónde entró el pedido.
  */
 create or replace function public.is_admin()
 returns boolean
@@ -43,6 +50,12 @@ as $$
     select 1
     from public.admin_emails
     where email = lower(coalesce(auth.jwt() ->> 'email', ''))
+  )
+  or exists (
+    select 1
+    from auth.users u
+    join public.admin_emails a on a.email = lower(u.email)
+    where u.id = auth.uid()
   )
 $$;
 
