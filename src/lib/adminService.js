@@ -103,6 +103,40 @@ async function subirFotos(slug, photos = []) {
 }
 
 /**
+ * Borra del bucket las fotos que la tarjeta ya no usa.
+ *
+ * Quitar una foto la sacaba de la tarjeta pero la dejaba en el bucket para
+ * siempre. Una sola no molesta; una por corrección por cliente se acumula en
+ * silencio y se paga.
+ *
+ * Tres reglas, y las tres importan porque esto borra archivos:
+ *
+ *   1. Corre DESPUÉS de guardar la fila, nunca antes. Si borrara primero y el
+ *      guardado fallara, la tarjeta seguiría apuntando a fotos que ya no
+ *      existen — el peor resultado posible.
+ *   2. Sólo mira la carpeta de esta tarjeta. Nunca recorre el bucket entero.
+ *   3. Si no puede leer la carpeta, no borra nada. Ante la duda no se adivina:
+ *      una foto de más ocupa unos kilobytes, una de menos es la tarjeta de un
+ *      cliente rota.
+ *
+ * Fallar acá no rompe el guardado: la tarjeta ya quedó bien y esto es limpieza.
+ */
+async function borrarFotosQueYaNoSeUsan(slug, urlsVigentes) {
+  const { data: archivos, error } = await supabase.storage.from(BUCKET).list(slug, { limit: 100 });
+  if (error || !archivos?.length) return;
+
+  const enUso = new Set(urlsVigentes.map((url) => url.split('/').pop()));
+  const sobran = archivos
+    .filter((archivo) => !enUso.has(archivo.name))
+    .map((archivo) => `${slug}/${archivo.name}`);
+
+  if (!sobran.length) return;
+
+  const { error: errorAlBorrar } = await supabase.storage.from(BUCKET).remove(sobran);
+  if (errorAlBorrar) console.warn('Quedaron fotos sin usar en el bucket', sobran, errorAlBorrar);
+}
+
+/**
  * Guarda una tarjeta, nueva o corregida.
  *
  * `id` ausente significa nueva. Es la única diferencia: los datos que se envían
@@ -137,6 +171,9 @@ export async function saveInvitation({ id, slug, clientName, clientWhatsapp, sta
     console.error('Falló el guardado de la tarjeta', { fila: { ...fila, data: '…' }, error });
     throw error;
   }
+
+  // Recién ahora, con la tarjeta ya guardada, se puede borrar lo que sobra.
+  await borrarFotosQueYaNoSeUsan(slug, galleryPhotos);
 }
 
 /**
