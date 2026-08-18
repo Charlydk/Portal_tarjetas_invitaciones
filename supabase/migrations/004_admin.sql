@@ -114,9 +114,20 @@ grant select on public.invitation_leads to authenticated;
 -- La lectura sigue sin policy porque el bucket es público: la abre un invitado
 -- que no tiene cuenta.
 
-drop policy if exists "el equipo sube fotos"    on storage.objects;
-drop policy if exists "el equipo reemplaza fotos" on storage.objects;
-drop policy if exists "el equipo borra fotos"   on storage.objects;
+drop policy if exists "el equipo ve las fotos"     on storage.objects;
+drop policy if exists "el equipo sube fotos"       on storage.objects;
+drop policy if exists "el equipo reemplaza fotos"  on storage.objects;
+drop policy if exists "el equipo borra fotos"      on storage.objects;
+
+-- La de lectura no es de adorno y costó encontrarla. La subida se hace con
+-- "reemplazar si ya existe" (`on conflict do update`), y para eso Postgres
+-- necesita poder LEER la fila que podría chocar. Sin política de lectura, el
+-- equipo no ve ninguna, así que la comprobación falla y la subida se rechaza
+-- con "new row violates row-level security policy" — un mensaje que señala la
+-- política de escritura, que era justamente la que estaba bien.
+create policy "el equipo ve las fotos"
+  on storage.objects for select to authenticated
+  using (bucket_id = 'tarjetas' and public.is_admin());
 
 create policy "el equipo sube fotos"
   on storage.objects for insert to authenticated
@@ -124,7 +135,8 @@ create policy "el equipo sube fotos"
 
 create policy "el equipo reemplaza fotos"
   on storage.objects for update to authenticated
-  using (bucket_id = 'tarjetas' and public.is_admin());
+  using (bucket_id = 'tarjetas' and public.is_admin())
+  with check (bucket_id = 'tarjetas' and public.is_admin());
 
 create policy "el equipo borra fotos"
   on storage.objects for delete to authenticated
