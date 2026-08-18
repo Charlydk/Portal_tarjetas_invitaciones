@@ -57,6 +57,46 @@ function LoginForm() {
   );
 }
 
+/**
+ * Muestra el error en vez de dejar la pantalla en blanco.
+ *
+ * Cuando React se cae al dibujar, borra todo y no dice nada: quien lo usa ve
+ * un rectángulo vacío y quien lo arregla no tiene ni el mensaje. Un panel
+ * interno puede permitirse mostrar el error crudo — lo leen dos personas que
+ * se lo pueden copiar y pegar.
+ */
+class LimiteDeError extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
+  componentDidCatch(error, info) {
+    console.error('El panel se cayó al dibujar', error, info);
+  }
+
+  render() {
+    if (!this.state.error) return this.props.children;
+
+    return (
+      <main className="admin">
+        <div className="admin-login">
+          <h1 className="admin-login__titulo">Se rompió la pantalla</h1>
+          <p className="admin-nota">Copiá esto y mandámelo:</p>
+          <pre className="admin-traza">{this.state.error.message}</pre>
+          <button className="admin-boton" onClick={() => window.location.reload()}>
+            Recargar
+          </button>
+        </div>
+      </main>
+    );
+  }
+}
+
 function AdminGate({ children }) {
   const [session, setSession] = useState(undefined); // undefined = todavía no sabemos
   const [autorizado, setAutorizado] = useState(null);
@@ -91,7 +131,7 @@ function AdminGate({ children }) {
 
   if (autorizado === null) return <div className="admin-vacio" />;
 
-  return children;
+  return <LimiteDeError>{children}</LimiteDeError>;
 }
 
 export default AdminGate;
