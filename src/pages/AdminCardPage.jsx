@@ -147,7 +147,11 @@ function Formulario() {
     try {
       await saveInvitation({
         id: esNueva ? undefined : id,
-        slug: slug.trim(),
+        // Se vuelve a limpiar al guardar, no sólo al tipear: una tarjeta
+        // cargada antes de que existiera esa limpieza trae su dirección como
+        // haya quedado, y al abrirla para corregir otra cosa se guardaría
+        // igual de rota.
+        slug: limpiarSlug(slug.trim()),
         clientName,
         clientWhatsapp,
         status,

@@ -60,7 +60,13 @@ as $$
 $$;
 
 revoke all on function public.is_admin() from public, anon, authenticated;
-grant execute on function public.is_admin() to authenticated;
+
+-- `supabase_storage_admin` también, y esto costó encontrarlo. Las políticas de
+-- los archivos las evalúa el servicio de Storage con su propio usuario, no con
+-- el de la aplicación. Sin este permiso, la lista de tarjetas funcionaba y la
+-- subida de una foto era rechazada con "new row violates row-level security
+-- policy", que apunta a la política y no a lo que realmente falta.
+grant execute on function public.is_admin() to authenticated, supabase_storage_admin;
 
 
 -- ─── Las tarjetas, desde el panel ────────────────────────────────────────────
