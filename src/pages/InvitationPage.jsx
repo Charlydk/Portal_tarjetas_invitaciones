@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import GuestCard from '../features/invitation/GuestCard';
 import { fetchInvitationBySlug, fetchInvitationByToken } from '../lib/invitationsService';
 import { invitationModels } from '../data/models';
+import { fetchGuest } from '../lib/guestService';
 
 /**
  * La tarjeta entregada de un cliente.
@@ -57,8 +58,14 @@ function Mensaje({ titulo, texto }) {
 
 function InvitationPage({ modoBorrador = false }) {
   const { slug, token } = useParams();
+  const [params] = useSearchParams();
+  // El enlace personalizado de un invitado: /i/:slug?i=<token>. Es lo que
+  // convierte la confirmación en dos botones en vez de un formulario.
+  const guestToken = params.get('i');
+
   const [estado, setEstado] = useState(ESTADO.CARGANDO);
   const [fila, setFila] = useState(null);
+  const [invitado, setInvitado] = useState(null);
 
   useEffect(() => {
     let cancelado = false;
@@ -71,6 +78,14 @@ function InvitationPage({ modoBorrador = false }) {
         if (cancelado) return;
         setFila(row);
         setEstado(row ? ESTADO.LISTA : ESTADO.NO_ESTA);
+
+        // Si el enlace trae invitado, se busca aparte: que falle no puede
+        // tumbar la tarjeta. Sin él simplemente se ve la confirmación común.
+        if (row && guestToken) {
+          fetchGuest(guestToken)
+            .then((g) => !cancelado && setInvitado(g))
+            .catch(() => {});
+        }
       } catch (err) {
         if (cancelado) return;
         console.error('No se pudo cargar la invitación', err);
@@ -79,7 +94,7 @@ function InvitationPage({ modoBorrador = false }) {
     })();
 
     return () => { cancelado = true; };
-  }, [slug, token, modoBorrador]);
+  }, [slug, token, modoBorrador, guestToken]);
 
   if (estado === ESTADO.CARGANDO) {
     // Sin spinner: la puerta de bienvenida tapa la pantalla en cuanto llega la
@@ -123,7 +138,14 @@ function InvitationPage({ modoBorrador = false }) {
 
   // El slug viaja adentro de los datos porque el formulario de confirmación lo
   // necesita: es lo único que identifica la tarjeta sin exponer nada interno.
-  const formData = { ...fila.data, modelId: fila.model_id, variantId: fila.variant_id, slug: fila.slug };
+  const formData = {
+    ...fila.data,
+    modelId: fila.model_id,
+    variantId: fila.variant_id,
+    slug: fila.slug,
+    // Va adentro de los datos porque las secciones sólo reciben `data`.
+    guest: invitado ? { ...invitado, token: guestToken } : null,
+  };
 
   const avisoBorrador = modoBorrador && fila.status !== 'publicada' && (
     <div style={{

@@ -414,9 +414,123 @@ function RsvpForm({ data, allegory }) {
   );
 }
 
+/**
+ * La confirmacion de un invitado que llego por su propio enlace.
+ *
+ * La tarjeta ya sabe quien es, asi que no hay formulario: hay dos botones. Cada
+ * campo que se saca es gente que no abandona a mitad, y ademas el cupo lo puso
+ * el cliente — se termina el invitado que confirma por seis.
+ */
+function GuestRsvp({ data, allegory }) {
+  const invitado = data.guest;
+  const [acompanantes, setAcompanantes] = useState(invitado.companions || 0);
+  const [notas, setNotas] = useState('');
+  const [estado, setEstado] = useState(
+    invitado.status === 'pendiente' ? 'preguntando' : 'respondido'
+  );
+  const [vino, setVino] = useState(invitado.status === 'confirmado');
+
+  async function responder(viene) {
+    setEstado('enviando');
+    try {
+      const { respondAsGuest } = await import('../../lib/guestService');
+      await respondAsGuest({
+        guestToken: invitado.token,
+        attending: viene,
+        companions: viene ? Number(acompanantes) || 0 : 0,
+        notes: notas,
+      });
+      setVino(viene);
+      setEstado('respondido');
+    } catch {
+      setEstado('error');
+    }
+  }
+
+  const primerNombre = (invitado.name || '').split(' ')[0];
+
+  if (estado === 'respondido') {
+    return (
+      <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
+        <p className="inv-body inv-rsvp__gracias">
+          {vino
+            ? `¡Gracias, ${primerNombre}! Te esperamos.`
+            : `Gracias por avisarnos, ${primerNombre}. Te vamos a extrañar.`}
+        </p>
+        <button type="button" className="inv-rsvp__cambiar" onClick={() => setEstado('preguntando')}>
+          Cambiar mi respuesta
+        </button>
+      </Section>
+    );
+  }
+
+  return (
+    <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
+      <p className="inv-body inv-rsvp__saludo">Hola {primerNombre}</p>
+      <p className="inv-body">{allegory.copy.rsvpBody}</p>
+      {data.rsvpDeadline && (
+        <p className="inv-body">
+          Confirmá antes del <strong>{data.rsvpDeadline}</strong>.
+        </p>
+      )}
+
+      <div className="inv-rsvp">
+        {invitado.max_companions > 0 && (
+          <label className="inv-rsvp__campo">
+            <span>
+              Tenés lugar para {invitado.max_companions}{' '}
+              {invitado.max_companions === 1 ? 'acompañante' : 'acompañantes'}. ¿Cuántos vienen?
+            </span>
+            <input
+              type="number"
+              min="0"
+              max={invitado.max_companions}
+              value={acompanantes}
+              onChange={(e) => setAcompanantes(e.target.value)}
+            />
+          </label>
+        )}
+
+        <label className="inv-rsvp__campo">
+          <span>¿Alguna restricción alimentaria? (opcional)</span>
+          <input
+            value={notas}
+            onChange={(e) => setNotas(e.target.value)}
+            placeholder="Celíaco, vegetariano, alergias…"
+            maxLength={500}
+          />
+        </label>
+
+        {estado === 'error' && (
+          <p className="inv-rsvp__error">No pudimos registrar tu respuesta. Probá de nuevo en un rato.</p>
+        )}
+
+        <div className="inv-rsvp__opciones">
+          <button type="button" className="inv-btn" disabled={estado === 'enviando'} onClick={() => responder(true)}>
+            {estado === 'enviando' ? 'Enviando…' : 'Sí, ahí estaré'}
+          </button>
+          <button
+            type="button"
+            className="inv-btn inv-rsvp__opcion"
+            disabled={estado === 'enviando'}
+            onClick={() => responder(false)}
+          >
+            No voy a poder
+          </button>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 export function RsvpSection({ data, allegory }) {
   const { whatsappNumber } = data;
   const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(allegory.copy.rsvpWhatsapp)}`;
+
+  // Llego por su propio enlace: la tarjeta sabe quien es.
+  if (data.guest) {
+    return <GuestRsvp data={data} allegory={allegory} />;
+  }
 
   // Las confirmaciones en linea son un modulo aparte. Sin el, la tarjeta sigue
   // funcionando igual que siempre: el invitado escribe por WhatsApp.

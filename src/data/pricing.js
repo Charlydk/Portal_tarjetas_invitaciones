@@ -27,6 +27,10 @@ export const MODULE_PRICES = {
   // Vale más que el resto porque es lo que más trabajo le ahorra al cliente:
   // deja de contar ciento veinte mensajes de WhatsApp a mano.
   rsvpOnline:    5000,
+  // Premium+: la lista de invitados con enlace personalizado para cada uno.
+  // Es lo unico que responde "a quien le falta contestar", que es la pregunta
+  // que desvela a un cliente dos semanas antes del evento.
+  guestList:     9000,
 };
 
 // Metadata de módulos para mostrar en la UI (labels, íconos, si está incluido)
@@ -41,6 +45,7 @@ export const MODULE_LABELS = {
   showGallery:  { label: 'Galería de Fotos',       icon: '📸', included: false },
   showMusic:    { label: 'Sugerencia de Música',   icon: '🎵', included: false },
   rsvpOnline:   { label: 'Confirmaciones en línea', icon: '📋', included: false },
+  guestList:    { label: 'Lista de invitados con enlace propio', icon: '✉️', included: false },
 };
 
 // Orden de aparición en el StepModules
@@ -55,4 +60,5 @@ export const MODULE_ORDER = [
   'showGallery',
   'showMusic',
   'rsvpOnline',
+  'guestList',
 ];

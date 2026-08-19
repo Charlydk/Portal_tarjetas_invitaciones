@@ -13,6 +13,7 @@ const InvitationPage = lazy(() => import('./pages/InvitationPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const AdminCardPage = lazy(() => import('./pages/AdminCardPage'));
 const RsvpListPage = lazy(() => import('./pages/RsvpListPage'));
+const GuestListPage = lazy(() => import('./pages/GuestListPage'));
 
 function MainLayout() {
   return (
@@ -42,6 +43,8 @@ function App() {
         {/* Las confirmaciones que recibió el cliente. Mismo token que su
             borrador: no tiene cuenta y no queremos que la tenga. */}
         <Route path="/confirmaciones/:token" element={<RsvpListPage />} />
+        {/* Premium+: la lista de invitados, con quien falta responder. */}
+        <Route path="/invitados/:token" element={<GuestListPage />} />
 
         {/* El panel del equipo. Fuera de MainLayout: es una herramienta de
             trabajo, no una página del sitio. Quién puede entrar lo decide la

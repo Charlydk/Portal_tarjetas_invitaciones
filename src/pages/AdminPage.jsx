@@ -59,6 +59,7 @@ function Fila({ tarjeta, onCambioEstado }) {
       <div className="admin-fila__links">
         <Copiable etiqueta="revisión" url={`${origen}/borrador/${tarjeta.edit_token}`} />
         <Copiable etiqueta="confirmaciones" url={`${origen}/confirmaciones/${tarjeta.edit_token}`} />
+        <Copiable etiqueta="invitados" url={`${origen}/invitados/${tarjeta.edit_token}`} />
         {publicada && <Copiable etiqueta="tarjeta" url={`${origen}/i/${tarjeta.slug}`} />}
       </div>
 
