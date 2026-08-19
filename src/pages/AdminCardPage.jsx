@@ -12,6 +12,7 @@ import { StepExtras } from '../features/preview/steps/StepExtras';
 import { StepGallery } from '../features/preview/steps/StepGallery';
 import { StepMusic } from '../features/preview/steps/StepMusic';
 import { StepGifts } from '../features/preview/steps/StepGifts';
+import { StepConfirm } from '../features/preview/steps/StepConfirm';
 
 // Los pasos reusados traen sus estilos de acá. Sin esto se ven crudos: es el
 // precio de reusarlos, y es mucho más barato que mantener dos formularios.
@@ -40,6 +41,10 @@ const SECCIONES = [
   { titulo: 'Galería',            Componente: StepGallery,      ver: (d) => d.showGallery },
   { titulo: 'Playlist',           Componente: StepMusic,        ver: (d) => d.showMusic },
   { titulo: 'Regalos',            Componente: StepGifts,        ver: (d) => d.showGifts },
+  // Sin esto, `whatsappNumber` queda vacio y la seccion de confirmacion se
+  // dibuja sin boton: el invitado lee "confirma tu asistencia" y no tiene con
+  // que. Es el unico paso que carga ese dato.
+  { titulo: 'Confirmación de asistencia', Componente: StepConfirm, ver: (d) => d.showRSVP },
 ];
 
 /**
@@ -280,6 +285,7 @@ function Formulario() {
                 handleChange={handleChange}
                 setFormData={setFormData}
                 mostrarPrecio={false}
+                mostrarCierre={false}
               />
             </div>
           </section>
