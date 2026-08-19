@@ -572,3 +572,81 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Confirmación en línea ────────────────────────────────────────────────── */
+/* Ni un color ni una tipografía propios: todo sale de los tokens de la
+   alegoría, así el formulario se ve parte de la tarjeta y no un formulario
+   pegado encima. */
+
+.inv-rsvp {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 380px;
+  margin: 26px auto 0;
+  text-align: left;
+}
+
+.inv-rsvp__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inv-rsvp__campo > span {
+  font-family: var(--inv-font-body);
+  font-size: 0.82rem;
+  color: var(--inv-ink-muted);
+  letter-spacing: 0.04em;
+}
+
+.inv-rsvp__campo input {
+  background: var(--inv-surface);
+  border: 1px solid color-mix(in srgb, var(--inv-accent) 40%, transparent);
+  border-radius: calc(var(--inv-radius) / 2);
+  padding: 12px 14px;
+  color: var(--inv-ink);
+  font-family: var(--inv-font-body);
+  font-size: 1rem;
+  width: 100%;
+}
+
+.inv-rsvp__campo input::placeholder {
+  color: color-mix(in srgb, var(--inv-ink) 38%, transparent);
+}
+
+.inv-rsvp__campo input:focus-visible {
+  outline: none;
+  border-color: var(--inv-accent);
+}
+
+.inv-rsvp__opciones {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Las dos opciones se ven apagadas hasta que se elige una. Sin ese contraste
+   no se distingue lo elegido de lo disponible, y el invitado no sabe si su
+   toque quedó registrado. */
+.inv-rsvp__opcion {
+  flex: 1 1 0;
+  opacity: 0.55;
+  filter: grayscale(0.35);
+}
+
+.inv-rsvp__opcion.is-elegida {
+  opacity: 1;
+  filter: none;
+}
+
+.inv-rsvp__error {
+  font-family: var(--inv-font-body);
+  font-size: 0.86rem;
+  color: color-mix(in srgb, #E0908A 85%, var(--inv-ink));
+  margin: 0;
+}
+
+.inv-rsvp__gracias {
+  font-size: 1.05rem;
+}

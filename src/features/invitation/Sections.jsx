@@ -275,9 +275,155 @@ export function CountdownSection({ data, allegory }) {
   );
 }
 
+/**
+ * El formulario con el que confirma un invitado.
+ *
+ * Reemplaza al link de WhatsApp cuando el cliente contrata las confirmaciones
+ * en linea. La diferencia para el cliente es enorme: en vez de ciento veinte
+ * mensajes sueltos mezclados con su chat, una lista.
+ *
+ * Pide poco a proposito. Cada campo de mas es gente que abandona a mitad, y
+ * despues falta justo el dato que importaba.
+ */
+function RsvpForm({ data, allegory }) {
+  const [nombre, setNombre] = useState('');
+  const [viene, setViene] = useState(null);
+  const [acompanantes, setAcompanantes] = useState(0);
+  const [notas, setNotas] = useState('');
+  const [estado, setEstado] = useState('escribiendo'); // escribiendo | enviando | listo | error
+
+  async function enviar() {
+    if (!nombre.trim() || viene === null) return;
+
+    // En la muestra del catalogo no hay tarjeta contra la cual confirmar: se
+    // simula para que el cliente vea como funciona antes de comprarla.
+    if (data.isDemo) {
+      setEstado('listo');
+      return;
+    }
+
+    setEstado('enviando');
+    try {
+      const { submitRsvp } = await import('../../lib/rsvpService');
+      await submitRsvp({
+        slug: data.slug,
+        name: nombre,
+        attending: viene,
+        companions: viene ? Number(acompanantes) || 0 : 0,
+        notes: notas,
+      });
+      setEstado('listo');
+    } catch {
+      setEstado('error');
+    }
+  }
+
+  if (estado === 'listo') {
+    return (
+      <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
+        <p className="inv-body inv-rsvp__gracias">
+          {viene
+            ? '¡Gracias! Ya quedó registrada tu confirmación.'
+            : 'Gracias por avisarnos. Te vamos a extrañar.'}
+        </p>
+      </Section>
+    );
+  }
+
+  return (
+    <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
+      <p className="inv-body">{allegory.copy.rsvpBody}</p>
+      {data.rsvpDeadline && (
+        <p className="inv-body">
+          Confirmá antes del <strong>{data.rsvpDeadline}</strong>.
+        </p>
+      )}
+
+      <div className="inv-rsvp">
+        <label className="inv-rsvp__campo">
+          <span>¿Cómo te llamás?</span>
+          <input
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            placeholder="Nombre y apellido"
+            maxLength={120}
+          />
+        </label>
+
+        <div className="inv-rsvp__campo">
+          <span>¿Nos acompañás?</span>
+          <div className="inv-rsvp__opciones">
+            <button
+              type="button"
+              className={`inv-btn inv-rsvp__opcion ${viene === true ? 'is-elegida' : ''}`}
+              onClick={() => setViene(true)}
+            >
+              Sí, ahí estaré
+            </button>
+            <button
+              type="button"
+              className={`inv-btn inv-rsvp__opcion ${viene === false ? 'is-elegida' : ''}`}
+              onClick={() => setViene(false)}
+            >
+              No voy a poder
+            </button>
+          </div>
+        </div>
+
+        {viene === true && (
+          <label className="inv-rsvp__campo">
+            <span>¿Cuántas personas te acompañan?</span>
+            <input
+              type="number"
+              min="0"
+              max="20"
+              value={acompanantes}
+              onChange={(e) => setAcompanantes(e.target.value)}
+            />
+          </label>
+        )}
+
+        {viene !== null && (
+          <label className="inv-rsvp__campo">
+            <span>¿Alguna restricción alimentaria? (opcional)</span>
+            <input
+              value={notas}
+              onChange={(e) => setNotas(e.target.value)}
+              placeholder="Celíaco, vegetariano, alergias…"
+              maxLength={500}
+            />
+          </label>
+        )}
+
+        {estado === 'error' && (
+          <p className="inv-rsvp__error">
+            No pudimos registrar tu confirmación. Probá de nuevo en un rato.
+          </p>
+        )}
+
+        <button
+          type="button"
+          className="inv-btn"
+          onClick={enviar}
+          disabled={!nombre.trim() || viene === null || estado === 'enviando'}
+        >
+          {estado === 'enviando' ? 'Enviando…' : allegory.copy.rsvpCta}
+        </button>
+      </div>
+    </Section>
+  );
+}
+
 export function RsvpSection({ data, allegory }) {
   const { whatsappNumber } = data;
   const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(allegory.copy.rsvpWhatsapp)}`;
+
+  // Las confirmaciones en linea son un modulo aparte. Sin el, la tarjeta sigue
+  // funcionando igual que siempre: el invitado escribe por WhatsApp.
+  if (data.rsvpOnline && (data.slug || data.isDemo)) {
+    return <RsvpForm data={data} allegory={allegory} />;
+  }
+
   return (
     <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
       <p className="inv-body">{allegory.copy.rsvpBody}</p>

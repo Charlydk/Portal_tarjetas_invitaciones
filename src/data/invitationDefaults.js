@@ -84,5 +84,6 @@ export function createInvitationData({ modelId = null, variantId = null, sample 
     showGallery: true,
     showMusic: true,
     showRSVP: true,
+    rsvpOnline: true,
   };
 }

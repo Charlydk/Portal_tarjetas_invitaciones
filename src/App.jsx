@@ -12,6 +12,7 @@ const PreviewPage = lazy(() => import('./pages/PreviewPage'));
 const InvitationPage = lazy(() => import('./pages/InvitationPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const AdminCardPage = lazy(() => import('./pages/AdminCardPage'));
+const RsvpListPage = lazy(() => import('./pages/RsvpListPage'));
 
 function MainLayout() {
   return (
@@ -38,6 +39,9 @@ function App() {
         <Route path="/i/:slug" element={<InvitationPage />} />
         {/* Lo que abre el cliente para ver su tarjeta antes de publicarla. */}
         <Route path="/borrador/:token" element={<InvitationPage modoBorrador />} />
+        {/* Las confirmaciones que recibió el cliente. Mismo token que su
+            borrador: no tiene cuenta y no queremos que la tenga. */}
+        <Route path="/confirmaciones/:token" element={<RsvpListPage />} />
 
         {/* El panel del equipo. Fuera de MainLayout: es una herramienta de
             trabajo, no una página del sitio. Quién puede entrar lo decide la

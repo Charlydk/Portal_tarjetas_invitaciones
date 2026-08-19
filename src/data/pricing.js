@@ -24,6 +24,9 @@ export const MODULE_PRICES = {
   showDressCode: 2500,
   showGallery:   2500,
   showMusic:     2500,
+  // Vale más que el resto porque es lo que más trabajo le ahorra al cliente:
+  // deja de contar ciento veinte mensajes de WhatsApp a mano.
+  rsvpOnline:    5000,
 };
 
 // Metadata de módulos para mostrar en la UI (labels, íconos, si está incluido)
@@ -37,6 +40,7 @@ export const MODULE_LABELS = {
   showDressCode:{ label: 'Dress Code',             icon: '👗', included: false },
   showGallery:  { label: 'Galería de Fotos',       icon: '📸', included: false },
   showMusic:    { label: 'Sugerencia de Música',   icon: '🎵', included: false },
+  rsvpOnline:   { label: 'Confirmaciones en línea', icon: '📋', included: false },
 };
 
 // Orden de aparición en el StepModules
@@ -50,4 +54,5 @@ export const MODULE_ORDER = [
   'showDressCode',
   'showGallery',
   'showMusic',
+  'rsvpOnline',
 ];

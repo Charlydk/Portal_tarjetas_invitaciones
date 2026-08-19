@@ -68,6 +68,7 @@ const DEMO_DATA = {
   showGifts: true,
   showGallery: true,
   showRSVP: true,
+  rsvpOnline: true,
   showMusic: false,
   askDiets: false,
 };

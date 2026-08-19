@@ -121,7 +121,9 @@ function InvitationPage({ modoBorrador = false }) {
     );
   }
 
-  const formData = { ...fila.data, variantId: fila.variant_id };
+  // El slug viaja adentro de los datos porque el formulario de confirmación lo
+  // necesita: es lo único que identifica la tarjeta sin exponer nada interno.
+  const formData = { ...fila.data, modelId: fila.model_id, variantId: fila.variant_id, slug: fila.slug };
 
   const avisoBorrador = modoBorrador && fila.status !== 'publicada' && (
     <div style={{
