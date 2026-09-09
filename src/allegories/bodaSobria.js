@@ -40,27 +40,35 @@ export const bodaSobria = {
   tokens: {
     // Papel, no pantalla. El blanco cálido evita el gris azulado de un #FFF
     // puro, que en un teléfono de noche encandila.
-    bg: '#FBFAF6',
-    surface: 'rgba(94,107,61,0.07)',      // verde oliva, apenas
-    ink: '#2E2B26',
-    inkMuted: 'rgba(46,43,38,0.76)',
+    bg: '#FCFBF8',
+    surface: 'rgba(110,114,80,0.07)',
+    ink: '#33322C',
+    inkMuted: 'rgba(51,50,44,0.74)',
     // El hero va sobre la foto del cliente, así que su texto es blanco.
     heroInk: '#FFFFFF',
 
-    // Terracota para los títulos: sobre papel cálido tiene contraste de sobra y
-    // es el color que la clienta nombró primero después del blanco.
-    accent: '#9C4A2F',
+    // Verde oliva, el color que la clienta nombró y el que domina la tarjeta que
+    // trajeron de referencia. Oscurecido respecto del oliva de esa muestra: allá
+    // era fondo con texto blanco encima, acá es texto sobre papel, y el original
+    // no llegaba a contraste legible en las etiquetas chicas.
+    accent: '#6E7250',
     accentInk: '#FFFFFF',
+    // Terracota para marcas chicas — los puntos del cronograma, el ornamento.
+    // Es el tercer color de su paleta, y así entra sin pelearle al oliva.
+    accentAlt: '#A9553A',
 
-    fontTitle: "'Cormorant Garamond', Garamond, serif",
-    fontBody: "'Lato', system-ui, sans-serif",
-    // Cinzel sólo para los nombres del hero. Es una capital romana: dicha una
-    // vez y enorme sostiene la pieza entera; usada en párrafos, la arruina.
-    fontDisplay: "'Cinzel', 'Cormorant Garamond', serif",
+    // El sistema de la referencia, en tres piezas:
+    //   una cursiva caligráfica, sólo para los nombres;
+    //   una sans geométrica en versalitas espaciadas para todo título;
+    //   la misma sans, liviana, para leer.
+    // Que los títulos y el cuerpo compartan familia es lo que hace que la pieza
+    // se lea como una sola voz, y deja que la cursiva sea EL gesto de la tarjeta.
+    fontDisplay: "'Parisienne', 'Great Vibes', cursive",
+    fontTitle: "'Montserrat', system-ui, sans-serif",
+    fontBody: "'Montserrat', system-ui, sans-serif",
 
-    // Versalitas espaciadas: el gesto de una invitación grabada de imprenta.
     titleTransform: 'uppercase',
-    titleSpacing: '0.16em',
+    titleSpacing: '0.14em',
     // Sin sombra: acá los títulos van sobre papel, no sobre una foto.
     titleShadow: 'none',
 
@@ -71,7 +79,7 @@ export const bodaSobria = {
     // se usa sólo en el hero.
     backgroundImage: '',
     backgroundVideo: '',
-    heroVeil: 'rgba(46,43,38,0.42)',
+    heroVeil: 'rgba(38,38,32,0.34)',
     scrim: 'none',
   },
 

@@ -61,6 +61,9 @@ export const DEFAULT_TOKENS = {
   heroInk: '',
   accent: '#C9A96E',
   accentInk: '#1a1206',
+  // Segundo acento, para marcas chicas: los puntos del cronograma, el ornamento.
+  // Vacío cae en `accent`, así que ninguna alegoría vieja cambia.
+  accentAlt: '',
   fontTitle: "'Cormorant Garamond', Garamond, serif",
   fontBody: "'Lato', system-ui, sans-serif",
   // Reserved for the hero name only. Faces with real character are unreadable
@@ -132,6 +135,7 @@ export function tokensToCssVars(tokens) {
     '--inv-hero-ink': tokens.heroInk || tokens.ink,
     '--inv-accent': tokens.accent,
     '--inv-accent-ink': tokens.accentInk,
+    '--inv-accent-alt': tokens.accentAlt || tokens.accent,
     '--inv-font-title': tokens.fontTitle,
     '--inv-font-display': tokens.fontDisplay || tokens.fontTitle,
     '--inv-font-body': tokens.fontBody,

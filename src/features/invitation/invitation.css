@@ -712,7 +712,7 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--inv-accent);
+  background: var(--inv-accent-alt, var(--inv-accent));
 }
 
 .inv-schedule__hora {
@@ -727,4 +727,20 @@
   font-family: var(--inv-font-body);
   color: var(--inv-ink);
   font-size: var(--inv-step-0);
+}
+
+/* Boda Sobria no lleva la estrella entre las reglas: la tarjeta que trajo el
+   cliente de referencia usa líneas limpias y nada más, y en un diseño cuyo
+   pedido textual fue "sencilla y aburrida", un adorno de más contradice la
+   pieza entera. Las reglas quedan; el glifo no.
+   Si una segunda alegoría pide lo mismo, esto pasa a ser un token. */
+.inv--boda-sobria .inv-ornament {
+  font-size: 0;
+  gap: 0;
+}
+
+.inv--boda-sobria .inv-ornament::before,
+.inv--boda-sobria .inv-ornament::after {
+  width: clamp(56px, calc(18 * var(--inv-vw)), 120px);
+  opacity: 0.4;
 }
