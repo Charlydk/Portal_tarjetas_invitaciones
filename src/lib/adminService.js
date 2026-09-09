@@ -145,7 +145,12 @@ async function borrarFotosQueYaNoSeUsan(slug, urlsVigentes) {
  */
 export async function saveInvitation({ id, slug, clientName, clientWhatsapp, status, expiresAt, publishedAt, formData }) {
   const galleryPhotos = await subirFotos(slug, formData.galleryPhotos);
-  const data = { ...formData, galleryPhotos };
+
+  // La portada pasa por el mismo camino. Entra como texto pegado igual que las
+  // de la galería, y adentro de la fila pesaría todavía más: es la más grande.
+  const [heroImage = ''] = await subirFotos(slug, formData.heroImage ? [formData.heroImage] : []);
+
+  const data = { ...formData, galleryPhotos, heroImage };
 
   const fila = {
     slug,
@@ -173,7 +178,9 @@ export async function saveInvitation({ id, slug, clientName, clientWhatsapp, sta
   }
 
   // Recién ahora, con la tarjeta ya guardada, se puede borrar lo que sobra.
-  await borrarFotosQueYaNoSeUsan(slug, galleryPhotos);
+  // La portada va en la misma lista: si no, la limpieza la tomaría por huérfana
+  // y se llevaría puesta la foto principal en el guardado siguiente.
+  await borrarFotosQueYaNoSeUsan(slug, [...galleryPhotos, heroImage].filter(Boolean));
 }
 
 /**

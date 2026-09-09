@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { comprimirImagen } from '../../../lib/imagen';
 
 const MAX_PHOTOS = 4;
 const SAMPLE_PHOTOS = [
@@ -8,26 +9,6 @@ const SAMPLE_PHOTOS = [
   'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&q=80',
 ];
 
-// Comprime la imagen a base64 usando canvas
-function compressImage(file, maxWidth = 800, quality = 0.75) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const scale = Math.min(1, maxWidth / img.width);
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-        resolve(canvas.toDataURL('image/jpeg', quality));
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
 export function StepGallery({ formData, setFormData }) {
   const inputRef = useRef(null);
   const photos = formData.galleryPhotos || [];
@@ -35,7 +16,7 @@ export function StepGallery({ formData, setFormData }) {
 
   const handleUpload = async (e) => {
     const files = Array.from(e.target.files).slice(0, MAX_PHOTOS - photos.length);
-    const compressed = await Promise.all(files.map(f => compressImage(f)));
+    const compressed = await Promise.all(files.map(f => comprimirImagen(f)));
     setFormData(prev => ({
       ...prev,
       galleryPhotos: [...(prev.galleryPhotos || []), ...compressed].slice(0, MAX_PHOTOS)

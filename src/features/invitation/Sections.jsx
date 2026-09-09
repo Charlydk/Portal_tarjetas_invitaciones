@@ -561,6 +561,36 @@ export function RsvpSection({ data, allegory }) {
   );
 }
 
+/**
+ * El cronograma de la noche.
+ *
+ * Lo pidio el primer cliente real y no es un capricho suyo: el invitado quiere
+ * saber a que hora se come y a que hora se baila, y hoy eso se resuelve
+ * preguntando por WhatsApp. Es la seccion mas util de una tarjeta despues de
+ * la direccion.
+ *
+ * Se dibuja como una linea de tiempo y no como una tabla: se lee en un teléfono,
+ * de arriba hacia abajo, que es como transcurre la fiesta.
+ */
+export function ScheduleSection({ data, allegory }) {
+  const items = (data.schedule || []).filter((i) => i && (i.time || i.label));
+  if (!items.length) return null;
+
+  return (
+    <Section id="section-schedule" title={allegory.titles.schedule} icon={allegory.icons?.schedule}>
+      {allegory.copy.scheduleBody && <p className="inv-body">{allegory.copy.scheduleBody}</p>}
+      <motion.ol className="inv-schedule" variants={group} initial="hidden" whileInView="show" viewport={viewport}>
+        {items.map((fila, i) => (
+          <motion.li key={i} className="inv-schedule__item" variants={item}>
+            <span className="inv-schedule__hora">{fila.time}</span>
+            <span className="inv-schedule__que">{fila.label}</span>
+          </motion.li>
+        ))}
+      </motion.ol>
+    </Section>
+  );
+}
+
 export function DressCodeSection({ data, allegory }) {
   return (
     <Section id="section-dresscode" title={allegory.titles.dresscode} icon={allegory.icons?.dresscode}>

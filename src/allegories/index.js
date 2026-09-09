@@ -8,6 +8,7 @@ export const SECTION_IDS = [
   'civil',
   'ceremony',
   'party',
+  'schedule',
   'countdown',
   'rsvp',
   'dresscode',
@@ -23,6 +24,7 @@ export const DEFAULT_TITLES = {
   civil: 'Ceremonia Civil',
   ceremony: 'Ceremonia Religiosa',
   party: 'La Fiesta',
+  schedule: 'Cronograma',
   countdown: 'Faltan',
   rsvp: 'Confirmá tu asistencia',
   dresscode: 'Dress Code',
@@ -33,6 +35,7 @@ export const DEFAULT_TITLES = {
 
 export const DEFAULT_COPY = {
   countdownFoot: '¡Te esperamos!',
+  scheduleBody: '',
   rsvpBody: 'Tu presencia es lo más importante para nosotros.',
   rsvpCta: 'Confirmar asistencia',
   rsvpWhatsapp: '¡Hola! Confirmo mi asistencia 🎉',

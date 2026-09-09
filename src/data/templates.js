@@ -9,6 +9,15 @@
 
 export const templates = [
   {
+    id: 'boda-sobria',
+    title: 'Boda Sobria',
+    thumbnailUrl: '/allegories/_muestra/foto1.webp',
+    path: '/demo/boda-sobria',
+    themeId: 'boda-sobria',
+    slug: 'boda-sobria',
+    category: 'Bodas',
+  },
+  {
     id: 'boda-caricatura',
     title: 'Boda Caricatura',
     thumbnailUrl: '/allegories/boda-caricatura/fondo.webp',

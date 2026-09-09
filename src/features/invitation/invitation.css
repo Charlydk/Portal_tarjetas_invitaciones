@@ -669,3 +669,62 @@
   padding: 0 0 2px;
   cursor: pointer;
 }
+
+/* ── Cronograma ───────────────────────────────────────────────────────────── */
+/* Una línea de tiempo, no una tabla: se lee en un teléfono, de arriba hacia
+   abajo, que es como transcurre la fiesta. La línea vertical es lo que hace
+   que se entienda de un vistazo que son momentos y no una lista suelta. */
+
+.inv-schedule {
+  list-style: none;
+  margin: 8px auto 0;
+  padding: 0;
+  max-width: 340px;
+  text-align: left;
+  position: relative;
+}
+
+.inv-schedule::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: color-mix(in srgb, var(--inv-accent) 35%, transparent);
+}
+
+.inv-schedule__item {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 0 0 22px 24px;
+}
+
+.inv-schedule__item:last-child { padding-bottom: 0; }
+
+.inv-schedule__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--inv-accent);
+}
+
+.inv-schedule__hora {
+  font-family: var(--inv-font-title);
+  font-size: var(--inv-step-1);
+  color: var(--inv-accent);
+  white-space: nowrap;
+  min-width: 4.2em;
+}
+
+.inv-schedule__que {
+  font-family: var(--inv-font-body);
+  color: var(--inv-ink);
+  font-size: var(--inv-step-0);
+}

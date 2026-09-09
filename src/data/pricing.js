@@ -24,6 +24,7 @@ export const MODULE_PRICES = {
   showDressCode: 2500,
   showGallery:   2500,
   showMusic:     2500,
+  showSchedule:  2500,
   // Vale más que el resto porque es lo que más trabajo le ahorra al cliente:
   // deja de contar ciento veinte mensajes de WhatsApp a mano.
   rsvpOnline:    5000,
@@ -44,6 +45,7 @@ export const MODULE_LABELS = {
   showDressCode:{ label: 'Dress Code',             icon: '👗', included: false },
   showGallery:  { label: 'Galería de Fotos',       icon: '📸', included: false },
   showMusic:    { label: 'Sugerencia de Música',   icon: '🎵', included: false },
+  showSchedule: { label: 'Cronograma del evento',   icon: '🕘', included: false },
   rsvpOnline:   { label: 'Confirmaciones en línea', icon: '📋', included: false },
   guestList:    { label: 'Lista de invitados con enlace propio', icon: '✉️', included: false },
 };
@@ -59,6 +61,7 @@ export const MODULE_ORDER = [
   'showDressCode',
   'showGallery',
   'showMusic',
+  'showSchedule',
   'rsvpOnline',
   'guestList',
 ];

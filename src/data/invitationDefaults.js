@@ -70,6 +70,10 @@ export function createInvitationData({ modelId = null, variantId = null, sample 
     dressCodeDescription: sample ? 'Elegante' : '',
     dressCodeColorNote: '',
 
+    // El cronograma de la noche: [{ time: '21:00', label: 'Ceremonia' }]
+    schedule: [],
+    // La foto grande del encabezado, detrás de los nombres.
+    heroImage: '',
     galleryPhotos: [],
     musicPlaylistUrl: '',
 
@@ -78,6 +82,7 @@ export function createInvitationData({ modelId = null, variantId = null, sample 
     showCivil: true,
     showCeremony: true,
     showParty: true,
+    showSchedule: true,
     showCountdown: true,
     showDressCode: true,
     showGifts: true,

@@ -8,6 +8,7 @@ import {
   CountdownSection,
   RsvpSection,
   DressCodeSection,
+  ScheduleSection,
   GiftsSection,
   GallerySection,
   MusicSection,
@@ -98,6 +99,9 @@ function AllegoryCard({ data, theme }) {
           isDemo={data.isDemo}
         />
       ),
+
+    schedule: () =>
+      data.showSchedule && <ScheduleSection key="schedule" data={data} allegory={allegory} />,
 
     countdown: () =>
       data.showCountdown && <CountdownSection key="countdown" data={data} allegory={allegory} />,

@@ -8,6 +8,7 @@ import { SKELETON_MAP } from '../../lib/skeletonMap';
 const STEP_SECTION_MAP = {
   protagonists: 'section-hero',
   venue:        'section-civil',
+  schedule: 'section-schedule',
   extras:       'section-dresscode',
   gallery:      'section-gallery',
   music:        'section-music',

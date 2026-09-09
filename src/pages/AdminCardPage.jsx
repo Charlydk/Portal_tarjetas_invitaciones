@@ -9,6 +9,8 @@ import { StepModules } from '../features/preview/steps/StepModules';
 import { StepProtagonists } from '../features/preview/steps/StepProtagonists';
 import { StepVenue } from '../features/preview/steps/StepVenue';
 import { StepExtras } from '../features/preview/steps/StepExtras';
+import { StepSchedule } from '../features/preview/steps/StepSchedule';
+import { StepPortada } from '../features/preview/steps/StepPortada';
 import { StepGallery } from '../features/preview/steps/StepGallery';
 import { StepMusic } from '../features/preview/steps/StepMusic';
 import { StepGifts } from '../features/preview/steps/StepGifts';
@@ -37,7 +39,9 @@ const SECCIONES = [
   { titulo: 'Qué incluye',        Componente: StepModules,      siempre: true },
   { titulo: 'Protagonistas',      Componente: StepProtagonists, siempre: true },
   { titulo: 'Lugar y fechas',     Componente: StepVenue,        ver: (d) => d.showCivil || d.showCeremony || d.showParty },
+  { titulo: 'Cronograma',         Componente: StepSchedule,     ver: (d) => d.showSchedule },
   { titulo: 'Extras',             Componente: StepExtras,       ver: (d) => d.showDressCode },
+  { titulo: 'Portada',            Componente: StepPortada,      siempre: true },
   { titulo: 'Galería',            Componente: StepGallery,      ver: (d) => d.showGallery },
   { titulo: 'Playlist',           Componente: StepMusic,        ver: (d) => d.showMusic },
   { titulo: 'Regalos',            Componente: StepGifts,        ver: (d) => d.showGifts },
