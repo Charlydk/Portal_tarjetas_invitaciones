@@ -24,7 +24,7 @@ export const DEFAULT_TITLES = {
   civil: 'Ceremonia Civil',
   ceremony: 'Ceremonia Religiosa',
   party: 'La Fiesta',
-  schedule: 'Cronograma',
+  schedule: 'Itinerario',
   countdown: 'Faltan',
   rsvp: 'Confirmá tu asistencia',
   dresscode: 'Dress Code',
@@ -87,6 +87,12 @@ export const DEFAULT_TOKENS = {
   // A looping muted video behind the hero. Clients ask for this by name.
   backgroundVideo: '',
   heroVeil: 'rgba(0,0,0,0.45)',
+  // Cómo se relaciona la portada con los nombres.
+  //   'overlay' (por defecto): la foto ocupa la pantalla y el texto va encima.
+  //   'stacked': la foto va arriba, contenida, y los nombres debajo sobre el
+  //   papel. Una foto vertical a sangre en un monitor ancho SIEMPRE se ve con
+  //   zoom, porque hay que recortarla muchísimo para llenar el ancho.
+  heroLayout: 'overlay',
   // Sits between the background image and the text. Without it, light photos
   // eat the copy — the single most common legibility failure in these cards.
   scrim: 'linear-gradient(180deg, rgba(8,12,26,0.82) 0%, rgba(8,12,26,0.72) 100%)',

@@ -59,6 +59,10 @@ export function createInvitationData({ modelId = null, variantId = null, sample 
     // Regalos
     giftMode: 'cbu',
     bankCbu: '',
+    // El titular de la cuenta: sin él, el invitado no sabe a quién transfiere.
+    accountHolder: '',
+    // La frase de la sección de regalos, escrita por el cliente.
+    giftsPhrase: '',
     alias: sample ? 'zoe.lucas.boda' : '',
 
     // A dónde confirman los invitados
@@ -75,6 +79,8 @@ export function createInvitationData({ modelId = null, variantId = null, sample 
     // La foto grande del encabezado, detrás de los nombres.
     heroImage: '',
     galleryPhotos: [],
+    // Álbum compartido (Google Fotos y similares) donde los invitados suben las suyas.
+    sharedAlbumUrl: '',
     musicPlaylistUrl: '',
     // La canción de fondo de ESTA tarjeta, subida al bucket.
     audio: '',

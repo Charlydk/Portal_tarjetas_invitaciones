@@ -45,7 +45,7 @@ export const MODULE_LABELS = {
   showDressCode:{ label: 'Dress Code',             icon: '👗', included: false },
   showGallery:  { label: 'Galería de Fotos',       icon: '📸', included: false },
   showMusic:    { label: 'Sugerencia de Música',   icon: '🎵', included: false },
-  showSchedule: { label: 'Cronograma del evento',   icon: '🕘', included: false },
+  showSchedule: { label: 'Itinerario del evento',   icon: '🕘', included: false },
   rsvpOnline:   { label: 'Confirmaciones en línea', icon: '📋', included: false },
   guestList:    { label: 'Lista de invitados con enlace propio', icon: '✉️', included: false },
 };

@@ -88,6 +88,21 @@ export function StepGallery({ formData, setFormData }) {
         )}
       </div>
 
+      {/* El boton que va debajo de la galeria en la tarjeta. Existia en el
+          disenio desde siempre y no habia donde cargar el enlace, asi que nunca
+          aparecia. */}
+      <div className="form-group mt-15">
+        <label>Álbum compartido (opcional)</label>
+        <input
+          type="url"
+          value={formData.sharedAlbumUrl || ''}
+          onChange={(e) => setFormData((prev) => ({ ...prev, sharedAlbumUrl: e.target.value }))}
+          placeholder="https://photos.app.goo.gl/..."
+          style={{ width: '100%', padding: '10px 12px', border: '1px solid #ccc', borderRadius: '6px', fontSize: '0.95rem' }}
+        />
+        <small>Un álbum de Google Fotos donde los invitados suben las fotos de la fiesta. Aparece como botón debajo de la galería.</small>
+      </div>
+
       {isUsingDemo && (
         <small style={{ color: '#888', display: 'block', marginTop: '12px' }}>
           Actualmente se muestran las fotos de ejemplo (Demo). La tarjeta las usará hasta que subas las tuyas.

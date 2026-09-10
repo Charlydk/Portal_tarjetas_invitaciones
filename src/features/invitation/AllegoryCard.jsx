@@ -126,6 +126,7 @@ function AllegoryCard({ data, theme }) {
     `inv--${allegory.id}`,
     amb && 'inv--rich',
     amb?.kenBurns && 'inv--kenburns',
+    allegory.tokens.heroLayout === 'stacked' && 'inv--hero-stacked',
   ].filter(Boolean).join(' ');
 
   return (

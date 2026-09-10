@@ -769,3 +769,63 @@
   width: clamp(56px, calc(18 * var(--inv-vw)), 120px);
   opacity: 0.4;
 }
+
+/* ── Portada apilada ──────────────────────────────────────────────────────── */
+/* La foto arriba, contenida, y los nombres debajo sobre el papel.
+   Una foto vertical a sangre se ve bien en un teléfono y mal en un monitor:
+   para llenar 1900px de ancho con una imagen de 1000 hay que recortarla tanto
+   que deja de verse la escena y queda un primer plano de cualquier cosa.
+   Contenerla resuelve las dos pantallas con una sola regla. */
+
+.inv--hero-stacked .inv-hero {
+  min-height: auto;
+  max-width: var(--inv-max-width);
+  margin-inline: auto;
+  padding: 0 0 var(--inv-space-section);
+  justify-content: flex-start;
+  overflow: visible;
+}
+
+.inv--hero-stacked .inv-hero__media {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  /* Vertical, que es como viene toda foto de celular. En una pantalla alta se
+     limita por altura para que los nombres entren sin scrollear. */
+  aspect-ratio: 4 / 5;
+  max-height: 68svh;
+  border-radius: var(--inv-radius);
+  overflow: hidden;
+  margin-bottom: clamp(30px, calc(6 * var(--inv-vw)), 56px);
+}
+
+/* El velo existe para que el texto se lea sobre la foto. Acá el texto no está
+   sobre la foto, así que oscurecerla sólo la apaga. */
+.inv--hero-stacked .inv-hero__veil {
+  display: none;
+}
+
+.inv--hero-stacked .inv-hero__content,
+.inv--hero-stacked .inv-hero__scroll {
+  padding-inline: var(--inv-space-gutter);
+  position: relative;
+}
+
+/* Sobre papel, no sobre foto: ni tinta blanca ni sombra. */
+.inv--hero-stacked .inv-hero__name {
+  color: var(--inv-accent);
+  text-shadow: none;
+}
+
+.inv--hero-stacked .inv-hero__amp {
+  color: var(--inv-accent);
+}
+
+.inv--hero-stacked .inv-hero__phrase {
+  color: var(--inv-ink-muted);
+  text-shadow: none;
+}
+
+.inv--hero-stacked .inv-hero__scroll {
+  color: var(--inv-ink-muted);
+}

@@ -149,17 +149,22 @@ export function HeroSection({ data, allegory }) {
   return (
     <section id="section-hero" className="inv-hero">
       {/* The poster sits on the layer itself, so the hero still reads while the
-          video buffers — and stays correct when reduced motion hides the video. */}
-      <div
-        className="inv-hero__media"
-        style={poster ? { backgroundImage: `url("${poster}")` } : undefined}
-      >
-        {video && (
-          <video autoPlay loop muted playsInline preload="metadata" poster={poster || undefined}>
-            <source src={video} type="video/mp4" />
-          </video>
-        )}
-      </div>
+          video buffers — and stays correct when reduced motion hides the video.
+
+          Sólo se dibuja si hay algo que mostrar: en la portada apilada, un
+          bloque de foto sin foto deja un hueco gris del alto de la pantalla. */}
+      {(poster || video) && (
+        <div
+          className="inv-hero__media"
+          style={poster ? { backgroundImage: `url("${poster}")` } : undefined}
+        >
+          {video && (
+            <video autoPlay loop muted playsInline preload="metadata" poster={poster || undefined}>
+              <source src={video} type="video/mp4" />
+            </video>
+          )}
+        </div>
+      )}
       <div className="inv-hero__veil" />
 
       <div className="inv-hero__content">
@@ -601,12 +606,15 @@ export function DressCodeSection({ data, allegory }) {
 }
 
 export function GiftsSection({ data, allegory }) {
-  const { giftMode = 'cbu', alias, bankCbu } = data;
+  const { giftMode = 'cbu', alias, bankCbu, accountHolder } = data;
   const showBank = giftMode === 'cbu' || giftMode === 'both';
   const showChest = giftMode === 'cofre' || giftMode === 'both';
   return (
     <Section id="section-gifts" title={allegory.titles.gifts} icon={allegory.icons?.gifts}>
-      <p className="inv-body">{allegory.copy.giftsBody}</p>
+      {/* Lo que escribió el cliente le gana al texto del diseño. Esta frase la
+          escriben ellos casi siempre — "contribuir a nuestra luna de miel" no
+          es algo que pueda decir una plantilla por todos. */}
+      <p className="inv-body">{data.giftsPhrase || allegory.copy.giftsBody}</p>
       {showBank && alias && (
         <p className="inv-body">
           <span className="inv-label">Alias</span>
@@ -617,6 +625,14 @@ export function GiftsSection({ data, allegory }) {
         <p className="inv-body">
           <span className="inv-label">CBU</span>
           <span className="inv-value">{bankCbu}</span>
+        </p>
+      )}
+      {/* Sin el titular, el invitado ve un alias y no sabe a quién le
+          transfiere. Es el dato que hace que la transferencia ocurra. */}
+      {showBank && accountHolder && (
+        <p className="inv-body">
+          <span className="inv-label">Titular</span>
+          <span className="inv-value">{accountHolder}</span>
         </p>
       )}
       {showChest && <p className="inv-body">{allegory.copy.giftsChest}</p>}

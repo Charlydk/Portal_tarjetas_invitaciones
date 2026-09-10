@@ -40,7 +40,7 @@ const SECCIONES = [
   { titulo: 'Qué incluye',        Componente: StepModules,      siempre: true },
   { titulo: 'Protagonistas',      Componente: StepProtagonists, siempre: true },
   { titulo: 'Lugar y fechas',     Componente: StepVenue,        ver: (d) => d.showCivil || d.showCeremony || d.showParty },
-  { titulo: 'Cronograma',         Componente: StepSchedule,     ver: (d) => d.showSchedule },
+  { titulo: 'Itinerario',         Componente: StepSchedule,     ver: (d) => d.showSchedule },
   { titulo: 'Extras',             Componente: StepExtras,       ver: (d) => d.showDressCode },
   { titulo: 'Portada',            Componente: StepPortada,      siempre: true },
   { titulo: 'Galería',            Componente: StepGallery,      ver: (d) => d.showGallery },

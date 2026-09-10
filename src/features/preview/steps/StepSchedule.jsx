@@ -19,7 +19,7 @@ export function StepSchedule({ formData, setFormData }) {
 
   return (
     <div className="panel-section">
-      <h3>🕘 Cronograma</h3>
+      <h3>🕘 Itinerario</h3>
       <p className="step-description">
         Un momento por línea, con la hora adelante. Es lo que más preguntan los invitados
         después de la dirección.

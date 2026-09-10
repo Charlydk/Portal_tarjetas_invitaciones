@@ -79,7 +79,12 @@ export const bodaSobria = {
     // se usa sólo en el hero.
     backgroundImage: '',
     backgroundVideo: '',
-    heroVeil: 'rgba(38,38,32,0.34)',
+    // La foto arriba y los nombres abajo, sobre el papel. Es como lo resuelve
+    // la tarjeta que trajo el cliente de referencia, y es lo único que funciona
+    // en un monitor ancho: una foto vertical a sangre hay que recortarla tanto
+    // para llenar la pantalla que termina siendo un primer plano de una oreja.
+    heroLayout: 'stacked',
+    heroVeil: 'transparent',
     scrim: 'none',
   },
 
@@ -88,7 +93,7 @@ export const bodaSobria = {
     civil: 'Ceremonia Civil',
     ceremony: 'Ceremonia',
     party: 'La Fiesta',
-    schedule: 'Cronograma',
+    schedule: 'Itinerario',
     countdown: 'Faltan',
     rsvp: 'Confirmación',
     dresscode: 'Dress Code',
@@ -126,6 +131,13 @@ export const bodaSobria = {
     eventVenue: 'Salón Los Carolinos',
     partyAddress: 'Av. Bandera de los Andes 7510, Guaymallén, Mendoza',
     dressCodeDescription: 'Elegante · Formal',
+    dressCodeColorNote: 'El blanco es de uso exclusivo de las novias.',
+    heroImage: '/allegories/_muestra/foto1.webp',
+    giftMode: 'alias',
+    alias: 'johana.yesica',
+    accountHolder: 'Yesica Marisol Díaz',
+    giftsPhrase: 'Si deseás hacernos un regalo o contribuir a nuestra luna de miel, te dejamos nuestro alias.',
+    sharedAlbumUrl: '#',
     schedule: [
       { time: '21:00', label: 'Ceremonia' },
       { time: '21:20', label: 'Recepción' },
