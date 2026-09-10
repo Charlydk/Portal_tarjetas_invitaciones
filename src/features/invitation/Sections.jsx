@@ -649,6 +649,8 @@ export function GallerySection({ data, allegory }) {
         whileInView="show"
         viewport={viewport}
       >
+        {/* Tocar una foto sigue abriéndola grande: el carrusel es para recorrer,
+            la ampliación es para mirar. */}
         {photos.slice(0, 8).map((src, i) => (
           <motion.button
             key={i}

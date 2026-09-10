@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import GuestCard from '../features/invitation/GuestCard';
 import { invitationModels } from '../data/models';
 import { invitationSegments } from '../data/segments';
+import { createInvitationData } from '../data/invitationDefaults';
 
 const BUSINESS_WA = import.meta.env.VITE_BUSINESS_WHATSAPP || '5491100000000';
 
@@ -17,7 +18,13 @@ const demoEventDate = (() => {
 })();
 const demoYear = new Date(demoEventDate).getFullYear();
 
+// Arranca de la lista compartida de campos y sólo pisa lo que esta muestra
+// necesita distinto. Antes era una tercera copia escrita a mano —después de
+// invitationDefaults y del bloque de migración de DemoPage— y el modo de falla
+// era silencioso: se agregaba un campo, la vidriera no lo tenía, y esa sección
+// simplemente no aparecía. Así se perdió el cronograma sin que nada avisara.
 const DEMO_DATA = {
+  ...createInvitationData({ sample: true }),
   name1: 'Valentina',
   name2: 'Maximiliano',
   welcomePhrase: 'Nos Casamos',

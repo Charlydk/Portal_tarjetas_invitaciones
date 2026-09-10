@@ -486,11 +486,30 @@
 
 /* ─── Gallery ───────────────────────────────────────────────────────────── */
 
+/* Carrusel, no grilla.
+   Una grilla muestra las fotos como un contacto de laboratorio: todas chicas y
+   a la vez. Un carrusel las muestra de a una y grande, que es como se mira una
+   foto, y el que quiere ver la siguiente hace el gesto que ya hace todo el día.
+
+   Va con scroll-snap y sin librería: el desplazamiento por inercia de iOS es
+   nativo, no hay JavaScript siguiendo el dedo, y funciona con el teclado porque
+   cada foto sigue siendo un botón. */
 .inv-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
+  display: flex;
+  gap: 12px;
   margin-bottom: 28px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  /* La barra de scroll horizontal afea la tarjeta y no hace falta: el borde de
+     la foto siguiente ya dice que hay más. */
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+
+.inv-gallery::-webkit-scrollbar {
+  display: none;
 }
 
 .inv-gallery-item {
@@ -501,6 +520,12 @@
   border-radius: var(--inv-radius);
   overflow: hidden;
   aspect-ratio: 3 / 4;
+  /* 78% y no 100%: que asome el borde de la siguiente es lo que le dice al
+     invitado que hay más y que se desliza. Una foto que ocupa el ancho entero
+     se lee como una foto suelta, y nadie prueba arrastrarla. */
+  flex: 0 0 78%;
+  max-width: 340px;
+  scroll-snap-align: center;
   cursor: zoom-in;
 }
 
