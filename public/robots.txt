@@ -1,0 +1,19 @@
+# Los rastreadores pueden entrar a todo el sitio.
+#
+# Las tarjetas entregadas (/i/, /borrador/, /confirmaciones/, /invitados/) NO
+# se bloquean acá a propósito, aunque no queremos que aparezcan en Google.
+# `robots.txt` dice "no entres", y el que arma la vista previa de un link de
+# WhatsApp también es un rastreador: bloquearlo dejaría a cada cliente
+# compartiendo su invitación con un cuadrito vacío.
+#
+# Para que esas páginas no salgan en los buscadores está la etiqueta `noindex`,
+# que se inyecta por ruta en netlify/edge-functions/og.js. Esa dice "entrá,
+# leé, pero no lo publiques", que es exactamente lo que hace falta.
+
+User-agent: *
+Allow: /
+
+# El panel del equipo no tiene nada que ofrecerle a un buscador.
+Disallow: /admin
+
+Sitemap: https://fxestudio.com.ar/sitemap.xml

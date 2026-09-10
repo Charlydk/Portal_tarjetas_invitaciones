@@ -165,6 +165,23 @@ async function draftMeta(token) {
   return metaDeTarjeta(row, `${SITE}/borrador/${token}`, 'Vista previa · ');
 }
 
+/**
+ * Rutas que no tienen que aparecer en un buscador.
+ *
+ * La tarjeta de un cliente lleva sus nombres, la fecha, el salón y su alias
+ * para transferencias. Nadie llega a una invitación por Google — se llega por
+ * el link que mandan los novios — así que indexarla no suma nada y expone
+ * datos que ellos no esperan que sean buscables.
+ *
+ * Va como `noindex` y no como bloqueo en robots.txt a propósito: el que arma
+ * la vista previa de un link de WhatsApp también es un rastreador, y
+ * prohibirle la entrada dejaría a cada cliente compartiendo su invitación con
+ * un cuadrito vacío. `noindex` le deja leer y le prohíbe publicar.
+ */
+const PRIVADAS = new Set(['i', 'borrador', 'confirmaciones', 'invitados', 'admin']);
+
+const NOINDEX = '<meta name="robots" content="noindex, nofollow" />';
+
 export default async (request, context) => {
   const response = await context.next();
 
@@ -179,12 +196,22 @@ export default async (request, context) => {
     section === 'borrador' ? await draftMeta(param) :
                              showcaseMeta(param);
 
-  // Nothing to personalise: the site-wide preview from index.html stands.
-  if (!meta) return response;
+  const privada = PRIVADAS.has(section);
 
-  const { title, description, image, url } = meta;
+  // Nada que personalizar y nada que ocultar: la vista previa del portal sirve.
+  if (!meta && !privada) return response;
 
   let html = await response.text();
+
+  if (privada) {
+    html = html.replace('</head>', `${NOINDEX}</head>`);
+  }
+
+  if (!meta) {
+    return new Response(html, { status: response.status, headers: response.headers });
+  }
+
+  const { title, description, image, url } = meta;
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeAttr(title)}</title>`);
   html = setMeta(html, 'name', 'description', description);
   html = setMeta(html, 'property', 'og:title', title);
@@ -198,4 +225,4 @@ export default async (request, context) => {
   });
 };
 
-export const config = { path: ['/preview/*', '/i/*', '/borrador/*'] };
+export const config = { path: ['/preview/*', '/i/*', '/borrador/*', '/confirmaciones/*', '/invitados/*', '/admin', '/admin/*'] };

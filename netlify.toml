@@ -25,6 +25,26 @@
   path = "/borrador/*"
   function = "og"
 
+# Estas no necesitan vista previa: pasan por la función sólo para llevar la
+# etiqueta `noindex`. La tarjeta de un cliente lleva sus nombres, la fecha, el
+# salón y su alias — nadie llega ahí por Google, y los novios no esperan que
+# eso sea buscable.
+[[edge_functions]]
+  path = "/confirmaciones/*"
+  function = "og"
+
+[[edge_functions]]
+  path = "/invitados/*"
+  function = "og"
+
+[[edge_functions]]
+  path = "/admin/*"
+  function = "og"
+
+[[edge_functions]]
+  path = "/admin"
+  function = "og"
+
 # ─── Mantener despierta la base ──────────────────────────────────────────────
 # El plan gratuito de Supabase pausa los proyectos con poca actividad durante 7
 # días, y ahí el dominio deja de resolver: la tarjeta de un cliente se apaga
