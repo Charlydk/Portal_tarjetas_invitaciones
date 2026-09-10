@@ -871,7 +871,9 @@
    El recorte duro de un rectángulo compite con la tipografía; el degradado
    hace que la foto y el texto se lean como una sola composición. */
 .inv--hero-edge-fade .inv-hero__media {
-  border-radius: 0;
+  /* Sólo las esquinas de arriba: las de abajo no existen, ahí la foto ya se
+     volvió papel. Redondearlas las cuatro sería redondear el aire. */
+  border-radius: clamp(10px, calc(2.4 * var(--inv-vw)), 18px) clamp(10px, calc(2.4 * var(--inv-vw)), 18px) 0 0;
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 99%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 99%);
   /* El degradado ya separa: sumarle margen abriría un hueco donde la foto ya
@@ -928,7 +930,9 @@
   .inv--hero-edge-fade.inv--hero-stacked .inv-hero__media {
     -webkit-mask-image: none;
     mask-image: none;
-    border-radius: 2px;
+    /* Las cuatro, porque acá la foto es un rectángulo completo. Apenas: una
+       esquina muy redondeada le saca la formalidad que este diseño busca. */
+    border-radius: clamp(8px, 1.1vw, 14px);
     box-shadow:
       0 1px 2px rgba(0, 0, 0, 0.06),
       0 18px 48px rgba(0, 0, 0, 0.16);
