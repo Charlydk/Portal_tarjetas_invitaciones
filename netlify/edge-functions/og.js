@@ -41,6 +41,18 @@ const findTemplate = (variantId) =>
     .flatMap((segment) => segment.templates)
     .find((t) => t.variantId === variantId);
 
+/**
+ * Una imagen lista para viajar en un meta tag.
+ *
+ * Las fotos del cliente viven en Storage y ya son direcciones completas; las
+ * del catálogo son rutas del sitio y hay que anteponerle el dominio. WhatsApp
+ * descarta una imagen relativa sin decir nada, así que la diferencia importa.
+ */
+const absoluta = (src) => {
+  if (!src) return null;
+  return /^https?:\/\//.test(src) ? src : SITE + src;
+};
+
 /** Reads config at the edge. Netlify exposes its own global; Deno's is the fallback. */
 const env = (name) =>
   globalThis.Netlify?.env?.get(name) || globalThis.Deno?.env?.get(name) || '';
@@ -102,7 +114,13 @@ async function invitationMeta(slug) {
   return {
     title: names,
     description,
-    image: SITE + (template?.previewImage || FALLBACK_IMAGE),
+    // La portada del cliente primero. La foto del catálogo muestra el diseño,
+    // que es lo correcto en la vidriera; acá el que mira el cuadrito es un
+    // invitado de ESTA pareja, y lo que espera ver son ellos. Una foto de otro
+    // casamiento en la preview de tu invitación se lee como un error.
+    image: absoluta(row.data?.heroImage)
+        || absoluta(row.data?.galleryPhotos?.[0])
+        || SITE + (template?.previewImage || FALLBACK_IMAGE),
     url: `${SITE}/i/${slug}`,
   };
 }
