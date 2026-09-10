@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useCountdown } from '../../hooks/useCountdown';
 
@@ -642,6 +642,11 @@ export function GiftsSection({ data, allegory }) {
 
 export function GallerySection({ data, allegory }) {
   const [lightbox, setLightbox] = useState(null);
+  const pista = useRef(null);
+  // Una vez que el invitado toca el carrusel, deja de moverse solo y no vuelve
+  // a arrancar. Un carrusel que retoma el control después de que alguien lo
+  // agarró se siente como pelearle a la página.
+  const [tomadoPorElInvitado, setTomadoPorElInvitado] = useState(false);
 
   // Las fotos de muestra son para la vidriera: una muestra del catálogo con la
   // galería vacía se vería rota. En la tarjeta entregada de un cliente serían
@@ -651,6 +656,26 @@ export function GallerySection({ data, allegory }) {
     ? data.galleryPhotos
     : (data.isDemo ? SAMPLE_PHOTOS : []);
 
+  // Avanza solo. Sin esto, las fotos que no entran en pantalla dependen de que
+  // al invitado se le ocurra arrastrar — y la mayoría no lo intenta.
+  useEffect(() => {
+    if (tomadoPorElInvitado || lightbox || photos.length < 2) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+
+    const id = setInterval(() => {
+      const track = pista.current;
+      if (!track || !track.firstElementChild) return;
+
+      const paso = track.firstElementChild.getBoundingClientRect().width + 12;
+      const final = track.scrollWidth - track.clientWidth - 8;
+      const destino = track.scrollLeft >= final ? 0 : track.scrollLeft + paso;
+
+      track.scrollTo({ left: destino, behavior: 'smooth' });
+    }, 3800);
+
+    return () => clearInterval(id);
+  }, [tomadoPorElInvitado, lightbox, photos.length]);
+
   if (!photos.length) return null;
 
   return (
@@ -659,11 +684,14 @@ export function GallerySection({ data, allegory }) {
         <p className="inv-body">{allegory.copy.galleryTagline}</p>
       )}
       <motion.div
+        ref={pista}
         className="inv-gallery"
         variants={group}
         initial="hidden"
         whileInView="show"
         viewport={viewport}
+        onPointerDown={() => setTomadoPorElInvitado(true)}
+        onWheel={() => setTomadoPorElInvitado(true)}
       >
         {/* Tocar una foto sigue abriéndola grande: el carrusel es para recorrer,
             la ampliación es para mirar. */}
@@ -720,6 +748,13 @@ export function MusicSection({ data, allegory }) {
 
 export function ClosingSection({ data, allegory }) {
   const names = [data.name1, data.name2].filter(Boolean).join(' & ');
+  // La fecha y el lugar, una vez más al final. Es lo que hace que el cierre se
+  // lea como el final de una invitación y no como una sección más que terminó:
+  // el invitado llega abajo, vuelve a ver cuándo y dónde, y cierra la tarjeta
+  // sabiéndolo. En una tarjeta de papel eso va impreso al pie.
+  const cuandoYDonde = [data.partyDateString, data.eventVenue || data.partyPlace]
+    .filter(Boolean)
+    .join(' · ');
   return (
     <motion.footer
       className="inv-closing"
@@ -731,6 +766,9 @@ export function ClosingSection({ data, allegory }) {
       <Ornament />
       <motion.h2 variants={titleIn} className="inv-title">{allegory.titles.closing}</motion.h2>
       {names && <motion.p variants={item} className="inv-body">{names}</motion.p>}
+      {cuandoYDonde && (
+        <motion.p variants={item} className="inv-closing__dato">{cuandoYDonde}</motion.p>
+      )}
       {/* La firma es la única puerta de vuelta al portal. Cada tarjeta la abren
           decenas de invitados y algunos se casan el año que viene: como texto
           plano los obligaba a memorizar el nombre y buscarlo después, que es

@@ -24,12 +24,14 @@ export const bodaSobria = {
   // tocar una línea.
   sections: [
     'hero',
+    // Apenas debajo de la portada: es lo primero que quiere saber alguien que
+    // abre una invitación — cuánto falta.
+    'countdown',
     'story',
     'civil',
     'ceremony',
     'party',
     'schedule',
-    'countdown',
     'rsvp',
     'dresscode',
     'gifts',
