@@ -18,6 +18,17 @@
   path = "/i/*"
   function = "og"
 
+# ─── Mantener despierta la base ──────────────────────────────────────────────
+# El plan gratuito de Supabase pausa los proyectos con poca actividad durante 7
+# días, y ahí el dominio deja de resolver: la tarjeta de un cliente se apaga
+# entera. Con eventos a más de un año de distancia hay semanas sin que nadie
+# abra su invitación, que es justo la ventana en la que el proyecto se duerme.
+#
+# El horario vive acá y no sólo en el archivo de la función para que se vea al
+# leer la configuración del sitio.
+[functions."keep-alive"]
+  schedule = "0 3,15 * * *"
+
 # ─── Assets que no existen deben dar 404, no la app ──────────────────────────
 # La regla de SPA de abajo atrapa CUALQUIER ruta, incluidos los archivos que no
 # existen: pedir /assets/HomePage-viejo.js devolvia index.html con status 200 y
