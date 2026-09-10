@@ -951,3 +951,48 @@
     margin-inline: auto;
   }
 }
+
+/* ── Adorno botánico ──────────────────────────────────────────────────────── */
+/* Aparece a medida que el invitado baja, porque vive adentro del molde de
+   sección y hereda su animación de entrada.
+
+   Va DETRÁS del texto (z-index negativo) y con poca opacidad: es lo que separa
+   un adorno de un estorbo. Si compite con lo que hay que leer, sobra. */
+
+.inv-section { position: relative; }
+
+.inv-decor { display: none; }
+
+.inv--decor .inv-decor {
+  display: block;
+  position: absolute;
+  top: 50%;
+  margin-top: -22%;
+  width: clamp(120px, 24vw, 210px);
+  aspect-ratio: 600 / 795;
+  z-index: -1;
+  opacity: 0.42;
+  pointer-events: none;
+}
+
+.inv-decor__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--inv-decor) center / contain no-repeat;
+}
+
+/* Alterna de lado sección por sección, y del lado izquierdo va espejada: la
+   misma rama repetida en la misma orientación se lee como un sello repetido,
+   no como una guarda. */
+.inv--decor .inv-section:nth-of-type(odd) .inv-decor  { right: -7%; }
+.inv--decor .inv-section:nth-of-type(even) .inv-decor { left: -7%; }
+.inv--decor .inv-section:nth-of-type(even) .inv-decor__img { transform: scaleX(-1); }
+
+/* En pantallas anchas hay margen de sobra fuera de la columna de lectura, así
+   que la rama sale del texto en vez de pisarlo. */
+@media (min-width: 860px) {
+  .inv--decor .inv-decor { opacity: 0.5; }
+  .inv--decor .inv-section:nth-of-type(odd) .inv-decor  { right: -26%; }
+  .inv--decor .inv-section:nth-of-type(even) .inv-decor { left: -26%; }
+}

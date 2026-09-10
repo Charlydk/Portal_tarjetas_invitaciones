@@ -98,6 +98,9 @@ export const DEFAULT_TOKENS = {
   //   'fade'   se desvanece hacia abajo y los nombres emergen del papel.
   //   'frame'  passe-partout del color del papel y sombra: una foto apoyada.
   heroEdge: '',
+  // Un dibujo decorativo que acompaña las secciones, apareciendo a medida que
+  // el invitado baja. Va detrás del texto y alternando de lado.
+  decorImage: '',
   // Sits between the background image and the text. Without it, light photos
   // eat the copy — the single most common legibility failure in these cards.
   scrim: 'linear-gradient(180deg, rgba(8,12,26,0.82) 0%, rgba(8,12,26,0.72) 100%)',
@@ -147,6 +150,7 @@ export function tokensToCssVars(tokens) {
     '--inv-accent': tokens.accent,
     '--inv-accent-ink': tokens.accentInk,
     '--inv-accent-alt': tokens.accentAlt || tokens.accent,
+    '--inv-decor': tokens.decorImage ? `url("${tokens.decorImage}")` : 'none',
     '--inv-font-title': tokens.fontTitle,
     '--inv-font-display': tokens.fontDisplay || tokens.fontTitle,
     '--inv-font-body': tokens.fontBody,

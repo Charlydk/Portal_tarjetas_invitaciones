@@ -131,6 +131,14 @@ function Section({ id, title, icon, children, tight = false }) {
       whileInView="show"
       viewport={viewport}
     >
+      {/* El adorno entra con la sección, no antes: hereda la animación del
+          molde, así que aparece a medida que el invitado baja. La imagen va en
+          un hijo porque el padre lleva el `transform` de la animación, y
+          espejar acá lo pisaría. */}
+      <motion.div variants={item} className="inv-decor" aria-hidden="true">
+        <span className="inv-decor__img" />
+      </motion.div>
+
       <Medallion icon={icon} />
       <Ornament />
       {title && (

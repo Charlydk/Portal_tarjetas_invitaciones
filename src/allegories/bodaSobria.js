@@ -91,6 +91,9 @@ export const bodaSobria = {
     // adorno, que en un diseño cuyo pedido fue "sencilla" importa.
     // Cambiar a 'frame' para verla como una foto apoyada sobre la hoja.
     heroEdge: 'fade',
+    // Una rama de olivo en línea, del mismo verde de la paleta. Es el único
+    // dibujo de la tarjeta y va detrás del texto: acompaña, no decora.
+    decorImage: '/allegories/boda-sobria/rama.webp',
     heroVeil: 'transparent',
     scrim: 'none',
   },
