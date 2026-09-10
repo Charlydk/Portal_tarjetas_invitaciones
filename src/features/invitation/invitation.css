@@ -864,3 +864,26 @@
   color: var(--inv-accent);
   margin: 6px 0 0;
 }
+
+/* ── Tratamiento del borde de la portada ──────────────────────────────────── */
+
+/* Desvanecido: la foto se disuelve en el papel y los nombres emergen de ahí.
+   El recorte duro de un rectángulo compite con la tipografía; el degradado
+   hace que la foto y el texto se lean como una sola composición. */
+.inv--hero-edge-fade .inv-hero__media {
+  border-radius: 0;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 99%);
+  /* El degradado ya separa: sumarle margen abriría un hueco donde la foto ya
+     se volvió papel. */
+  margin-bottom: clamp(4px, calc(1 * var(--inv-vw)), 12px);
+}
+
+/* Passe-partout: la foto apoyada sobre la hoja, con el margen del color del
+   papel y una sombra corta. El borde es del color del fondo a propósito — es
+   lo que hace leer un marge impreso en vez de una línea de más. */
+.inv--hero-edge-frame .inv-hero__media {
+  border: clamp(9px, calc(2.4 * var(--inv-vw)), 18px) solid var(--inv-bg);
+  border-radius: 2px;
+  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.16);
+}

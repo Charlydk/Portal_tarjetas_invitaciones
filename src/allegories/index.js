@@ -93,6 +93,11 @@ export const DEFAULT_TOKENS = {
   //   papel. Una foto vertical a sangre en un monitor ancho SIEMPRE se ve con
   //   zoom, porque hay que recortarla muchísimo para llenar el ancho.
   heroLayout: 'overlay',
+  // El borde de la portada, cuando va apilada.
+  //   ''       sin tratamiento, el rectángulo tal cual.
+  //   'fade'   se desvanece hacia abajo y los nombres emergen del papel.
+  //   'frame'  passe-partout del color del papel y sombra: una foto apoyada.
+  heroEdge: '',
   // Sits between the background image and the text. Without it, light photos
   // eat the copy — the single most common legibility failure in these cards.
   scrim: 'linear-gradient(180deg, rgba(8,12,26,0.82) 0%, rgba(8,12,26,0.72) 100%)',

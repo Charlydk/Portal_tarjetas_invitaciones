@@ -86,6 +86,11 @@ export const bodaSobria = {
     // en un monitor ancho: una foto vertical a sangre hay que recortarla tanto
     // para llenar la pantalla que termina siendo un primer plano de una oreja.
     heroLayout: 'stacked',
+    // La foto se desvanece hacia el papel y de ahí emergen los nombres. Es el
+    // tratamiento editorial de toda la vida: destaca la foto sin agregarle un
+    // adorno, que en un diseño cuyo pedido fue "sencilla" importa.
+    // Cambiar a 'frame' para verla como una foto apoyada sobre la hoja.
+    heroEdge: 'fade',
     heroVeil: 'transparent',
     scrim: 'none',
   },
