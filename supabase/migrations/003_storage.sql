@@ -19,10 +19,12 @@ values (
   -- Público: las abre un invitado que no tiene cuenta. Lo único que se guarda
   -- acá son fotos que el cliente eligió mostrarle a todos sus invitados.
   true,
-  -- 3 MB. Una foto de galería optimizada pesa entre 80 y 300 KB; el límite está
-  -- para que una foto sin optimizar rebote en vez de terminar en una tarjeta.
-  3145728,
-  array['image/webp','image/jpeg','image/png']
+  -- 8 MB. Una foto optimizada pesa entre 80 y 300 KB, así que para imágenes el
+  -- límite sigue sobrando; lo que lo subió es la canción, que son varios megas.
+  8388608,
+  -- El audio entra acá y no en el repo por la misma razón que las fotos: una
+  -- canción por cliente en `public/` sería un deploy por cliente.
+  array['image/webp','image/jpeg','image/png','audio/mpeg','audio/mp3']
 )
 on conflict (id) do update set
   public             = excluded.public,

@@ -103,6 +103,28 @@ async function subirFotos(slug, photos = []) {
 }
 
 /**
+ * Sube la canción de una tarjeta y devuelve su dirección.
+ *
+ * Va derecho al bucket, sin pasar por el formulario: un mp3 convertido a texto
+ * ocuparía varios megas dentro de la fila y viajaría entero cada vez que un
+ * invitado abre el link, aunque no pida música.
+ */
+export async function uploadAudio(slug, file) {
+  const path = `${slug}/cancion-${Date.now()}.mp3`;
+
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(path, file, { contentType: file.type || 'audio/mpeg', upsert: true });
+
+  if (error) {
+    console.error('Falló la subida de la canción', { path, peso: file.size, error });
+    throw new Error(`${error.message} (${Math.round(file.size / 1024 / 1024 * 10) / 10} MB)`);
+  }
+
+  return supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+}
+
+/**
  * Borra del bucket las fotos que la tarjeta ya no usa.
  *
  * Quitar una foto la sacaba de la tarjeta pero la dejaba en el bucket para
@@ -180,7 +202,9 @@ export async function saveInvitation({ id, slug, clientName, clientWhatsapp, sta
   // Recién ahora, con la tarjeta ya guardada, se puede borrar lo que sobra.
   // La portada va en la misma lista: si no, la limpieza la tomaría por huérfana
   // y se llevaría puesta la foto principal en el guardado siguiente.
-  await borrarFotosQueYaNoSeUsan(slug, [...galleryPhotos, heroImage].filter(Boolean));
+  // La canción va en la misma lista que las fotos: comparte carpeta, así que si
+  // no estuviera acá la limpieza la tomaría por huérfana y la borraría.
+  await borrarFotosQueYaNoSeUsan(slug, [...galleryPhotos, heroImage, formData.audio].filter(Boolean));
 }
 
 /**

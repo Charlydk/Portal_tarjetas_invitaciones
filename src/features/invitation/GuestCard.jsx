@@ -22,7 +22,9 @@ function GuestCard({ variant, formData, skipGate = false, topBar = null }) {
   const [waiting, setWaiting] = useState(false);
   const [withMusic, setWithMusic] = useState(false);
 
-  const hasAudio = Boolean(variant?.assets?.audio);
+  // La canción propia de la tarjeta primero: es la que eligió el cliente.
+  const audio = formData.audio || variant?.assets?.audio || null;
+  const hasAudio = Boolean(audio);
 
   const allegory = useMemo(
     () => (variant?.allegory ? resolveAllegory(variant.allegory) : null),
@@ -41,7 +43,7 @@ function GuestCard({ variant, formData, skipGate = false, topBar = null }) {
     video: allegory?.tokens?.backgroundVideo || null,
     // Sólo si pidió música: nadie tiene que pagar el peso de un audio que eligió
     // no escuchar.
-    audio: withMusic ? variant?.assets?.audio || null : null,
+    audio: withMusic ? audio : null,
   });
 
   const handleEnter = (music) => {

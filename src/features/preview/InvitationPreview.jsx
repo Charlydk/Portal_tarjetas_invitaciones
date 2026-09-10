@@ -42,6 +42,16 @@ function InvitationPreview({ formData, themeId, activeStepId, isEditorMode = tru
     selectedVariant = selectedModel?.variants.find(v => v.id === themeId);
   }
 
+  // La canción que eligió el cliente le gana a la del diseño. Sin esto la
+  // música vive en models.js, o sea que una canción por cliente costaría un
+  // commit y un deploy — justo lo que dejamos de hacer con las tarjetas.
+  if (selectedVariant && formData.audio) {
+    selectedVariant = {
+      ...selectedVariant,
+      assets: { ...selectedVariant.assets, audio: formData.audio },
+    };
+  }
+
   if (selectedModel && selectedVariant) {
     const SkeletonComponent = SKELETON_MAP[selectedModel.skeletonComponent];
     if (SkeletonComponent) {

@@ -76,6 +76,8 @@ export function createInvitationData({ modelId = null, variantId = null, sample 
     heroImage: '',
     galleryPhotos: [],
     musicPlaylistUrl: '',
+    // La canción de fondo de ESTA tarjeta, subida al bucket.
+    audio: '',
 
     // Qué secciones se ven. Todas activas: es más rápido apagar lo que sobra
     // que ir prendiendo de a una.
