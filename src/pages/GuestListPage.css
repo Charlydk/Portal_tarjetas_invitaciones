@@ -153,3 +153,14 @@
 .inv-list__btn--principal { background: #C9A96E; border-color: #C9A96E; color: #14110B; font-weight: 600; }
 .inv-list__btn--quitar { color: rgba(245, 239, 227, 0.45); padding: 7px 10px; }
 .inv-list__btn:disabled { opacity: 0.5; cursor: default; }
+
+.inv-list__aviso {
+  background: rgba(224, 179, 106, 0.12);
+  border: 1px solid rgba(224, 179, 106, 0.45);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: #E0B36A;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  margin: 0 0 22px;
+}

@@ -35,4 +35,13 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    // Lo de netlify/ no corre en un navegador: son funciones de servidor, con
+    // `process` y sin `window`. Revisarlas con los globales del navegador
+    // marcaba errores que no lo son.
+    files: ['netlify/**/*.js'],
+    languageOptions: {
+      globals: { ...globals.node, Netlify: 'readonly' },
+    },
+  },
 ])

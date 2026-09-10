@@ -55,15 +55,22 @@ grant select, insert, update, delete on public.guest_list to authenticated;
 -- cargar su lista y verla al instante; ese "al instante" es justamente lo que
 -- se vende contra el "mandámela y te la cargo mañana".
 
+-- Devuelve también el slug y el estado de la tarjeta, y eso no es un extra: el
+-- enlace de cada invitado se arma con el slug. Antes la pantalla lo averiguaba
+-- preguntándole a un invitado, y esa consulta sólo responde si la tarjeta está
+-- publicada — así que mientras estaba en borrador el enlace salía sin slug y
+-- dejaba la pantalla en blanco.
 create or replace function public.guests_by_token(p_token uuid)
 returns table (id uuid, name text, max_companions integer, token text,
-               status text, companions integer, notes text, responded_at timestamptz)
+               status text, companions integer, notes text, responded_at timestamptz,
+               slug text, invitation_status text)
 language sql
 security definer
 set search_path = public
 as $fn$
   select g.id, g.name, g.max_companions, g.token,
-         g.status, g.companions, g.notes, g.responded_at
+         g.status, g.companions, g.notes, g.responded_at,
+         i.slug, i.status as invitation_status
   from public.guest_list g
   join public.invitations i on i.id = g.invitation_id
   where i.edit_token = p_token

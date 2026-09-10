@@ -77,7 +77,6 @@ function GuestListPage() {
   const [estado, setEstado] = useState('cargando');
   const [texto, setTexto] = useState('');
   const [guardando, setGuardando] = useState(false);
-  const [slug, setSlug] = useState('');
 
   const cargar = useCallback(async () => {
     try {
@@ -90,17 +89,6 @@ function GuestListPage() {
   }, [token]);
 
   useEffect(() => { cargar(); }, [cargar]);
-
-  // El slug sale del primer invitado que ya tenga enlace; hasta que haya uno,
-  // no hace falta porque tampoco hay nada que compartir.
-  useEffect(() => {
-    if (!slug && invitados.length) {
-      import('../lib/guestService').then(async ({ fetchGuest }) => {
-        const g = await fetchGuest(invitados[0].token).catch(() => null);
-        if (g?.slug) setSlug(g.slug);
-      });
-    }
-  }, [invitados, slug]);
 
   async function agregar() {
     const nuevos = parsearLista(texto);
@@ -137,6 +125,11 @@ function GuestListPage() {
 
   const r = resumirInvitados(invitados);
   const origen = window.location.origin;
+  // Viene con la lista. Antes se averiguaba preguntándole a un invitado, y esa
+  // consulta sólo responde si la tarjeta está publicada: mientras estaba en
+  // borrador el enlace salía sin slug y no abría nada.
+  const slug = invitados[0]?.slug || '';
+  const publicada = invitados[0]?.invitation_status === 'publicada';
 
   return (
     <main className="inv-list">
@@ -159,6 +152,17 @@ function GuestListPage() {
           <strong>{r.pendientes}</strong><span>sin responder</span>
         </div>
       </section>
+
+      {/* Los enlaces existen desde que se carga la lista, pero no abren nada
+          hasta que la tarjeta se publica: la política de la base sólo deja ver
+          las publicadas. Decirlo acá evita que alguien reparta cien enlaces
+          muertos. */}
+      {invitados.length > 0 && !publicada && (
+        <p className="inv-list__aviso">
+          La tarjeta todavía no está publicada. Los enlaces ya están listos, pero no van a
+          abrir hasta que se publique.
+        </p>
+      )}
 
       <section className="inv-list__alta">
         <h2 className="inv-list__subtitulo">Agregar invitados</h2>
