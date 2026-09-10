@@ -22,6 +22,11 @@ React 19 + Vite SPA. No TypeScript, no state library, no backend of its own: the
 - `/` → `HomePage` — marketing landing, wrapped in `MainLayout` (Navbar + Footer)
 - `/demo/:templateId` → `DemoPage` — wizard editor + live preview, also inside `MainLayout`
 - `/preview/:themeId` → `PreviewPage` — full-screen showcase of a variant with demo data, **outside** `MainLayout` (no navbar/footer)
+- `/i/:slug` → `InvitationPage` — a delivered card. `?i=<guestToken>` turns the RSVP into a personalised two-button greeting.
+- `/borrador/:token` → the same card before it is published; the token is the credential.
+- `/confirmaciones/:token` → `RsvpListPage` — who answered (premium tier).
+- `/invitados/:token` → `GuestListPage` — the guest list with per-guest links and who has **not** answered (premium+).
+- `/admin`, `/admin/nueva`, `/admin/:id` → the team panel, gated by `AdminGate`.
 
 `PreviewPage` is the public-facing sales path: welcome screen (offers music if the variant has audio) → full template with a floating "¡Quiero esta tarjeta!" bar → CTA modal that either sends the user to WhatsApp or to `/demo/:themeId`. It accepts `?embed=true` to hide the floating bar and skip the welcome screen (used by `DemoEmbed` on the landing).
 
@@ -81,6 +86,17 @@ The current way to add a design. An **allegory** is a data file describing a cos
 - `src/features/invitation/AllegoryCard.jsx` — the renderer. Registered in `SKELETON_MAP` as `'AllegoryCard'`; every allegory shares that single entry.
 
 Existing allegories: `cinderella`, `rapunzel`, `aurora`, `bodaClasica`, `mariposas` — all built from delivered client cards.
+
+**Tokens that change a design's character without code** — all empty/neutral by default, so no existing allegory moves:
+
+| Token | Qué hace |
+|---|---|
+| `accentAlt` | Segundo acento para marcas chicas (puntos del cronograma, adornos). Vacío cae en `accent`. |
+| `heroLayout: 'stacked'` | La portada va arriba y contenida en vez de a sangre; al costado en pantalla ancha. Una foto vertical a sangre en un monitor siempre se ve con zoom. |
+| `heroEdge: 'fade' \| 'frame'` | El borde de esa portada: desvanecida hacia el papel, o passe-partout con sombra. |
+| `decorImage` | Un dibujo que acompaña cada sección y aparece con el scroll — vive dentro del molde `Section`, así hereda su animación sin una línea de JavaScript. Alterna de lado y se espeja solo. |
+
+La sección `schedule` (Itinerario) es una línea de tiempo: `data.schedule` es `[{ time, label }]`, y se carga pegando texto.
 
 **Adding one:** write `src/allegories/<name>.js`, drop its assets in `public/allegories/<slug>/`, import it in `models.js` as a variant of the `allegories` model with `allegory: <name>`, then add entries to `segments.js` and `templates.js`. An allegory owns **all** its assets (`icons`, `backgroundImage`, `backgroundVideo`, `audio`), so moving a design means moving one file plus one folder.
 
