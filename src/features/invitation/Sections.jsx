@@ -656,6 +656,17 @@ export function GallerySection({ data, allegory }) {
     ? data.galleryPhotos
     : (data.isDemo ? SAMPLE_PHOTOS : []);
 
+  /**
+   * Sólo la rueda HORIZONTAL cuenta como tomar el control.
+   *
+   * Escuchar la rueda a secas fue un error caro: bajar la página con el cursor
+   * encima del carrusel dispara ese evento, así que el carrusel se frenaba
+   * apenas el invitado scrolleaba hasta él — o sea, siempre.
+   */
+  const tomarElControlSiEsHorizontal = (e) => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) setTomadoPorElInvitado(true);
+  };
+
   // Avanza solo. Sin esto, las fotos que no entran en pantalla dependen de que
   // al invitado se le ocurra arrastrar — y la mayoría no lo intenta.
   useEffect(() => {
@@ -691,7 +702,7 @@ export function GallerySection({ data, allegory }) {
         whileInView="show"
         viewport={viewport}
         onPointerDown={() => setTomadoPorElInvitado(true)}
-        onWheel={() => setTomadoPorElInvitado(true)}
+        onWheel={tomarElControlSiEsHorizontal}
       >
         {/* Tocar una foto sigue abriéndola grande: el carrusel es para recorrer,
             la ampliación es para mirar. */}

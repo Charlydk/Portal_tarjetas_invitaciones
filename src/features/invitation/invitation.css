@@ -919,11 +919,19 @@
     padding-inline: 0;
   }
 
-  /* El desvanecido cambia de dirección: acá la foto no se disuelve hacia el
-     papel de abajo sino hacia el costado donde empiezan los nombres. */
+  /* Acá el desvanecido se va, y no es un olvido.
+     Hacia abajo la foto se disuelve en el papel donde el texto sigue, y eso
+     funciona. Hacia el costado corta la foto: se lee como una imagen
+     incompleta, no como una mezcla.
+     Al lado del texto, la foto tiene que ser un objeto apoyado en la hoja —
+     borde limpio y una sombra corta que la despegue del papel. */
   .inv--hero-edge-fade.inv--hero-stacked .inv-hero__media {
-    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 62%, transparent 99%);
-    mask-image: linear-gradient(to right, #000 0%, #000 62%, transparent 99%);
+    -webkit-mask-image: none;
+    mask-image: none;
+    border-radius: 2px;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.06),
+      0 18px 48px rgba(0, 0, 0, 0.16);
   }
 
   /* La invitación a bajar deja de ser un elemento más de la fila y vuelve a su
