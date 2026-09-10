@@ -18,6 +18,13 @@
   path = "/i/*"
   function = "og"
 
+# El borrador que revisa el cliente. Muestra lo mismo que la publicada: el
+# token que va en la direccion ya abre la tarjeta entera, asi que la preview no
+# revela nada nuevo -- y el cliente recibe SU invitacion, no un cuadrito ajeno.
+[[edge_functions]]
+  path = "/borrador/*"
+  function = "og"
+
 # ─── Mantener despierta la base ──────────────────────────────────────────────
 # El plan gratuito de Supabase pausa los proyectos con poca actividad durante 7
 # días, y ahí el dominio deja de resolver: la tarjeta de un cliente se apaga

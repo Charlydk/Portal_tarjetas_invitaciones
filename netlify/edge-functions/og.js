@@ -98,16 +98,25 @@ async function invitationMeta(slug) {
   }
   if (!row) return null;
 
+  return metaDeTarjeta(row, `${SITE}/i/${slug}`);
+}
+
+/**
+ * Los meta tags de una tarjeta, venga de donde venga.
+ *
+ * La misma pieza sirve para la publicada y para el borrador: cambia de dónde
+ * salió la fila y a qué dirección apunta, no lo que se muestra.
+ */
+function metaDeTarjeta(row, url, prefijo = '') {
   const data = row.data || {};
   const names = [data.name1, data.name2].filter(Boolean).join(' & ');
   if (!names) return null;
 
-  // "Nos Casamos · 14 de Noviembre de 2026" — the two things a guest needs
-  // before deciding to open the link.
   const description =
-    [data.welcomePhrase, data.partyDateString].filter(Boolean).join(' · ') ||
-    data.invitePhrase ||
-    'Te esperamos para celebrar con nosotros.';
+    prefijo +
+    ([data.welcomePhrase, data.partyDateString].filter(Boolean).join(' · ') ||
+      data.invitePhrase ||
+      'Te esperamos para celebrar con nosotros.');
 
   const template = findTemplate(row.variant_id);
 
@@ -121,8 +130,39 @@ async function invitationMeta(slug) {
     image: absoluta(row.data?.heroImage)
         || absoluta(row.data?.galleryPhotos?.[0])
         || SITE + (template?.previewImage || FALLBACK_IMAGE),
-    url: `${SITE}/i/${slug}`,
+    url,
   };
+}
+
+/**
+ * El borrador que revisa el cliente.
+ *
+ * Muestra lo mismo que la tarjeta publicada, y no filtra nada: el token que va
+ * en la dirección ya abre la tarjeta entera para cualquiera que tenga el link.
+ * Esconder los nombres en la preview de un enlace que muestra todo no protege
+ * a nadie; sólo hace que el cliente reciba un cuadrito ajeno cuando le mandan
+ * SU invitación para aprobar.
+ */
+async function draftMeta(token) {
+  const base = env('VITE_SUPABASE_URL');
+  const key = env('VITE_SUPABASE_ANON_KEY');
+  if (!base || !token) return null;
+
+  let row;
+  try {
+    const res = await fetch(`${base}/rest/v1/rpc/get_invitation_by_token`, {
+      method: 'POST',
+      headers: { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_token: token }),
+    });
+    if (!res.ok) return null;
+    [row] = await res.json();
+  } catch {
+    return null;
+  }
+  if (!row) return null;
+
+  return metaDeTarjeta(row, `${SITE}/borrador/${token}`, 'Vista previa · ');
 }
 
 export default async (request, context) => {
@@ -134,7 +174,10 @@ export default async (request, context) => {
   }
 
   const [section, param] = new URL(request.url).pathname.split('/').filter(Boolean);
-  const meta = section === 'i' ? await invitationMeta(param) : showcaseMeta(param);
+  const meta =
+    section === 'i'        ? await invitationMeta(param) :
+    section === 'borrador' ? await draftMeta(param) :
+                             showcaseMeta(param);
 
   // Nothing to personalise: the site-wide preview from index.html stands.
   if (!meta) return response;
@@ -155,4 +198,4 @@ export default async (request, context) => {
   });
 };
 
-export const config = { path: ['/preview/*', '/i/*'] };
+export const config = { path: ['/preview/*', '/i/*', '/borrador/*'] };
