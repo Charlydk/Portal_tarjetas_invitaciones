@@ -14,12 +14,24 @@ export const INCLUDED_MODULES = [
 ];
 
 // Costo adicional de cada módulo opcional
+// Nota: la "Consulta Dietaria" (askDiets) se sacó del cotizador. Se cobraba
+// $2.500 y no hacía nada: no agregaba una pregunta al invitado ni aparecía en
+// la tarjeta. Sólo mostraba un cartel de "Configurado" al cliente que pagaba.
+// El campo sigue existiendo en los datos viejos; se vuelve a ofrecer cuando
+// esté implementado de verdad.
 export const MODULE_PRICES = {
   showCountdown: 2500,
   showDressCode: 2500,
   showGallery:   2500,
   showMusic:     2500,
-  askDiets:      2500,
+  showSchedule:  2500,
+  // Vale más que el resto porque es lo que más trabajo le ahorra al cliente:
+  // deja de contar ciento veinte mensajes de WhatsApp a mano.
+  rsvpOnline:    5000,
+  // Premium+: la lista de invitados con enlace personalizado para cada uno.
+  // Es lo unico que responde "a quien le falta contestar", que es la pregunta
+  // que desvela a un cliente dos semanas antes del evento.
+  guestList:     9000,
 };
 
 // Metadata de módulos para mostrar en la UI (labels, íconos, si está incluido)
@@ -33,7 +45,9 @@ export const MODULE_LABELS = {
   showDressCode:{ label: 'Dress Code',             icon: '👗', included: false },
   showGallery:  { label: 'Galería de Fotos',       icon: '📸', included: false },
   showMusic:    { label: 'Sugerencia de Música',   icon: '🎵', included: false },
-  askDiets:     { label: 'Consulta Dietaria',      icon: '🥗', included: false },
+  showSchedule: { label: 'Itinerario del evento',   icon: '🕘', included: false },
+  rsvpOnline:   { label: 'Confirmaciones en línea', icon: '📋', included: false },
+  guestList:    { label: 'Lista de invitados con enlace propio', icon: '✉️', included: false },
 };
 
 // Orden de aparición en el StepModules
@@ -47,5 +61,7 @@ export const MODULE_ORDER = [
   'showDressCode',
   'showGallery',
   'showMusic',
-  'askDiets',
+  'showSchedule',
+  'rsvpOnline',
+  'guestList',
 ];

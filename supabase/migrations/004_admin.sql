@@ -31,6 +31,13 @@ revoke all on public.admin_emails from anon, authenticated;
  * `security definer` porque tiene que leer la lista, y la lista no la puede
  * leer nadie. Devuelve un booleano sobre quien pregunta y nada más: no hay
  * forma de usarla para averiguar quiénes son los demás.
+ *
+ * Pregunta de dos maneras a propósito. Las políticas no las evalúa un solo
+ * servicio: las tablas pasan por PostgREST y los archivos por Storage, que son
+ * procesos distintos y no exponen los mismos datos del token. Buscar sólo por
+ * correo hacía que la lista de tarjetas funcionara y la subida de fotos fuera
+ * rechazada, que es un síntoma desconcertante. Con el identificador del usuario
+ * como segundo camino, la respuesta no depende de por dónde entró el pedido.
  */
 create or replace function public.is_admin()
 returns boolean
@@ -44,10 +51,22 @@ as $$
     from public.admin_emails
     where email = lower(coalesce(auth.jwt() ->> 'email', ''))
   )
+  or exists (
+    select 1
+    from auth.users u
+    join public.admin_emails a on a.email = lower(u.email)
+    where u.id = auth.uid()
+  )
 $$;
 
 revoke all on function public.is_admin() from public, anon, authenticated;
-grant execute on function public.is_admin() to authenticated;
+
+-- `supabase_storage_admin` también, y esto costó encontrarlo. Las políticas de
+-- los archivos las evalúa el servicio de Storage con su propio usuario, no con
+-- el de la aplicación. Sin este permiso, la lista de tarjetas funcionaba y la
+-- subida de una foto era rechazada con "new row violates row-level security
+-- policy", que apunta a la política y no a lo que realmente falta.
+grant execute on function public.is_admin() to authenticated, supabase_storage_admin;
 
 
 -- ─── Las tarjetas, desde el panel ────────────────────────────────────────────
@@ -95,9 +114,20 @@ grant select on public.invitation_leads to authenticated;
 -- La lectura sigue sin policy porque el bucket es público: la abre un invitado
 -- que no tiene cuenta.
 
-drop policy if exists "el equipo sube fotos"    on storage.objects;
-drop policy if exists "el equipo reemplaza fotos" on storage.objects;
-drop policy if exists "el equipo borra fotos"   on storage.objects;
+drop policy if exists "el equipo ve las fotos"     on storage.objects;
+drop policy if exists "el equipo sube fotos"       on storage.objects;
+drop policy if exists "el equipo reemplaza fotos"  on storage.objects;
+drop policy if exists "el equipo borra fotos"      on storage.objects;
+
+-- La de lectura no es de adorno y costó encontrarla. La subida se hace con
+-- "reemplazar si ya existe" (`on conflict do update`), y para eso Postgres
+-- necesita poder LEER la fila que podría chocar. Sin política de lectura, el
+-- equipo no ve ninguna, así que la comprobación falla y la subida se rechaza
+-- con "new row violates row-level security policy" — un mensaje que señala la
+-- política de escritura, que era justamente la que estaba bien.
+create policy "el equipo ve las fotos"
+  on storage.objects for select to authenticated
+  using (bucket_id = 'tarjetas' and public.is_admin());
 
 create policy "el equipo sube fotos"
   on storage.objects for insert to authenticated
@@ -105,7 +135,8 @@ create policy "el equipo sube fotos"
 
 create policy "el equipo reemplaza fotos"
   on storage.objects for update to authenticated
-  using (bucket_id = 'tarjetas' and public.is_admin());
+  using (bucket_id = 'tarjetas' and public.is_admin())
+  with check (bucket_id = 'tarjetas' and public.is_admin());
 
 create policy "el equipo borra fotos"
   on storage.objects for delete to authenticated

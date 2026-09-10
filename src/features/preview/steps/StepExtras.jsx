@@ -91,18 +91,11 @@ export function StepExtras({ formData, handleChange }) {
         </div>
       )}
 
-      {/* ── Requerimientos Dietarios ── */}
-      {formData.askDiets && (
-        <div className="wizard-sub-section" style={{ marginTop: '30px' }}>
-          <h4>🥗 Requerimientos Dietarios</h4>
-          <p className="step-description">
-            Al confirmar asistencia, los invitados verán una aclaración sobre dietas especiales.
-          </p>
-          <div className="info-box" style={{ background: '#eafaf1', borderColor: '#2ecc71' }}>
-            <p>✅ <strong>Configurado.</strong> Los invitados verán: <em>"Avisanos si tenés alguna restricción alimentaria al confirmar tu asistencia."</em></p>
-          </div>
-        </div>
-      )}
+      {/* Acá vivía "Requerimientos Dietarios": un cartel verde que le decía al
+          cliente "✅ Configurado" por $2.500. No agregaba una pregunta al
+          invitado, no aparecía en la tarjeta, no llegaba a ningún lado. Se
+          saca hasta que exista de verdad — cobrar por algo que no se entrega
+          es peor que no ofrecerlo. */}
     </div>
   );
 }

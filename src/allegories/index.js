@@ -8,6 +8,7 @@ export const SECTION_IDS = [
   'civil',
   'ceremony',
   'party',
+  'schedule',
   'countdown',
   'rsvp',
   'dresscode',
@@ -23,6 +24,7 @@ export const DEFAULT_TITLES = {
   civil: 'Ceremonia Civil',
   ceremony: 'Ceremonia Religiosa',
   party: 'La Fiesta',
+  schedule: 'Itinerario',
   countdown: 'Faltan',
   rsvp: 'Confirmá tu asistencia',
   dresscode: 'Dress Code',
@@ -33,6 +35,7 @@ export const DEFAULT_TITLES = {
 
 export const DEFAULT_COPY = {
   countdownFoot: '¡Te esperamos!',
+  scheduleBody: '',
   rsvpBody: 'Tu presencia es lo más importante para nosotros.',
   rsvpCta: 'Confirmar asistencia',
   rsvpWhatsapp: '¡Hola! Confirmo mi asistencia 🎉',
@@ -58,6 +61,9 @@ export const DEFAULT_TOKENS = {
   heroInk: '',
   accent: '#C9A96E',
   accentInk: '#1a1206',
+  // Segundo acento, para marcas chicas: los puntos del cronograma, el ornamento.
+  // Vacío cae en `accent`, así que ninguna alegoría vieja cambia.
+  accentAlt: '',
   fontTitle: "'Cormorant Garamond', Garamond, serif",
   fontBody: "'Lato', system-ui, sans-serif",
   // Reserved for the hero name only. Faces with real character are unreadable
@@ -81,6 +87,20 @@ export const DEFAULT_TOKENS = {
   // A looping muted video behind the hero. Clients ask for this by name.
   backgroundVideo: '',
   heroVeil: 'rgba(0,0,0,0.45)',
+  // Cómo se relaciona la portada con los nombres.
+  //   'overlay' (por defecto): la foto ocupa la pantalla y el texto va encima.
+  //   'stacked': la foto va arriba, contenida, y los nombres debajo sobre el
+  //   papel. Una foto vertical a sangre en un monitor ancho SIEMPRE se ve con
+  //   zoom, porque hay que recortarla muchísimo para llenar el ancho.
+  heroLayout: 'overlay',
+  // El borde de la portada, cuando va apilada.
+  //   ''       sin tratamiento, el rectángulo tal cual.
+  //   'fade'   se desvanece hacia abajo y los nombres emergen del papel.
+  //   'frame'  passe-partout del color del papel y sombra: una foto apoyada.
+  heroEdge: '',
+  // Un dibujo decorativo que acompaña las secciones, apareciendo a medida que
+  // el invitado baja. Va detrás del texto y alternando de lado.
+  decorImage: '',
   // Sits between the background image and the text. Without it, light photos
   // eat the copy — the single most common legibility failure in these cards.
   scrim: 'linear-gradient(180deg, rgba(8,12,26,0.82) 0%, rgba(8,12,26,0.72) 100%)',
@@ -129,6 +149,8 @@ export function tokensToCssVars(tokens) {
     '--inv-hero-ink': tokens.heroInk || tokens.ink,
     '--inv-accent': tokens.accent,
     '--inv-accent-ink': tokens.accentInk,
+    '--inv-accent-alt': tokens.accentAlt || tokens.accent,
+    '--inv-decor': tokens.decorImage ? `url("${tokens.decorImage}")` : 'none',
     '--inv-font-title': tokens.fontTitle,
     '--inv-font-display': tokens.fontDisplay || tokens.fontTitle,
     '--inv-font-body': tokens.fontBody,

@@ -18,6 +18,14 @@ export const invitationSegments = [
     description: 'Diseños elegantes para tu casamiento.',
     templates: [
       {
+        id: 'boda-sobria',
+        name: 'Boda Sobria',
+        modelId: 'allegories',
+        variantId: 'boda-sobria',
+        previewImage: '/allegories/_muestra/foto1.webp',
+        description: 'Clásica y tipográfica, en blanco, verde oliva y terracota. Sin ilustraciones: la sostienen tus propias fotos.',
+      },
+      {
         id: 'boda-caricatura',
         name: 'Boda Caricatura',
         modelId: 'allegories',

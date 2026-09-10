@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { comprimirImagen } from '../../../lib/imagen';
 
 const MAX_PHOTOS = 4;
 const SAMPLE_PHOTOS = [
@@ -8,26 +9,6 @@ const SAMPLE_PHOTOS = [
   'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&q=80',
 ];
 
-// Comprime la imagen a base64 usando canvas
-function compressImage(file, maxWidth = 800, quality = 0.75) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const scale = Math.min(1, maxWidth / img.width);
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-        resolve(canvas.toDataURL('image/jpeg', quality));
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
 export function StepGallery({ formData, setFormData }) {
   const inputRef = useRef(null);
   const photos = formData.galleryPhotos || [];
@@ -35,7 +16,7 @@ export function StepGallery({ formData, setFormData }) {
 
   const handleUpload = async (e) => {
     const files = Array.from(e.target.files).slice(0, MAX_PHOTOS - photos.length);
-    const compressed = await Promise.all(files.map(f => compressImage(f)));
+    const compressed = await Promise.all(files.map(f => comprimirImagen(f)));
     setFormData(prev => ({
       ...prev,
       galleryPhotos: [...(prev.galleryPhotos || []), ...compressed].slice(0, MAX_PHOTOS)
@@ -75,7 +56,7 @@ export function StepGallery({ formData, setFormData }) {
             <div key={i} className={`gallery-slot ${isOwn ? 'owned' : 'sample'}`}>
               <img src={src} alt={`Foto ${i + 1}`} />
               {isOwn && (
-                <button className="gallery-remove-btn" onClick={() => handleRemove(i)} title="Quitar foto">✕</button>
+                <button type="button" className="gallery-remove-btn" onClick={() => handleRemove(i)} title="Quitar foto">✕</button>
               )}
               {!isOwn && <div className="gallery-sample-badge">Demo</div>}
             </div>
@@ -87,7 +68,7 @@ export function StepGallery({ formData, setFormData }) {
       <div style={{ display: 'flex', gap: '12px', marginTop: '16px', flexWrap: 'wrap' }}>
         {photos.length < MAX_PHOTOS && (
           <>
-            <button className="btn-wizard next" onClick={() => inputRef.current?.click()}>
+            <button type="button" className="btn-wizard next" onClick={() => inputRef.current?.click()}>
               📁 Cargar fotos ({photos.length}/{MAX_PHOTOS})
             </button>
             <input
@@ -101,10 +82,25 @@ export function StepGallery({ formData, setFormData }) {
           </>
         )}
         {photos.length > 0 && (
-          <button className="btn-wizard prev" onClick={handleUseSamples}>
+          <button type="button" className="btn-wizard prev" onClick={handleUseSamples}>
             🖼️ Usar fotos de ejemplo
           </button>
         )}
+      </div>
+
+      {/* El boton que va debajo de la galeria en la tarjeta. Existia en el
+          disenio desde siempre y no habia donde cargar el enlace, asi que nunca
+          aparecia. */}
+      <div className="form-group mt-15">
+        <label>Álbum compartido (opcional)</label>
+        <input
+          type="url"
+          value={formData.sharedAlbumUrl || ''}
+          onChange={(e) => setFormData((prev) => ({ ...prev, sharedAlbumUrl: e.target.value }))}
+          placeholder="https://photos.app.goo.gl/..."
+          style={{ width: '100%', padding: '10px 12px', border: '1px solid #ccc', borderRadius: '6px', fontSize: '0.95rem' }}
+        />
+        <small>Un álbum de Google Fotos donde los invitados suben las fotos de la fiesta. Aparece como botón debajo de la galería.</small>
       </div>
 
       {isUsingDemo && (

@@ -1,0 +1,88 @@
+/* La lista de confirmaciones del cliente.
+   Se mira desde el celular, apurado, para pasarle un número al salón. Por eso
+   el número va primero y grande, y la lista después. */
+
+.rsvp {
+  min-height: 100vh;
+  background: #14110B;
+  color: #F5EFE3;
+  font-family: 'Lato', system-ui, sans-serif;
+  padding: 36px 20px 64px;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.rsvp-vacio { min-height: 100vh; background: #14110B; }
+
+.rsvp__marca {
+  font-family: 'Cinzel', serif;
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #C9A96E;
+  margin: 0;
+}
+
+.rsvp__titulo {
+  font-weight: 600;
+  font-size: 1.7rem;
+  margin: 6px 0 26px;
+}
+
+.rsvp__resumen {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.rsvp__dato {
+  flex: 1 1 100px;
+  background: rgba(245, 239, 227, 0.05);
+  border: 1px solid rgba(245, 239, 227, 0.1);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rsvp__dato strong { font-size: 1.5rem; font-weight: 600; }
+.rsvp__dato span   { font-size: 0.74rem; color: rgba(245, 239, 227, 0.6); }
+
+.rsvp__dato--grande {
+  flex-basis: 100%;
+  border-color: rgba(201, 169, 110, 0.5);
+}
+
+.rsvp__dato--grande strong { font-size: 2.6rem; color: #C9A96E; line-height: 1.1; }
+
+.rsvp__lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+
+.rsvp__fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: rgba(245, 239, 227, 0.04);
+  border: 1px solid rgba(245, 239, 227, 0.09);
+  border-left-width: 3px;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.rsvp__fila.is-viene    { border-left-color: #86C08A; }
+.rsvp__fila.is-no-viene { border-left-color: rgba(245, 239, 227, 0.25); }
+
+.rsvp__fila-datos { min-width: 0; }
+.rsvp__nombre { margin: 0; font-weight: 600; }
+.rsvp__notas  { margin: 3px 0 0; font-size: 0.78rem; color: #C9A96E; }
+
+.rsvp__estado {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(245, 239, 227, 0.7);
+  white-space: nowrap;
+}
+
+.rsvp__nota { color: rgba(245, 239, 227, 0.6); font-size: 0.88rem; }

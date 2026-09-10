@@ -7,6 +7,7 @@ import { bodaClasica } from '../allegories/bodaClasica';
 import { mariposas } from '../allegories/mariposas';
 import { auroraBoda } from '../allegories/auroraBoda';
 import { cenicientaBoda } from '../allegories/cenicientaBoda';
+import { bodaSobria } from '../allegories/bodaSobria';
 
 const SHARED_ASSETS = {
   video1: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
@@ -1044,6 +1045,20 @@ export const invitationModels = [
           fontFamilyTitle: bodaClasica.tokens.fontTitle,
           fontFamilyBody: bodaClasica.tokens.fontBody,
           textColor: bodaClasica.tokens.ink,
+        }
+      },
+      {
+        id: 'boda-sobria',
+        name: 'Boda Sobria',
+        allegory: bodaSobria,
+        // Sin audio: el silencio es parte del diseño.
+        assets: {},
+        styles: {
+          primaryColor: bodaSobria.tokens.accent,
+          secondaryColor: bodaSobria.tokens.bg,
+          fontFamilyTitle: bodaSobria.tokens.fontTitle,
+          fontFamilyBody: bodaSobria.tokens.fontBody,
+          textColor: bodaSobria.tokens.ink,
         }
       },
       {

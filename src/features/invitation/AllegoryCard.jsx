@@ -8,6 +8,7 @@ import {
   CountdownSection,
   RsvpSection,
   DressCodeSection,
+  ScheduleSection,
   GiftsSection,
   GallerySection,
   MusicSection,
@@ -99,6 +100,9 @@ function AllegoryCard({ data, theme }) {
         />
       ),
 
+    schedule: () =>
+      data.showSchedule && <ScheduleSection key="schedule" data={data} allegory={allegory} />,
+
     countdown: () =>
       data.showCountdown && <CountdownSection key="countdown" data={data} allegory={allegory} />,
 
@@ -122,6 +126,9 @@ function AllegoryCard({ data, theme }) {
     `inv--${allegory.id}`,
     amb && 'inv--rich',
     amb?.kenBurns && 'inv--kenburns',
+    allegory.tokens.heroLayout === 'stacked' && 'inv--hero-stacked',
+    allegory.tokens.heroEdge && `inv--hero-edge-${allegory.tokens.heroEdge}`,
+    allegory.tokens.decorImage && 'inv--decor',
   ].filter(Boolean).join(' ');
 
   return (

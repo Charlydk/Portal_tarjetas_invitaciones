@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useCountdown } from '../../hooks/useCountdown';
 
@@ -131,6 +131,14 @@ function Section({ id, title, icon, children, tight = false }) {
       whileInView="show"
       viewport={viewport}
     >
+      {/* El adorno entra con la sección, no antes: hereda la animación del
+          molde, así que aparece a medida que el invitado baja. La imagen va en
+          un hijo porque el padre lleva el `transform` de la animación, y
+          espejar acá lo pisaría. */}
+      <motion.div variants={item} className="inv-decor" aria-hidden="true">
+        <span className="inv-decor__img" />
+      </motion.div>
+
       <Medallion icon={icon} />
       <Ornament />
       {title && (
@@ -149,17 +157,22 @@ export function HeroSection({ data, allegory }) {
   return (
     <section id="section-hero" className="inv-hero">
       {/* The poster sits on the layer itself, so the hero still reads while the
-          video buffers — and stays correct when reduced motion hides the video. */}
-      <div
-        className="inv-hero__media"
-        style={poster ? { backgroundImage: `url("${poster}")` } : undefined}
-      >
-        {video && (
-          <video autoPlay loop muted playsInline preload="metadata" poster={poster || undefined}>
-            <source src={video} type="video/mp4" />
-          </video>
-        )}
-      </div>
+          video buffers — and stays correct when reduced motion hides the video.
+
+          Sólo se dibuja si hay algo que mostrar: en la portada apilada, un
+          bloque de foto sin foto deja un hueco gris del alto de la pantalla. */}
+      {(poster || video) && (
+        <div
+          className="inv-hero__media"
+          style={poster ? { backgroundImage: `url("${poster}")` } : undefined}
+        >
+          {video && (
+            <video autoPlay loop muted playsInline preload="metadata" poster={poster || undefined}>
+              <source src={video} type="video/mp4" />
+            </video>
+          )}
+        </div>
+      )}
       <div className="inv-hero__veil" />
 
       <div className="inv-hero__content">
@@ -275,9 +288,269 @@ export function CountdownSection({ data, allegory }) {
   );
 }
 
+/**
+ * El formulario con el que confirma un invitado.
+ *
+ * Reemplaza al link de WhatsApp cuando el cliente contrata las confirmaciones
+ * en linea. La diferencia para el cliente es enorme: en vez de ciento veinte
+ * mensajes sueltos mezclados con su chat, una lista.
+ *
+ * Pide poco a proposito. Cada campo de mas es gente que abandona a mitad, y
+ * despues falta justo el dato que importaba.
+ */
+function RsvpForm({ data, allegory }) {
+  const [nombre, setNombre] = useState('');
+  const [viene, setViene] = useState(null);
+  const [acompanantes, setAcompanantes] = useState(0);
+  const [notas, setNotas] = useState('');
+  const [estado, setEstado] = useState('escribiendo'); // escribiendo | enviando | listo | error
+
+  async function enviar() {
+    if (!nombre.trim() || viene === null) return;
+
+    // En la muestra del catalogo no hay tarjeta contra la cual confirmar: se
+    // simula para que el cliente vea como funciona antes de comprarla.
+    if (data.isDemo) {
+      setEstado('listo');
+      return;
+    }
+
+    setEstado('enviando');
+    try {
+      const { submitRsvp } = await import('../../lib/rsvpService');
+      await submitRsvp({
+        slug: data.slug,
+        name: nombre,
+        attending: viene,
+        companions: viene ? Number(acompanantes) || 0 : 0,
+        notes: notas,
+      });
+      setEstado('listo');
+    } catch {
+      setEstado('error');
+    }
+  }
+
+  if (estado === 'listo') {
+    return (
+      <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
+        <p className="inv-body inv-rsvp__gracias">
+          {viene
+            ? '¡Gracias! Ya quedó registrada tu confirmación.'
+            : 'Gracias por avisarnos. Te vamos a extrañar.'}
+        </p>
+      </Section>
+    );
+  }
+
+  return (
+    <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
+      <p className="inv-body">{allegory.copy.rsvpBody}</p>
+      {data.rsvpDeadline && (
+        <p className="inv-body">
+          Confirmá antes del <strong>{data.rsvpDeadline}</strong>.
+        </p>
+      )}
+
+      <div className="inv-rsvp">
+        <label className="inv-rsvp__campo">
+          <span>¿Cómo te llamás?</span>
+          <input
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            placeholder="Nombre y apellido"
+            maxLength={120}
+          />
+        </label>
+
+        <div className="inv-rsvp__campo">
+          <span>¿Nos acompañás?</span>
+          <div className="inv-rsvp__opciones">
+            <button
+              type="button"
+              className={`inv-btn inv-rsvp__opcion ${viene === true ? 'is-elegida' : ''}`}
+              onClick={() => setViene(true)}
+            >
+              Sí, ahí estaré
+            </button>
+            <button
+              type="button"
+              className={`inv-btn inv-rsvp__opcion ${viene === false ? 'is-elegida' : ''}`}
+              onClick={() => setViene(false)}
+            >
+              No voy a poder
+            </button>
+          </div>
+        </div>
+
+        {viene === true && (
+          <label className="inv-rsvp__campo">
+            <span>¿Cuántas personas te acompañan?</span>
+            <input
+              type="number"
+              min="0"
+              max="20"
+              value={acompanantes}
+              onChange={(e) => setAcompanantes(e.target.value)}
+            />
+          </label>
+        )}
+
+        {viene !== null && (
+          <label className="inv-rsvp__campo">
+            <span>¿Alguna restricción alimentaria? (opcional)</span>
+            <input
+              value={notas}
+              onChange={(e) => setNotas(e.target.value)}
+              placeholder="Celíaco, vegetariano, alergias…"
+              maxLength={500}
+            />
+          </label>
+        )}
+
+        {estado === 'error' && (
+          <p className="inv-rsvp__error">
+            No pudimos registrar tu confirmación. Probá de nuevo en un rato.
+          </p>
+        )}
+
+        <button
+          type="button"
+          className="inv-btn"
+          onClick={enviar}
+          disabled={!nombre.trim() || viene === null || estado === 'enviando'}
+        >
+          {estado === 'enviando' ? 'Enviando…' : allegory.copy.rsvpCta}
+        </button>
+      </div>
+    </Section>
+  );
+}
+
+/**
+ * La confirmacion de un invitado que llego por su propio enlace.
+ *
+ * La tarjeta ya sabe quien es, asi que no hay formulario: hay dos botones. Cada
+ * campo que se saca es gente que no abandona a mitad, y ademas el cupo lo puso
+ * el cliente — se termina el invitado que confirma por seis.
+ */
+function GuestRsvp({ data, allegory }) {
+  const invitado = data.guest;
+  const [acompanantes, setAcompanantes] = useState(invitado.companions || 0);
+  const [notas, setNotas] = useState('');
+  const [estado, setEstado] = useState(
+    invitado.status === 'pendiente' ? 'preguntando' : 'respondido'
+  );
+  const [vino, setVino] = useState(invitado.status === 'confirmado');
+
+  async function responder(viene) {
+    setEstado('enviando');
+    try {
+      const { respondAsGuest } = await import('../../lib/guestService');
+      await respondAsGuest({
+        guestToken: invitado.token,
+        attending: viene,
+        companions: viene ? Number(acompanantes) || 0 : 0,
+        notes: notas,
+      });
+      setVino(viene);
+      setEstado('respondido');
+    } catch {
+      setEstado('error');
+    }
+  }
+
+  const primerNombre = (invitado.name || '').split(' ')[0];
+
+  if (estado === 'respondido') {
+    return (
+      <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
+        <p className="inv-body inv-rsvp__gracias">
+          {vino
+            ? `¡Gracias, ${primerNombre}! Te esperamos.`
+            : `Gracias por avisarnos, ${primerNombre}. Te vamos a extrañar.`}
+        </p>
+        <button type="button" className="inv-rsvp__cambiar" onClick={() => setEstado('preguntando')}>
+          Cambiar mi respuesta
+        </button>
+      </Section>
+    );
+  }
+
+  return (
+    <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
+      <p className="inv-body inv-rsvp__saludo">Hola {primerNombre}</p>
+      <p className="inv-body">{allegory.copy.rsvpBody}</p>
+      {data.rsvpDeadline && (
+        <p className="inv-body">
+          Confirmá antes del <strong>{data.rsvpDeadline}</strong>.
+        </p>
+      )}
+
+      <div className="inv-rsvp">
+        {invitado.max_companions > 0 && (
+          <label className="inv-rsvp__campo">
+            <span>
+              Tenés lugar para {invitado.max_companions}{' '}
+              {invitado.max_companions === 1 ? 'acompañante' : 'acompañantes'}. ¿Cuántos vienen?
+            </span>
+            <input
+              type="number"
+              min="0"
+              max={invitado.max_companions}
+              value={acompanantes}
+              onChange={(e) => setAcompanantes(e.target.value)}
+            />
+          </label>
+        )}
+
+        <label className="inv-rsvp__campo">
+          <span>¿Alguna restricción alimentaria? (opcional)</span>
+          <input
+            value={notas}
+            onChange={(e) => setNotas(e.target.value)}
+            placeholder="Celíaco, vegetariano, alergias…"
+            maxLength={500}
+          />
+        </label>
+
+        {estado === 'error' && (
+          <p className="inv-rsvp__error">No pudimos registrar tu respuesta. Probá de nuevo en un rato.</p>
+        )}
+
+        <div className="inv-rsvp__opciones">
+          <button type="button" className="inv-btn" disabled={estado === 'enviando'} onClick={() => responder(true)}>
+            {estado === 'enviando' ? 'Enviando…' : 'Sí, ahí estaré'}
+          </button>
+          <button
+            type="button"
+            className="inv-btn inv-rsvp__opcion"
+            disabled={estado === 'enviando'}
+            onClick={() => responder(false)}
+          >
+            No voy a poder
+          </button>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 export function RsvpSection({ data, allegory }) {
   const { whatsappNumber } = data;
   const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(allegory.copy.rsvpWhatsapp)}`;
+
+  // Llego por su propio enlace: la tarjeta sabe quien es.
+  if (data.guest) {
+    return <GuestRsvp data={data} allegory={allegory} />;
+  }
+
+  // Las confirmaciones en linea son un modulo aparte. Sin el, la tarjeta sigue
+  // funcionando igual que siempre: el invitado escribe por WhatsApp.
+  if (data.rsvpOnline && (data.slug || data.isDemo)) {
+    return <RsvpForm data={data} allegory={allegory} />;
+  }
+
   return (
     <Section id="section-rsvp" title={allegory.titles.rsvp} icon={allegory.icons?.rsvp}>
       <p className="inv-body">{allegory.copy.rsvpBody}</p>
@@ -301,6 +574,36 @@ export function RsvpSection({ data, allegory }) {
   );
 }
 
+/**
+ * El cronograma de la noche.
+ *
+ * Lo pidio el primer cliente real y no es un capricho suyo: el invitado quiere
+ * saber a que hora se come y a que hora se baila, y hoy eso se resuelve
+ * preguntando por WhatsApp. Es la seccion mas util de una tarjeta despues de
+ * la direccion.
+ *
+ * Se dibuja como una linea de tiempo y no como una tabla: se lee en un teléfono,
+ * de arriba hacia abajo, que es como transcurre la fiesta.
+ */
+export function ScheduleSection({ data, allegory }) {
+  const items = (data.schedule || []).filter((i) => i && (i.time || i.label));
+  if (!items.length) return null;
+
+  return (
+    <Section id="section-schedule" title={allegory.titles.schedule} icon={allegory.icons?.schedule}>
+      {allegory.copy.scheduleBody && <p className="inv-body">{allegory.copy.scheduleBody}</p>}
+      <motion.ol className="inv-schedule" variants={group} initial="hidden" whileInView="show" viewport={viewport}>
+        {items.map((fila, i) => (
+          <motion.li key={i} className="inv-schedule__item" variants={item}>
+            <span className="inv-schedule__hora">{fila.time}</span>
+            <span className="inv-schedule__que">{fila.label}</span>
+          </motion.li>
+        ))}
+      </motion.ol>
+    </Section>
+  );
+}
+
 export function DressCodeSection({ data, allegory }) {
   return (
     <Section id="section-dresscode" title={allegory.titles.dresscode} icon={allegory.icons?.dresscode}>
@@ -311,12 +614,15 @@ export function DressCodeSection({ data, allegory }) {
 }
 
 export function GiftsSection({ data, allegory }) {
-  const { giftMode = 'cbu', alias, bankCbu } = data;
+  const { giftMode = 'cbu', alias, bankCbu, accountHolder } = data;
   const showBank = giftMode === 'cbu' || giftMode === 'both';
   const showChest = giftMode === 'cofre' || giftMode === 'both';
   return (
     <Section id="section-gifts" title={allegory.titles.gifts} icon={allegory.icons?.gifts}>
-      <p className="inv-body">{allegory.copy.giftsBody}</p>
+      {/* Lo que escribió el cliente le gana al texto del diseño. Esta frase la
+          escriben ellos casi siempre — "contribuir a nuestra luna de miel" no
+          es algo que pueda decir una plantilla por todos. */}
+      <p className="inv-body">{data.giftsPhrase || allegory.copy.giftsBody}</p>
       {showBank && alias && (
         <p className="inv-body">
           <span className="inv-label">Alias</span>
@@ -329,6 +635,14 @@ export function GiftsSection({ data, allegory }) {
           <span className="inv-value">{bankCbu}</span>
         </p>
       )}
+      {/* Sin el titular, el invitado ve un alias y no sabe a quién le
+          transfiere. Es el dato que hace que la transferencia ocurra. */}
+      {showBank && accountHolder && (
+        <p className="inv-body">
+          <span className="inv-label">Titular</span>
+          <span className="inv-value">{accountHolder}</span>
+        </p>
+      )}
       {showChest && <p className="inv-body">{allegory.copy.giftsChest}</p>}
     </Section>
   );
@@ -336,7 +650,52 @@ export function GiftsSection({ data, allegory }) {
 
 export function GallerySection({ data, allegory }) {
   const [lightbox, setLightbox] = useState(null);
-  const photos = data.galleryPhotos?.length ? data.galleryPhotos : SAMPLE_PHOTOS;
+  const pista = useRef(null);
+  // Una vez que el invitado toca el carrusel, deja de moverse solo y no vuelve
+  // a arrancar. Un carrusel que retoma el control después de que alguien lo
+  // agarró se siente como pelearle a la página.
+  const [tomadoPorElInvitado, setTomadoPorElInvitado] = useState(false);
+
+  // Las fotos de muestra son para la vidriera: una muestra del catálogo con la
+  // galería vacía se vería rota. En la tarjeta entregada de un cliente serían
+  // fotos de desconocidos en el casamiento de otro, así que si no cargó
+  // ninguna, la sección directamente no va.
+  const photos = data.galleryPhotos?.length
+    ? data.galleryPhotos
+    : (data.isDemo ? SAMPLE_PHOTOS : []);
+
+  /**
+   * Sólo la rueda HORIZONTAL cuenta como tomar el control.
+   *
+   * Escuchar la rueda a secas fue un error caro: bajar la página con el cursor
+   * encima del carrusel dispara ese evento, así que el carrusel se frenaba
+   * apenas el invitado scrolleaba hasta él — o sea, siempre.
+   */
+  const tomarElControlSiEsHorizontal = (e) => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) setTomadoPorElInvitado(true);
+  };
+
+  // Avanza solo. Sin esto, las fotos que no entran en pantalla dependen de que
+  // al invitado se le ocurra arrastrar — y la mayoría no lo intenta.
+  useEffect(() => {
+    if (tomadoPorElInvitado || lightbox || photos.length < 2) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+
+    const id = setInterval(() => {
+      const track = pista.current;
+      if (!track || !track.firstElementChild) return;
+
+      const paso = track.firstElementChild.getBoundingClientRect().width + 12;
+      const final = track.scrollWidth - track.clientWidth - 8;
+      const destino = track.scrollLeft >= final ? 0 : track.scrollLeft + paso;
+
+      track.scrollTo({ left: destino, behavior: 'smooth' });
+    }, 3800);
+
+    return () => clearInterval(id);
+  }, [tomadoPorElInvitado, lightbox, photos.length]);
+
+  if (!photos.length) return null;
 
   return (
     <Section id="section-gallery" title={allegory.titles.gallery} icon={allegory.icons?.gallery}>
@@ -344,12 +703,17 @@ export function GallerySection({ data, allegory }) {
         <p className="inv-body">{allegory.copy.galleryTagline}</p>
       )}
       <motion.div
+        ref={pista}
         className="inv-gallery"
         variants={group}
         initial="hidden"
         whileInView="show"
         viewport={viewport}
+        onPointerDown={() => setTomadoPorElInvitado(true)}
+        onWheel={tomarElControlSiEsHorizontal}
       >
+        {/* Tocar una foto sigue abriéndola grande: el carrusel es para recorrer,
+            la ampliación es para mirar. */}
         {photos.slice(0, 8).map((src, i) => (
           <motion.button
             key={i}
@@ -403,6 +767,13 @@ export function MusicSection({ data, allegory }) {
 
 export function ClosingSection({ data, allegory }) {
   const names = [data.name1, data.name2].filter(Boolean).join(' & ');
+  // La fecha y el lugar, una vez más al final. Es lo que hace que el cierre se
+  // lea como el final de una invitación y no como una sección más que terminó:
+  // el invitado llega abajo, vuelve a ver cuándo y dónde, y cierra la tarjeta
+  // sabiéndolo. En una tarjeta de papel eso va impreso al pie.
+  const cuandoYDonde = [data.partyDateString, data.eventVenue || data.partyPlace]
+    .filter(Boolean)
+    .join(' · ');
   return (
     <motion.footer
       className="inv-closing"
@@ -414,6 +785,9 @@ export function ClosingSection({ data, allegory }) {
       <Ornament />
       <motion.h2 variants={titleIn} className="inv-title">{allegory.titles.closing}</motion.h2>
       {names && <motion.p variants={item} className="inv-body">{names}</motion.p>}
+      {cuandoYDonde && (
+        <motion.p variants={item} className="inv-closing__dato">{cuandoYDonde}</motion.p>
+      )}
       {/* La firma es la única puerta de vuelta al portal. Cada tarjeta la abren
           decenas de invitados y algunos se casan el año que viene: como texto
           plano los obligaba a memorizar el nombre y buscarlo después, que es

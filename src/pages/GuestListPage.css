@@ -1,0 +1,155 @@
+/* Mis invitados.
+   Se mira desde el celular y con apuro. Por eso los números van arriba y
+   grandes, y "sin responder" tiene su propio color: es el dato por el que se
+   entra a esta pantalla. */
+
+.inv-list {
+  min-height: 100vh;
+  background: #14110B;
+  color: #F5EFE3;
+  font-family: 'Lato', system-ui, sans-serif;
+  padding: 36px 20px 64px;
+  max-width: 680px;
+  margin-inline: auto;
+}
+
+.inv-list-vacio { min-height: 100vh; background: #14110B; }
+
+.inv-list__marca {
+  font-family: 'Cinzel', serif;
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #C9A96E;
+  margin: 0;
+}
+
+.inv-list__titulo { font-weight: 600; font-size: 1.7rem; margin: 6px 0 24px; }
+
+.inv-list__subtitulo {
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #C9A96E;
+  margin: 0 0 8px;
+}
+
+/* ── Los números ─────────────────────────────────────────────────────────── */
+
+.inv-list__resumen { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
+
+.inv-list__dato {
+  flex: 1 1 90px;
+  background: rgba(245, 239, 227, 0.05);
+  border: 1px solid rgba(245, 239, 227, 0.1);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inv-list__dato strong { font-size: 1.4rem; font-weight: 600; }
+.inv-list__dato span   { font-size: 0.72rem; color: rgba(245, 239, 227, 0.6); }
+
+.inv-list__dato--grande { flex-basis: 100%; border-color: rgba(201, 169, 110, 0.5); }
+.inv-list__dato--grande strong { font-size: 2.6rem; color: #C9A96E; line-height: 1.1; }
+
+.inv-list__dato.is-si strong        { color: #86C08A; }
+.inv-list__dato.is-no strong        { color: rgba(245, 239, 227, 0.5); }
+.inv-list__dato.is-pendiente strong { color: #E0B36A; }
+
+/* ── Cargar la lista ─────────────────────────────────────────────────────── */
+
+.inv-list__alta {
+  background: rgba(245, 239, 227, 0.04);
+  border: 1px solid rgba(245, 239, 227, 0.1);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 26px;
+}
+
+.inv-list__alta textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(245, 239, 227, 0.18);
+  border-radius: 8px;
+  padding: 12px;
+  color: inherit;
+  font: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+.inv-list__alta textarea:focus-visible { outline: none; border-color: #C9A96E; }
+
+.inv-list__nota { color: rgba(245, 239, 227, 0.6); font-size: 0.84rem; line-height: 1.6; }
+.inv-list__nota code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+/* ── La lista ────────────────────────────────────────────────────────────── */
+
+.inv-list__lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+
+.inv-list__fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: rgba(245, 239, 227, 0.04);
+  border: 1px solid rgba(245, 239, 227, 0.09);
+  border-left-width: 3px;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.inv-list__fila.is-si        { border-left-color: #86C08A; }
+.inv-list__fila.is-no        { border-left-color: rgba(245, 239, 227, 0.25); }
+.inv-list__fila.is-pendiente { border-left-color: #E0B36A; }
+
+.inv-list__datos { min-width: 0; flex: 1 1 160px; }
+.inv-list__nombre { margin: 0; font-weight: 600; }
+
+.inv-list__cupo {
+  margin-left: 7px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: #C9A96E;
+  border: 1px solid rgba(201, 169, 110, 0.45);
+  border-radius: 50px;
+  padding: 1px 7px;
+}
+
+.inv-list__estado { margin: 3px 0 0; font-size: 0.78rem; color: rgba(245, 239, 227, 0.65); }
+.inv-list__notas  { color: #C9A96E; }
+
+.inv-list__acciones { display: flex; gap: 6px; align-items: center; }
+
+.inv-list__btn {
+  background: transparent;
+  border: 1px solid rgba(245, 239, 227, 0.24);
+  color: rgba(245, 239, 227, 0.86);
+  border-radius: 6px;
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.inv-list__btn:hover { border-color: rgba(245, 239, 227, 0.5); }
+
+/* Enviar es la acción principal de cada fila: es a lo que se vino. */
+.inv-list__btn--wa { background: #1F7A48; border-color: #1F7A48; color: #F5EFE3; font-weight: 600; }
+.inv-list__btn--wa:hover { background: #258B52; }
+
+.inv-list__btn--principal { background: #C9A96E; border-color: #C9A96E; color: #14110B; font-weight: 600; }
+.inv-list__btn--quitar { color: rgba(245, 239, 227, 0.45); padding: 7px 10px; }
+.inv-list__btn:disabled { opacity: 0.5; cursor: default; }

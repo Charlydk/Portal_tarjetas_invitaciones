@@ -16,7 +16,7 @@ const COUNTRY_CODES = [
   { code: '52',  flag: '🇲🇽', name: 'México' },
 ];
 
-export function StepConfirm({ formData, handleChange }) {
+export function StepConfirm({ formData, handleChange, mostrarCierre = true }) {
   // El número completo de WhatsApp se arma como: countryCode + localNumber
   // Guardamos ambos separados para la UI y los combinamos para el link final
   const countryCode = formData.whatsappCountryCode || '54';
@@ -68,10 +68,14 @@ export function StepConfirm({ formData, handleChange }) {
         </div>
       )}
 
-      <div className="wizard-final-card">
-        <h4>🎉 ¡Todo listo!</h4>
-        <p>Revisá la vista previa a la derecha para ver cómo quedó tu invitación.</p>
-      </div>
+      {/* El cierre celebratorio es para el cliente que arma su tarjeta. En el
+          panel se esta transcribiendo el pedido de otro: ahi sobra. */}
+      {mostrarCierre && (
+        <div className="wizard-final-card">
+          <h4>🎉 ¡Todo listo!</h4>
+          <p>Revisá la vista previa a la derecha para ver cómo quedó tu invitación.</p>
+        </div>
+      )}
     </div>
   );
 }

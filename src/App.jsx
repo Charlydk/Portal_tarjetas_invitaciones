@@ -10,6 +10,10 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const DemoPage = lazy(() => import('./pages/DemoPage'));
 const PreviewPage = lazy(() => import('./pages/PreviewPage'));
 const InvitationPage = lazy(() => import('./pages/InvitationPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
+const AdminCardPage = lazy(() => import('./pages/AdminCardPage'));
+const RsvpListPage = lazy(() => import('./pages/RsvpListPage'));
+const GuestListPage = lazy(() => import('./pages/GuestListPage'));
 
 function MainLayout() {
   return (
@@ -36,6 +40,20 @@ function App() {
         <Route path="/i/:slug" element={<InvitationPage />} />
         {/* Lo que abre el cliente para ver su tarjeta antes de publicarla. */}
         <Route path="/borrador/:token" element={<InvitationPage modoBorrador />} />
+        {/* Las confirmaciones que recibió el cliente. Mismo token que su
+            borrador: no tiene cuenta y no queremos que la tenga. */}
+        <Route path="/confirmaciones/:token" element={<RsvpListPage />} />
+        {/* Premium+: la lista de invitados, con quien falta responder. */}
+        <Route path="/invitados/:token" element={<GuestListPage />} />
+
+        {/* El panel del equipo. Fuera de MainLayout: es una herramienta de
+            trabajo, no una página del sitio. Quién puede entrar lo decide la
+            base, no esta ruta. */}
+        <Route path="/admin" element={<AdminPage />} />
+        {/* `nueva` va antes que `:id` por claridad; React Router prioriza la
+            ruta literal igual, pero el orden lo hace evidente al leer. */}
+        <Route path="/admin/nueva" element={<AdminCardPage />} />
+        <Route path="/admin/:id" element={<AdminCardPage />} />
 
         <Route path="/preview/:themeId" element={<PreviewPage />} />
         <Route element={<MainLayout />}>

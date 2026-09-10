@@ -8,6 +8,7 @@ import { SKELETON_MAP } from '../../lib/skeletonMap';
 const STEP_SECTION_MAP = {
   protagonists: 'section-hero',
   venue:        'section-civil',
+  schedule: 'section-schedule',
   extras:       'section-dresscode',
   gallery:      'section-gallery',
   music:        'section-music',
@@ -39,6 +40,16 @@ function InvitationPreview({ formData, themeId, activeStepId, isEditorMode = tru
   } else if (themeId) {
     selectedModel = invitationModels.find(m => m.variants.some(v => v.id === themeId));
     selectedVariant = selectedModel?.variants.find(v => v.id === themeId);
+  }
+
+  // La canción que eligió el cliente le gana a la del diseño. Sin esto la
+  // música vive en models.js, o sea que una canción por cliente costaría un
+  // commit y un deploy — justo lo que dejamos de hacer con las tarjetas.
+  if (selectedVariant && formData.audio) {
+    selectedVariant = {
+      ...selectedVariant,
+      assets: { ...selectedVariant.assets, audio: formData.audio },
+    };
   }
 
   if (selectedModel && selectedVariant) {

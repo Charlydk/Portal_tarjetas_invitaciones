@@ -43,9 +43,33 @@ export function StepGifts({ formData, handleChange }) {
             onChange={handleChange}
             placeholder="Ej: nombre.apellido.mp"
           />
-          <small>Los invitados podrán enviar su regalo por transferencia.</small>
+          <label style={{ marginTop: '10px' }}>Titular de la cuenta</label>
+          <input
+            type="text"
+            name="accountHolder"
+            value={formData.accountHolder || ''}
+            onChange={handleChange}
+            placeholder="Ej: Yesica Marisol Díaz"
+          />
+          <small>Sin el titular, el invitado ve un alias y no sabe a quién le transfiere.</small>
         </div>
       )}
+
+      <div className="form-group mt-15">
+        <label>Frase de la sección (opcional)</label>
+        <textarea
+          name="giftsPhrase"
+          value={formData.giftsPhrase || ''}
+          onChange={handleChange}
+          rows={3}
+          placeholder="Si deseas hacernos un regalo o contribuir a nuestra luna de miel, te dejamos nuestro alias."
+          style={{
+            width: '100%', padding: '10px 12px', border: '1px solid #ccc',
+            borderRadius: '6px', fontSize: '0.95rem', fontFamily: 'inherit', resize: 'vertical',
+          }}
+        />
+        <small>Con sus palabras. Si se deja vacío, va el texto del diseño.</small>
+      </div>
 
       {formData.giftMode === 'cofre' && (
         <div className="info-box">
