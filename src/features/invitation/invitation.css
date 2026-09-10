@@ -887,3 +887,55 @@
   border-radius: 2px;
   box-shadow: 0 12px 44px rgba(0, 0, 0, 0.16);
 }
+
+/* ── Portada apilada, en pantalla ancha ───────────────────────────────────── */
+/* En un teléfono la foto arriba y los nombres abajo funciona: la pantalla es
+   alta y entra todo. En un monitor no, y por geometría: una foto vertical que
+   ocupa dos tercios del alto empuja los nombres abajo del pliegue, así que lo
+   primero que ve alguien en una computadora es una foto sin saber de quién es.
+
+   Al costado se resuelve solo. La pantalla ancha sobra de ancho y falta de
+   alto, que es justo al revés que un teléfono. */
+@media (min-width: 860px) {
+  .inv--hero-stacked .inv-hero {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(36px, 4vw, 72px);
+    /* Más ancha que la columna de lectura: acá conviven dos cosas, no una. */
+    max-width: 1040px;
+    min-height: 100svh;
+    padding: var(--inv-space-section) var(--inv-space-gutter);
+  }
+
+  .inv--hero-stacked .inv-hero__media {
+    flex: 0 0 42%;
+    max-height: 76svh;
+    margin-bottom: 0;
+  }
+
+  .inv--hero-stacked .inv-hero__content {
+    flex: 1 1 auto;
+    padding-inline: 0;
+  }
+
+  /* El desvanecido cambia de dirección: acá la foto no se disuelve hacia el
+     papel de abajo sino hacia el costado donde empiezan los nombres. */
+  .inv--hero-edge-fade.inv--hero-stacked .inv-hero__media {
+    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 62%, transparent 99%);
+    mask-image: linear-gradient(to right, #000 0%, #000 62%, transparent 99%);
+  }
+
+  /* La invitación a bajar deja de ser un elemento más de la fila y vuelve a su
+     lugar: abajo del todo, centrada. */
+  .inv--hero-stacked .inv-hero__scroll {
+    position: absolute;
+    bottom: clamp(18px, 3vh, 34px);
+    /* Centrado sin `transform`: la animación de entrada usa esa misma
+       propiedad, y al terminar la dejaría en `none` -- corriendo el texto medio
+       ancho a la derecha justo cuando el invitado lo mira. */
+    inset-inline: 0;
+    width: fit-content;
+    margin-inline: auto;
+  }
+}
