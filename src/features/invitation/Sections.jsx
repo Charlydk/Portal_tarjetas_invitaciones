@@ -33,6 +33,16 @@ const titleIn = {
   },
 };
 
+// El adorno entra último, cuando el título y el contenido ya se asentaron: es
+// el remate de la sección, no su anuncio. Entrando primero competía con el
+// ícono y el título por la atención justo en el momento en que se leen.
+// Su opacidad final vive acá y no en el CSS: la animación escribe `opacity`
+// en línea al terminar, y eso pisa cualquier valor de la hoja de estilos.
+const decorIn = {
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 1.2, delay: 0.7, ease: EASE } },
+};
+
 // Photos come up from behind, slightly oversized, and settle into place.
 const photoIn = {
   hidden: { opacity: 0, y: 26, scale: 1.05 },
@@ -148,7 +158,7 @@ function Section({ id, title, icon, children, tight = false }) {
           molde, así que aparece a medida que el invitado baja. La imagen va en
           un hijo porque el padre lleva el `transform` de la animación, y
           espejar acá lo pisaría. */}
-      <motion.div variants={item} className="inv-decor" aria-hidden="true">
+      <motion.div variants={decorIn} className="inv-decor" aria-hidden="true">
         <span className="inv-decor__img" />
       </motion.div>
 

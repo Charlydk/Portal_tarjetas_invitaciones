@@ -970,11 +970,12 @@
 .inv--decor .inv-decor {
   display: block;
   position: absolute;
-  top: 0;
-  width: clamp(76px, 20vw, 104px);
+  top: 6px;
+  width: clamp(64px, 17vw, 92px);
   aspect-ratio: 600 / 795;
   z-index: -1;
-  opacity: 0.4;
+  /* Sin `opacity` acá a propósito: la anima el componente y la escribe en
+     línea al terminar, así que un valor en esta hoja nunca llegaba a verse. */
   pointer-events: none;
 }
 
@@ -1000,6 +1001,17 @@
 .inv--decor .inv-section:nth-of-type(even) .inv-decor { left: 2%; }
 .inv--decor .inv-section:nth-of-type(even) .inv-decor__img { transform: scaleX(-1); }
 
+/* En la banda fuerte, por debajo de su degradé. Pegada arriba quedaba mitad
+   sobre el tramo claro y mitad sobre el color, y se leía partida en dos.
+   Sólo en la fuerte: la suave no tiene degradé arriba, y bajarla ahí la
+   llevaba contra el contenido — la punta tocaba la primera hora del
+   itinerario. Y sólo en pantalla chica: en la ancha va a media altura. */
+@media (max-width: 859px) {
+  .inv--bands .inv-section:nth-of-type(odd) .inv-decor {
+    top: calc(var(--inv-band-fade) + 2px);
+  }
+}
+
 /* En pantallas anchas hay margen de sobra fuera de la columna de lectura, así
    que la rama sale del texto en vez de pisarlo. */
 @media (min-width: 860px) {
@@ -1007,7 +1019,6 @@
     top: 50%;
     margin-top: -22%;
     width: clamp(120px, 24vw, 210px);
-    opacity: 0.5;
   }
   /* Del todo en el margen: a -26% la rama rozaba la caja del salón y las de la
      cuenta regresiva, que ocupan el ancho entero de la columna. */
