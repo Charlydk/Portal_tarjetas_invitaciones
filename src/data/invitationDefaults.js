@@ -69,6 +69,12 @@ export function createInvitationData({ modelId = null, variantId = null, sample 
     whatsappNumber: sample ? '5493810000000' : '',
     whatsappCountryCode: '54',
     whatsappLocalNumber: sample ? '3810000000' : '',
+    // Un segundo número, para cuando cada novio recibe las confirmaciones de
+    // sus propios invitados. Los nombres rotulan los botones.
+    whatsappName1: '',
+    whatsappNumber2: '',
+    whatsappLocalNumber2: '',
+    whatsappName2: '',
 
     // Dress code
     dressCodeDescription: sample ? 'Elegante' : '',

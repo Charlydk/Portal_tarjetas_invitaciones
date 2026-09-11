@@ -1,5 +1,5 @@
 import React from 'react';
-import { resolveAllegory, tokensToCssVars } from '../../allegories';
+import { resolveAllegory, tokensToCssVars, withCardOverrides } from '../../allegories';
 import AmbientParticles from './AmbientParticles';
 import {
   HeroSection,
@@ -24,7 +24,8 @@ import './invitation.css';
  * a file in src/allegories/ instead of a new React component.
  */
 function AllegoryCard({ data, theme }) {
-  const allegory = resolveAllegory(theme?.allegory);
+  // El diseño del catálogo, con lo que el cliente cambió de SU tarjeta encima.
+  const allegory = withCardOverrides(resolveAllegory(theme?.allegory), data);
 
   // A client photo always beats the allegory's stock background.
   const backgroundImage = theme?.assets?.backgroundImage || allegory.tokens.backgroundImage;
@@ -129,6 +130,7 @@ function AllegoryCard({ data, theme }) {
     allegory.tokens.heroLayout === 'stacked' && 'inv--hero-stacked',
     allegory.tokens.heroEdge && `inv--hero-edge-${allegory.tokens.heroEdge}`,
     allegory.tokens.decorImage && 'inv--decor',
+    allegory.tokens.bandStrong && 'inv--bands',
   ].filter(Boolean).join(' ');
 
   return (

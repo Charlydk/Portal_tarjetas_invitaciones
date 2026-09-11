@@ -195,9 +195,9 @@
 /* Headings sit on the page scrim and a soft text shadow — never on an opaque
    rectangle. A hard box over a photograph reads as a patch stuck on top. */
 .inv-title {
-  font-family: var(--inv-font-title);
+  font-family: var(--inv-font-heading);
   font-weight: 400;
-  font-size: var(--inv-step-2);
+  font-size: var(--inv-title-size);
   line-height: 1.25;
   letter-spacing: var(--inv-title-spacing);
   text-transform: var(--inv-title-transform);
@@ -963,15 +963,18 @@
 
 .inv-decor { display: none; }
 
+/* En un teléfono no hay margen fuera de la columna: la rama va arriba, a la
+   altura del título, donde los costados están vacíos. A media altura pisaba
+   la cuenta regresiva y las horas del itinerario — adorno sobre dato, que es
+   justo lo que un adorno no puede hacer. */
 .inv--decor .inv-decor {
   display: block;
   position: absolute;
-  top: 50%;
-  margin-top: -22%;
-  width: clamp(120px, 24vw, 210px);
+  top: 0;
+  width: clamp(84px, 24vw, 118px);
   aspect-ratio: 600 / 795;
   z-index: -1;
-  opacity: 0.42;
+  opacity: 0.32;
   pointer-events: none;
 }
 
@@ -985,14 +988,76 @@
 /* Alterna de lado sección por sección, y del lado izquierdo va espejada: la
    misma rama repetida en la misma orientación se lee como un sello repetido,
    no como una guarda. */
-.inv--decor .inv-section:nth-of-type(odd) .inv-decor  { right: -7%; }
-.inv--decor .inv-section:nth-of-type(even) .inv-decor { left: -7%; }
+.inv--decor .inv-section:nth-of-type(odd) .inv-decor  { right: -12%; }
+.inv--decor .inv-section:nth-of-type(even) .inv-decor { left: -12%; }
 .inv--decor .inv-section:nth-of-type(even) .inv-decor__img { transform: scaleX(-1); }
 
 /* En pantallas anchas hay margen de sobra fuera de la columna de lectura, así
    que la rama sale del texto en vez de pisarlo. */
 @media (min-width: 860px) {
-  .inv--decor .inv-decor { opacity: 0.5; }
+  .inv--decor .inv-decor {
+    top: 50%;
+    margin-top: -22%;
+    width: clamp(120px, 24vw, 210px);
+    opacity: 0.5;
+  }
   .inv--decor .inv-section:nth-of-type(odd) .inv-decor  { right: -26%; }
   .inv--decor .inv-section:nth-of-type(even) .inv-decor { left: -26%; }
+}
+
+
+/* ── Íconos de línea ──────────────────────────────────────────────────────── */
+/* Un .svg en `icons` se dibuja como máscara y toma el color del texto de la
+   sección: blanco sobre una banda fuerte, oliva sobre el papel. Por eso no hay
+   una versión del ícono por fondo — el mismo archivo sirve para todos.
+   El resto de las imágenes siguen siendo medallones con arte, recortados en
+   círculo. */
+.inv-medallion--line {
+  width: clamp(46px, calc(12 * var(--inv-vw)), 62px);
+  height: clamp(46px, calc(12 * var(--inv-vw)), 62px);
+  margin: 0 auto 12px;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--inv-accent);
+  -webkit-mask: var(--inv-icon) center / contain no-repeat;
+  mask: var(--inv-icon) center / contain no-repeat;
+}
+
+/* ── Bandas de color alternadas ───────────────────────────────────────────── */
+/* Una sección fuerte y la siguiente suave, a todo el ancho de la pantalla.
+
+   El ancho completo sale de un truco y no de cambiar el molde: la sombra se
+   estira 100vmax a los costados y el `clip-path` la corta arriba y abajo, así
+   que el fondo llega a los bordes mientras el texto sigue en su columna de
+   lectura. Tocar el ancho de la sección habría movido todo el diseño.
+
+   Sobre la banda fuerte no se pinta cada cosa de nuevo: se redefinen las
+   variables de color y todo lo de adentro las hereda. El título, los íconos,
+   el cronograma y los botones cambian solos, y un elemento nuevo mañana
+   también. */
+.inv--bands .inv-section {
+  box-shadow: 0 0 0 100vmax var(--inv-band-soft);
+  background: var(--inv-band-soft);
+  clip-path: inset(0 -100vmax);
+}
+
+.inv--bands .inv-section:nth-of-type(odd) {
+  box-shadow: 0 0 0 100vmax var(--inv-band-strong);
+  background: var(--inv-band-strong);
+  --inv-accent: var(--inv-band-strong-ink);
+  --inv-accent-ink: var(--inv-band-strong);
+  --inv-ink: var(--inv-band-strong-ink);
+  --inv-ink-muted: color-mix(in srgb, var(--inv-band-strong-ink) 88%, transparent);
+  --inv-surface: color-mix(in srgb, var(--inv-band-strong-ink) 12%, transparent);
+}
+
+/* ── Varios números para confirmar ────────────────────────────────────────── */
+/* Cuando cada novio quiere recibir las confirmaciones de sus invitados, hay un
+   botón por persona, con su nombre: el invitado elige a quién escribirle. */
+.inv-rsvp__contactos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
 }

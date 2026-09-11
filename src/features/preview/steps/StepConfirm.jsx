@@ -21,11 +21,23 @@ export function StepConfirm({ formData, handleChange, mostrarCierre = true }) {
   // Guardamos ambos separados para la UI y los combinamos para el link final
   const countryCode = formData.whatsappCountryCode || '54';
   const localNumber = formData.whatsappLocalNumber || '';
+  const localNumber2 = formData.whatsappLocalNumber2 || '';
+
+  const set = (name, value) => handleChange({ target: { name, value, type: 'text' } });
 
   const handleCountryChange = (e) => {
-    handleChange({ target: { name: 'whatsappCountryCode', value: e.target.value, type: 'text' } });
-    // Reconstruir el whatsappNumber completo para el link de wa.me
-    handleChange({ target: { name: 'whatsappNumber', value: e.target.value + localNumber, type: 'text' } });
+    set('whatsappCountryCode', e.target.value);
+    // Reconstruir los números completos para el link de wa.me
+    set('whatsappNumber', e.target.value + localNumber);
+    if (localNumber2) set('whatsappNumber2', e.target.value + localNumber2);
+  };
+
+  const handleLocalNumber2Change = (e) => {
+    const num = e.target.value.replace(/\D/g, '');
+    set('whatsappLocalNumber2', num);
+    // Vacío borra el número completo: si no, quedaría un botón apuntando sólo
+    // al código de país.
+    set('whatsappNumber2', num ? countryCode + num : '');
   };
 
   const handleLocalNumberChange = (e) => {
@@ -65,6 +77,39 @@ export function StepConfirm({ formData, handleChange, mostrarCierre = true }) {
           <small>
             Número completo para WhatsApp: <strong>+{countryCode}{localNumber || '...'}</strong>
           </small>
+          <input
+            type="text"
+            value={formData.whatsappName1 || ''}
+            onChange={(e) => set('whatsappName1', e.target.value)}
+            placeholder="¿De quién es? (opcional, ej: Yesica)"
+            style={{ marginTop: '8px' }}
+          />
+        </div>
+      )}
+
+      {formData.showRSVP && (
+        <div className="form-group">
+          <label>Segundo número (opcional)</label>
+          <div className="phone-input-row">
+            <span className="country-code-select" style={{ display: 'grid', placeItems: 'center' }}>
+              +{countryCode}
+            </span>
+            <input
+              type="tel"
+              className="phone-local-input"
+              value={localNumber2}
+              onChange={handleLocalNumber2Change}
+              placeholder="Ej: 2615000000"
+            />
+          </div>
+          <input
+            type="text"
+            value={formData.whatsappName2 || ''}
+            onChange={(e) => set('whatsappName2', e.target.value)}
+            placeholder="¿De quién es? (ej: Johana)"
+            style={{ marginTop: '8px' }}
+          />
+          <small>Si cada uno tiene sus invitados, la tarjeta muestra un botón por persona, con su nombre.</small>
         </div>
       )}
 

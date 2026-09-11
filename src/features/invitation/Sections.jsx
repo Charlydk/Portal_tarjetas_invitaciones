@@ -72,6 +72,19 @@ export function Ornament() {
 export function Medallion({ icon }) {
   if (!icon) return null;
 
+  // Un ícono de línea toma el color del texto de la sección, así el mismo
+  // archivo sirve sobre el papel y sobre una banda de color.
+  if (/\.svg$/i.test(icon)) {
+    return (
+      <motion.span
+        variants={medallionIn}
+        className="inv-medallion inv-medallion--line"
+        style={{ '--inv-icon': `url("${icon}")` }}
+        aria-hidden="true"
+      />
+    );
+  }
+
   const isImage = /^(https?:\/\/|\/|\.\/)/.test(icon) || /\.(png|jpe?g|svg|webp|avif|gif)$/i.test(icon);
 
   return (
@@ -537,8 +550,12 @@ function GuestRsvp({ data, allegory }) {
 }
 
 export function RsvpSection({ data, allegory }) {
-  const { whatsappNumber } = data;
-  const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(allegory.copy.rsvpWhatsapp)}`;
+  // Hasta dos números: cuando los novios tienen invitados propios, cada
+  // invitado quiere confirmarle a su conocido, no a un número ajeno.
+  const contactos = [
+    { numero: data.whatsappNumber, nombre: data.whatsappName1 },
+    { numero: data.whatsappNumber2, nombre: data.whatsappName2 },
+  ].filter((c) => c.numero);
 
   // Llego por su propio enlace: la tarjeta sabe quien es.
   if (data.guest) {
@@ -564,10 +581,22 @@ export function RsvpSection({ data, allegory }) {
           {allegory.copy.rsvpCta}
         </a>
       ) : (
-        whatsappNumber && (
-          <a href={waLink} target="_blank" rel="noopener noreferrer" className="inv-btn">
-            {allegory.copy.rsvpCta}
-          </a>
+        contactos.length > 0 && (
+          <div className="inv-rsvp__contactos">
+            {contactos.map((c) => (
+              <a
+                key={c.numero}
+                href={`https://wa.me/${c.numero}?text=${encodeURIComponent(allegory.copy.rsvpWhatsapp)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inv-btn"
+              >
+                {/* Con un solo número el botón dice lo de siempre. Con dos, cada
+                    uno lleva el nombre de a quién le escribe el invitado. */}
+                {contactos.length > 1 && c.nombre ? `Confirmar a ${c.nombre}` : allegory.copy.rsvpCta}
+              </a>
+            ))}
+          </div>
         )
       )}
     </Section>
@@ -733,7 +762,6 @@ export function GallerySection({ data, allegory }) {
       <ActionButton
         href={data.sharedAlbumUrl}
         isDemo={data.isDemo}
-        variant="inv-btn--ghost"
         demoNote="En tu tarjeta, este botón abre el álbum compartido donde tus invitados suben sus fotos."
       >
         {allegory.copy.sharedAlbumCta}

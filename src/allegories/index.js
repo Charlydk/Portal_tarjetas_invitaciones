@@ -69,6 +69,14 @@ export const DEFAULT_TOKENS = {
   // Reserved for the hero name only. Faces with real character are unreadable
   // at paragraph size but carry a card when used once, huge.
   fontDisplay: '',
+  // Sólo los títulos de sección. Separado de `fontTitle` porque esa también
+  // dibuja los números de la cuenta regresiva y las horas del itinerario: una
+  // cursiva ahí es bonita en un título y es ilegible en "23:45". Vacío cae en
+  // `fontTitle`.
+  fontHeading: '',
+  // Tamaño de esos títulos. Una cursiva al tamaño de una sans se lee chica: su
+  // altura de x es mucho menor. Vacío usa la escala normal.
+  titleSize: '',
   // Breathing pool of light behind the content (premium ambience).
   magic: '',
   titleTransform: 'none',
@@ -101,6 +109,12 @@ export const DEFAULT_TOKENS = {
   // Un dibujo decorativo que acompaña las secciones, apareciendo a medida que
   // el invitado baja. Va detrás del texto y alternando de lado.
   decorImage: '',
+  // Bandas de color alternadas, a todo el ancho: una fuerte y la siguiente
+  // suave. Vacío, que es el valor por defecto, deja todas las secciones sobre
+  // el fondo del papel. `bandStrongInk` es el color del texto sobre la fuerte.
+  bandStrong: '',
+  bandSoft: '',
+  bandStrongInk: '#FFFFFF',
   // Sits between the background image and the text. Without it, light photos
   // eat the copy — the single most common legibility failure in these cards.
   scrim: 'linear-gradient(180deg, rgba(8,12,26,0.82) 0%, rgba(8,12,26,0.72) 100%)',
@@ -130,6 +144,29 @@ export function resolveAllegory(allegory = {}) {
 }
 
 /**
+ * Lo que un cliente cambió de SU tarjeta, por encima del diseño.
+ *
+ * Hasta ahora personalizar una tarjeta para un cliente —otra letra, otros
+ * colores, íconos— exigía un archivo de alegoría derivado: un commit y un
+ * deploy por cliente, justo lo que dejamos de hacer cuando la tarjeta pasó a
+ * ser una fila. Ahora esos cambios viven en la propia fila (`data.tokens`,
+ * `data.titles`, `data.copy`, `data.icons`) y el diseño del catálogo queda
+ * intacto para el próximo que lo elija.
+ */
+export function withCardOverrides(allegory, data = {}) {
+  const { tokens, titles, copy, icons } = data || {};
+  if (!tokens && !titles && !copy && !icons) return allegory;
+
+  return {
+    ...allegory,
+    tokens: { ...allegory.tokens, ...tokens },
+    titles: { ...allegory.titles, ...titles },
+    copy: { ...allegory.copy, ...copy },
+    icons: { ...allegory.icons, ...icons },
+  };
+}
+
+/**
  * Every image an allegory needs before the card can scroll without stuttering.
  * Feeds the preloader that runs behind the welcome screen.
  */
@@ -151,6 +188,11 @@ export function tokensToCssVars(tokens) {
     '--inv-accent-ink': tokens.accentInk,
     '--inv-accent-alt': tokens.accentAlt || tokens.accent,
     '--inv-decor': tokens.decorImage ? `url("${tokens.decorImage}")` : 'none',
+    '--inv-font-heading': tokens.fontHeading || tokens.fontTitle,
+    '--inv-title-size': tokens.titleSize || 'var(--inv-step-2)',
+    '--inv-band-strong': tokens.bandStrong || 'transparent',
+    '--inv-band-soft': tokens.bandSoft || 'transparent',
+    '--inv-band-strong-ink': tokens.bandStrongInk,
     '--inv-font-title': tokens.fontTitle,
     '--inv-font-display': tokens.fontDisplay || tokens.fontTitle,
     '--inv-font-body': tokens.fontBody,
