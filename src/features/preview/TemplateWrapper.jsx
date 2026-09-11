@@ -81,6 +81,10 @@ function TemplateWrapper({ children, themeConfig, isEditorMode = false, audioEna
           className={`music-toggle-btn ${isPlaying ? 'playing' : ''}`}
           onClick={toggleAudio}
           title={isPlaying ? 'Pausar música' : 'Reproducir música'}
+          // El color va en el botón mismo: vive afuera de la tarjeta, así que no
+          // hereda las variables que cada diseño define adentro. Por eso salía
+          // siempre azul.
+          style={{ '--music-color': themeConfig?.styles?.primaryColor || '#6E7250' }}
         >
           {isPlaying ? '⏸' : '▶'}
         </button>

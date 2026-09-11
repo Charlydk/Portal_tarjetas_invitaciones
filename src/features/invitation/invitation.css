@@ -847,6 +847,41 @@
   color: var(--inv-ink-muted);
 }
 
+/* En el teléfono, la portada entera en la primera pantalla.
+   La foto tenía alto fijo (4:5, hasta 68svh) y los nombres iban donde
+   sobrara. Con las barras del navegador, en un teléfono real sobran ~660px:
+   la foto se llevaba casi 450 y el segundo nombre quedaba cortado, la frase
+   fuera de vista. La primera impresión era una foto sin saber de quién.
+   Ahora manda el texto: la portada mide una pantalla, el texto toma lo que
+   necesita y la foto se queda con el resto. Nunca más alta que 4:5, ni más
+   baja que un tercio de pantalla — ahí ya no sería portada. */
+@media (max-width: 859px) {
+  .inv--hero-stacked .inv-hero {
+    /* Menos la barra de arriba, si la hay (borrador, vidriera): la pone
+       GuestCard. */
+    min-height: calc(100svh - var(--inv-top-offset, 0px));
+    padding-bottom: clamp(14px, 3svh, 28px);
+  }
+
+  .inv--hero-stacked .inv-hero__media {
+    aspect-ratio: auto;
+    flex: 1 1 0;
+    min-height: 34svh;
+    max-height: min(125vw, 68svh);
+    /* Al achicarse la foto se recorta, y en un retrato las caras están en el
+       tercio de arriba: centrada, se llevaba las frentes. */
+    background-position: center 30%;
+  }
+
+  .inv--hero-stacked .inv-hero__eyebrow { margin-bottom: 12px; }
+  .inv--hero-stacked .inv-hero__amp     { margin: 2px 0; }
+  .inv--hero-stacked .inv-hero__phrase  {
+    font-size: var(--inv-step-0);
+    margin-top: 14px;
+  }
+  .inv--hero-stacked .inv-hero__scroll  { padding-top: clamp(14px, 3svh, 40px); }
+}
+
 /* El pie de la tarjeta. Una regla arriba y más aire que una sección común:
    sin eso el cierre se lee como una sección más que se quedó sin contenido, en
    vez de como el final de la pieza. */

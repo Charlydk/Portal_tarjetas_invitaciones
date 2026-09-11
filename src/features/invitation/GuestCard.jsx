@@ -93,7 +93,13 @@ function GuestCard({ variant, formData, skipGate = false, topBar = null }) {
           style={{ minHeight: '100vh' }}
         >
           {topBar}
-          <div style={{ paddingTop: topBar ? '48px' : 0, minHeight: '100vh' }}>
+          {/* La variable le avisa a la portada cuánto de la pantalla ya ocupa
+              la barra, para que "una pantalla" siga siendo lo que se ve. */}
+          <div style={{
+            paddingTop: topBar ? '48px' : 0,
+            minHeight: '100vh',
+            '--inv-top-offset': topBar ? '48px' : '0px',
+          }}>
             <InvitationPreview
               formData={formData}
               themeId={variant?.id}
