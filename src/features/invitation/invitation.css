@@ -971,25 +971,33 @@
   display: block;
   position: absolute;
   top: 0;
-  width: clamp(84px, 24vw, 118px);
+  width: clamp(76px, 20vw, 104px);
   aspect-ratio: 600 / 795;
   z-index: -1;
-  opacity: 0.32;
+  opacity: 0.4;
   pointer-events: none;
 }
 
+/* Como máscara y no como imagen: toma el color de la sección. Pintada del
+   verde del archivo, sobre una banda del mismo verde desaparecía — oliva sobre
+   oliva. Así sale oliva sobre el papel y clara sobre la banda fuerte, con un
+   solo archivo. */
 .inv-decor__img {
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--inv-decor) center / contain no-repeat;
+  background: var(--inv-accent);
+  -webkit-mask: var(--inv-decor) center / contain no-repeat;
+  mask: var(--inv-decor) center / contain no-repeat;
 }
 
 /* Alterna de lado sección por sección, y del lado izquierdo va espejada: la
    misma rama repetida en la misma orientación se lee como un sello repetido,
    no como una guarda. */
-.inv--decor .inv-section:nth-of-type(odd) .inv-decor  { right: -12%; }
-.inv--decor .inv-section:nth-of-type(even) .inv-decor { left: -12%; }
+/* Adentro de la pantalla: a -12% quedaba media rama cortada por el borde del
+   teléfono, que se lee como un error y no como un adorno. */
+.inv--decor .inv-section:nth-of-type(odd) .inv-decor  { right: 2%; }
+.inv--decor .inv-section:nth-of-type(even) .inv-decor { left: 2%; }
 .inv--decor .inv-section:nth-of-type(even) .inv-decor__img { transform: scaleX(-1); }
 
 /* En pantallas anchas hay margen de sobra fuera de la columna de lectura, así
@@ -1001,8 +1009,10 @@
     width: clamp(120px, 24vw, 210px);
     opacity: 0.5;
   }
-  .inv--decor .inv-section:nth-of-type(odd) .inv-decor  { right: -26%; }
-  .inv--decor .inv-section:nth-of-type(even) .inv-decor { left: -26%; }
+  /* Del todo en el margen: a -26% la rama rozaba la caja del salón y las de la
+     cuenta regresiva, que ocupan el ancho entero de la columna. */
+  .inv--decor .inv-section:nth-of-type(odd) .inv-decor  { right: -40%; }
+  .inv--decor .inv-section:nth-of-type(even) .inv-decor { left: -40%; }
 }
 
 
@@ -1025,26 +1035,66 @@
 }
 
 /* ── Bandas de color alternadas ───────────────────────────────────────────── */
-/* Una sección fuerte y la siguiente suave, a todo el ancho de la pantalla.
+/* Una sección fuerte y la siguiente suave, a todo el ancho de la pantalla, y
+   pasando de una a la otra con un degradé en vez de un corte.
 
-   El ancho completo sale de un truco y no de cambiar el molde: la sombra se
-   estira 100vmax a los costados y el `clip-path` la corta arriba y abajo, así
-   que el fondo llega a los bordes mientras el texto sigue en su columna de
-   lectura. Tocar el ancho de la sección habría movido todo el diseño.
+   El color vive en una capa detrás de la sección que se estira 100vmax a los
+   costados: así llega a los bordes de la pantalla mientras el texto sigue en
+   su columna de lectura. Antes era una sombra estirada, que sólo admite un
+   color plano — no se podía difuminar — y además necesitaba un clip-path que
+   recortaba el adorno arriba y abajo.
 
    Sobre la banda fuerte no se pinta cada cosa de nuevo: se redefinen las
    variables de color y todo lo de adentro las hereda. El título, los íconos,
-   el cronograma y los botones cambian solos, y un elemento nuevo mañana
-   también. */
+   las ramas, el cronograma y los botones cambian solos, y un elemento nuevo
+   mañana también. */
+.inv--bands {
+  --inv-band-fade: clamp(44px, 9vw, 96px);
+}
+
 .inv--bands .inv-section {
-  box-shadow: 0 0 0 100vmax var(--inv-band-soft);
+  isolation: isolate;
+}
+
+.inv--bands .inv-section::before {
+  content: '';
+  position: absolute;
+  inset: 0 -100vmax;
+  z-index: -2;
   background: var(--inv-band-soft);
-  clip-path: inset(0 -100vmax);
+  pointer-events: none;
+}
+
+/* La fuerte se funde en la suave arriba y abajo. Como alternan siempre, basta
+   con que una de las dos se difumine para que ningún cambio sea un corte. */
+.inv--bands .inv-section:nth-of-type(odd)::before {
+  background: linear-gradient(
+    to bottom,
+    var(--inv-band-soft) 0,
+    var(--inv-band-strong) var(--inv-band-fade),
+    var(--inv-band-strong) calc(100% - var(--inv-band-fade)),
+    var(--inv-band-soft) 100%
+  );
+  /* Mezclado en oklab. En RGB, el camino del oliva al claro pasa por un gris
+     sucio que se lee como una sombra; en un espacio perceptual el color va
+     aclarando sin ensuciarse. Va declarado dos veces a propósito: un navegador
+     que no entiende `in oklab` descarta esta línea entera y se queda con la de
+     arriba, en vez de quedarse sin banda. */
+  background: linear-gradient(
+    to bottom in oklab,
+    var(--inv-band-soft) 0,
+    var(--inv-band-strong) var(--inv-band-fade),
+    var(--inv-band-strong) calc(100% - var(--inv-band-fade)),
+    var(--inv-band-soft) 100%
+  );
+}
+
+/* La primera sección nace del papel de la portada, no de un borde. */
+.inv--bands .inv-hero + .inv-section::before {
+  background: linear-gradient(to bottom, transparent 0, var(--inv-band-soft) var(--inv-band-fade));
 }
 
 .inv--bands .inv-section:nth-of-type(odd) {
-  box-shadow: 0 0 0 100vmax var(--inv-band-strong);
-  background: var(--inv-band-strong);
   --inv-accent: var(--inv-band-strong-ink);
   --inv-accent-ink: var(--inv-band-strong);
   --inv-ink: var(--inv-band-strong-ink);
