@@ -971,7 +971,7 @@
   display: block;
   position: absolute;
   top: 6px;
-  width: clamp(64px, 17vw, 92px);
+  width: clamp(84px, 24vw, 120px);
   aspect-ratio: 600 / 795;
   z-index: -1;
   /* Sin `opacity` acá a propósito: la anima el componente y la escribe en

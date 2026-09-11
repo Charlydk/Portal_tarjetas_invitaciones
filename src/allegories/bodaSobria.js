@@ -98,6 +98,17 @@ export const bodaSobria = {
     scrim: 'none',
   },
 
+  // Íconos de línea, dibujados a mano en el mismo trazo. Van como máscara y
+  // toman el color de la banda: oliva sobre la clara, blanco sobre la fuerte.
+  icons: {
+    party: '/allegories/boda-sobria/iconos/copas.svg',
+    schedule: '/allegories/boda-sobria/iconos/reloj.svg',
+    rsvp: '/allegories/boda-sobria/iconos/sobre.svg',
+    dresscode: '/allegories/boda-sobria/iconos/percha.svg',
+    gifts: '/allegories/boda-sobria/iconos/regalo.svg',
+    gallery: '/allegories/boda-sobria/iconos/camara.svg',
+  },
+
   titles: {
     story: 'Nuestra historia',
     civil: 'Ceremonia Civil',
