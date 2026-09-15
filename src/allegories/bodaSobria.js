@@ -141,22 +141,25 @@ export const bodaSobria = {
     mapCta: 'Cómo llegar',
   },
 
-  // Contenido de muestra para la vidriera del catálogo.
+  // Contenido de muestra para la vidriera del catálogo. Todo inventado — la
+  // vidriera es pública, y un nombre, un alias o un salón de un cliente real no
+  // pueden aparecer acá.
   demo: {
-    name1: 'Johana',
-    name2: 'Yesica',
+    name1: 'Lucía',
+    name2: 'Martina',
     welcomePhrase: 'Nos Casamos',
     invitePhrase: 'Nos encantaría que nos acompañes en este día',
-    partyDateString: '6 de Febrero de 2027',
+    partyDateString: '20 de Marzo de 2027',
     partyTime: '21:00 hs',
-    eventVenue: 'Salón Los Carolinos',
-    partyAddress: 'Av. Bandera de los Andes 7510, Guaymallén, Mendoza',
+    eventVenue: 'Finca Las Acacias',
+    partyAddress: 'Luján de Cuyo, Mendoza',
     dressCodeDescription: 'Elegante · Formal',
     dressCodeColorNote: 'El blanco es de uso exclusivo de las novias.',
-    heroImage: '/allegories/_muestra/foto1.webp',
+    // Pareja generada, no un cliente.
+    heroImage: '/allegories/boda-sobria/portada-muestra.webp',
     giftMode: 'alias',
-    alias: 'johana.yesica',
-    accountHolder: 'Yesica Marisol Díaz',
+    alias: 'lucia.martina.boda',
+    accountHolder: 'Lucía Fernández',
     giftsPhrase: 'Si deseás hacernos un regalo o contribuir a nuestra luna de miel, te dejamos nuestro alias.',
     sharedAlbumUrl: '#',
     schedule: [

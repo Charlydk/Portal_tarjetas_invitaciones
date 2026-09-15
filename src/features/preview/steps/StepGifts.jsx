@@ -49,7 +49,7 @@ export function StepGifts({ formData, handleChange }) {
             name="accountHolder"
             value={formData.accountHolder || ''}
             onChange={handleChange}
-            placeholder="Ej: Yesica Marisol Díaz"
+            placeholder="Ej: Lucía Fernández"
           />
           <small>Sin el titular, el invitado ve un alias y no sabe a quién le transfiere.</small>
         </div>

@@ -81,7 +81,7 @@ export function StepConfirm({ formData, handleChange, mostrarCierre = true }) {
             type="text"
             value={formData.whatsappName1 || ''}
             onChange={(e) => set('whatsappName1', e.target.value)}
-            placeholder="¿De quién es? (opcional, ej: Yesica)"
+            placeholder="¿De quién es? (opcional, ej: Lucía)"
             style={{ marginTop: '8px' }}
           />
         </div>
@@ -106,7 +106,7 @@ export function StepConfirm({ formData, handleChange, mostrarCierre = true }) {
             type="text"
             value={formData.whatsappName2 || ''}
             onChange={(e) => set('whatsappName2', e.target.value)}
-            placeholder="¿De quién es? (ej: Johana)"
+            placeholder="¿De quién es? (ej: Martina)"
             style={{ marginTop: '8px' }}
           />
           <small>Si cada uno tiene sus invitados, la tarjeta muestra un botón por persona, con su nombre.</small>
