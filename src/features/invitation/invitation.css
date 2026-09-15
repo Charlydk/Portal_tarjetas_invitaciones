@@ -671,15 +671,21 @@
 /* Las dos opciones se ven apagadas hasta que se elige una. Sin ese contraste
    no se distingue lo elegido de lo disponible, y el invitado no sabe si su
    toque quedó registrado. */
+/* Sin elegir, contorneada; elegida, llena. Antes la no elegida era el botón
+   lleno a media opacidad: sobre papel claro pasaba, pero sobre un fondo oscuro
+   quedaba un gris sucio con letra oscura que no se leía. El contorno se lee
+   igual sobre cualquier fondo y cualquier banda. */
 .inv-rsvp__opcion {
   flex: 1 1 0;
-  opacity: 0.55;
-  filter: grayscale(0.35);
+  background: transparent;
+  color: var(--inv-accent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--inv-accent) 70%, transparent);
 }
 
 .inv-rsvp__opcion.is-elegida {
-  opacity: 1;
-  filter: none;
+  background: var(--inv-accent);
+  color: var(--inv-accent-ink);
+  box-shadow: none;
 }
 
 .inv-rsvp__error {
@@ -925,6 +931,15 @@
   box-shadow: 0 12px 44px rgba(0, 0, 0, 0.16);
 }
 
+/* Filete: una línea fina del color de acento, metida adentro de la foto como
+   el marco de una lámina. Sobre un fondo oscuro un passe-partout no se ve y
+   un desvanecido se come la foto; la línea la enmarca sin quitarle nada. */
+.inv--hero-edge-line .inv-hero__media {
+  border-radius: clamp(8px, calc(2 * var(--inv-vw)), 14px);
+  outline: 1px solid color-mix(in srgb, var(--inv-accent) 80%, transparent);
+  outline-offset: calc(-1 * clamp(10px, calc(2.6 * var(--inv-vw)), 18px));
+}
+
 /* ── Portada apilada, en pantalla ancha ───────────────────────────────────── */
 /* En un teléfono la foto arriba y los nombres abajo funciona: la pantalla es
    alta y entra todo. En un monitor no, y por geometría: una foto vertical que
@@ -1141,7 +1156,7 @@
 }
 
 .inv--bands .inv-section:nth-of-type(odd) {
-  --inv-accent: var(--inv-band-strong-ink);
+  --inv-accent: var(--inv-band-strong-accent);
   --inv-accent-ink: var(--inv-band-strong);
   --inv-ink: var(--inv-band-strong-ink);
   --inv-ink-muted: color-mix(in srgb, var(--inv-band-strong-ink) 88%, transparent);

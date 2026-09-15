@@ -105,6 +105,7 @@ export const DEFAULT_TOKENS = {
   //   ''       sin tratamiento, el rectángulo tal cual.
   //   'fade'   se desvanece hacia abajo y los nombres emergen del papel.
   //   'frame'  passe-partout del color del papel y sombra: una foto apoyada.
+  //   'line'   un filete fino del color de acento, adentro de la foto.
   heroEdge: '',
   // Un dibujo decorativo que acompaña las secciones, apareciendo a medida que
   // el invitado baja. Va detrás del texto y alternando de lado.
@@ -115,6 +116,10 @@ export const DEFAULT_TOKENS = {
   bandStrong: '',
   bandSoft: '',
   bandStrongInk: '#FFFFFF',
+  // Títulos, íconos y botones sobre la fuerte. Vacío usa `bandStrongInk`, que
+  // es lo que pide una banda de color con texto blanco; una banda oscura con
+  // dorado necesita que el acento no sea el mismo color que el texto.
+  bandStrongAccent: '',
   // Sits between the background image and the text. Without it, light photos
   // eat the copy — the single most common legibility failure in these cards.
   scrim: 'linear-gradient(180deg, rgba(8,12,26,0.82) 0%, rgba(8,12,26,0.72) 100%)',
@@ -193,6 +198,7 @@ export function tokensToCssVars(tokens) {
     '--inv-band-strong': tokens.bandStrong || 'transparent',
     '--inv-band-soft': tokens.bandSoft || 'transparent',
     '--inv-band-strong-ink': tokens.bandStrongInk,
+    '--inv-band-strong-accent': tokens.bandStrongAccent || tokens.bandStrongInk,
     '--inv-font-title': tokens.fontTitle,
     '--inv-font-display': tokens.fontDisplay || tokens.fontTitle,
     '--inv-font-body': tokens.fontBody,

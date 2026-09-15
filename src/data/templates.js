@@ -11,10 +11,19 @@ export const templates = [
   {
     id: 'boda-sobria',
     title: 'Boda Sobria',
-    thumbnailUrl: '/allegories/_muestra/foto1.webp',
+    thumbnailUrl: '/allegories/boda-sobria/portada-muestra.webp',
     path: '/demo/boda-sobria',
     themeId: 'boda-sobria',
     slug: 'boda-sobria',
+    category: 'Bodas',
+  },
+  {
+    id: 'boda-noche',
+    title: 'Boda de Noche',
+    thumbnailUrl: '/allegories/boda-noche/vidriera.webp',
+    path: '/demo/boda-noche',
+    themeId: 'boda-noche',
+    slug: 'boda-noche',
     category: 'Bodas',
   },
   {

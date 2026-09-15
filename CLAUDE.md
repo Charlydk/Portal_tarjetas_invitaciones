@@ -85,7 +85,7 @@ The current way to add a design. An **allegory** is a data file describing a cos
 - `src/features/invitation/Sections.jsx` — the ten sections, written once. `EventSection` serves civil, religious and party alike (these used to be three near-identical copies in `CommonBoxes.jsx` differing only in a hardcoded `<h2>`).
 - `src/features/invitation/AllegoryCard.jsx` — the renderer. Registered in `SKELETON_MAP` as `'AllegoryCard'`; every allegory shares that single entry.
 
-Existing allegories: `cinderella`, `rapunzel`, `aurora`, `bodaClasica`, `mariposas` — all built from delivered client cards.
+Existing allegories: `cinderella`, `rapunzel`, `aurora`, `bodaClasica`, `mariposas` — all built from delivered client cards. `bodaSobria` (typographic, no illustration) and `bodaNoche` (spreads `bodaSobria`, night blue and gold) show how a new design is derived from an existing one with tokens only. Showcase `demo` data is always invented: the catalogue is public.
 
 **Tokens that change a design's character without code** — all empty/neutral by default, so no existing allegory moves:
 
@@ -93,7 +93,8 @@ Existing allegories: `cinderella`, `rapunzel`, `aurora`, `bodaClasica`, `maripos
 |---|---|
 | `accentAlt` | Segundo acento para marcas chicas (puntos del cronograma, adornos). Vacío cae en `accent`. |
 | `heroLayout: 'stacked'` | La portada va arriba y contenida en vez de a sangre; al costado en pantalla ancha. Una foto vertical a sangre en un monitor siempre se ve con zoom. |
-| `heroEdge: 'fade' \| 'frame'` | El borde de esa portada: desvanecida hacia el papel, o passe-partout con sombra. |
+| `heroEdge: 'fade' \| 'frame' \| 'line'` | El borde de esa portada: desvanecida hacia el papel, passe-partout con sombra, o un filete fino del color de acento (el que funciona sobre fondo oscuro). |
+| `bandStrong`, `bandSoft`, `bandStrongInk`, `bandStrongAccent` | Bandas alternadas a todo el ancho. Sobre la fuerte se redefinen las variables de color; `bandStrongAccent` vacío usa `bandStrongInk` (banda de color con texto blanco), y sirve para una banda oscura con acento dorado. |
 | `decorImage` | Un dibujo que acompaña cada sección y aparece con el scroll — vive dentro del molde `Section`, así hereda su animación sin una línea de JavaScript. Alterna de lado y se espeja solo. |
 
 La sección `schedule` (Itinerario) es una línea de tiempo: `data.schedule` es `[{ time, label }]`, y se carga pegando texto.

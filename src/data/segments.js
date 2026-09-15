@@ -22,8 +22,16 @@ export const invitationSegments = [
         name: 'Boda Sobria',
         modelId: 'allegories',
         variantId: 'boda-sobria',
-        previewImage: '/allegories/_muestra/foto1.webp',
+        previewImage: '/allegories/boda-sobria/portada-muestra.webp',
         description: 'Clásica y tipográfica, en blanco, verde oliva y terracota. Sin ilustraciones: la sostienen tus propias fotos.',
+      },
+      {
+        id: 'boda-noche',
+        name: 'Boda de Noche',
+        modelId: 'allegories',
+        variantId: 'boda-noche',
+        previewImage: '/allegories/boda-noche/vidriera.webp',
+        description: 'Azul noche y dorado, con letra manuscrita y tu foto enmarcada. Para fiestas de noche y salones formales.',
       },
       {
         id: 'boda-caricatura',

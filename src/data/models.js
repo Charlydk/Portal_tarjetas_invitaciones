@@ -8,6 +8,7 @@ import { mariposas } from '../allegories/mariposas';
 import { auroraBoda } from '../allegories/auroraBoda';
 import { cenicientaBoda } from '../allegories/cenicientaBoda';
 import { bodaSobria } from '../allegories/bodaSobria';
+import { bodaNoche } from '../allegories/bodaNoche';
 
 const SHARED_ASSETS = {
   video1: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
@@ -1059,6 +1060,19 @@ export const invitationModels = [
           fontFamilyTitle: bodaSobria.tokens.fontTitle,
           fontFamilyBody: bodaSobria.tokens.fontBody,
           textColor: bodaSobria.tokens.ink,
+        }
+      },
+      {
+        id: 'boda-noche',
+        name: 'Boda de Noche',
+        allegory: bodaNoche,
+        assets: {},
+        styles: {
+          primaryColor: bodaNoche.tokens.accent,
+          secondaryColor: bodaNoche.tokens.bg,
+          fontFamilyTitle: bodaNoche.tokens.fontTitle,
+          fontFamilyBody: bodaNoche.tokens.fontBody,
+          textColor: bodaNoche.tokens.ink,
         }
       },
       {
