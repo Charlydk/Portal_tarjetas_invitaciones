@@ -34,6 +34,22 @@ export const invitationSegments = [
         description: 'Azul noche y dorado, con letra manuscrita y tu foto enmarcada. Para fiestas de noche y salones formales.',
       },
       {
+        id: 'boda-romantica',
+        name: 'Boda Romántica',
+        modelId: 'allegories',
+        variantId: 'boda-romantica',
+        previewImage: '/allegories/boda-romantica/vidriera.webp',
+        description: 'Rosa empolvado y verde salvia, con tu foto enmarcada como una lámina. Para bodas de día.',
+      },
+      {
+        id: 'boda-finca',
+        name: 'Boda en la Finca',
+        modelId: 'allegories',
+        variantId: 'boda-finca',
+        previewImage: '/allegories/boda-finca/vidriera.webp',
+        description: 'Terracota y arena, con letra manuscrita suelta. Para bodas al aire libre, en finca o bodega.',
+      },
+      {
         id: 'boda-caricatura',
         name: 'Boda Caricatura',
         modelId: 'allegories',
@@ -64,6 +80,14 @@ export const invitationSegments = [
     name: '15 Años',
     description: 'Celebrá tus quince con el estilo que te merecés.',
     templates: [
+      {
+        id: 'quince-moderna',
+        name: '15 Moderna',
+        modelId: 'allegories',
+        variantId: 'quince-moderna',
+        previewImage: '/allegories/quince-moderna/vidriera.webp',
+        description: 'Lila y violeta, limpia y sin personajes. Para la quinceañera que no quiere un cuento.',
+      },
       {
         id: 'cenicienta-baile',
         name: 'Cenicienta',

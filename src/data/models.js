@@ -9,6 +9,9 @@ import { auroraBoda } from '../allegories/auroraBoda';
 import { cenicientaBoda } from '../allegories/cenicientaBoda';
 import { bodaSobria } from '../allegories/bodaSobria';
 import { bodaNoche } from '../allegories/bodaNoche';
+import { bodaRomantica } from '../allegories/bodaRomantica';
+import { bodaFinca } from '../allegories/bodaFinca';
+import { quinceModerna } from '../allegories/quinceModerna';
 
 const SHARED_ASSETS = {
   video1: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
@@ -1052,8 +1055,9 @@ export const invitationModels = [
         id: 'boda-sobria',
         name: 'Boda Sobria',
         allegory: bodaSobria,
-        // Sin audio: el silencio es parte del diseño.
-        assets: {},
+        assets: {
+          audio: bodaSobria.audio,
+        },
         styles: {
           primaryColor: bodaSobria.tokens.accent,
           secondaryColor: bodaSobria.tokens.bg,
@@ -1066,13 +1070,60 @@ export const invitationModels = [
         id: 'boda-noche',
         name: 'Boda de Noche',
         allegory: bodaNoche,
-        assets: {},
+        assets: {
+          audio: bodaNoche.audio,
+        },
         styles: {
           primaryColor: bodaNoche.tokens.accent,
           secondaryColor: bodaNoche.tokens.bg,
           fontFamilyTitle: bodaNoche.tokens.fontTitle,
           fontFamilyBody: bodaNoche.tokens.fontBody,
           textColor: bodaNoche.tokens.ink,
+        }
+      },
+      {
+        id: 'boda-romantica',
+        name: 'Boda Romántica',
+        allegory: bodaRomantica,
+        assets: {
+          audio: bodaRomantica.audio,
+        },
+        styles: {
+          primaryColor: bodaRomantica.tokens.accent,
+          secondaryColor: bodaRomantica.tokens.bg,
+          fontFamilyTitle: bodaRomantica.tokens.fontTitle,
+          fontFamilyBody: bodaRomantica.tokens.fontBody,
+          textColor: bodaRomantica.tokens.ink,
+        }
+      },
+      {
+        id: 'boda-finca',
+        name: 'Boda en la Finca',
+        allegory: bodaFinca,
+        assets: {
+          audio: bodaFinca.audio,
+        },
+        styles: {
+          primaryColor: bodaFinca.tokens.accent,
+          secondaryColor: bodaFinca.tokens.bg,
+          fontFamilyTitle: bodaFinca.tokens.fontTitle,
+          fontFamilyBody: bodaFinca.tokens.fontBody,
+          textColor: bodaFinca.tokens.ink,
+        }
+      },
+      {
+        id: 'quince-moderna',
+        name: '15 Moderna',
+        allegory: quinceModerna,
+        assets: {
+          audio: quinceModerna.audio,
+        },
+        styles: {
+          primaryColor: quinceModerna.tokens.accent,
+          secondaryColor: quinceModerna.tokens.bg,
+          fontFamilyTitle: quinceModerna.tokens.fontTitle,
+          fontFamilyBody: quinceModerna.tokens.fontBody,
+          textColor: quinceModerna.tokens.ink,
         }
       },
       {

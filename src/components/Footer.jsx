@@ -61,6 +61,9 @@ function Footer() {
 
         <p className="footer-text">
           © {currentYear} FX Estudio · Hecho en Tucumán, Argentina
+          <br />
+          {/* Lo pide la licencia CC BY de la música de las muestras. */}
+          <small>Música de las muestras: “Canon en Re”, Kevin MacLeod (incompetech.com) · CC BY 3.0</small>
         </p>
       </div>
     </footer>

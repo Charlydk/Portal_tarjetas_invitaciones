@@ -16,8 +16,15 @@ export const bodaSobria = {
   id: 'boda-sobria',
   name: 'Boda Sobria',
 
-  // Sin audio ni ambientación: cualquier movimiento delataría que no hay nada
-  // que mirar salvo el texto, que es justamente la idea.
+  // Sin ambientación: cualquier movimiento delataría que no hay nada que mirar
+  // salvo el texto, que es justamente la idea.
+  //
+  // La música es la misma para toda esta familia de diseños (Noche, Romántica,
+  // Finca, 15 Moderna la heredan). Canon en Re, de Kevin MacLeod, con licencia
+  // CC BY 3.0: se puede usar citando al autor, y el crédito está en el pie del
+  // sitio. Sólo suena si el invitado la pide, y una tarjeta con su propia
+  // canción (`data.audio`) la reemplaza.
+  audio: '/allegories/_musica/canon-en-re.mp3',
 
   // Están todas. Cuáles se ven lo deciden los módulos de cada tarjeta, así que
   // una pareja que se casa por civil y por iglesia usa este mismo diseño sin
