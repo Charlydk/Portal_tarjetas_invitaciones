@@ -69,9 +69,10 @@ export const cinderella = {
     gifts: '/allegories/cenicienta/Gift.webp',
   },
 
-  // Quinceañera, not a wedding — modelled on the delivered card.
+  // Quinceañera, not a wedding. Shaped like the delivered card, but every
+  // name, place and alias is invented: the showcase is public.
   demo: {
-    name1: 'Paulina',
+    name1: 'Martina',
     name2: '',
     welcomePhrase: '¡Mis 15 años!',
     invitePhrase: 'Con todo mi cariño te invito a compartir este cuento tan especial',
@@ -80,11 +81,11 @@ export const cinderella = {
     showCivil: false,
     showCeremony: false,
     showParty: true,
-    partyPlace: 'Salón Recorcholis',
-    eventVenue: 'Salón Recorcholis',
-    partyAddress: 'Avenida Aconquija 1493',
+    partyPlace: 'Salón Los Cedros',
+    eventVenue: 'Salón Los Cedros',
+    partyAddress: 'Yerba Buena, Tucumán',
     partyTime: '22:00 hs ¡Puntual!',
-    alias: 'paupauu',
+    alias: 'mis15.martina',
     dressCodeDescription: 'Elegante',
     dressCodeColorNote: 'El color celeste está reservado para la princesa.',
   },
