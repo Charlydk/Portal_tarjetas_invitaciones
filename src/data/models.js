@@ -12,6 +12,8 @@ import { bodaNoche } from '../allegories/bodaNoche';
 import { bodaRomantica } from '../allegories/bodaRomantica';
 import { bodaFinca } from '../allegories/bodaFinca';
 import { quinceModerna } from '../allegories/quinceModerna';
+import { cumpleDorado } from '../allegories/cumpleDorado';
+import { cumpleMariposas } from '../allegories/cumpleMariposas';
 
 const SHARED_ASSETS = {
   video1: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
@@ -1124,6 +1126,36 @@ export const invitationModels = [
           fontFamilyTitle: quinceModerna.tokens.fontTitle,
           fontFamilyBody: quinceModerna.tokens.fontBody,
           textColor: quinceModerna.tokens.ink,
+        }
+      },
+      {
+        id: 'cumple-dorado',
+        name: 'Cumpleaños Dorado',
+        allegory: cumpleDorado,
+        assets: {
+          audio: cumpleDorado.audio,
+        },
+        styles: {
+          primaryColor: cumpleDorado.tokens.accent,
+          secondaryColor: cumpleDorado.tokens.bg,
+          fontFamilyTitle: cumpleDorado.tokens.fontTitle,
+          fontFamilyBody: cumpleDorado.tokens.fontBody,
+          textColor: cumpleDorado.tokens.ink,
+        }
+      },
+      {
+        id: 'cumple-mariposas',
+        name: 'Cumpleaños Mariposas',
+        allegory: cumpleMariposas,
+        assets: {
+          audio: cumpleMariposas.audio,
+        },
+        styles: {
+          primaryColor: cumpleMariposas.tokens.accent,
+          secondaryColor: cumpleMariposas.tokens.bg,
+          fontFamilyTitle: cumpleMariposas.tokens.fontTitle,
+          fontFamilyBody: cumpleMariposas.tokens.fontBody,
+          textColor: cumpleMariposas.tokens.ink,
         }
       },
       {
