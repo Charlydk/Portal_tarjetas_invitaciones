@@ -106,10 +106,21 @@ export const DEFAULT_TOKENS = {
   //   'fade'   se desvanece hacia abajo y los nombres emergen del papel.
   //   'frame'  passe-partout del color del papel y sombra: una foto apoyada.
   //   'line'   un filete fino del color de acento, adentro de la foto.
+  //   'medallion' la foto en un círculo con doble filete: se queda con la cara
+  //            y deja afuera el fondo.
   heroEdge: '',
   // Un dibujo decorativo que acompaña las secciones, apareciendo a medida que
   // el invitado baja. Va detrás del texto y alternando de lado.
   decorImage: '',
+  // Con qué se pinta ese dibujo. Vacío usa el acento; acepta un degradé, que es
+  // lo que hace que una mariposa de línea se lea como neón.
+  decorFill: '',
+  // Un halo alrededor del dibujo (un `drop-shadow`). Vacío, sin halo.
+  decorGlow: '',
+  // Un video a todo el ancho detrás de la portada apilada, con la foto encima.
+  // Distinto de `backgroundVideo`, que ES la portada: acá la portada es la foto
+  // del cliente y el video la ambienta.
+  heroBackdropVideo: '',
   // Bandas de color alternadas, a todo el ancho: una fuerte y la siguiente
   // suave. Vacío, que es el valor por defecto, deja todas las secciones sobre
   // el fondo del papel. `bandStrongInk` es el color del texto sobre la fuerte.
@@ -193,6 +204,8 @@ export function tokensToCssVars(tokens) {
     '--inv-accent-ink': tokens.accentInk,
     '--inv-accent-alt': tokens.accentAlt || tokens.accent,
     '--inv-decor': tokens.decorImage ? `url("${tokens.decorImage}")` : 'none',
+    '--inv-decor-fill': tokens.decorFill || tokens.accent,
+    '--inv-decor-glow': tokens.decorGlow || 'none',
     '--inv-font-heading': tokens.fontHeading || tokens.fontTitle,
     '--inv-title-size': tokens.titleSize || 'var(--inv-step-2)',
     '--inv-band-strong': tokens.bandStrong || 'transparent',

@@ -16,6 +16,8 @@ const PARTICLE_PRESETS = {
   fireflies: { count: 45, hueFrom: 82, hueTo: 127, sat: 85, size: 1.6, rise: 1, pulse: 2.4 },
   // Cenicienta: gold, smaller and slower — magic dust rather than living things.
   sparkles: { count: 38, hueFrom: 38, hueTo: 52, sat: 92, size: 1.1, rise: 0.55, pulse: 3.4 },
+  // Cumpleaños Mariposas: fucsia a violeta, el brillo de las mariposas de neón.
+  neon: { count: 42, hueFrom: 285, hueTo: 325, sat: 95, size: 1.3, rise: 0.6, pulse: 3 },
   // Boda Clásica: little hearts drifting up, echoing the ones drawn into the
   // card's own illustration.
   hearts: { count: 18, hueFrom: 8, hueTo: 22, sat: 72, size: 2.2, rise: 0.5, pulse: 1.4, shape: 'heart' },

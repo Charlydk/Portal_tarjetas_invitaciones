@@ -940,6 +940,76 @@
   outline-offset: calc(-1 * clamp(10px, calc(2.6 * var(--inv-vw)), 18px));
 }
 
+/* Medallón: la foto en un círculo con doble filete del color de acento y un
+   halo. Una foto de celular casi siempre trae un fondo que no ayuda — una
+   pared, una cortina —; el círculo se queda con la cara y lo deja afuera.
+   Tamaño fijo en vez de flexible: un círculo que se estira deja de serlo. */
+.inv--hero-edge-medallion.inv--hero-stacked .inv-hero__media {
+  flex: 0 0 auto;
+  aspect-ratio: 1;
+  width: clamp(220px, 68vw, 340px);
+  min-height: 0;
+  max-height: none;
+  margin: clamp(28px, 7svh, 64px) auto clamp(22px, 4svh, 40px);
+  border-radius: 50%;
+  background-position: center 35%;
+  box-shadow:
+    0 0 0 2px var(--inv-accent),
+    0 0 0 9px var(--inv-bg),
+    0 0 0 10px color-mix(in srgb, var(--inv-accent) 55%, transparent),
+    0 0 60px color-mix(in srgb, var(--inv-accent) 28%, transparent);
+}
+
+/* El halo del dibujo va en el contenedor y no en la máscara: un `filter` sobre
+   el elemento enmascarado se recorta con la máscara y el halo no se ve. */
+.inv--decor .inv-decor {
+  filter: var(--inv-decor-glow, none);
+}
+
+/* Video detrás de la portada apilada, a todo el ancho de la pantalla: la foto
+   del cliente queda encima, en su medallón, y el video la ambienta. */
+.inv-hero__backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.inv-hero__backdrop video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.85;
+}
+
+/* Se funde con el fondo de la tarjeta hacia abajo. Temprano y no sólo en el
+   borde: las mariposas del video cruzan toda la pantalla, y una que pasa
+   brillando por detrás del nombre lo vuelve ilegible. El video queda para la
+   mitad de arriba, alrededor de la foto. */
+.inv-hero__backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 30%, var(--inv-bg) 62%);
+}
+
+.inv-hero__backdrop ~ .inv-hero__media,
+.inv-hero__backdrop ~ .inv-hero__content,
+.inv-hero__backdrop ~ .inv-hero__scroll {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inv-hero__backdrop video { display: none; }
+}
+
 /* ── Portada apilada, en pantalla ancha ───────────────────────────────────── */
 /* En un teléfono la foto arriba y los nombres abajo funciona: la pantalla es
    alta y entra todo. En un monitor no, y por geometría: una foto vertical que
@@ -969,6 +1039,12 @@
   .inv--hero-stacked .inv-hero__content {
     flex: 1 1 auto;
     padding-inline: 0;
+  }
+
+  .inv--hero-edge-medallion.inv--hero-stacked .inv-hero__media {
+    flex: 0 0 auto;
+    width: clamp(280px, 30vw, 400px);
+    margin: 0;
   }
 
   /* Acá el desvanecido se va, y no es un olvido.
@@ -1037,7 +1113,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--inv-accent);
+  background: var(--inv-decor-fill, var(--inv-accent));
   -webkit-mask: var(--inv-decor) center / contain no-repeat;
   mask: var(--inv-decor) center / contain no-repeat;
 }
@@ -1115,6 +1191,14 @@
 
 .inv--bands .inv-section {
   isolation: isolate;
+}
+
+/* Con bandas, los destellos van por encima de las secciones. Detrás, como en
+   los diseños sin bandas, cada banda es un fondo opaco que los tapa: sólo se
+   veían en el pie, que es lo único sin banda. Son puntitos de un par de
+   píxeles y no reciben clics, así que por encima del texto no molestan. */
+.inv--bands .inv-particles {
+  z-index: 2;
 }
 
 .inv--bands .inv-section::before {

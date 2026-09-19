@@ -93,7 +93,9 @@ Existing allegories: `cinderella`, `rapunzel`, `aurora`, `bodaClasica`, `maripos
 |---|---|
 | `accentAlt` | Segundo acento para marcas chicas (puntos del cronograma, adornos). Vacío cae en `accent`. |
 | `heroLayout: 'stacked'` | La portada va arriba y contenida en vez de a sangre; al costado en pantalla ancha. Una foto vertical a sangre en un monitor siempre se ve con zoom. |
-| `heroEdge: 'fade' \| 'frame' \| 'line'` | El borde de esa portada: desvanecida hacia el papel, passe-partout con sombra, o un filete fino del color de acento (el que funciona sobre fondo oscuro). |
+| `heroEdge: 'fade' \| 'frame' \| 'line' \| 'medallion'` | El borde de esa portada: desvanecida hacia el papel, passe-partout con sombra, un filete fino del color de acento (el que funciona sobre fondo oscuro), o un círculo con doble filete que se queda con la cara y deja afuera el fondo de una foto de celular. |
+| `heroBackdropVideo` | Un video a todo el ancho detrás de la portada apilada, con la foto del cliente encima. Se funde con el fondo antes de llegar al texto. |
+| `decorFill`, `decorGlow` | Con qué se pinta el dibujo de `decorImage` (acepta un degradé) y un halo (`drop-shadow`) alrededor. Juntos hacen que un dibujo de línea se lea como neón. |
 | `bandStrong`, `bandSoft`, `bandStrongInk`, `bandStrongAccent` | Bandas alternadas a todo el ancho. Sobre la fuerte se redefinen las variables de color; `bandStrongAccent` vacío usa `bandStrongInk` (banda de color con texto blanco), y sirve para una banda oscura con acento dorado. |
 | `decorImage` | Un dibujo que acompaña cada sección y aparece con el scroll — vive dentro del molde `Section`, así hereda su animación sin una línea de JavaScript. Alterna de lado y se espeja solo. |
 

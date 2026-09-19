@@ -179,6 +179,13 @@ export function HeroSection({ data, allegory }) {
 
   return (
     <section id="section-hero" className="inv-hero">
+      {allegory.tokens.heroBackdropVideo && (
+        <div className="inv-hero__backdrop" aria-hidden="true">
+          <video autoPlay loop muted playsInline preload="metadata">
+            <source src={allegory.tokens.heroBackdropVideo} type="video/mp4" />
+          </video>
+        </div>
+      )}
       {/* The poster sits on the layer itself, so the hero still reads while the
           video buffers — and stays correct when reduced motion hides the video.
 
