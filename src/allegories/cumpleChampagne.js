@@ -42,6 +42,9 @@ export const cumpleChampagne = {
     bandStrongInk: '#3A3226',
     bandStrongAccent: '#A8812F',
 
+    // Oro a plata, oscuro lo justo para leerse sobre marfil.
+    eyebrowFill: 'linear-gradient(100deg, #8A6420 0%, #B8912F 35%, #C9A24A 50%, #8E969F 80%, #6F7780 100%)',
+
     decorImage: '/allegories/cumple-mariposas/mariposa.webp',
     decorFill: 'linear-gradient(135deg, #B8912F 0%, #E9CF86 40%, #C3C8CF 75%, #9AA3AD 100%)',
     decorGlow: 'drop-shadow(0 0 4px rgba(233,207,134,0.55))',

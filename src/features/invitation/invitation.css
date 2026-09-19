@@ -395,11 +395,23 @@
 }
 
 .inv-hero__eyebrow {
-  font-size: 0.7rem;
-  letter-spacing: 0.34em;
+  font-family: var(--inv-font-eyebrow, inherit);
+  font-size: var(--inv-eyebrow-size, 0.7rem);
+  letter-spacing: var(--inv-eyebrow-spacing, 0.34em);
   text-transform: uppercase;
   color: var(--inv-accent);
   margin: 0 0 22px;
+}
+
+/* La frase pintada con un degradé, como letras de metal. El color de acento
+   queda debajo por si el navegador no recorta el fondo al texto. */
+.inv--eyebrow-fill .inv-hero__eyebrow {
+  font-weight: 600;
+  line-height: 1.2;
+  background: var(--inv-eyebrow-fill);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .inv-hero__name {

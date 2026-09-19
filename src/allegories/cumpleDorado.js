@@ -40,6 +40,13 @@ export const cumpleDorado = {
 
     heroEdge: 'medallion',
 
+    // "Mis fabulosos 50" como segundo título, no como etiqueta: es la frase del
+    // cumpleaños. Cinzel, versalitas clásicas de inscripción, en oro.
+    fontEyebrow: "'Cinzel', 'Cormorant Garamond', serif",
+    eyebrowSize: 'clamp(1.3rem, calc(1rem + 2.2 * var(--inv-vw)), 2rem)',
+    eyebrowSpacing: '0.1em',
+    eyebrowFill: 'linear-gradient(100deg, #B8903E 0%, #F3DC9A 45%, #D4AF6A 60%, #9C7A35 100%)',
+
     bandStrong: '#1C1813',
     bandSoft: '#0C0A08',
     bandStrongInk: '#F3EBDD',

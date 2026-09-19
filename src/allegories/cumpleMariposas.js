@@ -42,6 +42,8 @@ export const cumpleMariposas = {
     bandStrongInk: '#F7EEFF',
     bandStrongAccent: '#E879F9',
 
+    eyebrowFill: 'linear-gradient(100deg, #F0ABFC 0%, #E879F9 45%, #67E8F9 100%)',
+
     decorImage: '/allegories/cumple-mariposas/mariposa.webp',
     decorFill: 'linear-gradient(135deg, #F0ABFC 0%, #E879F9 45%, #67E8F9 100%)',
     decorGlow: 'drop-shadow(0 0 6px rgba(232,121,249,0.65))',

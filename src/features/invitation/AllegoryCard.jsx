@@ -131,6 +131,7 @@ function AllegoryCard({ data, theme }) {
     allegory.tokens.heroEdge && `inv--hero-edge-${allegory.tokens.heroEdge}`,
     allegory.tokens.decorImage && 'inv--decor',
     allegory.tokens.bandStrong && 'inv--bands',
+    allegory.tokens.eyebrowFill && 'inv--eyebrow-fill',
   ].filter(Boolean).join(' ');
 
   return (

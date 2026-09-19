@@ -115,6 +115,14 @@ export const DEFAULT_TOKENS = {
   // Con qué se pinta ese dibujo. Vacío usa el acento; acepta un degradé, que es
   // lo que hace que una mariposa de línea se lea como neón.
   decorFill: '',
+  // La frase chica sobre el nombre ("Nos casamos", "Mis 15 años"). Por
+  // defecto es una etiqueta mínima en versalitas; un cumpleaños la quiere como
+  // segundo título. Vacíos, queda como siempre. `eyebrowFill` acepta un
+  // degradé, que se pinta sobre las letras.
+  fontEyebrow: '',
+  eyebrowSize: '',
+  eyebrowSpacing: '',
+  eyebrowFill: '',
   // Un halo alrededor del dibujo (un `drop-shadow`). Vacío, sin halo.
   decorGlow: '',
   // Un video a todo el ancho detrás de la portada apilada, con la foto encima.
@@ -205,6 +213,10 @@ export function tokensToCssVars(tokens) {
     '--inv-accent-alt': tokens.accentAlt || tokens.accent,
     '--inv-decor': tokens.decorImage ? `url("${tokens.decorImage}")` : 'none',
     '--inv-decor-fill': tokens.decorFill || tokens.accent,
+    '--inv-font-eyebrow': tokens.fontEyebrow || 'inherit',
+    '--inv-eyebrow-size': tokens.eyebrowSize || '0.7rem',
+    '--inv-eyebrow-spacing': tokens.eyebrowSpacing || '0.34em',
+    '--inv-eyebrow-fill': tokens.eyebrowFill || 'none',
     '--inv-decor-glow': tokens.decorGlow || 'none',
     '--inv-font-heading': tokens.fontHeading || tokens.fontTitle,
     '--inv-title-size': tokens.titleSize || 'var(--inv-step-2)',
