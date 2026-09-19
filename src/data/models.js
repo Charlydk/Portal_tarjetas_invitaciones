@@ -14,6 +14,7 @@ import { bodaFinca } from '../allegories/bodaFinca';
 import { quinceModerna } from '../allegories/quinceModerna';
 import { cumpleDorado } from '../allegories/cumpleDorado';
 import { cumpleMariposas } from '../allegories/cumpleMariposas';
+import { cumpleChampagne } from '../allegories/cumpleChampagne';
 
 const SHARED_ASSETS = {
   video1: 'https://v1.padlet.pics/1/vids/0be6c84c7f0775d0b497042a197b0a70.mp4',
@@ -1156,6 +1157,21 @@ export const invitationModels = [
           fontFamilyTitle: cumpleMariposas.tokens.fontTitle,
           fontFamilyBody: cumpleMariposas.tokens.fontBody,
           textColor: cumpleMariposas.tokens.ink,
+        }
+      },
+      {
+        id: 'cumple-champagne',
+        name: 'Cumpleaños Champagne',
+        allegory: cumpleChampagne,
+        assets: {
+          audio: cumpleChampagne.audio,
+        },
+        styles: {
+          primaryColor: cumpleChampagne.tokens.accent,
+          secondaryColor: cumpleChampagne.tokens.bg,
+          fontFamilyTitle: cumpleChampagne.tokens.fontTitle,
+          fontFamilyBody: cumpleChampagne.tokens.fontBody,
+          textColor: cumpleChampagne.tokens.ink,
         }
       },
       {
