@@ -378,7 +378,7 @@ function RsvpForm({ data, allegory }) {
       <p className="inv-body">{allegory.copy.rsvpBody}</p>
       {data.rsvpDeadline && (
         <p className="inv-body">
-          Confirmá antes del <strong>{data.rsvpDeadline}</strong>.
+          Podés confirmar hasta el <strong>{data.rsvpDeadline}</strong>.
         </p>
       )}
 
@@ -513,7 +513,7 @@ function GuestRsvp({ data, allegory }) {
       <p className="inv-body">{allegory.copy.rsvpBody}</p>
       {data.rsvpDeadline && (
         <p className="inv-body">
-          Confirmá antes del <strong>{data.rsvpDeadline}</strong>.
+          Podés confirmar hasta el <strong>{data.rsvpDeadline}</strong>.
         </p>
       )}
 
@@ -590,7 +590,7 @@ export function RsvpSection({ data, allegory }) {
       <p className="inv-body">{allegory.copy.rsvpBody}</p>
       {data.rsvpDeadline && (
         <p className="inv-body">
-          Confirmá antes del <strong>{data.rsvpDeadline}</strong>.
+          Podés confirmar hasta el <strong>{data.rsvpDeadline}</strong>.
         </p>
       )}
       {data.rsvpFormUrl ? (
