@@ -73,6 +73,18 @@
   to = "/index.html"
   status = 404
 
+
+# ─── Proxy: línea de diseño web ──────────────────────────────────────────────
+# fxestudio.com.ar/web/* se sirve desde el sitio Netlify separado de la línea
+# de diseño web. La regla debe ir ANTES del catch-all del SPA para no quedar
+# tapada, y no debe interferir con las rutas /i/* de las invitaciones.
+[[redirects]]
+  from = "/web/*"
+  to = "https://fxestudio-web.netlify.app/web/:splat"
+  status = 200
+  force = true
+
+
 # ─── SPA ──────────────────────────────────────────────────────────────────────
 # Sin esto, entrar directo a /preview/cenicienta-baile devuelve 404: Netlify
 # busca un archivo en esa ruta y no existe, porque el ruteo es del lado del
