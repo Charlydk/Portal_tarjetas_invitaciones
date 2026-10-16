@@ -116,4 +116,13 @@ export const templates = [
     slug: 'mariposas',
     category: 'XV Años',
   },
+  {
+    id: 'evento-corporativo',
+    title: 'Evento Corporativo',
+    thumbnailUrl: '/allegories/evento-corporativo/portada-muestra.webp',
+    path: '/demo/evento-corporativo',
+    themeId: 'evento-corporativo',
+    slug: 'evento-corporativo',
+    category: 'Eventos de empresa',
+  },
 ];

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useCountdown } from '../../hooks/useCountdown';
-import { RESTRICCIONES } from '../../lib/restricciones';
+import { ETIQUETA_RESTRICCION, RESTRICCIONES } from '../../lib/restricciones';
 
 // Sections do not fade in as one block. Each part arrives a beat after the one
 // before it, which is what makes the card feel composed instead of dumped on
@@ -207,6 +207,9 @@ export function HeroSection({ data, allegory }) {
       <div className="inv-hero__veil" />
 
       <div className="inv-hero__content">
+        {data.logoUrl && (
+          <img className="inv-hero__logo" src={data.logoUrl} alt={data.logoAlt || ''} />
+        )}
         {welcomePhrase && <p className="inv-hero__eyebrow">{welcomePhrase}</p>}
         <h1 className="inv-hero__name">{name1}</h1>
         {name2 && (
@@ -333,8 +336,15 @@ function RsvpForm({ data, allegory }) {
   const [nombre, setNombre] = useState('');
   const [viene, setViene] = useState(null);
   const [acompanantes, setAcompanantes] = useState(0);
+  const [restricciones, setRestricciones] = useState([]);
   const [notas, setNotas] = useState('');
   const [estado, setEstado] = useState('escribiendo'); // escribiendo | enviando | listo | error
+
+  function alternarRestriccion(id) {
+    setRestricciones((actuales) =>
+      actuales.includes(id) ? actuales.filter((r) => r !== id) : [...actuales, id]
+    );
+  }
 
   async function enviar() {
     if (!nombre.trim() || viene === null) return;
@@ -354,7 +364,14 @@ function RsvpForm({ data, allegory }) {
         name: nombre,
         attending: viene,
         companions: viene ? Number(acompanantes) || 0 : 0,
-        notes: notas,
+        // Este formulario guarda un solo texto: las fichas y la aclaración se
+        // juntan en él. La confirmación con enlace personal, en cambio, las
+        // guarda como campos separados y se pueden contar.
+        notes: viene
+          ? [...restricciones.map((id) => ETIQUETA_RESTRICCION[id]), notas.trim()]
+              .filter(Boolean)
+              .join(', ')
+          : '',
       });
       setEstado('listo');
     } catch {
@@ -427,16 +444,13 @@ function RsvpForm({ data, allegory }) {
           </label>
         )}
 
-        {viene !== null && (
-          <label className="inv-rsvp__campo">
-            <span>¿Alguna restricción alimentaria? (opcional)</span>
-            <input
-              value={notas}
-              onChange={(e) => setNotas(e.target.value)}
-              placeholder="Celíaco, vegetariano, alergias…"
-              maxLength={500}
-            />
-          </label>
+        {viene === true && (
+          <CampoRestricciones
+            elegidas={restricciones}
+            onAlternar={alternarRestriccion}
+            notas={notas}
+            onNotas={setNotas}
+          />
         )}
 
         {estado === 'error' && (
@@ -545,28 +559,12 @@ function GuestRsvp({ data, allegory }) {
           </label>
         )}
 
-        <div className="inv-rsvp__campo">
-          <span>¿Tenés alguna restricción alimentaria? (opcional)</span>
-          <div className="inv-rsvp__opciones inv-rsvp__chips">
-            {RESTRICCIONES.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                aria-pressed={restricciones.includes(r.id)}
-                className={`inv-btn inv-rsvp__opcion ${restricciones.includes(r.id) ? 'is-elegida' : ''}`}
-                onClick={() => alternarRestriccion(r.id)}
-              >
-                {r.label}
-              </button>
-            ))}
-          </div>
-          <input
-            value={notas}
-            onChange={(e) => setNotas(e.target.value)}
-            placeholder="Aclaraciones (alergias, otra dieta…)"
-            maxLength={300}
-          />
-        </div>
+        <CampoRestricciones
+          elegidas={restricciones}
+          onAlternar={alternarRestriccion}
+          notas={notas}
+          onNotas={setNotas}
+        />
 
         {estado === 'error' && (
           <p className="inv-rsvp__error">No pudimos registrar tu respuesta. Probá de nuevo en un rato.</p>
@@ -587,6 +585,38 @@ function GuestRsvp({ data, allegory }) {
         </div>
       </div>
     </Section>
+  );
+}
+
+/**
+ * Las restricciones alimentarias: fichas para lo común y un renglón para lo
+ * demás. Lo común va como ficha porque se cuenta (cuántos celíacos hay para el
+ * catering); lo demás, en texto, porque nadie lo va a poder prever.
+ */
+function CampoRestricciones({ elegidas, onAlternar, notas, onNotas }) {
+  return (
+    <div className="inv-rsvp__campo">
+      <span>¿Tenés alguna restricción alimentaria? (opcional)</span>
+      <div className="inv-rsvp__opciones inv-rsvp__chips">
+        {RESTRICCIONES.map((r) => (
+          <button
+            key={r.id}
+            type="button"
+            aria-pressed={elegidas.includes(r.id)}
+            className={`inv-btn inv-rsvp__opcion ${elegidas.includes(r.id) ? 'is-elegida' : ''}`}
+            onClick={() => onAlternar(r.id)}
+          >
+            {r.label}
+          </button>
+        ))}
+      </div>
+      <input
+        value={notas}
+        onChange={(e) => onNotas(e.target.value)}
+        placeholder="Aclaraciones (alergias, otra dieta…)"
+        maxLength={300}
+      />
+    </div>
   );
 }
 

@@ -12,10 +12,10 @@ Rama: feat/eventos-corporativos · Entrega: ask-on-risk · Runner de tests: ning
 
 ## Tasks
 - [x] T1 (S1,S5,S6) Migración 007 en `supabase/migrations/` — inline — aplicada 2026-10-15 con apply_migration; verificado: 6 funciones con permisos anon+authenticated como en la 006, y `guest_respond` con 4 parámetros nombrados no es ambigua (devuelve el error de negocio esperado con token inexistente)
-- [ ] T2 (S1) Confirmación del invitado con restricciones (`Sections.jsx`, `guestService.js`) — inline
-- [ ] T3 (S3,S5) Lista de invitados: carga con contacto, filtros, CSV, resumen de restricciones (`GuestListPage`, `guestService.js`) — inline
-- [ ] T4 (S4) Allegoría corporativa + registro en `models.js`/`segments.js`/`templates.js` — inline
-- [ ] T5 (S2) Envío por WhatsApp en cola + marcar enviado — inline
+- [x] T2 (S1) Confirmación del invitado con restricciones (`Sections.jsx`, `guestService.js`) — inline — commit 050227d; el formulario abierto también usa las fichas (se guardan juntas en `notes`). Falta aplicar 008 (precarga lo ya contestado)
+- [x] T3 (S3,S5) Lista de invitados: carga con contacto, filtros, CSV, resumen de restricciones (`GuestListPage`, `listaInvitados.js`) — inline — commit 050227d; `node scripts/probar-lista-invitados.mjs` pasa (escrito después del código, sin RED observado)
+- [x] T4 (S4) Allegoría corporativa + registro en `models.js`/`segments.js`/`templates.js` — inline — verificada en navegador local (`/preview/evento-corporativo`); tokens nuevos `heroNameSize`/`heroNameWeight` y `data.logoUrl` en la portada
+- [x] T5 (S2) Cola de WhatsApp: teléfono directo, mensaje editable, marca de enviado — inline — commit 050227d; la marca llama a `mark_guests_sent` (007), no probada contra la base real
 - [ ] T6 (S2) Edge Function de mail con Brevo (depende de cuenta Brevo aprobada y DNS) — inline
 
 ## Log

@@ -8,6 +8,7 @@ import { mariposas } from '../allegories/mariposas';
 import { auroraBoda } from '../allegories/auroraBoda';
 import { cenicientaBoda } from '../allegories/cenicientaBoda';
 import { bodaSobria } from '../allegories/bodaSobria';
+import { eventoCorporativo } from '../allegories/eventoCorporativo';
 import { bodaNoche } from '../allegories/bodaNoche';
 import { bodaRomantica } from '../allegories/bodaRomantica';
 import { bodaFinca } from '../allegories/bodaFinca';
@@ -1067,6 +1068,21 @@ export const invitationModels = [
           fontFamilyTitle: bodaSobria.tokens.fontTitle,
           fontFamilyBody: bodaSobria.tokens.fontBody,
           textColor: bodaSobria.tokens.ink,
+        }
+      },
+      {
+        id: 'evento-corporativo',
+        name: 'Evento Corporativo',
+        allegory: eventoCorporativo,
+        assets: {
+          audio: eventoCorporativo.audio,
+        },
+        styles: {
+          primaryColor: eventoCorporativo.tokens.accent,
+          secondaryColor: eventoCorporativo.tokens.bg,
+          fontFamilyTitle: eventoCorporativo.tokens.fontTitle,
+          fontFamilyBody: eventoCorporativo.tokens.fontBody,
+          textColor: eventoCorporativo.tokens.ink,
         }
       },
       {

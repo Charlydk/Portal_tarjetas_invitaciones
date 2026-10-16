@@ -122,4 +122,19 @@ export const invitationSegments = [
       },
     ],
   },
+  {
+    id: 'eventos-corporativos',
+    name: 'Eventos de empresa',
+    description: 'Inauguraciones, workshops y lanzamientos, con tu logo y la lista de invitados.',
+    templates: [
+      {
+        id: 'evento-corporativo',
+        name: 'Evento Corporativo',
+        modelId: 'allegories',
+        variantId: 'evento-corporativo',
+        previewImage: '/allegories/evento-corporativo/portada-muestra.webp',
+        description: 'Sobria, con el logo de tu empresa. Pregunta restricciones alimentarias al confirmar.',
+      },
+    ],
+  },
 ];
