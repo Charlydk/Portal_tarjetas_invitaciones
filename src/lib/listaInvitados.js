@@ -78,6 +78,25 @@ function parsearLinea(linea) {
   return invitado;
 }
 
+const SITIO = 'https://fxestudio.com.ar';
+
+/**
+ * El origen con el que se arman los enlaces de los invitados.
+ *
+ * WhatsApp sólo convierte en enlace lo que parece un dominio. Armados desde
+ * `localhost` o una IP (el servidor de desarrollo, o la red de la oficina), los
+ * enlaces llegan como texto muerto y obligan a copiarlos a mano. En ese caso se
+ * usa el sitio real: es el enlace que de todas formas va a recibir el invitado.
+ */
+export function urlPublica(origen) {
+  try {
+    const { protocol, hostname, origin } = new URL(origen);
+    const esDominio = hostname.includes('.') && !/^[\d.]+$/.test(hostname);
+    if ((protocol === 'https:' || protocol === 'http:') && esDominio) return origin;
+  } catch { /* no era una URL: se usa el sitio */ }
+  return SITIO;
+}
+
 /**
  * Las reglas del formulario de a uno. Devuelve un objeto con un mensaje por
  * cada campo que esta mal, o vacio si todo esta bien: asi el formulario marca

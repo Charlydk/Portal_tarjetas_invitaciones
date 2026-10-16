@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import {
   parsearLista, normalizarTelefono, resumirInvitados, resumirRestricciones,
-  filtrarInvitados, invitadosACsv, validarInvitado, armarInvitado,
+  filtrarInvitados, invitadosACsv, validarInvitado, armarInvitado, urlPublica,
 } from '../src/lib/listaInvitados.js';
 
 // ── Lo de siempre sigue igual ────────────────────────────────────────────────
@@ -101,5 +101,17 @@ assert.deepEqual(
   { name: 'Ana', max_companions: 2, company: 'Acme', email: 'ana@acme.com', phone: '11 5555-1234' },
 );
 assert.deepEqual(armarInvitado({ name: 'Ana', email: '', phone: '', company: '', max_companions: '' }), { name: 'Ana', max_companions: 0 });
+
+// ── Origen de los enlaces ────────────────────────────────────────────────────
+// WhatsApp sólo convierte en enlace lo que parece un dominio: un enlace a
+// localhost o a una IP llega como texto muerto. En ese caso se usa el sitio real.
+assert.equal(urlPublica('https://fxestudio.com.ar'), 'https://fxestudio.com.ar');
+assert.equal(urlPublica('https://deploy-preview-3--fxestudio.netlify.app'), 'https://deploy-preview-3--fxestudio.netlify.app');
+assert.equal(urlPublica('http://localhost:5173'), 'https://fxestudio.com.ar');
+assert.equal(urlPublica('https://localhost'), 'https://fxestudio.com.ar');
+assert.equal(urlPublica('http://192.168.1.5:5173'), 'https://fxestudio.com.ar');
+assert.equal(urlPublica('http://127.0.0.1:5173'), 'https://fxestudio.com.ar');
+assert.equal(urlPublica(''), 'https://fxestudio.com.ar');
+assert.equal(urlPublica('esto no es una url'), 'https://fxestudio.com.ar');
 
 console.log('listaInvitados: todo en orden');

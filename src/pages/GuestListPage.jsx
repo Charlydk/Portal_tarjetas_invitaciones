@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { addGuests, listGuests, markGuestsSent, removeGuest, sendInvitationsByMail } from '../lib/guestService';
 import {
   armarInvitado, filtrarInvitados, invitadosACsv, normalizarTelefono, parsearLista,
-  resumirInvitados, resumirRestricciones, validarInvitado,
+  resumirInvitados, resumirRestricciones, urlPublica, validarInvitado,
 } from '../lib/listaInvitados';
 import { ETIQUETA_RESTRICCION } from '../lib/restricciones';
 import './GuestListPage.css';
@@ -37,8 +37,10 @@ const FILTROS = [
   { id: 'rechazado', texto: 'No vienen' },
 ];
 
+// El enlace va solo en su línea: se ve y se toca sin buscarlo en medio del
+// texto, y un punto pegado al final no se cuela dentro del enlace.
 const MENSAJE_INICIAL =
-  'Hola {nombre}, te invitamos a nuestro evento. Ahí mismo podés ver los detalles y confirmar tu asistencia: {enlace}';
+  'Hola {nombre}, te invitamos a nuestro evento. Ahí mismo podés ver los detalles y confirmar tu asistencia:\n{enlace}';
 
 function fechaCorta(iso) {
   return new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' });
@@ -293,7 +295,7 @@ function GuestListPage() {
   }
 
   function descargarCsv() {
-    const csv = invitadosACsv(invitados, window.location.origin);
+    const csv = invitadosACsv(invitados, urlPublica(window.location.origin));
     const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
     const enlace = document.createElement('a');
     enlace.href = url;
@@ -318,7 +320,8 @@ function GuestListPage() {
   const catering = resumirRestricciones(invitados);
   const visibles = filtrarInvitados(invitados, { estado: filtro, conRestricciones });
   const pendientesConMail = invitados.filter((g) => g.status === 'pendiente' && g.email).length;
-  const origen = window.location.origin;
+  // Desde localhost o una IP, WhatsApp no convierte el enlace en enlace.
+  const origen = urlPublica(window.location.origin);
   // Viene con la lista. Antes se averiguaba preguntándole a un invitado, y esa
   // consulta sólo responde si la tarjeta está publicada: mientras estaba en
   // borrador el enlace salía sin slug y no abría nada.
