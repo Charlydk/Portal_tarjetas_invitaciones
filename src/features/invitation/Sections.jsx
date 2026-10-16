@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useCountdown } from '../../hooks/useCountdown';
+import { RESTRICCIONES } from '../../lib/restricciones';
 
 // Sections do not fade in as one block. Each part arrives a beat after the one
 // before it, which is what makes the card feel composed instead of dumped on
@@ -467,11 +468,20 @@ function RsvpForm({ data, allegory }) {
 function GuestRsvp({ data, allegory }) {
   const invitado = data.guest;
   const [acompanantes, setAcompanantes] = useState(invitado.companions || 0);
-  const [notas, setNotas] = useState('');
+  // Lo que ya habia contestado: si cambia su respuesta no tiene que volver a
+  // marcar todo, y si no lo trae se borraria sin que se de cuenta.
+  const [restricciones, setRestricciones] = useState(invitado.dietary || []);
+  const [notas, setNotas] = useState(invitado.dietary_notes || '');
   const [estado, setEstado] = useState(
     invitado.status === 'pendiente' ? 'preguntando' : 'respondido'
   );
   const [vino, setVino] = useState(invitado.status === 'confirmado');
+
+  function alternarRestriccion(id) {
+    setRestricciones((actuales) =>
+      actuales.includes(id) ? actuales.filter((r) => r !== id) : [...actuales, id]
+    );
+  }
 
   async function responder(viene) {
     setEstado('enviando');
@@ -481,7 +491,8 @@ function GuestRsvp({ data, allegory }) {
         guestToken: invitado.token,
         attending: viene,
         companions: viene ? Number(acompanantes) || 0 : 0,
-        notes: notas,
+        dietary: viene ? restricciones : [],
+        dietaryNotes: viene ? notas : '',
       });
       setVino(viene);
       setEstado('respondido');
@@ -534,15 +545,28 @@ function GuestRsvp({ data, allegory }) {
           </label>
         )}
 
-        <label className="inv-rsvp__campo">
-          <span>¿Alguna restricción alimentaria? (opcional)</span>
+        <div className="inv-rsvp__campo">
+          <span>¿Tenés alguna restricción alimentaria? (opcional)</span>
+          <div className="inv-rsvp__opciones inv-rsvp__chips">
+            {RESTRICCIONES.map((r) => (
+              <button
+                key={r.id}
+                type="button"
+                aria-pressed={restricciones.includes(r.id)}
+                className={`inv-btn inv-rsvp__opcion ${restricciones.includes(r.id) ? 'is-elegida' : ''}`}
+                onClick={() => alternarRestriccion(r.id)}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
           <input
             value={notas}
             onChange={(e) => setNotas(e.target.value)}
-            placeholder="Celíaco, vegetariano, alergias…"
-            maxLength={500}
+            placeholder="Aclaraciones (alergias, otra dieta…)"
+            maxLength={300}
           />
-        </label>
+        </div>
 
         {estado === 'error' && (
           <p className="inv-rsvp__error">No pudimos registrar tu respuesta. Probá de nuevo en un rato.</p>

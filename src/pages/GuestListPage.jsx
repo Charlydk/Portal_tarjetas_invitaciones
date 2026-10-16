@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { addGuests, listGuests, parsearLista, removeGuest, resumirInvitados } from '../lib/guestService';
+import { addGuests, listGuests, markGuestsSent, removeGuest } from '../lib/guestService';
+import {
+  filtrarInvitados, invitadosACsv, normalizarTelefono, parsearLista,
+  resumirInvitados, resumirRestricciones,
+} from '../lib/listaInvitados';
+import { ETIQUETA_RESTRICCION } from '../lib/restricciones';
 import './GuestListPage.css';
 
 /**
@@ -15,7 +20,8 @@ import './GuestListPage.css';
  *
  * Lo que la hace distinta de la confirmación base: acá se ve QUIÉN FALTA. Es la
  * pregunta que desvela a alguien dos semanas antes del evento, y la que ningún
- * WhatsApp suelto puede responder.
+ * WhatsApp suelto puede responder. Y para un evento con catering, qué come cada
+ * uno: el resumen de restricciones es lo que se le pasa al proveedor.
  */
 
 const ESTADOS = {
@@ -24,20 +30,41 @@ const ESTADOS = {
   pendiente:  { texto: 'Sin responder', clase: 'is-pendiente' },
 };
 
-function Invitado({ invitado, origen, slug, onQuitar }) {
+const FILTROS = [
+  { id: 'todos', texto: 'Todos' },
+  { id: 'pendiente', texto: 'Sin responder' },
+  { id: 'confirmado', texto: 'Vienen' },
+  { id: 'rechazado', texto: 'No vienen' },
+];
+
+const MENSAJE_INICIAL =
+  'Hola {nombre}, te invitamos a nuestro evento. Ahí mismo podés ver los detalles y confirmar tu asistencia: {enlace}';
+
+function fechaCorta(iso) {
+  return new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' });
+}
+
+function Invitado({ invitado, origen, slug, mensaje, onQuitar, onEnviado }) {
   const [copiado, setCopiado] = useState(false);
   const estado = ESTADOS[invitado.status] || ESTADOS.pendiente;
   const enlace = `${origen}/i/${slug}?i=${invitado.token}`;
 
-  const mensaje = encodeURIComponent(
-    `¡Hola ${invitado.name}! Te mandamos nuestra invitación. Podés confirmar ahí mismo: ${enlace}`
+  const texto = encodeURIComponent(
+    mensaje.replaceAll('{nombre}', invitado.name).replaceAll('{enlace}', enlace)
   );
+  // Con teléfono cargado el chat se abre directo con esa persona; sin él, el
+  // celular pregunta a quién mandárselo.
+  const telefono = normalizarTelefono(invitado.phone);
+  const hrefWa = `https://wa.me/${telefono}?text=${texto}`;
 
   async function copiar() {
     await navigator.clipboard.writeText(enlace);
     setCopiado(true);
     setTimeout(() => setCopiado(false), 1600);
   }
+
+  const contacto = [invitado.company, invitado.email, invitado.phone].filter(Boolean);
+  const restricciones = (invitado.dietary || []).map((id) => ETIQUETA_RESTRICCION[id] || id);
 
   return (
     <li className={`inv-list__fila ${estado.clase}`}>
@@ -48,19 +75,38 @@ function Invitado({ invitado, origen, slug, onQuitar }) {
             <span className="inv-list__cupo">+{invitado.max_companions}</span>
           )}
         </p>
+        {contacto.length > 0 && <p className="inv-list__contacto">{contacto.join(' · ')}</p>}
         <p className="inv-list__estado">
           {estado.texto}
           {invitado.status === 'confirmado' && invitado.companions > 0 && ` con ${invitado.companions}`}
           {invitado.notes && <span className="inv-list__notas"> · {invitado.notes}</span>}
         </p>
+        {(restricciones.length > 0 || invitado.dietary_notes) && (
+          <p className="inv-list__restricciones">
+            {[...restricciones, invitado.dietary_notes].filter(Boolean).join(' · ')}
+          </p>
+        )}
+        {invitado.sent_at && (
+          <p className="inv-list__enviado">
+            Enviado por {invitado.sent_via === 'mail' ? 'mail' : 'WhatsApp'} el {fechaCorta(invitado.sent_at)}
+          </p>
+        )}
       </div>
 
       <div className="inv-list__acciones">
         {/* Abre WhatsApp con el mensaje y su enlace ya escritos. Un toque por
-            invitado, sin escribir nada — y sale del teléfono de los novios, que
-            es de quien el invitado espera recibirla. */}
-        <a className="inv-list__btn inv-list__btn--wa" href={`https://wa.me/?text=${mensaje}`} target="_blank" rel="noopener noreferrer">
-          Enviar
+            invitado, sin escribir nada — y sale del teléfono de quien organiza,
+            que es de quien el invitado espera recibirla. Se marca como enviado
+            al tocar: no hay forma de saber si después lo mandó, pero sí de que
+            no se le mande dos veces por descuido. */}
+        <a
+          className="inv-list__btn inv-list__btn--wa"
+          href={hrefWa}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => onEnviado(invitado)}
+        >
+          {invitado.sent_at ? 'Reenviar' : 'Enviar'}
         </a>
         <button className="inv-list__btn" onClick={copiar}>{copiado ? '✓' : 'Copiar'}</button>
         <button className="inv-list__btn inv-list__btn--quitar" onClick={() => onQuitar(invitado)} aria-label={`Quitar a ${invitado.name}`}>
@@ -71,12 +117,23 @@ function Invitado({ invitado, origen, slug, onQuitar }) {
   );
 }
 
+function leerMensaje(token) {
+  try {
+    return localStorage.getItem(`portal_mensaje_invitados_${token}`) || MENSAJE_INICIAL;
+  } catch {
+    return MENSAJE_INICIAL;
+  }
+}
+
 function GuestListPage() {
   const { token } = useParams();
   const [invitados, setInvitados] = useState([]);
   const [estado, setEstado] = useState('cargando');
   const [texto, setTexto] = useState('');
   const [guardando, setGuardando] = useState(false);
+  const [filtro, setFiltro] = useState('todos');
+  const [conRestricciones, setConRestricciones] = useState(false);
+  const [mensaje, setMensaje] = useState(() => leerMensaje(token));
 
   const cargar = useCallback(async () => {
     try {
@@ -89,6 +146,11 @@ function GuestListPage() {
   }, [token]);
 
   useEffect(() => { cargar(); }, [cargar]);
+
+  function cambiarMensaje(nuevo) {
+    setMensaje(nuevo);
+    try { localStorage.setItem(`portal_mensaje_invitados_${token}`, nuevo); } catch { /* sin almacenamiento: queda en memoria */ }
+  }
 
   async function agregar() {
     const nuevos = parsearLista(texto);
@@ -111,6 +173,25 @@ function GuestListPage() {
     await cargar();
   }
 
+  // Un fallo acá no debe frenar el envío: WhatsApp ya se abrió. Sólo se pierde
+  // la marca de "enviado".
+  async function marcarEnviado(invitado) {
+    try {
+      await markGuestsSent(token, [invitado.id], 'whatsapp');
+      await cargar();
+    } catch { /* la marca es una comodidad, no el envío */ }
+  }
+
+  function descargarCsv() {
+    const csv = invitadosACsv(invitados, window.location.origin);
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    const enlace = document.createElement('a');
+    enlace.href = url;
+    enlace.download = 'invitados.csv';
+    enlace.click();
+    URL.revokeObjectURL(url);
+  }
+
   if (estado === 'cargando') return <div className="inv-list-vacio" />;
 
   if (estado === 'error') {
@@ -124,6 +205,8 @@ function GuestListPage() {
   }
 
   const r = resumirInvitados(invitados);
+  const catering = resumirRestricciones(invitados);
+  const visibles = filtrarInvitados(invitados, { estado: filtro, conRestricciones });
   const origen = window.location.origin;
   // Viene con la lista. Antes se averiguaba preguntándole a un invitado, y esa
   // consulta sólo responde si la tarjeta está publicada: mientras estaba en
@@ -153,6 +236,19 @@ function GuestListPage() {
         </div>
       </section>
 
+      {/* Lo que se le pasa al catering. Sólo aparece cuando alguien marcó algo. */}
+      {catering.length > 0 && (
+        <section className="inv-list__catering">
+          <h2 className="inv-list__subtitulo">Para el catering</h2>
+          <ul>
+            {catering.map((c) => (
+              <li key={c.id}><strong>{c.cantidad}</strong> {c.label.toLowerCase()}</li>
+            ))}
+          </ul>
+          <p className="inv-list__nota">Cuenta a quienes confirmaron, sin sus acompañantes.</p>
+        </section>
+      )}
+
       {/* Los enlaces existen desde que se carga la lista, pero no abren nada
           hasta que la tarjeta se publica: la política de la base sólo deja ver
           las publicadas. Decirlo acá evita que alguien reparta cien enlaces
@@ -167,15 +263,16 @@ function GuestListPage() {
       <section className="inv-list__alta">
         <h2 className="inv-list__subtitulo">Agregar invitados</h2>
         <p className="inv-list__nota">
-          Uno por línea. Si podés, poné después de una coma cuántas personas trae:
+          Uno por línea, o pegá directo desde Excel. Podés sumar mail, teléfono, empresa y
+          cuántas personas trae, en cualquier orden:
           <br />
-          <code>Juan Pérez, 1</code> · <code>Familia Díaz, 3</code> · <code>Marta</code>
+          <code>Juan Pérez, 1</code> · <code>Ana Ruiz, ana@acme.com, 11 5555-1234, Acme</code> · <code>Marta</code>
         </p>
         <textarea
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
           rows={5}
-          placeholder={'Juan Pérez, 1\nFamilia Díaz, 3\nMarta'}
+          placeholder={'Juan Pérez, 1\nAna Ruiz, ana@acme.com, 11 5555-1234, Acme\nMarta'}
         />
         <button className="inv-list__btn inv-list__btn--principal" onClick={agregar} disabled={guardando || !texto.trim()}>
           {guardando ? 'Agregando…' : 'Agregar a la lista'}
@@ -185,11 +282,62 @@ function GuestListPage() {
       {invitados.length === 0 ? (
         <p className="inv-list__nota">Todavía no cargaste a nadie.</p>
       ) : (
-        <ul className="inv-list__lista">
-          {invitados.map((g) => (
-            <Invitado key={g.id} invitado={g} origen={origen} slug={slug} onQuitar={quitar} />
-          ))}
-        </ul>
+        <>
+          <section className="inv-list__mensaje">
+            <h2 className="inv-list__subtitulo">Mensaje de WhatsApp</h2>
+            <textarea
+              value={mensaje}
+              onChange={(e) => cambiarMensaje(e.target.value)}
+              rows={3}
+              aria-label="Mensaje de WhatsApp"
+            />
+            <p className="inv-list__nota">
+              <code>{'{nombre}'}</code> y <code>{'{enlace}'}</code> se reemplazan por los de cada invitado.
+            </p>
+          </section>
+
+          <div className="inv-list__barra">
+            <div className="inv-list__filtros" role="group" aria-label="Filtrar por estado">
+              {FILTROS.map((f) => (
+                <button
+                  key={f.id}
+                  className={`inv-list__filtro ${filtro === f.id ? 'is-activo' : ''}`}
+                  aria-pressed={filtro === f.id}
+                  onClick={() => setFiltro(f.id)}
+                >
+                  {f.texto}
+                </button>
+              ))}
+            </div>
+            <label className="inv-list__check">
+              <input
+                type="checkbox"
+                checked={conRestricciones}
+                onChange={(e) => setConRestricciones(e.target.checked)}
+              />
+              Con restricciones
+            </label>
+            <button className="inv-list__btn" onClick={descargarCsv}>Descargar Excel</button>
+          </div>
+
+          {visibles.length === 0 ? (
+            <p className="inv-list__nota">Nadie coincide con ese filtro.</p>
+          ) : (
+            <ul className="inv-list__lista">
+              {visibles.map((g) => (
+                <Invitado
+                  key={g.id}
+                  invitado={g}
+                  origen={origen}
+                  slug={slug}
+                  mensaje={mensaje}
+                  onQuitar={quitar}
+                  onEnviado={marcarEnviado}
+                />
+              ))}
+            </ul>
+          )}
+        </>
       )}
     </main>
   );

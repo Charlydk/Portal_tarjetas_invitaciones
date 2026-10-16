@@ -700,6 +700,14 @@
   box-shadow: none;
 }
 
+/* Las restricciones son varias a la vez y cortas: van como fichas que se
+   ajustan al texto, no como dos botones que se reparten el ancho. */
+.inv-rsvp__chips .inv-rsvp__opcion {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+}
+
 .inv-rsvp__error {
   font-family: var(--inv-font-body);
   font-size: 0.86rem;
