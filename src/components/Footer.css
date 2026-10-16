@@ -88,3 +88,15 @@
   font-size: 0.82rem;
   opacity: 0.55;
 }
+
+/* El acceso del equipo al panel. Hereda el color y el tamaño del texto legal y
+   sólo se subraya al pasar el mouse: está para quien lo busca. */
+.footer-admin {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-admin:hover,
+.footer-admin:focus-visible {
+  text-decoration: underline;
+}

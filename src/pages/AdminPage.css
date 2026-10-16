@@ -31,6 +31,8 @@
    una serif fina en cuerpo grande sobre fondo oscuro se lee lavada, y esto es
    una herramienta de trabajo que se mira apurado, no una pieza para admirar. */
 .admin-titulo {
+  /* El h1 global trae su propia cursiva y pisaba la intención de arriba. */
+  font-family: inherit;
   font-weight: 600;
   font-size: clamp(1.5rem, 4vw, 1.9rem);
   letter-spacing: -0.01em;
@@ -128,6 +130,18 @@
   font-size: 0.74rem;
 }
 
+/* Archivar es lo menos frecuente y lo menos urgente: se ve, pero no compite con
+   Publicar. */
+.admin-boton--suave {
+  border-color: transparent;
+  color: rgba(245, 239, 227, 0.6);
+}
+
+.admin-boton--suave:hover {
+  color: #F5EFE3;
+  border-color: rgba(245, 239, 227, 0.3);
+}
+
 .admin-boton:disabled {
   opacity: 0.5;
   cursor: default;
@@ -161,6 +175,7 @@
 }
 
 .admin-fila__cliente {
+  font-family: inherit;
   font-weight: 600;
   font-size: 1.05rem;
   margin: 0 0 8px;
@@ -182,6 +197,18 @@
   font-family: ui-monospace, Menlo, Consolas, monospace;
 }
 
+.admin-fila__evento {
+  margin: 8px 0 0;
+  font-size: 0.78rem;
+  color: rgba(245, 239, 227, 0.62);
+}
+
+.admin-fila__evento strong { color: rgba(245, 239, 227, 0.88); font-weight: 600; }
+
+/* Pasó el evento y la tarjeta sigue en circulación: es lo que hay que atender. */
+.admin-fila__evento.is-vencida,
+.admin-fila__evento.is-vencida strong { color: #E0B36A; }
+
 .admin-estado {
   display: inline-block;
   padding: 3px 9px;
@@ -198,28 +225,99 @@
 .is-publicada { color: #86C08A; }
 .is-archivada { color: rgba(245, 239, 227, 0.45); }
 
-.admin-fila__links {
+/* ── Filtros por estado ─────────────────────────────────────────────────── */
+
+.admin-filtros {
+  max-width: 900px;
+  margin: 0 auto 18px;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.admin-link {
-  display: flex;
+.admin-filtro {
+  background: transparent;
+  border: 1px solid rgba(245, 239, 227, 0.24);
+  color: rgba(245, 239, 227, 0.78);
+  border-radius: 50px;
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
-.admin-link__abrir {
-  color: rgba(245, 239, 227, 0.45);
-  font-size: 0.72rem;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
+.admin-filtro:hover { border-color: rgba(245, 239, 227, 0.5); }
+
+.admin-filtro.is-activo {
+  background: #C9A96E;
+  border-color: #C9A96E;
+  color: #14110B;
+  font-weight: 600;
 }
 
-.admin-link__abrir:hover {
-  border-bottom-color: currentColor;
+/* El contador va aparte del texto: se lee de un vistazo cuánto hay en cada
+   estado sin tener que entrar. */
+.admin-filtro__cuenta {
+  font-size: 0.72rem;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
 }
+
+.admin-filtro.is-activo .admin-filtro__cuenta { opacity: 0.85; }
+
+/* ── Los enlaces de cada tarjeta ────────────────────────────────────────── */
+/* Cerrados por defecto: son lo que se usa cuando hace falta, no lo que tiene
+   que ocupar la fila todo el tiempo. */
+
+.admin-enlaces {
+  flex: 1 1 100%;
+  border-top: 1px solid rgba(245, 239, 227, 0.08);
+  padding-top: 10px;
+}
+
+.admin-enlaces > summary {
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: rgba(245, 239, 227, 0.7);
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.admin-enlaces > summary::-webkit-details-marker { display: none; }
+.admin-enlaces > summary::before { content: '▸'; font-size: 0.7rem; transition: transform 0.15s ease; }
+.admin-enlaces[open] > summary::before { transform: rotate(90deg); }
+.admin-enlaces > summary:hover { color: #F5EFE3; }
+
+.admin-enlaces__lista {
+  list-style: none;
+  margin: 10px 0 2px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-enlace {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.admin-enlace__texto { flex: 1 1 220px; min-width: 0; }
+.admin-enlace__nombre { margin: 0; font-size: 0.86rem; font-weight: 600; }
+.admin-enlace__ayuda { margin: 2px 0 0; font-size: 0.74rem; color: rgba(245, 239, 227, 0.55); }
+.admin-enlace__acciones { display: flex; gap: 6px; }
 
 .admin-cabecera__acciones {
   display: flex;
@@ -344,6 +442,7 @@ a.admin-boton {
 
 .admin-error { color: #E0908A; }
 .admin-nota  { opacity: 0.6; }
+.admin-aviso { max-width: 900px; margin: 0 auto 18px; font-size: 0.85rem; text-align: center; color: #86C08A; }
 
 .admin-traza {
   background: rgba(0, 0, 0, 0.35);

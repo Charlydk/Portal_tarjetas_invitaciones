@@ -38,7 +38,9 @@ export async function isAdmin() {
 export async function listInvitations() {
   const { data, error } = await supabase
     .from('invitations')
-    .select('id, slug, client_name, client_whatsapp, status, variant_id, edit_token, published_at, expires_at, created_at')
+    // La fecha del evento sale del JSON y se pide sola: `data` puede traer fotos
+    // pegadas (los borradores) y bajarlas para pintar una lista sería un desperdicio.
+    .select('id, slug, client_name, client_whatsapp, status, variant_id, edit_token, published_at, expires_at, created_at, event_date:data->>eventDate')
     .order('created_at', { ascending: false });
 
   if (error) throw error;
