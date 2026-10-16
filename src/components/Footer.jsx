@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FaWhatsapp, FaInstagram, FaEnvelope } from 'react-icons/fa';
 import Logo from './Logo';
 import { waLink, hasWhatsApp } from '../lib/whatsapp';
@@ -61,6 +62,9 @@ function Footer() {
 
         <p className="footer-text">
           © {currentYear} FX Estudio · Hecho en Tucumán, Argentina
+          {/* Para el equipo: llegar al panel sin tipear /admin en la barra. Chico
+              y apagado a propósito, para que el visitante no lo note. */}
+          {' · '}<Link to="/admin" className="footer-admin">Ingresar</Link>
           <br />
           {/* Lo pide la licencia CC BY de la música de las muestras. */}
           <small>Música de las muestras: “Canon en Re”, Kevin MacLeod (incompetech.com) · CC BY 3.0</small>
