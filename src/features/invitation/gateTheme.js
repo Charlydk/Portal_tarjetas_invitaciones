@@ -28,6 +28,10 @@ export function gateThemeFor(variant) {
     bgImage: t.backgroundImage,
     bgVideo: t.backgroundVideo,
     scrim: t.scrim,
+    // El título largo de un evento de empresa no entra al tamaño pensado para
+    // nombres propios. Vacíos, queda el de siempre.
+    nameSize: t.heroNameSize,
+    nameWeight: t.heroNameWeight,
   };
 }
 

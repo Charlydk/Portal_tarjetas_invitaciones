@@ -53,7 +53,9 @@ export const eventoCorporativo = {
     fontBody: "'Montserrat', system-ui, sans-serif",
 
     // El título es el nombre del evento, una frase, no dos nombres propios.
-    heroNameSize: 'var(--inv-step-3)',
+    // Un valor autónomo y no `var(--inv-step-3)`: la pantalla de bienvenida
+    // también lo lee y vive fuera de la tarjeta, donde esas variables no existen.
+    heroNameSize: 'clamp(1.9rem, 6vw, 2.8rem)',
     heroNameWeight: '600',
 
     radius: '6px',
