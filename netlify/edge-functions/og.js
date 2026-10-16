@@ -1,4 +1,5 @@
 import { invitationSegments } from '../../src/data/segments.js';
+import { imagenDeTarjeta } from '../../src/lib/imagenVistaPrevia.js';
 
 // Per-card link previews.
 //
@@ -40,18 +41,6 @@ const findTemplate = (variantId) =>
   invitationSegments
     .flatMap((segment) => segment.templates)
     .find((t) => t.variantId === variantId);
-
-/**
- * Una imagen lista para viajar en un meta tag.
- *
- * Las fotos del cliente viven en Storage y ya son direcciones completas; las
- * del catálogo son rutas del sitio y hay que anteponerle el dominio. WhatsApp
- * descarta una imagen relativa sin decir nada, así que la diferencia importa.
- */
-const absoluta = (src) => {
-  if (!src) return null;
-  return /^https?:\/\//.test(src) ? src : SITE + src;
-};
 
 /** Reads config at the edge. Netlify exposes its own global; Deno's is the fallback. */
 const env = (name) =>
@@ -126,10 +115,9 @@ function metaDeTarjeta(row, url, prefijo = '') {
     // La portada del cliente primero. La foto del catálogo muestra el diseño,
     // que es lo correcto en la vidriera; acá el que mira el cuadrito es un
     // invitado de ESTA pareja, y lo que espera ver son ellos. Una foto de otro
-    // casamiento en la preview de tu invitación se lee como un error.
-    image: absoluta(row.data?.heroImage)
-        || absoluta(row.data?.galleryPhotos?.[0])
-        || SITE + (template?.previewImage || FALLBACK_IMAGE),
+    // casamiento en la preview de tu invitación se lee como un error. El orden
+    // completo (portada, galería, logo, diseño) está en imagenVistaPrevia.js.
+    image: imagenDeTarjeta(row.data, template, { sitio: SITE, respaldo: FALLBACK_IMAGE }),
     url,
   };
 }

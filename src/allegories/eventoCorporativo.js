@@ -101,7 +101,9 @@ export const eventoCorporativo = {
     logoAlt: 'Meridiano',
     name1: 'Inauguración de nuestra nueva sede',
     name2: '',
-    welcomePhrase: 'Te invitamos a la',
+    // Tiene que entenderse sola: la vista previa de WhatsApp la une a la fecha
+    // ("Invitación · 18 de Marzo de 2027") sin el título al lado.
+    welcomePhrase: 'Invitación',
     invitePhrase: 'Una tarde para conocer el nuevo espacio y brindar con quienes lo hicieron posible.',
     // El contador cuenta hasta `eventDate`: tiene que ser el mismo día que el
     // texto, y lo bastante lejano para que la vidriera no muestre "llegó el gran

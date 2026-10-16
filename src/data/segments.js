@@ -133,6 +133,10 @@ export const invitationSegments = [
         modelId: 'allegories',
         variantId: 'evento-corporativo',
         previewImage: '/allegories/evento-corporativo/portada-muestra.webp',
+        // Para la vista previa de una tarjeta ENTREGADA. `previewImage` muestra el
+        // logo de una empresa inventada, y a los invitados de otra empresa no
+        // les corresponde ver esa marca: sin portada ni logo propios, sale ésta.
+        ogImage: '/allegories/evento-corporativo/vista-previa.webp',
         description: 'Sobria, con el logo de tu empresa. Pregunta restricciones alimentarias al confirmar.',
       },
     ],
