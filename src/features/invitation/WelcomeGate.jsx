@@ -75,8 +75,8 @@ export function WelcomeScreen({ name1, name2, hasAudio, onEnter, theme = DEFAULT
 
         <h1 style={{
           fontFamily: theme.fontTitle,
-          fontWeight: 400,
-          fontSize: 'clamp(2.4rem, 9vw, 4.2rem)',
+          fontWeight: theme.nameWeight || 400,
+          fontSize: theme.nameSize || 'clamp(2.4rem, 9vw, 4.2rem)',
           color: theme.ink,
           lineHeight: 1.1,
           margin: '0 0 6px',

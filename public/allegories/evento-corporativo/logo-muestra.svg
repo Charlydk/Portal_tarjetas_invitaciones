@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" role="img" aria-label="Meridiano">
+  <title>Meridiano</title>
+  <g fill="none" stroke="#1F4E79" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="48" cy="48" r="30"/>
+    <path d="M48 18c-14 10-14 50 0 60M48 18c14 10 14 50 0 60M18 48h60"/>
+  </g>
+  <text x="96" y="58" font-family="Montserrat, 'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="600" letter-spacing="3" fill="#1B2430">MERIDIANO</text>
+</svg>

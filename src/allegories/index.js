@@ -125,6 +125,12 @@ export const DEFAULT_TOKENS = {
   eyebrowFill: '',
   // Un halo alrededor del dibujo (un `drop-shadow`). Vacío, sin halo.
   decorGlow: '',
+  // El título de la portada. Está dimensionado para nombres propios en una
+  // cursiva grande ("Lucía & Martina"); un evento de empresa lleva una frase
+  // larga en sans ("Inauguración del edificio Aurora") y a ese tamaño gritaría.
+  // Vacíos, queda como siempre.
+  heroNameSize: '',
+  heroNameWeight: '',
   // Un video a todo el ancho detrás de la portada apilada, con la foto encima.
   // Distinto de `backgroundVideo`, que ES la portada: acá la portada es la foto
   // del cliente y el video la ambienta.
@@ -218,6 +224,8 @@ export function tokensToCssVars(tokens) {
     '--inv-eyebrow-spacing': tokens.eyebrowSpacing || '0.34em',
     '--inv-eyebrow-fill': tokens.eyebrowFill || 'none',
     '--inv-decor-glow': tokens.decorGlow || 'none',
+    '--inv-hero-name-size': tokens.heroNameSize || 'var(--inv-step-hero)',
+    '--inv-hero-name-weight': tokens.heroNameWeight || '400',
     '--inv-font-heading': tokens.fontHeading || tokens.fontTitle,
     '--inv-title-size': tokens.titleSize || 'var(--inv-step-2)',
     '--inv-band-strong': tokens.bandStrong || 'transparent',
