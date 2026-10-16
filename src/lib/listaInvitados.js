@@ -79,6 +79,45 @@ function parsearLinea(linea) {
 }
 
 /**
+ * Las reglas del formulario de a uno. Devuelve un objeto con un mensaje por
+ * cada campo que esta mal, o vacio si todo esta bien: asi el formulario marca
+ * todos los errores a la vez y nadie los corrige de a uno.
+ *
+ * Sólo el nombre es obligatorio. En la lista pegada un mail mal escrito se
+ * descarta en silencio porque no hay donde avisar; aca si hay, y se avisa.
+ */
+export function validarInvitado({ name = '', email = '', phone = '', max_companions: cupo = 0 } = {}) {
+  const errores = {};
+  const nombre = name.trim();
+  if (!nombre) errores.name = 'Escribí el nombre.';
+  else if (nombre.length > 120) errores.name = 'El nombre es demasiado largo.';
+
+  const mail = email.trim();
+  if (mail && (!EMAIL.test(mail) || mail.length > 254)) {
+    errores.email = 'Revisá el mail: parece incompleto.';
+  }
+
+  const telefono = phone.trim();
+  if (telefono && !(TELEFONO.test(telefono) && telefono.replace(/\D/g, '').length >= 6)) {
+    errores.phone = 'Revisá el teléfono: parece incompleto.';
+  }
+
+  const n = cupo === '' ? 0 : Number(cupo);
+  if (!Number.isInteger(n) || n < 0 || n > 20) errores.max_companions = 'El máximo es 20.';
+
+  return errores;
+}
+
+/** Lo que se manda a la base: sin espacios, sin campos vacios, el cupo como numero. */
+export function armarInvitado({ name = '', company = '', email = '', phone = '', max_companions: cupo = 0 } = {}) {
+  const invitado = { name: name.trim(), max_companions: cupo === '' ? 0 : Number(cupo) };
+  if (company.trim()) invitado.company = company.trim().slice(0, 120);
+  if (email.trim()) invitado.email = email.trim();
+  if (phone.trim()) invitado.phone = phone.trim();
+  return invitado;
+}
+
+/**
  * Un telefono tal como lo escribe la gente, al formato que pide wa.me: sólo
  * digitos, con codigo de pais.
  *

@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import {
   parsearLista, normalizarTelefono, resumirInvitados, resumirRestricciones,
-  filtrarInvitados, invitadosACsv,
+  filtrarInvitados, invitadosACsv, validarInvitado, armarInvitado,
 } from '../src/lib/listaInvitados.js';
 
 // ── Lo de siempre sigue igual ────────────────────────────────────────────────
@@ -76,5 +76,30 @@ assert.ok(csv.includes(`"'=HYPERLINK(""x"")"`));
 assert.ok(csv.includes('"Acme; ""SA"""'));
 assert.ok(csv.includes('"Celíaco"'));
 assert.ok(csv.includes('"https://fxestudio.com.ar/i/evento?i=abc"'));
+
+// ── Formulario de a uno ──────────────────────────────────────────────────────
+// Sólo el nombre es obligatorio: el resto se completa si se tiene.
+assert.deepEqual(validarInvitado({ name: 'Ana Ruiz' }), {});
+assert.deepEqual(validarInvitado({ name: '   ' }), { name: 'Escribí el nombre.' });
+assert.deepEqual(validarInvitado({ name: 'x'.repeat(121) }), { name: 'El nombre es demasiado largo.' });
+assert.deepEqual(validarInvitado({ name: 'Ana', email: 'ana@acme.com', phone: '11 5555-1234', max_companions: '2' }), {});
+// Un mail o un teléfono mal escritos se avisan en el formulario; en la lista pegada se descartan.
+assert.deepEqual(validarInvitado({ name: 'Ana', email: 'ana@' }), { email: 'Revisá el mail: parece incompleto.' });
+assert.deepEqual(validarInvitado({ name: 'Ana', phone: '12' }), { phone: 'Revisá el teléfono: parece incompleto.' });
+assert.deepEqual(validarInvitado({ name: 'Ana', max_companions: '21' }), { max_companions: 'El máximo es 20.' });
+assert.deepEqual(validarInvitado({ name: 'Ana', max_companions: '-1' }), { max_companions: 'El máximo es 20.' });
+// Varios errores a la vez, para no corregirlos de a uno.
+assert.deepEqual(
+  Object.keys(validarInvitado({ name: '', email: 'x', phone: '1' })).sort(),
+  ['email', 'name', 'phone'],
+);
+
+// Lo que se manda a la base: sin espacios, sin campos vacíos, con el cupo como número.
+assert.deepEqual(armarInvitado({ name: ' Ana Ruiz ' }), { name: 'Ana Ruiz', max_companions: 0 });
+assert.deepEqual(
+  armarInvitado({ name: 'Ana', company: ' Acme ', email: ' ana@acme.com ', phone: ' 11 5555-1234 ', max_companions: '2' }),
+  { name: 'Ana', max_companions: 2, company: 'Acme', email: 'ana@acme.com', phone: '11 5555-1234' },
+);
+assert.deepEqual(armarInvitado({ name: 'Ana', email: '', phone: '', company: '', max_companions: '' }), { name: 'Ana', max_companions: 0 });
 
 console.log('listaInvitados: todo en orden');

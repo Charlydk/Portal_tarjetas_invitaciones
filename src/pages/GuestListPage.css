@@ -24,7 +24,9 @@
   margin: 0;
 }
 
-.inv-list__titulo { font-weight: 600; font-size: 1.7rem; margin: 6px 0 24px; }
+/* El h1 global trae su propio color y su cursiva; sin pisarlos, el título
+   salía oscuro sobre fondo oscuro. */
+.inv-list__titulo { font-family: inherit; color: inherit; font-weight: 600; font-size: 1.7rem; margin: 6px 0 24px; }
 
 .inv-list__subtitulo {
   font-weight: 600;
@@ -217,6 +219,29 @@
 
 .inv-list__campo input:focus-visible,
 .inv-list__campo textarea:focus-visible { outline: none; border-color: #C9A96E; }
+
+/* ── Formulario de a uno ─────────────────────────────────────────────────── */
+
+.inv-list__alta .inv-list__filtros { margin-bottom: 14px; }
+
+.inv-list__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 12px;
+}
+
+.inv-list__campo--ancho { grid-column: 1 / -1; }
+
+/* En el teléfono, una columna: dos campos de mail y teléfono lado a lado no
+   entran sin recortar lo que se escribe. */
+@media (max-width: 520px) {
+  .inv-list__form { grid-template-columns: 1fr; }
+}
+
+.inv-list__campo input[aria-invalid='true'] { border-color: #E0908A; }
+
+.inv-list__error { font-style: normal; font-size: 0.76rem; color: #E0908A; }
+.inv-list__ok { margin: 10px 0 0; font-size: 0.84rem; color: #86C08A; }
 
 .inv-list__resultado {
   background: rgba(134, 192, 138, 0.12);

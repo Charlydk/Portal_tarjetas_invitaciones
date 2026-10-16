@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { addGuests, listGuests, markGuestsSent, removeGuest, sendInvitationsByMail } from '../lib/guestService';
 import {
-  filtrarInvitados, invitadosACsv, normalizarTelefono, parsearLista,
-  resumirInvitados, resumirRestricciones,
+  armarInvitado, filtrarInvitados, invitadosACsv, normalizarTelefono, parsearLista,
+  resumirInvitados, resumirRestricciones, validarInvitado,
 } from '../lib/listaInvitados';
 import { ETIQUETA_RESTRICCION } from '../lib/restricciones';
 import './GuestListPage.css';
@@ -123,6 +123,23 @@ const MAIL_INICIAL = {
   message: 'Te invitamos a nuestro evento. En el enlace vas a encontrar todos los detalles y podés confirmar tu asistencia.',
 };
 
+const MODOS = [
+  { id: 'formulario', texto: 'Uno por uno' },
+  { id: 'lista', texto: 'Pegar una lista' },
+];
+
+const FORM_VACIO = { name: '', company: '', email: '', phone: '', max_companions: '' };
+
+// Se acuerda de cómo prefiere cargar quien organiza. Por defecto, el formulario:
+// es el que no exige saber cómo escribir una lista.
+function leerModo() {
+  try {
+    return localStorage.getItem('portal_modo_alta_invitados') === 'lista' ? 'lista' : 'formulario';
+  } catch {
+    return 'formulario';
+  }
+}
+
 function leerMensaje(token) {
   try {
     return localStorage.getItem(`portal_mensaje_invitados_${token}`) || MENSAJE_INICIAL;
@@ -158,6 +175,11 @@ function GuestListPage() {
   const [filtro, setFiltro] = useState('todos');
   const [conRestricciones, setConRestricciones] = useState(false);
   const [mensaje, setMensaje] = useState(() => leerMensaje(token));
+  const [modo, setModo] = useState(leerModo);
+  const [campos, setCampos] = useState(FORM_VACIO);
+  const [errores, setErrores] = useState({});
+  const [agregado, setAgregado] = useState('');
+  const refNombre = useRef(null);
   const [mail, setMail] = useState(() => leerMail(token));
   const [envio, setEnvio] = useState({ estado: 'quieto', texto: '' }); // quieto | enviando | listo | error
 
@@ -197,6 +219,46 @@ function GuestListPage() {
       await cargar();
     } catch (e) {
       setEnvio({ estado: 'error', texto: e.message });
+    }
+  }
+
+  function cambiarModo(nuevo) {
+    setModo(nuevo);
+    try { localStorage.setItem('portal_modo_alta_invitados', nuevo); } catch { /* queda en memoria */ }
+  }
+
+  // Al escribir se borra el aviso de ese campo: marcarlo en rojo hasta el
+  // próximo envío, cuando ya se corrigió, es ruido.
+  function cambiarCampo(cambio) {
+    setCampos((actuales) => ({ ...actuales, ...cambio }));
+    setErrores((actuales) => {
+      const resto = { ...actuales, general: undefined };
+      for (const campo of Object.keys(cambio)) delete resto[campo];
+      return resto;
+    });
+    setAgregado('');
+  }
+
+  async function agregarUno(e) {
+    e.preventDefault();
+    const encontrados = validarInvitado(campos);
+    setErrores(encontrados);
+    if (Object.keys(encontrados).length) return;
+
+    setGuardando(true);
+    try {
+      await addGuests(token, [armarInvitado(campos)]);
+      setAgregado(`Agregamos a ${campos.name.trim()}.`);
+      setCampos(FORM_VACIO);
+      await cargar();
+      // Listo para el siguiente: es lo que hace rápido cargar una lista de a uno.
+      refNombre.current?.focus();
+    } catch {
+      // Sin tirar abajo la pantalla (como hace la carga pegada): lo escrito se
+      // queda en el formulario para reintentar.
+      setErrores({ general: 'No pudimos agregarlo. Probá de nuevo en un rato.' });
+    } finally {
+      setGuardando(false);
     }
   }
 
@@ -309,23 +371,114 @@ function GuestListPage() {
         </p>
       )}
 
+      {/* Dos formas de cargar, y elige quien organiza: el formulario para unos
+          pocos o para ir sumando con calma, la lista pegada para cien nombres
+          que ya están en un Excel. Las dos terminan en el mismo lugar. */}
       <section className="inv-list__alta">
         <h2 className="inv-list__subtitulo">Agregar invitados</h2>
-        <p className="inv-list__nota">
-          Uno por línea, o pegá directo desde Excel. Podés sumar mail, teléfono, empresa y
-          cuántas personas trae, en cualquier orden:
-          <br />
-          <code>Juan Pérez, 1</code> · <code>Ana Ruiz, ana@acme.com, 11 5555-1234, Acme</code> · <code>Marta</code>
-        </p>
-        <textarea
-          value={texto}
-          onChange={(e) => setTexto(e.target.value)}
-          rows={5}
-          placeholder={'Juan Pérez, 1\nAna Ruiz, ana@acme.com, 11 5555-1234, Acme\nMarta'}
-        />
-        <button className="inv-list__btn inv-list__btn--principal" onClick={agregar} disabled={guardando || !texto.trim()}>
-          {guardando ? 'Agregando…' : 'Agregar a la lista'}
-        </button>
+        <div className="inv-list__filtros" role="group" aria-label="Cómo cargar invitados">
+          {MODOS.map((m) => (
+            <button
+              key={m.id}
+              className={`inv-list__filtro ${modo === m.id ? 'is-activo' : ''}`}
+              aria-pressed={modo === m.id}
+              onClick={() => cambiarModo(m.id)}
+            >
+              {m.texto}
+            </button>
+          ))}
+        </div>
+
+        {modo === 'formulario' ? (
+          <form className="inv-list__form" onSubmit={agregarUno} noValidate>
+            <label className="inv-list__campo inv-list__campo--ancho">
+              <span>Nombre y apellido</span>
+              <input
+                ref={refNombre}
+                value={campos.name}
+                onChange={(e) => cambiarCampo({ name: e.target.value })}
+                maxLength={120}
+                aria-invalid={Boolean(errores.name)}
+                autoComplete="off"
+              />
+              {errores.name && <em className="inv-list__error">{errores.name}</em>}
+            </label>
+            <label className="inv-list__campo">
+              <span>Empresa (opcional)</span>
+              <input
+                value={campos.company}
+                onChange={(e) => cambiarCampo({ company: e.target.value })}
+                maxLength={120}
+                autoComplete="off"
+              />
+            </label>
+            <label className="inv-list__campo">
+              <span>Cuántos acompañantes puede traer</span>
+              <input
+                type="number"
+                min="0"
+                max="20"
+                inputMode="numeric"
+                value={campos.max_companions}
+                onChange={(e) => cambiarCampo({ max_companions: e.target.value })}
+                placeholder="0"
+                aria-invalid={Boolean(errores.max_companions)}
+              />
+              {errores.max_companions && <em className="inv-list__error">{errores.max_companions}</em>}
+            </label>
+            <label className="inv-list__campo">
+              <span>Mail (opcional)</span>
+              <input
+                type="email"
+                value={campos.email}
+                onChange={(e) => cambiarCampo({ email: e.target.value })}
+                maxLength={254}
+                aria-invalid={Boolean(errores.email)}
+                autoComplete="off"
+              />
+              {errores.email && <em className="inv-list__error">{errores.email}</em>}
+            </label>
+            <label className="inv-list__campo">
+              <span>Teléfono (opcional)</span>
+              <input
+                type="tel"
+                value={campos.phone}
+                onChange={(e) => cambiarCampo({ phone: e.target.value })}
+                placeholder="11 5555-1234"
+                maxLength={30}
+                aria-invalid={Boolean(errores.phone)}
+                autoComplete="off"
+              />
+              {errores.phone && <em className="inv-list__error">{errores.phone}</em>}
+            </label>
+
+            <div className="inv-list__campo--ancho">
+              <button type="submit" className="inv-list__btn inv-list__btn--principal" disabled={guardando}>
+                {guardando ? 'Agregando…' : 'Agregar a la lista'}
+              </button>
+              {errores.general && <em className="inv-list__error">{errores.general}</em>}
+              {agregado && !errores.general && <p className="inv-list__ok" role="status">{agregado}</p>}
+            </div>
+          </form>
+        ) : (
+          <>
+            <p className="inv-list__nota">
+              Uno por línea, o pegá directo desde Excel. Podés sumar mail, teléfono, empresa y
+              cuántas personas trae, en cualquier orden:
+              <br />
+              <code>Juan Pérez, 1</code> · <code>Ana Ruiz, ana@acme.com, 11 5555-1234, Acme</code> · <code>Marta</code>
+            </p>
+            <textarea
+              value={texto}
+              onChange={(e) => setTexto(e.target.value)}
+              rows={5}
+              placeholder={'Juan Pérez, 1\nAna Ruiz, ana@acme.com, 11 5555-1234, Acme\nMarta'}
+            />
+            <button className="inv-list__btn inv-list__btn--principal" onClick={agregar} disabled={guardando || !texto.trim()}>
+              {guardando ? 'Agregando…' : 'Agregar a la lista'}
+            </button>
+          </>
+        )}
       </section>
 
       {invitados.length === 0 ? (
