@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AdminGate from '../features/admin/AdminGate';
 import { listInvitations, setStatus, signOut } from '../lib/adminService';
 import { FILTRO_INICIAL, FILTROS, contarPorEstado, filtrarTarjetas } from '../lib/adminFiltros';
+import { describirEvento } from '../lib/adminFechas';
 import './AdminPage.css';
 
 /**
@@ -61,6 +62,10 @@ function Fila({ tarjeta, onCambioEstado }) {
   const estado = ESTADOS[tarjeta.status] || { texto: tarjeta.status, clase: '' };
   const publicada = tarjeta.status === 'publicada';
   const archivada = tarjeta.status === 'archivada';
+  const evento = describirEvento(tarjeta.event_date);
+  // Un evento que ya fue en una tarjeta que sigue en circulación es lo que hay
+  // que atender: se marca. En una archivada es lo esperado y no se destaca.
+  const vencida = Boolean(evento?.pasado) && !archivada;
 
   return (
     <article className="admin-fila">
@@ -70,6 +75,16 @@ function Fila({ tarjeta, onCambioEstado }) {
           <span className={`admin-estado ${estado.clase}`}>{estado.texto}</span>
           <span className="admin-fila__slug">/{tarjeta.slug}</span>
           <span className="admin-fila__diseno">{tarjeta.variant_id}</span>
+        </p>
+        <p className={`admin-fila__evento ${vencida ? 'is-vencida' : ''}`}>
+          {evento ? (
+            <>
+              Evento: <strong>{evento.fecha}</strong> · {evento.relativo}
+              {vencida && ' · ya podés archivarla'}
+            </>
+          ) : (
+            'Sin fecha de evento'
+          )}
         </p>
       </div>
 

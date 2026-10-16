@@ -197,6 +197,18 @@
   font-family: ui-monospace, Menlo, Consolas, monospace;
 }
 
+.admin-fila__evento {
+  margin: 8px 0 0;
+  font-size: 0.78rem;
+  color: rgba(245, 239, 227, 0.62);
+}
+
+.admin-fila__evento strong { color: rgba(245, 239, 227, 0.88); font-weight: 600; }
+
+/* Pasó el evento y la tarjeta sigue en circulación: es lo que hay que atender. */
+.admin-fila__evento.is-vencida,
+.admin-fila__evento.is-vencida strong { color: #E0B36A; }
+
 .admin-estado {
   display: inline-block;
   padding: 3px 9px;
