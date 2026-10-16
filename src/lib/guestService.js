@@ -56,6 +56,32 @@ export async function markGuestsSent(token, guestIds, via) {
   return data;
 }
 
+/**
+ * Manda por mail la invitación a los invitados pendientes (o a los `guestIds`
+ * que se pasen). Corre en la Edge Function enviar-invitaciones: la clave de
+ * Brevo vive allá y nunca llega al navegador.
+ *
+ * Devuelve { enviados, fallidos, sinMail, recientes, restantes }. Un error de
+ * red o de configuración se lanza con un mensaje que se puede mostrar tal cual.
+ */
+export async function sendInvitationsByMail(token, { guestIds, senderName, replyTo, subject, message } = {}) {
+  const { data, error } = await supabase.functions.invoke('enviar-invitaciones', {
+    body: { token, guestIds, senderName, replyTo, subject, message },
+  });
+
+  if (error) {
+    // Cuando la función contesta con un error de negocio ("la tarjeta no está
+    // publicada") el mensaje viene en el cuerpo, no en `error.message`.
+    let mensaje = 'No pudimos enviar los mails. Probá de nuevo en un rato.';
+    try {
+      const cuerpo = await error.context?.json?.();
+      if (cuerpo?.error) mensaje = cuerpo.error;
+    } catch { /* se queda el mensaje general */ }
+    throw new Error(mensaje);
+  }
+  return data;
+}
+
 // La lectura de lo que se pega, el resumen y la exportación viven en
 // listaInvitados.js: no necesitan red y así se pueden probar sin Supabase.
 export { parsearLista, resumirInvitados } from './listaInvitados';

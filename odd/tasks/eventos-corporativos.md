@@ -16,7 +16,7 @@ Rama: feat/eventos-corporativos · Entrega: ask-on-risk · Runner de tests: ning
 - [x] T3 (S3,S5) Lista de invitados: carga con contacto, filtros, CSV, resumen de restricciones (`GuestListPage`, `listaInvitados.js`) — inline — commit 050227d; `node scripts/probar-lista-invitados.mjs` pasa (escrito después del código, sin RED observado)
 - [x] T4 (S4) Allegoría corporativa + registro en `models.js`/`segments.js`/`templates.js` — inline — verificada en navegador local (`/preview/evento-corporativo`); tokens nuevos `heroNameSize`/`heroNameWeight` y `data.logoUrl` en la portada
 - [x] T5 (S2) Cola de WhatsApp: teléfono directo, mensaje editable, marca de enviado — inline — commit 050227d; la marca llama a `mark_guests_sent` (007), no probada contra la base real
-- [ ] T6 (S2) Edge Function de mail con Brevo (depende de cuenta Brevo aprobada y DNS) — inline
+- [~] T6 (S2) Edge Function de mail con Brevo — inline — código escrito (`supabase/functions/enviar-invitaciones/index.ts`) y panel "Enviar por mail" en la lista; sintaxis verificada con node, NO ejecutada (sin Deno). Falta: dominio verificado en Brevo, remitente, secretos `BREVO_API_KEY` y `MAIL_FROM` cargados por el usuario, despliegue y una prueba real a un mail propio
 
 ## Log
 - L1 (2026-10-15) Usuario: "ayer me llamo un cliente interesado por las tarjetas, me planteo qeu necesita una pagina para administrar las invitaciones, ella se encarga de la parte de comunicaciones de una empresa que hace workshops y otros tipos de eventos [...] el lunes que viene voy a tener una meet para mostrarle nuestro trabajo. creo qeu seria oportuno que le prepare algo ya listo para mostrarle."

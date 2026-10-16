@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { addGuests, listGuests, markGuestsSent, removeGuest } from '../lib/guestService';
+import { addGuests, listGuests, markGuestsSent, removeGuest, sendInvitationsByMail } from '../lib/guestService';
 import {
   filtrarInvitados, invitadosACsv, normalizarTelefono, parsearLista,
   resumirInvitados, resumirRestricciones,
@@ -117,12 +117,36 @@ function Invitado({ invitado, origen, slug, mensaje, onQuitar, onEnviado }) {
   );
 }
 
+const MAIL_INICIAL = {
+  senderName: '',
+  replyTo: '',
+  message: 'Te invitamos a nuestro evento. En el enlace vas a encontrar todos los detalles y podés confirmar tu asistencia.',
+};
+
 function leerMensaje(token) {
   try {
     return localStorage.getItem(`portal_mensaje_invitados_${token}`) || MENSAJE_INICIAL;
   } catch {
     return MENSAJE_INICIAL;
   }
+}
+
+function leerMail(token) {
+  try {
+    return { ...MAIL_INICIAL, ...JSON.parse(localStorage.getItem(`portal_mail_invitados_${token}`) || '{}') };
+  } catch {
+    return MAIL_INICIAL;
+  }
+}
+
+/** Texto del resultado del envío masivo, con lo que no se mandó y por qué. */
+function resumenEnvio(r) {
+  const partes = [`Se enviaron ${r.enviados} ${r.enviados === 1 ? 'mail' : 'mails'}.`];
+  if (r.fallidos?.length) partes.push(`No salieron ${r.fallidos.length}: ${r.fallidos.map((f) => f.nombre).join(', ')}.`);
+  if (r.sinMail) partes.push(`${r.sinMail} no tienen mail cargado.`);
+  if (r.recientes) partes.push(`${r.recientes} ya recibieron uno hace menos de una hora.`);
+  if (r.restantes) partes.push(`Quedan ${r.restantes} para la próxima tanda: se manda un máximo por vez.`);
+  return partes.join(' ');
 }
 
 function GuestListPage() {
@@ -134,6 +158,8 @@ function GuestListPage() {
   const [filtro, setFiltro] = useState('todos');
   const [conRestricciones, setConRestricciones] = useState(false);
   const [mensaje, setMensaje] = useState(() => leerMensaje(token));
+  const [mail, setMail] = useState(() => leerMail(token));
+  const [envio, setEnvio] = useState({ estado: 'quieto', texto: '' }); // quieto | enviando | listo | error
 
   const cargar = useCallback(async () => {
     try {
@@ -150,6 +176,28 @@ function GuestListPage() {
   function cambiarMensaje(nuevo) {
     setMensaje(nuevo);
     try { localStorage.setItem(`portal_mensaje_invitados_${token}`, nuevo); } catch { /* sin almacenamiento: queda en memoria */ }
+  }
+
+  function cambiarMail(cambio) {
+    const nuevo = { ...mail, ...cambio };
+    setMail(nuevo);
+    try { localStorage.setItem(`portal_mail_invitados_${token}`, JSON.stringify(nuevo)); } catch { /* queda en memoria */ }
+  }
+
+  async function enviarPorMail(cantidad) {
+    if (!window.confirm(`Se enviará la invitación por mail a ${cantidad} ${cantidad === 1 ? 'persona' : 'personas'} que todavía no respondieron. ¿Continuamos?`)) return;
+    setEnvio({ estado: 'enviando', texto: '' });
+    try {
+      const resultado = await sendInvitationsByMail(token, {
+        senderName: mail.senderName,
+        replyTo: mail.replyTo,
+        message: mail.message,
+      });
+      setEnvio({ estado: 'listo', texto: resumenEnvio(resultado) });
+      await cargar();
+    } catch (e) {
+      setEnvio({ estado: 'error', texto: e.message });
+    }
   }
 
   async function agregar() {
@@ -207,6 +255,7 @@ function GuestListPage() {
   const r = resumirInvitados(invitados);
   const catering = resumirRestricciones(invitados);
   const visibles = filtrarInvitados(invitados, { estado: filtro, conRestricciones });
+  const pendientesConMail = invitados.filter((g) => g.status === 'pendiente' && g.email).length;
   const origen = window.location.origin;
   // Viene con la lista. Antes se averiguaba preguntándole a un invitado, y esa
   // consulta sólo responde si la tarjeta está publicada: mientras estaba en
@@ -294,6 +343,59 @@ function GuestListPage() {
             <p className="inv-list__nota">
               <code>{'{nombre}'}</code> y <code>{'{enlace}'}</code> se reemplazan por los de cada invitado.
             </p>
+          </section>
+
+          {/* El envío masivo. Va por mail y no por WhatsApp a propósito: WhatsApp
+              no deja mandar en masa sin su API oficial (verificación del negocio
+              y costo por mensaje), y un envío en masa desde un número común es
+              lo que hace que lo bloqueen. */}
+          <section className="inv-list__mail">
+            <h2 className="inv-list__subtitulo">Enviar por mail</h2>
+            <label className="inv-list__campo">
+              <span>Nombre que ve quien recibe</span>
+              <input
+                value={mail.senderName}
+                onChange={(e) => cambiarMail({ senderName: e.target.value })}
+                placeholder="Tu empresa"
+                maxLength={80}
+              />
+            </label>
+            <label className="inv-list__campo">
+              <span>Las respuestas llegan a</span>
+              <input
+                type="email"
+                value={mail.replyTo}
+                onChange={(e) => cambiarMail({ replyTo: e.target.value })}
+                placeholder="tu@empresa.com"
+                maxLength={254}
+              />
+            </label>
+            <label className="inv-list__campo">
+              <span>Mensaje</span>
+              <textarea
+                value={mail.message}
+                onChange={(e) => cambiarMail({ message: e.target.value })}
+                rows={3}
+                maxLength={1000}
+              />
+            </label>
+            <button
+              className="inv-list__btn inv-list__btn--principal"
+              disabled={envio.estado === 'enviando' || !publicada || pendientesConMail === 0}
+              onClick={() => enviarPorMail(pendientesConMail)}
+            >
+              {envio.estado === 'enviando' ? 'Enviando…' : `Enviar a los que no respondieron (${pendientesConMail})`}
+            </button>
+            <p className="inv-list__nota">
+              {pendientesConMail === 0
+                ? 'No hay pendientes con mail cargado.'
+                : 'Sólo a quienes tienen mail y todavía no respondieron. Cada uno recibe su enlace personal.'}
+            </p>
+            {envio.texto && (
+              <p className={envio.estado === 'error' ? 'inv-list__aviso' : 'inv-list__resultado'} role="status">
+                {envio.texto}
+              </p>
+            )}
           </section>
 
           <div className="inv-list__barra">
